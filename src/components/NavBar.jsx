@@ -190,7 +190,6 @@ export const NavBar = ({ products, home, pages, orders, bookings, analytics, pag
             availablityHours: availabilityTime,
             specifications,
             serviceOrProduct: product.product ? 'Product' : 'Service',
-            duration,
             colors: colors,
             tag: tag,
             type: selectedProductType,
