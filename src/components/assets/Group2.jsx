@@ -1,0 +1,24 @@
+export default function Group2({ className = "" }) {
+    return (
+<div
+  style={{ width: '100%', height: 'auto' }} // Set max dimensions here if needed
+>
+  <svg
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M44.2 32L57.4 32.7L49 22.3L69 23.3L64.9 18.2C62.1 14.7 57.9 12.6 53.5 12.4L40.3 11.7L48.7 22.1L28.7 21.1L32.8 26.2C35.6 29.6 39.7 31.7 44.2 32Z"
+      fill="white"
+    />
+    <path
+      d="M15.5 20.3L28.7 21L20.3 10.6L40.3 11.6L36.2 6.5C33.4 3 29.2 0.899997 24.8 0.699997L11.6 0L20 10.4L0 9.39999L4.1 14.5C6.9 18 11.1 20.1 15.5 20.3Z"
+      fill="white"
+    />
+  </svg>
+</div>
+
+    );
+  }
+  

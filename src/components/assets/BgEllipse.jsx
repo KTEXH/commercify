@@ -1,0 +1,16 @@
+export default function BgEllipse({ className = "" }) {
+  return (
+    <div className={`${className}`}>
+      <svg width="100%" height="100%" style={{"overflow":"visible"}} preserveAspectRatio="none" viewBox="0 0 460.72 463.69" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="230.575" cy="231.846" rx="231.846" ry="230.36" transform="rotate(90 230.575 231.846)" fill="url(#paint0_linear_314_104)"/>
+      <defs>
+      <linearGradient id="paint0_linear_314_104" x1="232.736" y1="42.0245" x2="254.071" y2="490.795" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0560FD"/>
+      <stop offset="1" stop-color="#8399E9"/>
+      </linearGradient>
+      </defs>
+      </svg>
+      
+    </div>
+  );
+}

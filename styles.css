@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .font-general-sans {
+    font-family: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+  .bg-rectangle {
+    background-image: url(/assets/rectangle.jpeg);
+  }
+  .bg-rectangle- {
+    background-image: url(/assets/rectangle-6.jpeg);
+  }
+  .bg-rectangle-1 {
+    background-image: url(/assets/rectangle-8.jpeg);
+  }
+  .bg-t-bg-ellipse-74elevate-your-brand-today-tbg-ellipse-75ellipse {
+    background-image: url(/assets/Ellipse.svg);
+  }
+  .bg-t-bg-ellipse-79bi-arrow-left-short {
+    background-image: url(/assets/Ellipse1.svg);
+  }
+  .bg-t-bg-ellipse-78bi-arrow-left-short {
+    background-image: url(/assets/Ellipse2.svg);
+  }
+  .bg-bg-mask-group {
+    background-image: url(/assets/MaskGroup.svg);
+  }
+  .bg-t-bg-ellipse-86vector-tvector {
+    background-image: url(/assets/Ellipse3.svg);
+  }
+  .font-helvetica {
+    font-family: Helvetica, ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+
+
+@font-face {
+  font-family: "Normal";   /*Can be any text*/
+  src: local("GENERALSANS-REGULAR"),
+    url("../src/Fonts/GENERALSANS/GENERALSANS-REGULAR.OTF") format("truetype");
+}
+
+@font-face {
+  font-family: "Medium";   /*Can be any text*/
+  src: local("GENERALSANS-MEDIUM"),
+    url("../src/Fonts/GENERALSANS/GENERALSANS-MEDIUM.OTF") format("truetype");
+}
+
+
+@font-face {
+  font-family: "Semibold";   /*Can be any text*/
+  src: local("GENERALSANS-SEMIBOLD"),
+    url("../src/Fonts/GENERALSANS/GENERALSANS-SEMIBOLD.OTF") format("truetype");
+}
+
+
+
+@font-face {
+  font-family: "Bold";   /*Can be any text*/
+  src: local("GENERALSANS-BOLD"),
+    url("../src/Fonts/GENERALSANS/GENERALSANS-BOLD.OTF") format("truetype");
+}

@@ -1,0 +1,116 @@
+import { gql } from '@apollo/client'
+export const ME_QUERY = gql`
+query me{
+  me{
+    id
+    name
+    avatar
+    createdAt
+    OnlyProducts{
+    id
+    thumbnail
+    price
+    file
+    description
+    createdAt
+    type
+    Payment{
+    id
+    amount
+    }
+    tag
+    title 
+    }
+    Services{
+    id
+    thumbnail
+    title
+    description
+    Payment{
+    id
+    name
+    amount
+    }
+    price
+    availablityDays
+    type
+    tag
+    createdAt
+
+    }
+    Notifications(take: 4){
+    id
+    message
+    type
+    }
+    Audience{
+     id
+     email
+    }
+     Payouts{
+      id
+     createdAt
+     name
+     email
+     amount
+     fulfilled
+     Product{
+     tag
+     id
+     thumbnail
+     title
+
+     }
+     }
+      Bookings{
+      id
+     createdAt
+     name
+     email
+     formattedDate
+     amount
+     fulfilled
+     time
+
+     formattedDate
+     Product{
+     tag
+     id
+     description
+     thumbnail
+     title
+
+     }
+     }
+     Orders{
+     id
+     createdAt
+     name
+     email
+      
+     fulfilled
+     payoutStatus
+     amount
+     fulfilled
+     Product{
+     tag
+     id
+     thumbnail
+     title
+
+     }
+     }
+    
+     Links{
+     id
+     image
+     linkText
+     link
+     }
+     Activity(take: 4){
+     id 
+     message 
+     type
+     }
+  }
+}`
