@@ -60,7 +60,7 @@
   "scripts": {
     "postinstall": "chmod +x ./node_modules/.bin/vite",
     "dev": "vite",
-    "build": "node ./node_modules/vite/bin/vite.js build",
+    "build": "node vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
