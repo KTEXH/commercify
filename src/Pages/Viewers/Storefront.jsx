@@ -105,7 +105,7 @@ export const Storefront = () => {
           )}
           <div class='text-center mt-3'>
             <div class='text-lg font-["Bold"]' style={{ color: store?.headingColor }}>{store?.headerText}</div>
-            <div class='font-["Medium] px-3 text-sm pb-2' style={{ color: store?.subTextColor }}>{store?.subText}</div>
+            <div class='font-["Medium"] px-3 text-sm pb-2' style={{ color: store?.subTextColor }}>{store?.subText}</div>
           </div>
           <div class='w-full my-3 space-y-2'>
             {store?.user?.OnlyProducts?.map(item => (
@@ -120,7 +120,7 @@ export const Storefront = () => {
                   )}
                   <div class=''>
                     <div class='font-["Semibold"] text-xs'>{item.title}</div>
-                    <div class='font-["Medium"] text-xs text-gray-400 line-clamp-3'>{item.description}</div>
+                    <div class='font-["Medium"] text-xs mt-[2px] text-gray-400 line-clamp-3'>{item.description}</div>
                   </div>
                 </div>
                 <button class='bg-black w-full text-center py-2 rounded-lg text-xs text-white font-["Semibold"]'>Buy</button>
@@ -128,8 +128,8 @@ export const Storefront = () => {
             ))}
           </div>
           <div class='bg-black px-4 py-2 flex items-center gap-2 rounded-full'>
-            <img src={group2} className='w-4 h-4' />
-            <div className="font-['Semibold'] text-[10px] text-white">Get started with Commercify</div>
+            <img src={group2} className='w-5 h-5' />
+            <div className="font-['Semibold'] text-[10px] text-white">Commercify</div>
           </div>
         </div>
 
