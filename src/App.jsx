@@ -28,7 +28,7 @@ import { Storefront } from "./Pages/Viewers/Storefront";
 function App() {
 
 
-  const httpLink = new HttpLink({ uri: "http://localhost:4000/" })
+  const httpLink = new HttpLink({ uri: "https://commercify-36b19c8d47f9.herokuapp.com/" })
   const authLink = setContext(async (req, { headers }) => {
     const token = localStorage.getItem("token")
 
