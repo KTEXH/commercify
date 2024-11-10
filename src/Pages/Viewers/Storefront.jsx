@@ -123,7 +123,7 @@ export const Storefront = () => {
                     <div class='font-["Medium"] text-xs mt-[2px] text-gray-400 line-clamp-3'>{item.description}</div>
                   </div>
                 </div>
-                <button class='bg-black w-full text-center py-2 rounded-lg text-xs text-white font-["Semibold"]'>Buy</button>
+                <button class='bg-black w-full text-center py-2.5 rounded-lg text-sm text-white font-["Semibold"]'>Buy</button>
               </div>
             ))}
           </div>
