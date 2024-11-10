@@ -129,7 +129,7 @@ export const Storefront = () => {
           </div>
           <div class='bg-black px-4 py-2 flex items-center gap-2 rounded-full'>
             <img src={group2} className='w-4 h-4' />
-            <div className="font-['Semibold'] text-[10px] text-white">Commercify</div>
+            <div className="font-['Semibold'] text-[10px] text-white">Get started with Commercify</div>
           </div>
         </div>
 
