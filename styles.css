@@ -39,27 +39,23 @@
 
 @font-face {
   font-family: "Normal";   /*Can be any text*/
-  src: local("GENERALSANS-REGULAR"),
-    url("../src/Fonts/GENERALSANS/GENERALSANS-REGULAR.OTF") format("truetype");
+  src: url("../src/Fonts/GENERALSANS/GENERALSANS-REGULAR.OTF") format("truetype");
 }
 
 @font-face {
   font-family: "Medium";   /*Can be any text*/
-  src: local("GENERALSANS-MEDIUM"),
-    url("../src/Fonts/GENERALSANS/GENERALSANS-MEDIUM.OTF") format("truetype");
+  src: url("../src/Fonts/GENERALSANS/GENERALSANS-MEDIUM.OTF") format("truetype");
 }
 
 
 @font-face {
   font-family: "Semibold";   /*Can be any text*/
-  src: local("GENERALSANS-SEMIBOLD"),
-    url("../src/Fonts/GENERALSANS/GENERALSANS-SEMIBOLD.OTF") format("truetype");
+  src: url("../src/Fonts/GENERALSANS/GENERALSANS-SEMIBOLD.OTF") format("truetype");
 }
 
 
 
 @font-face {
   font-family: "Bold";   /*Can be any text*/
-  src: local("GENERALSANS-BOLD"),
-    url("../src/Fonts/GENERALSANS/GENERALSANS-BOLD.OTF") format("truetype");
+  src: url("../src/Fonts/GENERALSANS/GENERALSANS-BOLD.OTF") format("truetype");
 }
