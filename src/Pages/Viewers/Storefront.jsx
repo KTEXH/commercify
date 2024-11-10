@@ -105,7 +105,7 @@ export const Storefront = () => {
           )}
           <div class='text-center mt-3'>
             <div class='text-lg font-["Bold"]' style={{ color: store?.headingColor }}>{store?.headerText}</div>
-            <div class='font-["Normal]' style={{ color: store?.subTextColor }}>{store?.subText}</div>
+            <div class='font-["Normal] px-3 pb-2' style={{ color: store?.subTextColor }}>{store?.subText}</div>
           </div>
           <div class='w-full my-3 space-y-2'>
             {store?.user?.OnlyProducts?.map(item => (
