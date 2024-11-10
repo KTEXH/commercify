@@ -27,27 +27,33 @@ import { Storefront } from "./Pages/Viewers/Storefront";
 
 function App() {
 
-
-  const httpLink = new HttpLink({ uri: "https://commercify-36b19c8d47f9.herokuapp.com/" })
-  const authLink = setContext(async (req, { headers }) => {
-    const token = localStorage.getItem("token")
-
+  const httpLink = new HttpLink({
+    uri: "https://commercify-36b19c8d47f9.herokuapp.com/", // Replace with your GraphQL API URI
+  });
+  
+  // Create an Auth Link to include the Authorization header
+  const authLink = setContext(async (_, { headers }) => {
+    // Get the token from localStorage
+    const token = localStorage.getItem("token");
+  
+    // Return the headers with the Authorization header
     return {
-      ...headers,
       headers: {
-        Authorization: token ? `Bearer ${token}` : null,
-      }
-    }
-  })
-
-
-
-  const link = authLink.concat(httpLink)
-
+        ...headers, // Spread existing headers
+        Authorization: token ? `Bearer ${token}` : "", // Add token if present
+      },
+    };
+  });
+  
+  // Combine the authLink and httpLink
+  const link = authLink.concat(httpLink);
+  
+  // Create the Apollo Client instance with cache and link
   const client = new ApolloClient({
     link: link,
-    cache: new InMemoryCache()
-  })
+    cache: new InMemoryCache(),
+  });
+  
 
 
 
