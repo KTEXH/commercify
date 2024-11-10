@@ -23,6 +23,7 @@ import { Pages as Page } from "./Pages/Pages/Pages";
 import { Builder } from "./Pages/Pages/Builder";
 import { BuilderForm } from "./Pages/Pages/BuilderForm";
 import { Form } from "./Pages/Pages/Form";
+import { Storefront } from "./Pages/Viewers/Storefront";
 
 function App() {
 
@@ -68,6 +69,9 @@ function App() {
           <Route element={<Authenticated><Builder /></Authenticated>} path='/builder'/>
           <Route element={<Authenticated><BuilderForm /></Authenticated>} path='/builder/:type'/>
           <Route element={<Authenticated><Setup /></Authenticated>} path='/setup'/>
+          <Route path='/storefront' element={
+            <Storefront />
+        } />
           <Route element={<Authenticated><Page /></Authenticated>} path='/page'/>
           <Route element={<Authenticated><Products /></Authenticated>} path='/products'/>
           <Route element={<Authenticated><Analytics /></Authenticated>} path='/analytics'/>

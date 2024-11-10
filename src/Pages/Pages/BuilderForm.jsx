@@ -1,6 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { Header } from "../../components/Header";
-import { NavBar } from "../../components/NavBar";
+import { NavBar } from "../../components/NavBar"
+import { CREATE_STORE } from "./Mutations/Mutations";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ME_QUERY } from "../../Data/Me";
@@ -9,6 +10,7 @@ import { TwitterPicker } from 'react-color'
 import { RiDoorLockFill } from "@remixicon/react";
 import { createClient } from "@supabase/supabase-js";
 import group2 from "../../../public/assets/Group2.svg";
+import { useFormik } from "formik";
 
 const CREATE_LINKS_MUTATION = gql`
   mutation CreateLinks($links: [LinkInput!]!) {
@@ -33,13 +35,53 @@ const supabase = createClient(
 export const BuilderForm = () => {
     const { type } = useParams()
     const { data, error, loading } = useQuery(ME_QUERY)
+    const [createStorefront] = useMutation(CREATE_STORE);
 
     const [formData, setFormData] = useState({
         headerText: '',
-        secondaryText: ''
+        subText: '',
+        name: 'Untitled',
+        subdomain: '',
+    })
+
+    const [colors, setColors] = useState({
+        backgroundColor: '#fff',
+        headerTextColor: '#000',
+        subTextColor: '#888',
+        submitButton: '#000',
+        submitButtonTextColor: '#fff'
     })
 
 
+    const [template, setTemplate] = useState(1)
+
+    const basicStore = useFormik({
+        initialValues: {
+              name: formData.name,
+              subdomain: formData.subdomain,
+              headerText: formData.headerText,
+              subText: formData.subText,
+              backgroundColor: colors.backgroundColor,
+              headingColor: colors.headerTextColor,
+              template: template,
+              subTextColors: colors.subTextColors
+        },
+        
+        onSubmit: (values) => {
+            createStorefront({ variables: {
+                name: formData.name,
+                subdomain: formData.subdomain,
+                headerText: formData.headerText,
+                subText: formData.subText,
+                subTextColor: colors.subTextColor,
+                backgroundColor: colors.backgroundColor,
+                headingColor: colors.headerTextColor,
+                template: template,
+            }})
+              .then(() => alert('Storefront created successfully!'))
+              .catch((err) => console.error(err));
+          },
+    })
     const [createLinks] = useMutation(CREATE_LINKS_MUTATION, {
         refetchQueries: [{ query: ME_QUERY }],
     });
@@ -144,13 +186,6 @@ export const BuilderForm = () => {
 
     }
 
-    const [colors, setColors] = useState({
-        backgroundColor: '#fff',
-        headerTextColor: '#000',
-        secondaryTextColor: '#888',
-        submitButton: '#000',
-        submitButtonTextColor: '#fff'
-    })
 
     const [form, setForm] = useState("Email")
 
@@ -181,7 +216,8 @@ export const BuilderForm = () => {
         'Text',
         'Media',
         'Format',
-        'Sections'
+        'Sections',
+        'Details'
     ]
 
     if (loading) return <div>Loading...</div>
@@ -240,7 +276,7 @@ export const BuilderForm = () => {
                                                     </div>
                                                 </TabPanel>
                                                 <TabPanel class='p-5 grid grid-cols-2 gap-y-4 gap-2'>
-                                                    {['backgroundColor', 'headerTextColor', 'secondaryTextColor', 'submitButton', 'submitButtonTextColor'].map((colorProperty, index) => (
+                                                    {['backgroundColor', 'headerTextColor', 'subTextColor', 'submitButton', 'submitButtonTextColor'].map((colorProperty, index) => (
                                                         <div className='space-x-2 flex items-center' key={index}>
                                                             <div className='w-8 h-8 rounded-md border' style={{ backgroundColor: colors[colorProperty] }} />
                                                             <button
@@ -273,8 +309,8 @@ export const BuilderForm = () => {
                                                             <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
                                                         </div>
                                                         <div class='gap-2 flex flex-col'>
-                                                            <div class='text-sm font-["Semibold"]'>Secondary Text</div>
-                                                            <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                            <div class='text-sm font-["Semibold"]'>Sub Text</div>
+                                                            <input onChange={handleTextChange} name='subText' value={formData.subText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
                                                         </div>
                                                     </div>
                                                 </TabPanel>
@@ -349,9 +385,9 @@ export const BuilderForm = () => {
 
                         <div class='h-full'>
                             {type === 'storefront' &&
-                                <div class='h-full w-full flex'>
+                                <form onSubmit={basicStore.handleSubmit} class='h-full w-full flex'>
                                     <div class='w-72 p-4 border-r h-full'>
-
+                                         <button type='submit'>Submit</button>
                                     </div>
                                     <RiDoorLockFill> </RiDoorLockFill>
                                     <div class='w-full p-4 '>
@@ -368,7 +404,7 @@ export const BuilderForm = () => {
                                             <TabPanels>
 
                                                 <TabPanel>
-                                                    {['backgroundColor', 'headerTextColor', 'secondaryTextColor'].map((colorProperty, index) => (
+                                                    {['backgroundColor', 'headerTextColor', 'subTextColor'].map((colorProperty, index) => (
                                                         <div className='space-x-2 flex items-center' key={index}>
                                                             <div className='w-8 h-8 rounded-md border' style={{ backgroundColor: colors[colorProperty] }} />
                                                             <button
@@ -401,8 +437,57 @@ export const BuilderForm = () => {
                                                             <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
                                                         </div>
                                                         <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Sub Text</div>
+                                                            <input onChange={handleTextChange} name='subText' value={formData.subText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                    </div>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                            <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                        <div class='gap-2 flex flex-col'>
                                                             <div class='text-sm font-["Semibold"]'>Secondary Text</div>
                                                             <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                    </div>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                            <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Secondary Text</div>
+                                                            <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                    </div>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                            <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Secondary Text</div>
+                                                            <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                    </div>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Subdomain</div>
+                                                            <input onChange={handleTextChange} name='subdomain' value={formData.subdomain} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                            <div>{formData.subdomain}</div>
+                                                        </div>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Name</div>
+                                                            <input onChange={handleTextChange} name='name' value={formData.name} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
                                                         </div>
                                                     </div>
                                                 </TabPanel>
@@ -442,7 +527,7 @@ export const BuilderForm = () => {
                                                 </div>
                                         </div>
                                     </div>
-                                </div>}
+                                </form>}
 
                             {type === 'linkhandler' &&
                                 <div class='h-full w-full flex'>
