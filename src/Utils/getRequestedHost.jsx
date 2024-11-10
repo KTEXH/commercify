@@ -1,7 +1,7 @@
 export const getRequestHost = () => {
     const host = window.location.host;
   
-    if (host.includes('creatorzhub.com') || host.includes('localhost')) {
+    if (host.includes('commercify-git-master-kyrops-projects.vercel.app') || host.includes('localhost')) {
       return { type: 'subdomain', host: host.split('.')[0] };
     }
   
