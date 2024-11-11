@@ -147,7 +147,7 @@ export const BuilderForm = () => {
                     links: filledLinks.map(({ linkText, linkUrl, publicFile }) => ({
                         linkText,
                         link: linkUrl,
-                        image: publicFile || null,
+                        image: publicFile,
                     })),
                 },
             });
