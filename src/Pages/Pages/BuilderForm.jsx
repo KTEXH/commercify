@@ -134,7 +134,7 @@ export const BuilderForm = () => {
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const filledLinks = links.filter(link => link.linkText && link.linkUrl && link.publicFile);
+        const filledLinks = links.filter(link => link.linkText && link.linkUrl);
 
         if (filledLinks.length === 0) {
             alert("Please fill in all fields for each link and upload images.");
@@ -147,7 +147,7 @@ export const BuilderForm = () => {
                     links: filledLinks.map(({ linkText, linkUrl, publicFile }) => ({
                         linkText,
                         link: linkUrl,
-                        image: publicFile,
+                        image: publicFile || null,
                     })),
                 },
             });
