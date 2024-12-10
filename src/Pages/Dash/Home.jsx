@@ -8,15 +8,13 @@ import { NavBar } from "../../components/NavBar";
 import { Notifications } from '../../components/Notifications'
 import { Header } from "../../components/Header";
 import Group from "../../components/assets/Group";
-import Group2 from "../../components/assets/Group2";
+import group2 from '../../../public/assets/Group2.svg'
 
 export default function Default({ className = "" }) {
 
   const { data, error, loading } = useQuery(ME_QUERY)
 
   const [percentageWidth, setPercentage] = useState(0)
-
-
 
   const formattedDate = (item) => {
     const date = moment(item);  // Ensure `item` is a valid date or timestamp
@@ -94,15 +92,15 @@ export default function Default({ className = "" }) {
 
                 <div class='w-2/3'>
                   <label class='font-["Semibold"] text-xs' >Product List</label>
-                  <div class='border p-4 rounded-lg mt-3'>
-                    {data.me.OnlyProducts.map((item, index) => {
+                  <div class='border px-4 py-2 mt-2 rounded-lg'>
+                    {data.me.Products.map((item, index) => {
                       const productTitle = item.title;
                       const percentage = percentageWidth[productTitle] || 0;
 
                       return (
                         <div key={index}>
                           {/* Product Item */}
-                          <div class='w-full  items-center flex'>
+                          <div class='w-full py-2 items-center flex'>
                             <div class='flex items-center w-[25%] gap-2'>
                               {!item.thumbnail ? (
                                 <div class='bg-purple-100 w-10 h-10 rounded-xl flex items-center justify-center text-xs font-["Semibold"]'>
@@ -122,13 +120,13 @@ export default function Default({ className = "" }) {
                               </div>
                             </div>
                        
-                            <div class='w-[15%] flex items-center gap-1'>
+                            <div class='w-[25%] flex items-center gap-1'>
                               <img class='w-4 h-4' src='/assets/CalendarBlank.svg' />
                               <div class='font-["Semibold"] line-clamp-1 text-[11px]'>{formattedDate(item.createdAt)}</div>
                             </div>
                         
                             <div class='w-[25%]'>
-                              <div class='font-["Semibold"] px-3 py-1 bg-gray-100 inline-block text-gray-500 rounded-md capitalize text-[10px]'>{item.type}</div>
+                              <div class='font-["Semibold"] px-3 py-1 bg-gray-100 inline-block text-gray-500 rounded-md capitalize text-[10px]'>{item.serviceOrProduct}</div>
                             </div>
                             <div class='w-[15%] flex items-center gap-2'>
                               <div class='text-xs text-black font-["Semibold"]'>{percentage.toFixed(0)}%</div>
@@ -142,7 +140,7 @@ export default function Default({ className = "" }) {
                           </div>
 
                           {/* Divider */}
-                          {index !== data.me.OnlyProducts.length - 1 && (
+                          {index !== data.me.Products.length - 1 && (
                             <hr class="border-t" />
                           )}
                         </div>
@@ -151,13 +149,12 @@ export default function Default({ className = "" }) {
                   </div>
                 </div>
                 <div class='w-1/3'>
-                  <div class='bg-black p-5 rounded-lg'>
-                        <div class='flex flex-row items-center gap-2'>
-                             <Group2 class='w-4 h-4'/>
-                             <div class='font-["Semibold"] text-white'>Commercify</div>
+                  <div class='border w-full rounded-lg'>
+                        <div class='w-full border-b p-3'>
+                           <div class='text-xs font-["Semibold"]'>Your Pages</div>
                         </div>
-                        <div class='text-2xl font-["Semibold"] text-white'>
-                            Get more with premium. Get started!
+                        <div class='p-3'>
+
                         </div>
                   </div>
                 </div>

@@ -110,7 +110,7 @@ export const Products = ({ className = "" }) => {
                                                             <img />
                                                         )}
                                                         <div>
-                                                            <label class='text-[10px] font-["Semibold"]'>{item.title}</label>
+                                                            <label class='text-[10px] line-clamp-1 font-["Semibold"]'>{item.title}</label>
                                                         </div>
                                                     </div>
                                                     <div class='w-[10%]'>

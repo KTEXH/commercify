@@ -1,141 +1,92 @@
+import { useEffect, useState } from "react";
 import Group from "./assets/Group";
-import Component from "./Component";
-import Ellipse from "./assets/Ellipse";
-import { PopoverButton, Popover, PopoverGroup, PopoverPanel } from "@headlessui/react";
-import CompanyLogo from "./assets/CompanyLogo";
-import CompanyLogo1 from "./assets/CompanyLogo1";
-import CompanyLogo2 from "./assets/CompanyLogo2";
-import CompanyLogo3 from "./assets/CompanyLogo3";
-import CompanyLogo4 from "./assets/CompanyLogo4";
-import CompanyLogo5 from "./assets/CompanyLogo5";
-import CompanyLogo6 from "./assets/CompanyLogo6";
-import CompanyLogo7 from "./assets/CompanyLogo7";
-import CompanyLogo8 from "./assets/CompanyLogo8";
-import CompanyLogo9 from "./assets/CompanyLogo9";
-import Vector from "./assets/Vector";
-import HeroiconsSolidLightningBolt from "./assets/HeroiconsSolidLightningBolt";
-import FluentChess20Filled from "./assets/FluentChess20Filled";
-import FluentTargetArrow16Filled from "./assets/FluentTargetArrow16Filled";
-import PhRulerFill from "./assets/PhRulerFill";
-import BgEllipse from "./assets/BgEllipse";
-import Ellipse1 from "./assets/Ellipse1";
-import Ellipse2 from "./assets/Ellipse2";
-import TT from "./TT";
-import BiArrowLeftShort from "./assets/BiArrowLeftShort";
-import BiArrowLeftShort1 from "./assets/BiArrowLeftShort1";
-import Ellipse3 from "./assets/Ellipse3";
-import Ellipse4 from "./assets/Ellipse4";
-import Ellipse5 from "./assets/Ellipse5";
-import Vector1 from "./assets/Vector1";
-import Vector2 from "./assets/Vector2";
-import TVector from "./TVector";
-import Vector3 from "./assets/Vector3";
-import Ellipse6 from "./assets/Ellipse6";
-import Polygon from "./assets/Polygon";
-import RiInstagramFill from "./assets/RiInstagramFill";
-import BiTwitter from "./assets/BiTwitter";
-import IcBaselineFacebook from "./assets/IcBaselineFacebook";
+import { motion, AnimatePresence } from "framer-motion";
+import instagram from '../components/assets/instagram.svg'
+import twitter from '../components/assets/twitter.svg'
+import linkden from '../components/assets/linkden.svg'
+import youtube from '../components/assets/youtube.svg'
+import { Bars3Icon } from "@heroicons/react/20/solid";
+const platforms = [
+  { name: "Twitter", icon: "🐦", image:  twitter},
+  { name: "Youtube", icon: "📘" , image: youtube },
+  { name: "Instagram", icon: "📸", image:  instagram},
+  { name: "LinkedIn", icon: "🔗", image: linkden},
+];
+
 export default function LandingPage({ className = "" }) {
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Cycle through platforms
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % platforms.length);
+    }, 3000); // Changes platform every 3 seconds
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
+  const nextIndex = (currentIndex + 1) % platforms.length; // Get the next platform index
+
+
   return (
     <div
       className={`font-general-sans w-full bg-white font-medium tracking-[0px] ${className}`}
     >
-      <div className="fixed top-3 bg-white w-full max-w-screen-2xl mx-auto" >
-
-        <div className="flex flex-grow flex-wrap items-center max-w-screen-xl mx-auto justify-between gap-x-10 gap-y-[11px] capitalize leading-[normal] " >
-          <div class='flex items-center gap-3'>
-            <Group className="h-7 w-7 flex-shrink-0" />
-            <div className="text-xl font-['Semibold'] leading-[normal] tracking-[-2px]" >
-              Commercify
-            </div>
+      <div class='lg:max-w-screen-lg lg:mx-auto mx-5 self-stretch'>
+        <div class='bg-gray-100 max-w-xl flex items-center justify-between  mx-auto mt-6 rounded-full px-6 p-4'>
+          <div class='flex items-center gap-2'>
+            <Group className='w-7 h-7' />
+            <div class='font-["Semibold"]'>Commercify</div>
           </div>
-          <div className="flex flex-wrap items-center text-xs font-['Semibold'] justify-center gap-x-10 gap-y-[11px] min-[1430px]:flex-nowrap" >
-            <div>How it Works</div>
-            <Popover>
-              <PopoverButton class='outline-0'>Products</PopoverButton>
-              <PopoverPanel
-                transition
-                anchor="bottom"
-                className="max-w-screen-lg bg-white text-sm/6 transition duration-200 ease-in-out"
-              >
-                <div className="p-3">
-                  <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                    <p className="font-semibold text-white">Insights</p>
-                    <p className="text-white/50">Measure actions your users take</p>
-                  </a>
-                  <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                    <p className="font-semibold text-white">Automations</p>
-                    <p className="text-white/50">Create your own targeted content</p>
-                  </a>
-                  <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                    <p className="font-semibold text-white">Reports</p>
-                    <p className="text-white/50">Keep track of your growth</p>
-                  </a>
-                </div>
-                <div className="p-3">
-                  <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                    <p className="font-semibold text-white">Documentation</p>
-                    <p className="text-white/50">Start integrating products and tools</p>
-                  </a>
-                </div>
-              </PopoverPanel>
-            </Popover>
-            <div>FAQ</div>
-            <div>Comany</div>
+          <div class='items-center gap-7 md:flex hidden font-["Semibold"] text-sm'>
             <div>Pricing</div>
-            <div>About Us</div>
+            <div>Login</div>
           </div>
-          <div class='flex items-center gap-6'>
-            <a href='/login' class='text-sm'>
-              Login
-            </a>
-          <a href='/register' className="rounded-full underline-none bg-black px-4 py-2 text-center text-sm leading-5 text-white" >
-            Get started for free
-          </a>
+          <div class='sm:flex md:hidden'>
+            <Bars3Icon class='text-black h-5' />
+          </div>
         </div>
-        </div>
-      </div>
-      <div className="flex items-end mt-36 justify-center px-[121px] pt-20">
-        <div className="z-0 flex flex-grow flex-col">
+        <div class='w-full justify-center flex-col flex items-center mt-12 md:mt-20'>
+          <div class='flex justify-center items-center'>
+            <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl">
+              {/* Back File: Hovering Grey Box Representing "Up Next" */}
+              <div
+                className="absolute top-[-15px] left-3 w-[calc(100%-27px)] h-[calc(100%-27px)] bg-gray-300 rounded-2xl z-0 shadow-lg"
+              >
+             
+              </div>
 
-
-          <div className="z-[1] flex justify-center flex items-center h-0 flex-shrink-0 flex-col justify-end gap-y-7 " >
-            <div className="text-7xl font-['Semibold'] text-center capitalize leading-[99px] tracking-[-4px]" >
-              <span>
-                <p>{"Simplify E-commerce"}</p>
-                <p>With One Platform</p>
-              </span>
-            </div>
-            <div className="w-[508px] text-lg leading-8 text-black/60">
-              We care about our work and we care about our clients.
+              {/* Current File: Platform Being Animated */}
+              <AnimatePresence>
+                <motion.div
+                  key={platforms[currentIndex].name}
+                  className="absolute w-full h-full flex justify-center items-center rounded-xl z-10"
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-100%", opacity: 0 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                >
+                    <img src={platforms[currentIndex].image} class='h-full bg-transparent w-full'/>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
+          <div class='md:text-7xl text-4xl text-center mt-5 md:mt-6 md:mx-auto md:max-w-4xl font-["Semibold"]'>
+            Simplifying E-commerce one page at a time.
+          </div>
+          <div class='text-gray-400 mt-6 text-md lg:text-xl font-["Medium"] max-w-3xl text-center mx-auto'>
+            Create and scale your brand, business, and platforms featuring forms, workshops, storefronts, link-in-bios, and much more.
+          </div>
+          <div class='w-full flex mt-6 items-center justify-center space-x-3'>
+            <button class='px-4 py-3 text-sm text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
+            <button class='px-4 py-3 text-sm text-black rounded-full border font-["Semibold"]'>See our plans</button>
+          </div>
+          <div class='max-w-screen-lg mx-auto mt-10'>
+               <div class='font-["Medium"] text-xs text-gray-400'>Use to sale and grow on multiple platforms</div>
         </div>
-      </div>
-      <div className="flex flex-col justify-end pt-32">
-        <div className="flex flex-col gap-y-24 bg-neutral-50 px-[120px] pb-[135px] pt-20" >
-          <div className="text-center text-4xl capitalize leading-[normal] tracking-[-1px]" >
-            Companies we Work with
-          </div>
-          <div className="flex flex-col gap-y-24">
-            <div className="flex flex-wrap items-center justify-between gap-x-9 gap-y-6 min-[1430px]:flex-nowrap" >
-              <CompanyLogo className="h-12 w-36 flex-shrink-0" />
-              <CompanyLogo1 className="h-12 w-28 flex-shrink-0" />
-              <CompanyLogo2 className="h-12 w-[72px] flex-shrink-0" />
-              <CompanyLogo3 className="h-12 w-40 flex-shrink-0" />
-              <CompanyLogo4 className="h-12 w-32 flex-shrink-0" />
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-6 min-[1430px]:flex-nowrap" >
-              <CompanyLogo5 className="h-12 w-40 flex-shrink-0" />
-              <CompanyLogo6 className="h-12 w-32 flex-shrink-0" />
-              <CompanyLogo7 className="h-12 w-36 flex-shrink-0" />
-              <CompanyLogo8 className="h-12 w-28 flex-shrink-0" />
-              <CompanyLogo9 className="h-12 w-32 flex-shrink-0" />
-            </div>
-          </div>
         </div>
+       
       </div>
-    
     </div>
   );
 }

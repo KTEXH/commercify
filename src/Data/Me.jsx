@@ -100,7 +100,34 @@ query me{
 
      }
      }
-    
+     Products{
+     id
+     title
+     description
+     price
+     serviceOrProduct
+     }
+     Forms{
+      id
+      title
+     } 
+      allStorefronts{
+      id
+      }
+      Workshops{
+      id
+      name
+      subdomain
+      }
+      Storefront{
+      id
+      name 
+      subdomain
+      }
+      Linkinbios{
+      id
+      title
+      }
      Links{
      id
      image

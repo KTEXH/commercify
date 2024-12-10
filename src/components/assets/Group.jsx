@@ -1,13 +1,9 @@
 export default function Group({ className = "" }) {
   return (
     <div className={`${className} rounded-full`}>
-      <svg width="%100" height="%100" viewBox="0 0 69 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44.2 32L57.4 32.7L49 22.3L69 23.3L64.9 18.2C62.1 14.7 57.9 12.6 53.5 12.4L40.3 11.7L48.7 22.1L28.7 21.1L32.8 26.2C35.6 29.6 39.7 31.7 44.2 32Z" fill="black" />
-        <path d="M15.5 20.3L28.7 21L20.3 10.6L40.3 11.6L36.2 6.5C33.4 3 29.2 0.899997 24.8 0.699997L11.6 0L20 10.4L0 9.39999L4.1 14.5C6.9 18 11.1 20.1 15.5 20.3Z" fill="black" />
+      <svg width="%100" height="%100" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M28.7 0H12.8L0 12.8V28.7L12.8 41.5H28.7L41.5 28.7V12.8L28.7 0ZM15 28.9L6.80002 20.7L15 12.5C18.1 9.4 23.2 9.4 26.3 12.5L34.5 20.7L26.3 28.9C23.2 32 18.2 32 15 28.9Z" fill="black" />
       </svg>
-
-
-
     </div>
   );
 }

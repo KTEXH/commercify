@@ -541,7 +541,7 @@ export const NavBar = ({ products, home, pages, orders, bookings, analytics, pag
                     </div>
                     <div class='font-["Medium"]'>Link-in-bio</div>
                   </a>
-                  <a href='/analytics' className={`flex items-start ${analytics && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
+                  <a href='/insights' className={`flex items-start ${analytics && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
                     <div class={`h-5 w-1 rounded-full ${analytics === false && 'hidden'} bg-black`} />
                     <div className={`flex items-center ${analytics === false ? 'pl-3' : 'pl-1'} justify-start`}>
                       <img
@@ -550,7 +550,7 @@ export const NavBar = ({ products, home, pages, orders, bookings, analytics, pag
                         loading="lazy"
                       />
                     </div>
-                    <div class='font-["Medium"]'>Analytics</div>
+                    <div class='font-["Medium"]'>Insights</div>
                   </a>
                   <a href='/builder' className={`flex items-start ${builder && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
                     <div class={`h-5 w-1 rounded-full ${builder === false && 'hidden'} bg-black`}></div>

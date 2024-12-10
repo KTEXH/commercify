@@ -1,5 +1,64 @@
 import { gql } from "@apollo/client";
 
+
+export const CREATE_LINK_IN_BIO = gql`
+  mutation CreateLinkinbio(
+    $backgroundColor: String
+    $font: String
+    $mediaColor: String
+    $textColor: String
+    $iconColor: String
+    $isBackground: Boolean
+    $template: Int
+    $subdomain: String
+    $background: String
+    $borderRadius: String
+    $backdrop: Boolean
+    $backdropColor: String
+    $outline: Boolean
+    $backdropAvatar: Boolean
+    $newsletter: Boolean
+    $newsletterText: String
+    $newsletterButton: String
+    $newsletterDescription: String
+    $headerTextColor: String
+    $headerText: String
+    $secondaryText: String
+    $userId: Int
+  ) {
+    createLinkinbio(
+      backgroundColor: $backgroundColor
+      font: $font
+      mediaColor: $mediaColor
+      textColor: $textColor
+      iconColor: $iconColor
+      isBackground: $isBackground
+      template: $template
+      subdomain: $subdomain
+      background: $background
+      borderRadius: $borderRadius
+      backdrop: $backdrop
+      backdropColor: $backdropColor
+      outline: $outline
+      backdropAvatar: $backdropAvatar
+      newsletter: $newsletter
+      newsletterText: $newsletterText
+      newsletterButton: $newsletterButton
+      newsletterDescription: $newsletterDescription
+      headerTextColor: $headerTextColor
+      headerText: $headerText
+      secondaryText: $secondaryText
+      userId: $userId
+    ) {
+      id
+      backgroundColor
+      font
+      textColor
+      userId
+    }
+  }
+`;
+
 export const CREATE_STORE = gql`
   mutation CreateStorefront(
     $subdomain: String,
@@ -12,6 +71,7 @@ export const CREATE_STORE = gql`
     $headerText: String,
     $secondaryText: String,
     $componentColor: String,
+    $storefront: Boolean!,
     $headingColor: String,
     $subTextColor: String,
     $embeddedLink: String,
@@ -50,6 +110,7 @@ export const CREATE_STORE = gql`
       componentColor: $componentColor,
       headingColor: $headingColor,
       subTextColor: $subTextColor,
+      storefront: $storefront,
       embeddedLink: $embeddedLink,
       featuredSection: $featuredSection,
       socialsSection: $socialsSection,

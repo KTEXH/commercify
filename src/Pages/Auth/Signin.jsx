@@ -1,7 +1,54 @@
 import Group from '../../components/assets/Group'
 import React from 'react'
+import { gql, useMutation } from '@apollo/client'
+import { useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+
+const SIGNIN = gql`
+  mutation login(
+    $email: String!
+    $password: String!
+  ) {
+    login(
+      email: $email
+      password: $password
+    ) {
+      token
+    }
+  }
+`;
 
 export const SignIn = () => {
+
+    const navigate = useNavigate();
+
+    // Mutation for signup
+    const [login, { error }] = useMutation(SIGNIN);
+
+    const formik = useFormik({
+        initialValues: {
+          email: '',
+          password: '',
+        },
+     
+        onSubmit: async (values) => {
+          try {
+            const response = await login({
+              variables: {
+                email: values.email,
+                password: values.password,
+              },
+            });
+            const token = response.data.login.token;
+            localStorage.setItem('token', token);
+            navigate('/dashboard');
+          } catch (err) {
+            console.error('Login error:', err);
+          }
+        },
+      });
+
+
     return (
         <div class='grid grid-cols-2 gap-10 h-screen relative'>
             <div class='absolute flex items-center font-["Semibold"] gap-3 top-5 left-5'>
@@ -17,7 +64,7 @@ export const SignIn = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    <form onSubmit={formik.handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-['Semibold'] leading-6 text-gray-900">
                                 Email address
@@ -28,6 +75,8 @@ export const SignIn = () => {
                                     name="email"
                                     placeholder='johndoe@gmail.com'
                                     type="email"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.email}
                                     required
                                     autoComplete="email"
                                     className="block w-full px-3 rounded-lg border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -47,6 +96,8 @@ export const SignIn = () => {
                                     id="password"
                                     name="password"
                                     type="password"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
                                     placeholder='*********'
                                     required
                                     autoComplete="current-password"
@@ -55,7 +106,7 @@ export const SignIn = () => {
                             </div>
                         </div>
 
-
+                     {error && (<div>{error.message}</div>)}
 
 
                         <div>

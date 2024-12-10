@@ -16,7 +16,6 @@ import { Orders } from "./Pages/Dash/Orders";
 import { Bookings } from "./Pages/Dash/Booking";
 import { Analytics } from "./Pages/Dash/Analytics";
 import { Pages } from "./Pages/Dash/Pages";
-import { Linkinbio } from "./Pages/Pages/Linkinbio";
 import { Storefronts } from "./Pages/Pages/Storefronts";
 import { Workshops } from "./Pages/Pages/Workshops";
 import { Pages as Page } from "./Pages/Pages/Pages";
@@ -24,11 +23,14 @@ import { Builder } from "./Pages/Pages/Builder";
 import { BuilderForm } from "./Pages/Pages/BuilderForm";
 import { Form } from "./Pages/Pages/Form";
 import { Storefront } from "./Pages/Viewers/Storefront";
+import { Linkinbio } from "./Pages/Viewers/Linkinbio";
+import { Linkinbio as LinkBuilder} from "./Pages/Pages/Linkinbio";
+import { Insights } from "./Pages/Pages/Insights";
 
 function App() {
 
   const httpLink = new HttpLink({
-    uri: "https://commercify-36b19c8d47f9.herokuapp.com/", // Replace with your GraphQL API URI
+    uri: "http://localhost:4000/", // Replace with your GraphQL API URI
   });
   
   // Create an Auth Link to include the Authorization header
@@ -69,7 +71,7 @@ function App() {
           <Route element={<Authenticated><Buy /></Authenticated>} path='/buy'/>
           <Route element={<Authenticated><Form /></Authenticated>} path='/forms'/>
           <Route element={<Authenticated><Workshops /></Authenticated>} path='/workshops'/>
-          <Route element={<Authenticated><Linkinbio /></Authenticated>} path='/linkinbio'/>
+          <Route element={<Authenticated><LinkBuilder /></Authenticated>} path='/linkinbio'/>
           <Route element={<Authenticated><Storefronts /></Authenticated>} path='/storefronts'/>
           <Route element={<Authenticated><Pages /></Authenticated>} path='/pages'/>
           <Route element={<Authenticated><Builder /></Authenticated>} path='/builder'/>
@@ -78,6 +80,8 @@ function App() {
           <Route path='/storefront' element={
             <Storefront />
         } />
+        <Route path='/:subdomain' element={<Linkinbio/>}/>
+        <Route element={<Authenticated><Insights /></Authenticated>} path='/insights' />
           <Route element={<Authenticated><Page /></Authenticated>} path='/page'/>
           <Route element={<Authenticated><Products /></Authenticated>} path='/products'/>
           <Route element={<Authenticated><Analytics /></Authenticated>} path='/analytics'/>

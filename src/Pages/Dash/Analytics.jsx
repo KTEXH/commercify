@@ -4,9 +4,17 @@ import { Header } from '../../components/Header'
 import { useQuery } from '@apollo/client'
 import Card from '../../components/Card'
 import SimpleChart from '../../components/Graphs/AnalyricsGraph'
+import { useState } from 'react'
+import moment from 'moment'
 export const Analytics = ({ className = "" }) => {
 
+    const formattedDate = (item) => {
+        const date = moment(item);  // Ensure `item` is a valid date or timestamp
+        return date.fromNow();      // Returns the relative time like "X days ago"
+    };
+
     const { data, error, loading } = useQuery(ME_QUERY)
+    const [percentageWidth, setPercentage] = useState(0)
 
     if (error) return <div>{error.message}</div>
     if (loading) return <div>Loading..</div>
@@ -73,12 +81,114 @@ export const Analytics = ({ className = "" }) => {
                                 </div>
 
                             </div>
-                            <div class='flex mt-3 gap-3'>
+                            <div class='flex mt-3 gap-5'>
                                 <div class='w-full flex flex-col'>
-                                    <label class='text-black font-["Semibold"] text-xs'>Earnings</label>
+                                    <label class='text-black font-["Semibold"] text-xs'>Sales per Item(Products)</label>
+                                    <div class='w-full mt-2 border px-3 rounded-xl'>
+                                        <div class='w-full flex items-center'>
+
+                                        </div>
+                                        {data.me.OnlyProducts.map((item, index) => {
+                                            const productTitle = item.title;
+                                            const percentage = percentageWidth[productTitle] || 0;
+                                            return (
+                                                <div key={index}>
+                                                    <div class='flex items-center w-full py-2'>
+                                                        <div class='flex items-center w-[25%] gap-2'>
+                                                            {!item.thumbnail ? (
+                                                                <div class='bg-purple-100 w-10 h-10 rounded-xl flex items-center justify-center text-xs font-["Semibold"]'>
+                                                                    {item.title.charAt(0)}
+                                                                </div>
+                                                            ) : (
+                                                                <img />
+                                                            )}
+                                                            <div>
+                                                                <label class='text-[10px] line-clamp-1 font-["Semibold"]'>{item.title}</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class='w-[25%]'>
+                                                            <div class='px-3 py-1 rounded-full gap-1 inline-flex justify-center items-center border font-["Semibold"] text-[10px]'>
+                                                                ${item.price}
+                                                                <img class='w-3 h-3' src='/assets/Tag.svg' />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class='w-[25%] flex items-center gap-1'>
+                                                            <img class='w-4 h-4' src='/assets/CalendarBlank.svg' />
+                                                            <div class='font-["Semibold"] line-clamp-1 text-[11px]'>{formattedDate(item.createdAt)}</div>
+                                                        </div>
+
+
+                                                        <div class='w-[25%] flex items-center gap-2'>
+                                                            <div class='text-xs text-black font-["Semibold"]'>{percentage.toFixed(0)}%</div>
+                                                            <div className="w-full bg-gray-100 h-1.5 overflow-hidden rounded-full relative">
+                                                                <div className="bg-black h-1.5" style={{ width: `${percentage}%` }}></div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    {index !== data.me.OnlyProducts.length - 1 && (
+                                                        <hr class="border-t" />
+                                                    )}
+                                                </div>
+
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                                 <div class='w-full flex flex-col'>
-                                    <label class='text-black font-["Semibold"] text-xs'>Earnings</label>
+                                    <label class='text-black font-["Semibold"] text-xs'>Sales per Item(Services)</label>
+                                    <div class='w-full mt-2 border px-3 rounded-xl'>
+                                        <div>
+
+                                        </div>
+                                        {data.me.Services.map((item, index) => {
+                                            const productTitle = item.title;
+                                            const percentage = percentageWidth[productTitle] || 0;
+                                            return (
+                                                <div key={index}>
+                                                <div class='flex items-center w-full py-2'>
+                                                    <div class='flex items-center w-[25%] gap-2'>
+                                                        {!item.thumbnail ? (
+                                                            <div class='bg-purple-100 w-10 h-10 rounded-xl flex items-center justify-center text-xs font-["Semibold"]'>
+                                                                {item?.title?.charAt(0)}
+                                                            </div>
+                                                        ) : (
+                                                            <img />
+                                                        )}
+                                                        <div>
+                                                            <label class='text-[10px] line-clamp-1 font-["Semibold"]'>{item.title}</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class='w-[25%]'>
+                                                        <div class='px-3 py-1 rounded-full gap-1 inline-flex justify-center items-center border font-["Semibold"] text-[10px]'>
+                                                            ${item.price}
+                                                            <img class='w-3 h-3' src='/assets/Tag.svg' />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class='w-[25%] flex items-center gap-1'>
+                                                        <img class='w-4 h-4' src='/assets/CalendarBlank.svg' />
+                                                        <div class='font-["Semibold"] line-clamp-1 text-[11px]'>{formattedDate(item.createdAt)}</div>
+                                                    </div>
+
+
+                                                    <div class='w-[25%] flex items-center gap-2'>
+                                                        <div class='text-xs text-black font-["Semibold"]'>{percentage.toFixed(0)}%</div>
+                                                        <div className="w-full bg-gray-100 h-1.5 overflow-hidden rounded-full relative">
+                                                            <div className="bg-black h-1.5" style={{ width: `${percentage}%` }}></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                {index !== data.me.Services.length - 1 && (
+                                                    <hr class="border-t" />
+                                                )}
+                                            </div>
+
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                             </div>
 

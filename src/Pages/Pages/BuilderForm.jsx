@@ -1,7 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { Header } from "../../components/Header";
 import { NavBar } from "../../components/NavBar"
-import { CREATE_STORE } from "./Mutations/Mutations";
+import { CREATE_STORE, CREATE_LINK_IN_BIO } from "./Mutations/Mutations";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ME_QUERY } from "../../Data/Me";
@@ -55,32 +55,75 @@ export const BuilderForm = () => {
 
     const [template, setTemplate] = useState(1)
 
+    const basicLinks = useFormik({
+        initialValues: {},
+        onSubmit: (values) => {
+            createLinkinbio({
+                variables: {
+                    name: formData.name,
+                    subdomain: formData.subdomain,
+                    headerText: formData.headerText,
+                    subText: formData.subText,
+                    backgroundColor: colors.backgroundColor,
+                    headingColor: colors.headerTextColor,
+                    template: template,
+                    subTextColors: colors.subTextColors
+                }
+            })
+                .then(() => alert('Linkinbio created successfully!'))
+                .catch((err) => console.error(err));
+        }
+    })
+
+    const basicWorkshop = useFormik({
+        initialValues: {},
+        onSubmit: (values) => {
+            createStorefront({
+                variables: {
+                    name: formData.name,
+                    subdomain: formData.subdomain,
+                    headerText: formData.headerText,
+                    subText: formData.subText,
+                    backgroundColor: colors.backgroundColor,
+                    headingColor: colors.headerTextColor,
+                    template: template,
+                    subTextColors: colors.subTextColors,
+                    storefront: false
+                }
+            })
+                .then(() => alert('Linkinbio created successfully!'))
+                .catch((err) => console.error(err));
+        }
+    })
+
     const basicStore = useFormik({
         initialValues: {
-              name: formData.name,
-              subdomain: formData.subdomain,
-              headerText: formData.headerText,
-              subText: formData.subText,
-              backgroundColor: colors.backgroundColor,
-              headingColor: colors.headerTextColor,
-              template: template,
-              subTextColors: colors.subTextColors
+            name: formData.name,
+            subdomain: formData.subdomain,
+            headerText: formData.headerText,
+            subText: formData.subText,
+            backgroundColor: colors.backgroundColor,
+            headingColor: colors.headerTextColor,
+            template: template,
+            subTextColors: colors.subTextColors
         },
-        
+
         onSubmit: (values) => {
-            createStorefront({ variables: {
-                name: formData.name,
-                subdomain: formData.subdomain,
-                headerText: formData.headerText,
-                subText: formData.subText,
-                subTextColor: colors.subTextColor,
-                backgroundColor: colors.backgroundColor,
-                headingColor: colors.headerTextColor,
-                template: template,
-            }})
-              .then(() => alert('Storefront created successfully!'))
-              .catch((err) => console.error(err));
-          },
+            createStorefront({
+                variables: {
+                    name: formData.name,
+                    subdomain: formData.subdomain,
+                    headerText: formData.headerText,
+                    subText: formData.subText,
+                    subTextColor: colors.subTextColor,
+                    backgroundColor: colors.backgroundColor,
+                    headingColor: colors.headerTextColor,
+                    template: template,
+                }
+            })
+                .then(() => alert('Storefront created successfully!'))
+                .catch((err) => console.error(err));
+        },
     })
     const [createLinks] = useMutation(CREATE_LINKS_MUTATION, {
         refetchQueries: [{ query: ME_QUERY }],
@@ -160,6 +203,18 @@ export const BuilderForm = () => {
         }
     };
 
+    const [createLinkinbio, { data: lData, loading: lLoading, error: lError }] = useMutation(CREATE_LINK_IN_BIO);
+
+    const submitLinkinbio = async (e) => {
+        e.preventDefault();
+        try {
+            await createLinkinbio({});
+            alert('Link in Bio created successfully!');
+        } catch (err) {
+            console.error(err);
+            alert('Error creating Link in Bio.');
+        }
+    };
 
 
     const handleColorChange = (property) => (color) => {
@@ -210,6 +265,9 @@ export const BuilderForm = () => {
         'Embedded Links',
         'Affiliate Links'
     ]
+
+    const combinedArray = data?.me?.Links.concat(links);
+
 
     const StoreTabs = [
         'Color',
@@ -387,7 +445,7 @@ export const BuilderForm = () => {
                             {type === 'storefront' &&
                                 <form onSubmit={basicStore.handleSubmit} class='h-full w-full flex'>
                                     <div class='w-72 p-4 border-r h-full'>
-                                         <button type='submit'>Submit</button>
+                                        <button type='submit'>Submit</button>
                                     </div>
                                     <RiDoorLockFill> </RiDoorLockFill>
                                     <div class='w-full p-4 '>
@@ -522,18 +580,18 @@ export const BuilderForm = () => {
                                                 ))}
                                             </div>
                                             <div class='bg-black px-4 py-2 flex items-center gap-2 rounded-full'>
-                                                <img src={group2} className='w-4 h-4'/>
+                                                <img src={group2} className='w-4 h-4' />
                                                 <div className="font-['Semibold'] text-[10px] text-white">Commercify</div>
-                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>}
 
                             {type === 'linkhandler' &&
                                 <div class='h-full w-full flex'>
-                                    <div class='w-72 p-4 border-r h-full'>
-
-                                    </div>
+                                    <form onSubmit={basicLinks.handleSubmit} class='w-72 p-4 border-r h-full'>
+                                        <button type='submit'>Submit</button>
+                                    </form>
                                     <RiDoorLockFill> </RiDoorLockFill>
                                     <div class='w-full p-4 '>
                                         <TabGroup>
@@ -598,6 +656,7 @@ export const BuilderForm = () => {
                                                             </div>
                                                         ))}
 
+
                                                         <button type="button" onClick={addLink}>
                                                             Add Another Link
                                                         </button>
@@ -641,7 +700,20 @@ export const BuilderForm = () => {
                                                         </div>
                                                         <div class='gap-2 flex flex-col'>
                                                             <div class='text-sm font-["Semibold"]'>Secondary Text</div>
-                                                            <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                            <input onChange={handleTextChange} name='subText' value={formData.subText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        </div>
+                                                    </div>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Subdomain</div>
+                                                            <input onChange={handleTextChange} name='subdomain' value={formData.subdomain} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                            <div>{formData.subdomain}</div>
+                                                        </div>
+                                                        <div class='gap-2 flex flex-col'>
+                                                            <div class='text-sm font-["Semibold"]'>Name</div>
+                                                            <input onChange={handleTextChange} name='name' value={formData.name} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
                                                         </div>
                                                     </div>
                                                 </TabPanel>
@@ -665,78 +737,152 @@ export const BuilderForm = () => {
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>}
                             {type === 'workshop' && (
-                                <div class='h-full w-full flex'>
-                                    <div class='w-72 p-4 border-r h-full'>
+                                <form onSubmit={basicWorkshop.handleSubmit} class='h-full w-full flex'>
+                                <div class='w-72 p-4 border-r h-full'>
+                                    <button type='submit'>Submit</button>
+                                </div>
+                                <RiDoorLockFill> </RiDoorLockFill>
+                                <div class='w-full p-4 '>
+                                    <TabGroup>
+                                        <TabList className='w-full px-4 w-full'>
+                                            {StoreTabs.map(item => (
+                                                <Tab key={item}
+                                                    className="rounded-lg bg-white text-xs py-1 px-3 font-[Semibold] text-black focus:outline-none data-[selected]:bg-black data-[hover]:bg-white/5 data-[selected]:text-white data-[focus]:outline-1 data-[focus]:outline-white"
+                                                >
+                                                    {item}
+                                                </Tab>
+                                            ))}
+                                        </TabList>
+                                        <TabPanels>
 
-                                    </div>
-                                    <RiDoorLockFill> </RiDoorLockFill>
-                                    <div class='w-full p-4 '>
-                                        <TabGroup>
-                                            <TabList className='w-full px-4 w-full'>
-                                                {StoreTabs.map(item => (
-                                                    <Tab key={item}
-                                                        className="rounded-lg bg-white text-xs py-1 px-3 font-[Semibold] text-black focus:outline-none data-[selected]:bg-black data-[hover]:bg-white/5 data-[selected]:text-white data-[focus]:outline-1 data-[focus]:outline-white"
-                                                    >
-                                                        {item}
-                                                    </Tab>
+                                            <TabPanel>
+                                                {['backgroundColor', 'headerTextColor', 'subTextColor'].map((colorProperty, index) => (
+                                                    <div className='space-x-2 flex items-center' key={index}>
+                                                        <div className='w-8 h-8 rounded-md border' style={{ backgroundColor: colors[colorProperty] }} />
+                                                        <button
+                                                            className='bg-black rounded-md text-white text-xs font-medium px-3 py-2'
+                                                            onClick={() => togglePicker(colorProperty)}
+                                                        >
+                                                            {colorProperty.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                                                        </button>
+                                                        {pickerVisible === colorProperty && (
+                                                            <div style={{ position: 'absolute', zIndex: 2 }}>
+                                                                <TwitterPicker
+                                                                    color={colors[colorProperty]}
+                                                                    onChange={handleColorChange(colorProperty)}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 ))}
-                                            </TabList>
-                                            <TabPanels>
-
-                                                <TabPanel>
-                                                    {['backgroundColor', 'headerTextColor', 'secondaryTextColor'].map((colorProperty, index) => (
-                                                        <div className='space-x-2 flex items-center' key={index}>
-                                                            <div className='w-8 h-8 rounded-md border' style={{ backgroundColor: colors[colorProperty] }} />
-                                                            <button
-                                                                className='bg-black rounded-md text-white text-xs font-medium px-3 py-2'
-                                                                onClick={() => togglePicker(colorProperty)}
-                                                            >
-                                                                {colorProperty.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                                                            </button>
-                                                            {pickerVisible === colorProperty && (
-                                                                <div style={{ position: 'absolute', zIndex: 2 }}>
-                                                                    <TwitterPicker
-                                                                        color={colors[colorProperty]}
-                                                                        onChange={handleColorChange(colorProperty)}
-                                                                    />
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                    {pickerVisible && (
-                                                        <div
-                                                            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
-                                                            onClick={() => setPickerVisible(null)}
-                                                        />
-                                                    )}
-                                                </TabPanel>
-                                                <TabPanel>
-                                                    <div class='w-2/3 grid-cols-2 grid gap-5'>
-                                                        <div class='gap-2 flex flex-col'>
-                                                            <div class='text-sm font-["Semibold"]'>Header Text</div>
-                                                            <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
-                                                        </div>
-                                                        <div class='gap-2 flex flex-col'>
-                                                            <div class='text-sm font-["Semibold"]'>Secondary Text</div>
-                                                            <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                {pickerVisible && (
+                                                    <div
+                                                        style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+                                                        onClick={() => setPickerVisible(null)}
+                                                    />
+                                                )}
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                        <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Sub Text</div>
+                                                        <input onChange={handleTextChange} name='subText' value={formData.subText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                </div>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                        <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Secondary Text</div>
+                                                        <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                </div>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                        <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Secondary Text</div>
+                                                        <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                </div>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Header Text</div>
+                                                        <input onChange={handleTextChange} name='headerText' value={formData.headerText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Secondary Text</div>
+                                                        <input onChange={handleTextChange} name='secondaryText' value={formData.secondaryText} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                </div>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <div class='w-2/3 grid-cols-2 grid gap-5'>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Subdomain</div>
+                                                        <input onChange={handleTextChange} name='subdomain' value={formData.subdomain} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                        <div>{formData.subdomain}</div>
+                                                    </div>
+                                                    <div class='gap-2 flex flex-col'>
+                                                        <div class='text-sm font-["Semibold"]'>Name</div>
+                                                        <input onChange={handleTextChange} name='name' value={formData.name} class='px-3 py-2 text-xs border rounded-xl font-["Medium"]' />
+                                                    </div>
+                                                </div>
+                                            </TabPanel>
+                                        </TabPanels>
+                                    </TabGroup>
+                                </div>
+                                <div class='flex flex-col w-1/2 border-l h-full p-5 px-10'>
+                                    <div style={{ backgroundColor: colors.backgroundColor }} class='border-4 p-5 h-full items-center justify-center w-full flex flex-col rounded-3xl border-black'>
+                                        <div class='w-20 h-20 flex mt-5 items-center justify-center text-2xl capitalize font-["Semibold"] rounded-full bg-sky-100'>
+                                            {data.me.name.charAt(0)}
+                                        </div>
+                                        <div class='text-lg font-["Semibold"] capitalize mt-1'>{formData.headerText || 'Text goes here'}</div>
+                                        <div class='text-gray-500 font-["Medium"] text-sm'>{formData.secondaryText || 'Text goes here'}</div>
+                                        <div class='w-full my-3'>
+                                            {data.me.OnlyProducts.map(item => (
+                                                <div class='border p-3 flex flex-col gap-2 w-full rounded-xl'>
+                                                    <div class='flex flex-row items-center w-full gap-2'>
+                                                        {!item.thumbnail ? (
+                                                            <div class='w-16 h-16 shrink-0 rounded-lg flex items-center justify-center text-sm font-["Semibold"] bg-sky-100'>
+                                                                {item.title.charAt(0)}
+                                                            </div>
+                                                        ) : (
+                                                            <img />
+                                                        )}
+                                                        <div class=''>
+                                                            <div class='font-["Semibold"] text-xs'>{item.title}</div>
+                                                            <div class='font-["Medium"] text-xs text-gray-400 line-clamp-3'>{item.description}</div>
                                                         </div>
                                                     </div>
-                                                </TabPanel>
-                                            </TabPanels>
-                                        </TabGroup>
-                                    </div>
-                                    <div class='flex flex-col w-1/3 border-l h-full p-5 px-10'>
-                                        <div style={{ backgroundColor: colors.backgroundColor }} class='border-4 p-5 h-full items-center justify-center w-full flex flex-col rounded-3xl border-black'>
-                                            <div class='w-20 h-20 flex mt-5 items-center justify-center text-2xl capitalize font-["Semibold"] rounded-full bg-sky-100'>
-                                                {data.me.name.charAt(0)}
-                                            </div>
-                                            <div class='text-lg font-["Semibold"] capitalize mt-1'>{formData.headerText}</div>
-                                            <div class='text-gray-500 font-["Medium"] text-sm'>{formData.secondaryText || 'Text goes here'}</div>
+                                                    <button class='bg-black w-full text-center py-2 rounded-lg text-xs text-white font-["Semibold"]'>Buy</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div class='bg-black px-4 py-2 flex items-center gap-2 rounded-full'>
+                                            <img src={group2} className='w-4 h-4' />
+                                            <div className="font-['Semibold'] text-[10px] text-white">Commercify</div>
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                             )}
                         </div>
 
