@@ -74,19 +74,19 @@ export const Register = () => {
 
     return (
         <div class='grid grid-cols-2 gap-10 relative'>
-            <div class='absolute flex items-center font-["Semibold"] gap-3 top-5 left-5'>
-                <Group className='h-7 w-7' />
-                <div>Commercify</div>
-            </div>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+
                 <div className="flex items-center justify-center flex-col">
-                    <h2 className="mt-10 text-center font-['Bold'] text-2xl leading-9 tracking-tight text-black">
-                        Create Commercify Account
+                    <Group className='w-10 h-10' />
+
+                    <h2 className="mt-10 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
+                        Get started
                     </h2>
                 </div>
 
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="mt-10 w-full sm:mx-auto sm:w-full h-full sm:max-w-sm">
                     <form onSubmit={formik.handleSubmit} className="space-y-6">
+                        <div class='flex items-center gap-3'>
                         <div>
                             <label
                                 htmlFor="email"
@@ -104,7 +104,7 @@ export const Register = () => {
                                     autoComplete="email"
                                     onChange={formik.handleChange}
                                     value={formik.values.email}
-                                    className="block w-full px-3 rounded-lg border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block font-['Semibold'] bg-gray-200 px-5 rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 w-full sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -126,11 +126,11 @@ export const Register = () => {
                                     autoComplete="username"
                                     onChange={formik.handleChange}
                                     value={formik.values.username}
-                                    className="block w-full px-3 rounded-lg border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block font-['Semibold'] bg-gray-200 px-5 rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 w-full sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
-
+</div>
                         <div>
                             <label
                                 htmlFor="password"
@@ -147,7 +147,7 @@ export const Register = () => {
                                     required
                                     onChange={formik.handleChange}
                                     value={formik.values.password}
-                                    className="block w-full px-3 rounded-lg border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full bg-gray-200 font-['Semibold'] px-5 rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -168,7 +168,7 @@ export const Register = () => {
                                     required
                                     onChange={formik.handleChange}
                                     value={formik.values.confirmPassword}
-                                    className="block w-full px-3 rounded-lg border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block font-['Semibold'] bg-gray-200 px-5 w-full rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -176,13 +176,13 @@ export const Register = () => {
                         <div class='gap-2 flex flex-col'>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-lg bg-black px-3 py-2.5 text-sm font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="flex w-full rounded-full justify-center bg-black px-3 py-2.5 text-sm font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Create Account
                             </button>
                             <a
                                 href='/login'
-                                className="flex w-full justify-center rounded-lg bg-white px-3 py-2.5 border text-sm font-['Semibold'] leading-6 text-black shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="flex w-full rounded-full justify-center bg-white px-3 py-2.5 border text-sm font-['Semibold'] leading-6 text-black shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Login
                             </a>
@@ -192,7 +192,7 @@ export const Register = () => {
                     {error && <p className="text-red-500">Error during registration</p>}
                 </div>
             </div>
-            <div class='w-full h-full bg-black'>
+            <div class='w-full rounded-tl-3xl rounded-bl-3xl h-full flex flex-col bg-black'>
 
             </div>
         </div>

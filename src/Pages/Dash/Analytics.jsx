@@ -6,6 +6,7 @@ import Card from '../../components/Card'
 import SimpleChart from '../../components/Graphs/AnalyricsGraph'
 import { useState } from 'react'
 import moment from 'moment'
+import Group from '../../components/assets/Group'
 export const Analytics = ({ className = "" }) => {
 
     const formattedDate = (item) => {
@@ -17,7 +18,9 @@ export const Analytics = ({ className = "" }) => {
     const [percentageWidth, setPercentage] = useState(0)
 
     if (error) return <div>{error.message}</div>
-    if (loading) return <div>Loading..</div>
+    if (loading) return <div class='h-full w-full flex flex-col flex-grow items-center justify-center'>
+        <Group className='w-20 h-20' />
+    </div>
     return (
         <div
             className={`flex w-full items-start h-full self-stretch flex-col rounded-3xl ${className}`}

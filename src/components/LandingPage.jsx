@@ -5,12 +5,15 @@ import instagram from '../components/assets/instagram.svg'
 import twitter from '../components/assets/twitter.svg'
 import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
+import twitch from '../components/assets/twitch.svg'
+import pinterest from '../components/assets/pinterest.svg'
 import { Bars3Icon } from "@heroicons/react/20/solid";
 const platforms = [
   { name: "Twitter", icon: "🐦", image:  twitter},
+  { name: "Twitch", icon: "🤷‍♀️", image: twitch},
   { name: "Youtube", icon: "📘" , image: youtube },
-  { name: "Instagram", icon: "📸", image:  instagram},
   { name: "LinkedIn", icon: "🔗", image: linkden},
+  { name: "Pinterest", icon: "📸", image:  pinterest},
 ];
 
 export default function LandingPage({ className = "" }) {
