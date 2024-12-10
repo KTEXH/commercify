@@ -4,6 +4,7 @@ import { Header } from '../../components/Header'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/react'
 import { ME_QUERY } from '../../Data/Me'
 import { useQuery } from '@apollo/client'
+import { Loading } from '../../components/Loading'
 
 export const Pages = ({ className = "" }) => {
 
@@ -21,7 +22,9 @@ export const Pages = ({ className = "" }) => {
 
     const combinedArrays = allStorefronts?.concat(linkInBios);
 
-    if (loading) return <div>Loading...</div>
+    if (loading) return <div>
+        <Loading />
+    </div>
     if (error) return <div>{error.message}</div>
     return (
         <div

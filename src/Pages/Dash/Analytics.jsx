@@ -18,9 +18,11 @@ export const Analytics = ({ className = "" }) => {
     const [percentageWidth, setPercentage] = useState(0)
 
     if (error) return <div>{error.message}</div>
-    if (loading) return <div class='h-full w-full flex flex-col flex-grow items-center justify-center'>
-        <Group className='w-20 h-20' />
+    if (loading) return <div className="relative w-screen h-screen">
+    <div className="absolute inset-0 flex items-center justify-center">
+      <Group className="w-20 h-20" />
     </div>
+  </div>
     return (
         <div
             className={`flex w-full items-start h-full self-stretch flex-col rounded-3xl ${className}`}

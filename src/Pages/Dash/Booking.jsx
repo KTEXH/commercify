@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import BookingsCalendar from '../../components/BookingCalendar'
 import CustomCalendar from '../../components/CustomerCalendar'
+import { Loading } from 'components/Loading'
 
 export const Bookings = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY);
@@ -27,7 +28,7 @@ export const Bookings = ({ className = "" }) => {
 
 
 
-    if (loading) return <div>loading..</div>
+    if (loading) return <div><Loading /></div>
     if (error) return <div>{error.message}</div>
 
     return (

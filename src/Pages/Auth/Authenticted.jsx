@@ -3,6 +3,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import UserProvider from "./UserProvider";
 import Group from "../../components/assets/Group";
+import { Loading } from "../../components/Loading";
 
 export const IS_LOGGED_IN = gql`
   {
@@ -17,9 +18,7 @@ export const IS_LOGGED_IN = gql`
 function Authenticated({ children }) {
     const { loading, error, data } = useQuery(IS_LOGGED_IN);
 
-    if (loading) return <div class='w-full h-full flex items-center justify-center '>
-      <Group className='w-20 h-20' />
-    </div>;
+    if (loading) return <div><Loading /></div>
 
     if (error) {
         // Custom error handling, redirect to an error page, etc.

@@ -67,7 +67,7 @@ export default function LandingPage({ className = "" }) {
                   initial={{ y: "100%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
-                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  transition={{ duration: 0.8, ease: "backInOut" }}
                 >
                     <img src={platforms[currentIndex].image} class='h-full bg-transparent w-full'/>
                 </motion.div>
