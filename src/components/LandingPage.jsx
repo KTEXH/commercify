@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import Group from "./assets/Group";
 import { motion, AnimatePresence } from "framer-motion";
-import instagram from '../components/assets/instagram.svg'
+import dribbble from '../components/assets/dribbble.svg'
+import facebookLong from '../components/assets/Facebook.svg'
+import youtubeLong from '../components/assets/youtubeLong.svg'
 import twitter from '../components/assets/twitter.svg'
+import linkedin from '../components/assets/Linkedin.svg'
+import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
 import twitch from '../components/assets/twitch.svg'
@@ -84,8 +88,15 @@ export default function LandingPage({ className = "" }) {
             <button class='px-4 py-3 text-sm text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
             <button class='px-4 py-3 text-sm text-black rounded-full border font-["Semibold"]'>See our plans</button>
           </div>
-          <div class='max-w-screen-lg mx-auto mt-10'>
-               <div class='font-["Medium"] text-xs text-gray-400'>Use to sale and grow on multiple platforms</div>
+          <div class='max-w-screen-xl mx-auto mt-10'>
+               <div class='font-["Medium"] text-xs text-center text-gray-400'>Use to sale and grow on multiple platforms</div>
+               <div class='max-w-screen-lg mx-auto mt-8 justify-center w-full flex flex-wrap items-center lg:gap-14 gap-5'>
+                    <img class='h-10' src={pintrest}/>
+                    <img class='h-10' src={youtubeLong}/>
+                    <img class='h-10' src={linkedin}/>
+                    <img class='h-10' src={dribbble}/>
+                    <img class='h-10' src={facebookLong}/>
+               </div>
         </div>
         </div>
        
