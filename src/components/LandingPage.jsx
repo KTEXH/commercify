@@ -94,7 +94,7 @@ export default function LandingPage({ className = "" }) {
       className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
     >
       <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justif0fy-center flex-col'>
-      <div class="bg-gray-200 overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-72 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
+      <div class="bg-gray-200 overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
       <div class='flex items-center gap-2'>
             <Group className='w-7 h-7' />
             <div class='font-["Semibold"]'>Commercify</div>
