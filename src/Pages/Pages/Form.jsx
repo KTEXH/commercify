@@ -29,7 +29,7 @@ export const Form = ({ }) => {
                             <div class='w-full border p-10 rounded-xl flex-col flex items-center justify-center'>
                                 <div class='font-["Semibold"]'>You have no forms</div>
                                 <img src='/assets/95.svg' class='w-32 h-32 p-5 border-b' />
-                                <a href='/builder' class='bg-black text-white px-4 py-2 rounded-xl text-sm font-["Semibold"]'>Build a form</a>
+                                <a href='/builder/form' class='bg-black text-white px-4 py-2 rounded-xl text-sm font-["Semibold"]'>Build a form</a>
                             </div>
                             <div class='w-full mt-3'>
                                 <div class='font-["Semibold"] text-xs'>Overview</div>

@@ -1,13 +1,23 @@
 import { Header } from '../../components/Header'
 import { NavBar } from '../../components/NavBar'
-import React, {useState } from 'react'
-import { gql, useQuery, useMutation } from '@apollo/client'
-
+import React, { useState } from 'react'
+import { useQuery } from '@apollo/client'
+import { ME_QUERY } from '../../Data/Me'
+import { Loading } from '../../components/Loading'
 
 
 export const Builder = ({ className = "" }) => {
+    const { data, error, loading } = useQuery(ME_QUERY)
 
-  
+
+    const allStorefronts = data?.me?.allStorefronts
+    const linkInBios = data?.me?.Linkinbios
+
+    const combinedArrays = allStorefronts?.concat(linkInBios) || [];
+
+    console.log(combinedArrays)
+    if (loading) return <Loading />
+    if (error) return <div>{error.message}</div>
     return (
         <div
             className='flex w-full items-start h-full self-stretch flex-col rounded-3xl'
@@ -61,11 +71,8 @@ export const Builder = ({ className = "" }) => {
                                     Pages
                                 </div>
                             </div>
-                            <div class='w-full h-full flex items-center justify-center flex flex-col'>
-                                <div class='font-["Semibold"]'>You have no pages</div>
-                                <img src='/assets/95.svg' className='mt-4 w-28 h-28' />
+                          
 
-                            </div>
                         </div>
                     </div>
                 </div>

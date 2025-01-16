@@ -9,19 +9,72 @@ import linkedin from '../components/assets/Linkedin.svg'
 import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
+import spotify from '../components/assets/Spotify.svg'
+import medium from '../components/assets/Medium.svg'
+import reddit from '../components/assets/Reddit.svg'
+import patreon from '../components/assets/Patreon.svg'
 import twitch from '../components/assets/twitch.svg'
+import { Dialog, DialogPanel } from "@headlessui/react";
 import pinterest from '../components/assets/pinterest.svg'
-import { Bars3Icon } from "@heroicons/react/20/solid";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 const platforms = [
-  { name: "Twitter", icon: "🐦", image:  twitter},
-  { name: "Twitch", icon: "🤷‍♀️", image: twitch},
-  { name: "Youtube", icon: "📘" , image: youtube },
-  { name: "LinkedIn", icon: "🔗", image: linkden},
-  { name: "Pinterest", icon: "📸", image:  pinterest},
+  { name: "Twitter", icon: "🐦", image: twitter },
+  { name: "Twitch", icon: "🤷‍♀️", image: twitch },
+  { name: "Youtube", icon: "📘", image: youtube },
+  { name: "LinkedIn", icon: "🔗", image: linkden },
+  { name: "Pinterest", icon: "📸", image: pinterest },
+  { name: 'Patreon', icon: '', image: patreon },
+  { name: 'spotify', image: spotify },
+  { name: 'medium', image: medium },
+  { name: 'dh', image: reddit}
 ];
+
+const images = [
+  twitter,
+  twitch,
+  youtube,
+  linkden,
+  pintrest,
+];
+
+
+const Tabs = [
+  'Storefronts',
+  'Link-in-bios',
+  'Workshops'
+]
 
 export default function LandingPage({ className = "" }) {
 
+  const [positions, setPositions] = useState([]);
+
+  useEffect(() => {
+    const generateRandomPositions = () => {
+      const minDistanceFromCenter = 200; // Minimum distance from the center (to avoid images near the text)
+      const newPositions = images.map(() => {
+        let top, left;
+        // Ensure images are placed away from the center
+        do {
+          top = Math.floor(Math.random() * window.innerHeight);
+          left = Math.floor(Math.random() * window.innerWidth);
+        } while (
+          Math.abs(top - window.innerHeight / 2) < minDistanceFromCenter &&
+          Math.abs(left - window.innerWidth / 2) < minDistanceFromCenter
+        );
+        return { top, left };
+      });
+      setPositions(newPositions);
+    };
+
+    generateRandomPositions();
+
+    // Optionally, regenerate random positions on window resize
+    window.addEventListener('resize', generateRandomPositions);
+    return () => {
+      window.removeEventListener('resize', generateRandomPositions);
+    };
+  }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Cycle through platforms
@@ -34,33 +87,83 @@ export default function LandingPage({ className = "" }) {
 
   const nextIndex = (currentIndex + 1) % platforms.length; // Get the next platform index
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div
-      className={`font-general-sans w-full bg-white font-medium tracking-[0px] ${className}`}
+      className={`font-general-sans w-full font-medium tracking-[0px] ${className}`}
     >
       <div class='lg:max-w-screen-lg lg:mx-auto mx-5 self-stretch'>
-        <div class='bg-gray-100 max-w-xl flex items-center justify-between  mx-auto mt-6 rounded-full px-6 p-4'>
+        <div class='bg-gray-100 max-w-xl flex items-center justify-between mx-auto mt-6 rounded-full px-6 p-4'>
           <div class='flex items-center gap-2'>
             <Group className='w-7 h-7' />
             <div class='font-["Semibold"]'>Commercify</div>
           </div>
           <div class='items-center gap-7 md:flex hidden font-["Semibold"] text-sm'>
-            <div>Pricing</div>
-            <div>Login</div>
+            <a href='/pricing'>Pricing</a>
+            <a href='/signin'>Login</a>
           </div>
           <div class='sm:flex md:hidden'>
-            <Bars3Icon class='text-black h-5' />
+            <Bars3Icon onClick={() => setMobileMenuOpen(true)} class='text-black h-5' />
+            <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+              <div className="fixed inset-0 z-10" />
+              <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <div className="flex items-center justify-between">
+                  <a href="#" className="-m-1.5 p-1.5">
+                    <span className="sr-only">Your Company</span>
+                    <Group className='w-7 h-7' />
+
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                  >
+                    <span className="sr-only">Close menu</span>
+                    <XMarkIcon aria-hidden="true" className="size-6" />
+                  </button>
+                </div>
+                <div className="mt-6 flow-root">
+                  <div className="-my-6 divide-y divide-gray-500/10">
+                    <div className="py-3">
+
+                      <a
+                        href="#"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                      >
+                        Plans
+                      </a>
+
+                    </div>
+
+                    <div className="py-3 flex flex-col gap-2">
+                      <a
+                        href="#"
+                        className="-mx-3 block rounded-lg px-3 inline-flex py-2 text-base/7 font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                      >
+                        Login
+                      </a>
+                      <a
+                        href="#"
+                        className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-3 text-base/7 text-sm font-['Medium']"
+                      >
+                        Get started with beta
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </DialogPanel>
+            </Dialog>
           </div>
         </div>
-        <div class='w-full justify-center flex-col flex items-center mt-12 md:mt-20'>
+        <div class='w-full justify-center flex-col flex items-center mt-12 md:mt-16'>
           <div class='flex justify-center items-center'>
             <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl">
               {/* Back File: Hovering Grey Box Representing "Up Next" */}
               <div
                 className="absolute top-[-15px] left-3 w-[calc(100%-27px)] h-[calc(100%-27px)] bg-gray-300 rounded-2xl z-0 shadow-lg"
               >
-             
+
               </div>
 
               {/* Current File: Platform Being Animated */}
@@ -73,7 +176,7 @@ export default function LandingPage({ className = "" }) {
                   exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.8, ease: "backInOut" }}
                 >
-                    <img src={platforms[currentIndex].image} class='h-full bg-transparent w-full'/>
+                  <img src={platforms[currentIndex].image} class='h-full bg-transparent w-full' />
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -89,18 +192,179 @@ export default function LandingPage({ className = "" }) {
             <button class='px-4 py-3 text-sm text-black rounded-full border font-["Semibold"]'>See our plans</button>
           </div>
           <div class='max-w-screen-xl mx-auto mt-10'>
-               <div class='font-["Medium"] text-xs text-center text-gray-400'>Use to sale and grow on multiple platforms</div>
-               <div class='max-w-screen-lg mx-auto mt-8 justify-center w-full flex flex-wrap items-center lg:gap-14 gap-5'>
-                    <img class='h-10' src={pintrest}/>
-                    <img class='h-10' src={youtubeLong}/>
-                    <img class='h-10' src={linkedin}/>
-                    <img class='h-10' src={dribbble}/>
-                    <img class='h-10' src={facebookLong}/>
-               </div>
+            <div class='font-["Medium"] text-xs text-center text-gray-400'>Use to sale and grow on multiple platforms</div>
+            <div class='max-w-screen-lg mx-auto mt-8 justify-center w-full flex flex-wrap items-center lg:gap-14 gap-5'>
+              <img class='h-10' src={pintrest} />
+              <img class='h-10' src={youtubeLong} />
+              <img class='h-10' src={linkedin} />
+              <img class='h-10' src={dribbble} />
+              <img class='h-10' src={facebookLong} />
+            </div>
+          </div>
+          <div class='my-10 max-w-screen-lg mx-auto w-full bg-black p-10 rounded-2xl'>
+            <div class='bg-black h-96 rounded-2xl w-full'>
+
+            </div>
+          </div>
+          <div className='h-96 relative w-full sm:flex md:hidden'>
+            {/* Centered Text */}
+            <div class="relative w-full h-full bg-gray-50 flex items-center justify-center">
+              <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-12 left-20 animate-float" />
+              <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-8 right-36 animate-float" />
+              <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-20 left-1/2 transform -translate-x-1/2 animate-float" />
+              <img src={pinterest} alt="Logo 4" class="absolute w-16 h-16 bottom-12 left-16 animate-float" />
+              <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-12 right-16 animate-float" />
+              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-32 left-2 animate-float"/>
+                <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-20 right-5 animate-float"/>
+                <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-48 right-2 animate-float" />
+                <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-20 left-7 transform -translate-x-1/2 animate-float" />
+
+                  <div class="text-center">
+                    <h1 class="text-2xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
+
+                  </div>
+                </div>
+            </div>
+            <div class='max-w-screen-lg mx-auto w-full rounded-2xl'>
+              <div class='text-center font-["Semibold"] max-w-lg mx-auto text-4xl'>
+                Design straightforward single-page layouts</div>
+              <TabGroup className='flex flex-col justify-center items-center w-full'>
+                <TabList class='inline-flex items-center justify-center bg-gray-200 mt-5 p-1 rounded-full space-x-2 '>
+                  {Tabs.map((item) => (
+                    <Tab
+                      key={item}
+                      className="rounded-full py-2 px-5 font-['Semibold'] text-xs md:text-sm text-gray-500 data-[selected]:text-black data-[selected]:bg-white data-[hover]:bg-white/5 outline-0 data-[focus]:outline-1 data-[focus]:outline-white"
+                    >
+                      {item}
+                    </Tab>
+                  ))}
+                </TabList>
+                <TabPanels className='mt-10 w-full'>
+                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Custom Branding</div>
+                        <div class='font-["Medium"] text-gray-300'>Create a storefront that reflects your brand with customizable templates and design tools.</div>
+                      </div>
+                    </div>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Sales Analytics</div>
+                        <div class='font-["Medium"] text-gray-300'>Track your sales in real-time with integrated analytics.</div>
+                      </div>
+                    </div>
+                  </TabPanel>
+                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Simple Link Management</div>
+                        <div class='font-["Medium"] text-gray-300'>Easily organize and manage all your important links in one location for seamless access.</div>
+                      </div>
+                    </div>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>QR Generation</div>
+                        <div class='font-["Medium"] text-gray-300'>Generate a QR code for your link page, perfect for offline marketing.</div>
+                      </div>
+                    </div>
+                  </TabPanel>
+                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Payment Integration</div>
+                        <div class='font-["Medium"] text-gray-300'>Connect various payment methods such as PayPal, Stripe, or credit cards to easily process payments.</div>
+                      </div>
+                    </div>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Custom Payment Forms</div>
+                        <div class='font-["Medium"] text-gray-300'>Create custom forms that suit your business needs, whether for donations, subscriptions, or one-time orders.</div>
+                      </div>
+                    </div>
+                  </TabPanel>
+                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
+                        <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+                      </div>
+                    </div>
+                    <div class='flex flex-col'>
+                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                      </div>
+                      <div class='mt-5'>
+                        <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
+                        <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+
+                      </div>
+                    </div>
+                  </TabPanel>
+                </TabPanels>
+              </TabGroup>
+              <div class='text-center font-["Semibold"] max-w-lg mx-auto my-16 mt-10 md:mt-40 text-3xl md:text-5xl'>
+                Use Commercify for its simplicity</div>
+              <div class='grid md:grid-cols-3 w-full gap-8'>
+                <div class='flex flex-col'>
+                  <div class='h-72 bg-gray-100 w-full rounded-lg'>
+                  </div>
+                  <div class='mt-5'>
+                    <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
+                    <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+                  </div>
+                </div>
+                <div class='flex flex-col'>
+                  <div class='h-72 bg-gray-100 w-full rounded-lg'>
+
+                  </div>
+                  <div class='mt-5'>
+                    <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
+                    <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+
+                  </div>
+                </div>
+                <div class='flex flex-col'>
+                  <div class='h-72 bg-gray-100 w-full rounded-lg'>
+
+                  </div>
+                  <div class='mt-5'>
+                    <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
+                    <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-40 text-3xl md:text-4xl'>
+              Simplify the way your selling with commercify</div>
+            <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
+            <div class='w-full flex mt-4 items-center justify-center space-x-3'>
+              <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
+              <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
+            </div>
+          </div>
+
         </div>
-        </div>
-       
       </div>
-    </div>
-  );
+      );
 }

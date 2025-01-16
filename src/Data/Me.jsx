@@ -107,10 +107,6 @@ query me{
      price
      serviceOrProduct
      }
-     Forms{
-      id
-      title
-     } 
       allStorefronts{
       id
       }

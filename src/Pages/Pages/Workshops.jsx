@@ -28,7 +28,7 @@ export const Workshops = ({ }) => {
                         <div class='h-full px-7 w-full flex-col flex'>
                             <div class='w-full border p-10 rounded-xl flex-col mt-3 flex items-center justify-center'>
                                 <img src='/assets/95.svg' class='w-32 h-32 p-5 border-b' />
-                                <a href='/builder' class='bg-black text-white px-4 py-2 rounded-xl text-sm font-["Semibold"]'>Build a Workshops</a>
+                                <a href='/builder/workshop' class='bg-black text-white px-4 py-2 rounded-xl text-sm font-["Semibold"]'>Build a Workshops</a>
                             </div>
                             <div class='flex flex-col mt-3'>
                                 <div class='text-xs font-["Semibold"]'>Overview</div>

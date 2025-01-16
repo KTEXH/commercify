@@ -4,6 +4,7 @@ import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { ME_QUERY } from "../../Data/Me";
 import moment from "moment";
+import Group from "../../components/assets/Group";
 
 export const Orders = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
@@ -59,7 +60,12 @@ export const Orders = ({ className = "" }) => {
                                 <div class='w-[15%]'>Payout status</div>
                                 <div class='w-[5%]' />
                             </div>
-                            <div class='w-full mt-4 flex border flex-col rounded-xl'>
+                            <div class={`w-full mt-4 flex border ${data.me.Orders.length === 0 && 'h-96 flex w-full flex-col items-center justify-center'} flex-col rounded-xl`}>
+                                {data.me.Orders.length === 0 && (
+                                    <div class='flex flex-col'>
+                                    
+                                        </div>
+                                )}
                                 {data.me.Orders.map((item, index) => {
 
                                     return (

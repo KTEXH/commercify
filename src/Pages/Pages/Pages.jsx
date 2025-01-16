@@ -10,7 +10,6 @@ export const Pages = ({ }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
 
     const otherTabs = [
-        { name: 'Forms' },
         { name: 'Storefronts' },
         { name: 'Link-in-bios' },
         { name: 'Workshops' }
@@ -66,25 +65,25 @@ export const Pages = ({ }) => {
                                         ))}
                                     </TabList>
                                     <TabPanels>
-                                        <TabPanel class='grid grid-cols-4 gap-3 py-5'>
-                                            {data.me.Forms.map(item => (
-                                                <div class='h-52 w-full rounded-xl border'>
-                                                    <div>{item.title}</div>
-                                                </div>
-                                            ))}
-                                        </TabPanel>
+                                       
                                         <TabPanel class='grid grid-cols-4 gap-3 py-5'>
                                             {data.me.Storefront.map(item => (
-                                                <div class='h-52 w-full border rounded-xl'>
-                                                    <div class='font-["Semibold"] text-xs'>{item.name}</div>
-                                                </div>
+                                                 <div class='h-52 w-full'>
+                                                 <div class='border w-full h-40 rounded-xl'>
+
+                                                 </div>
+                                                 <div class='font-["Semibold"] mt-2 text-xs'>{item.name}</div>
+                                             </div>
                                             ))}
                                         </TabPanel>
                                         <TabPanel class='grid grid-cols-4 gap-3 py-5'>
                                             {data.me.Linkinbios.map(item => (
-                                                <div class='h-52 w-full border rounded-xl'>
-                                                    <div class='font-["Semibold"] text-xs'>{item.name}</div>
-                                                </div>
+                                              <div class='h-52 w-full'>
+                                              <div class='border w-full h-40 rounded-xl'>
+
+                                              </div>
+                                              <div class='font-["Semibold"] mt-2 text-xs'>{item.name}</div>
+                                          </div>
                                             ))}
                                         </TabPanel>
                                         <TabPanel class='grid grid-cols-4 gap-3 py-5'>

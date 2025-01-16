@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getRequestHost } from '../../Utils/getRequestedHost';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import group2 from '../../../public/assets/Group2.svg'
+import Group from "../../components/assets/Group";
 const GET_STORE_BY_SUBDOMAIN = gql`
   query GetStoreBySubdomain($subdomain: String!) {
     storeBySubdomain(subdomain: $subdomain) {
@@ -41,6 +42,13 @@ const GET_STORE_BY_SUBDOMAIN = gql`
     template
     user{
     id
+    Services{
+    id 
+    thumbnail
+    title
+    price
+    description
+    }
     OnlyProducts{
     id
     thumbnail
@@ -105,33 +113,33 @@ export const Storefront = () => {
           )}
           <div class='text-center mt-3'>
             <div class='text-lg font-["Bold"]' style={{ color: store?.headingColor }}>{store?.headerText}</div>
-            <div class='font-["Medium"] px-3 text-sm pb-2' style={{ color: store?.subTextColor }}>{store?.subText}</div>
+            <div class='font-["Medium"] px-3 text-sm pb-2' style={{ color: store?.subTextColor }}>{store?.subText || store?.secondaryText}</div>
           </div>
           <div class='w-full my-3 space-y-2'>
-            {store?.user?.OnlyProducts?.map(item => (
-              <div class='border p-3 flex w-full flex-col gap-2 w-full rounded-xl'>
+            {store?.storefront === true ? store?.user?.OnlyProducts?.map : store?.user?.Services?.map(item => (
+              <div class='border p-3 flex w-full flex-col gap-2 w-full rounded-2xl'>
                 <div class='flex flex-row items-center w-full gap-2'>
                   {!item.thumbnail ? (
-                    <div class='w-16 h-16 shrink-0 rounded-lg flex items-center justify-center text-sm font-["Semibold"] bg-sky-100'>
+                    <div class='w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center text-sm font-["Semibold"] bg-sky-100'>
                       {item.title.charAt(0)}
                     </div>
                   ) : (
                     <img />
                   )}
                   <div class=''>
-                    <div class='font-["Semibold"] text-sm'>{item.title}</div>
+                    <div class='font-["Semibold"] text-xs'>{item.title}</div>
                     <div class='font-["Medium"] text-xs mt-[2px] text-gray-400 line-clamp-3'>{item.description}</div>
                     
 
                   </div>
                 </div>
-                <button class='bg-black w-full text-center py-2 rounded-lg text-[11px] text-white font-["Semibold"]'>Buy</button>
+                <button class='bg-black w-full text-center py-2 rounded-full text-[11px] text-white font-["Semibold"]'>Buy</button>
               </div>
             ))}
           </div>
-          <div class='bg-black px-4 py-2 flex items-center gap-2 rounded-full'>
-            <img src={group2} className='w-5 h-5' />
-            <div className="font-['Semibold'] text-[10px] text-white">Commercify</div>
+          <div class='bg-gray-100 px-4 py-2 flex items-center gap-2 rounded-full'>
+            <Group className='w-4 h-4' />
+            <div className="font-['Semibold'] text-[10px] text-black">Commercify</div>
           </div>
         </div>
 

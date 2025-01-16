@@ -108,9 +108,9 @@ export const CREATE_STORE = gql`
       newsletterSection: $newsletterSection,
       newsletterImage: $newsletterImage,
       componentColor: $componentColor,
+      storefront: $storefront,
       headingColor: $headingColor,
       subTextColor: $subTextColor,
-      storefront: $storefront,
       embeddedLink: $embeddedLink,
       featuredSection: $featuredSection,
       socialsSection: $socialsSection,
@@ -144,3 +144,4 @@ export const CREATE_STORE = gql`
     }
   }
 `;
+

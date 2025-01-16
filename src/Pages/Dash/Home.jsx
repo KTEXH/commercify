@@ -93,7 +93,7 @@ export default function Default({ className = "" }) {
                 <div class='w-2/3'>
                   <label class='font-["Semibold"] text-xs' >Product List</label>
                   <div class='border px-4 py-2 mt-2 rounded-lg'>
-                    {data.me.Products.map((item, index) => {
+                    {data?.me?.Products?.map((item, index) => {
                       const productTitle = item.title;
                       const percentage = percentageWidth[productTitle] || 0;
 

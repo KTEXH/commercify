@@ -11,7 +11,6 @@ export const Pages = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
 
     const Tabs = [
-        'Forms',
         'Storefronts',
         'Link-in-bios',
         'Workshops'
@@ -64,13 +63,7 @@ export const Pages = ({ className = "" }) => {
                                     ))}
                                 </TabList>
                                 <TabPanels>
-                                    <TabPanel class='grid grid-cols-4 gap-3 py-5'>
-                                        {data.me.Forms.map(item => (
-                                            <div class='h-52 w-full rounded-xl border'>
-                                                <div>{item.title}</div>
-                                            </div>
-                                        ))}
-                                    </TabPanel>
+                                   
                                     <TabPanel class='grid grid-cols-4 gap-3 py-5'>
                                         {data.me.Storefront.map(item => (
                                             <div class='h-52 w-full border rounded-xl'>
