@@ -117,7 +117,6 @@ export default function LandingPage({ className = "" }) {
                   <div className="fixed items-center justify-center flex flex-col top-16">
                   <Group className='w-7 h-7' />
 
-                     <div class='text-xl font-["Bold"] mt-3'>Navigation</div>
                   </div>
                   <div className="mt-6 flow-root">
                     <div className="-my-6">
@@ -125,34 +124,34 @@ export default function LandingPage({ className = "" }) {
 
                       <a
                         href="#"
-                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
                       >
                         Plans
                       </a>
 
                       <a
                         href="#"
-                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
                       >
                         Socials
                       </a>
                       <div className="pb-3 flex flex-col gap-2">
                         <a
                           href="#"
-                          className="-mx-3 block rounded-lg text-xl text-center px-3 py-2  font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                          className="-mx-3 block rounded-lg text-3xl text-center px-3 py-2  font-['Semibold'] text-gray-900 hover:bg-gray-50"
                         >
                           Login
                         </a>
                         <a
                           href="#"
-                          className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-4 text-lg font-['Semibold']"
+                          className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-4 text-xl font-['Semibold']"
                         >
                           Get started with beta
                         </a>
                         <a
                         onClick={() => setMobileMenuOpen(false)}
                           href="#"
-                          className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-4 text-lg font-['Semibold']"
+                          className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-4 text-xl font-['Semibold']"
                         >
                           Close
                         </a>
