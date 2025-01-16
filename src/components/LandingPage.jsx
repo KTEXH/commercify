@@ -32,7 +32,7 @@ const platforms = [
   { name: 'Patreon', icon: '', image: patreon },
   { name: 'spotify', image: spotify },
   { name: 'medium', image: medium },
-  { name: 'dh', image: reddit}
+  { name: 'dh', image: reddit }
 ];
 
 const images = [
@@ -99,10 +99,10 @@ export default function LandingPage({ className = "" }) {
       className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
     >
       <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justif0fy-center flex-col'>
-      <div class="bg-gray-200 overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
-      <div class='flex items-center gap-2'>
+        <div class="bg-gray-200 overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
+          <div class='flex items-center gap-2'>
             <Group className='w-7 h-7' />
-            <div class='font-["Semibold"]'>Commercify</div>
+            <div class='font-["Semibold"]'>Commercify HQ</div>
           </div>
           <div class='items-center gap-7 md:flex hidden font-["Semibold"] text-sm'>
             <a href='/pricing'>Pricing</a>
@@ -113,16 +113,15 @@ export default function LandingPage({ className = "" }) {
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
               <div className="fixed inset-0 z-10" />
               <DialogPanel className="fixed inset-y-0 top-10 rounded-t-2xl flex flex-col justify-center items-center right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                <div className="flex items-center justify-between">
-                  <a href="#" className="-m-1.5 p-1.5">
-                    <span className="sr-only">Your Company</span>
+                <div class='flex flex-col relative items-center ustify-center'>
+                  <div className="fixed items-center justify-center flex flex-col top-16">
+                  <Group className='w-7 h-7' />
 
-                  </a>
-            
-                </div>
-                <div className="mt-6 flow-root">
-                  <div className="-my-6">
-            
+                     <div class='text-xl font-["Bold"] mt-3'>Navigation</div>
+                  </div>
+                  <div className="mt-6 flow-root">
+                    <div className="-my-6">
+
 
                       <a
                         href="#"
@@ -137,25 +136,27 @@ export default function LandingPage({ className = "" }) {
                       >
                         Socials
                       </a>
-                    <div className="pb-3 flex flex-col gap-2">
-                      <a
-                        href="#"
-                        className="-mx-3 block rounded-lg text-xl text-center px-3 py-2  font-['Semibold'] text-gray-900 hover:bg-gray-50"
-                      >
-                        Login
-                      </a>
-                      <a
-                        href="#"
-                        className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-3 text-lg font-['Semibold']"
-                      >
-                        Get started with beta
-                      </a>
-                      <a
-                        href="#"
-                        className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-3 text-lg font-['Semibold']"
-                      >
-                        Close
-                      </a>
+                      <div className="pb-3 flex flex-col gap-2">
+                        <a
+                          href="#"
+                          className="-mx-3 block rounded-lg text-xl text-center px-3 py-2  font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                        >
+                          Login
+                        </a>
+                        <a
+                          href="#"
+                          className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-4 text-lg font-['Semibold']"
+                        >
+                          Get started with beta
+                        </a>
+                        <a
+                        onClick={() => setMobileMenuOpen(false)}
+                          href="#"
+                          className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-4 text-lg font-['Semibold']"
+                        >
+                          Close
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -221,162 +222,162 @@ export default function LandingPage({ className = "" }) {
               <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-56 left-1/2 transform -translate-x-1/2 animate-float" />
               <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-36 left-32 animate-float" />
               <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-36 right-16 animate-float" />
-              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float"/>
-                <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float"/>
-                <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
-                <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
-                <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float"/>
-                <img src={github} alt="Logo 7" class="absolute w-16 h-16 top-32 right-28 animate-float"/>
-                <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-48 left-24 animate-float" />
-                <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
-                <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
+              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float" />
+              <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float" />
+              <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
+              <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
+              <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float" />
+              <img src={github} alt="Logo 7" class="absolute w-16 h-16 top-32 right-28 animate-float" />
+              <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-48 left-24 animate-float" />
+              <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
+              <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
 
-                  <div class="text-center">
-                    <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
+              <div class="text-center">
+                <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
 
-                  </div>
-                </div>
+              </div>
             </div>
-            <div class='max-w-screen-lg mx-auto w-full rounded-2xl'>
-              <div class='text-center font-["Semibold"] max-w-lg mx-auto text-4xl'>
-                Design straightforward single-page layouts</div>
-              <TabGroup className='flex flex-col justify-center items-center w-full'>
-                <TabList class='inline-flex items-center justify-center bg-gray-200 mt-5 p-1 rounded-full space-x-2 '>
-                  {Tabs.map((item) => (
-                    <Tab
-                      key={item}
-                      className="rounded-full py-2 px-5 font-['Semibold'] text-xs md:text-sm text-gray-500 data-[selected]:text-black data-[selected]:bg-white data-[hover]:bg-white/5 outline-0 data-[focus]:outline-1 data-[focus]:outline-white"
-                    >
-                      {item}
-                    </Tab>
-                  ))}
-                </TabList>
-                <TabPanels className='mt-10 w-full'>
-                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
+          </div>
+          <div class='max-w-screen-lg mx-auto w-full rounded-2xl'>
+            <div class='text-center font-["Semibold"] max-w-lg mx-auto text-4xl'>
+              Design straightforward single-page layouts</div>
+            <TabGroup className='flex flex-col justify-center items-center w-full'>
+              <TabList class='inline-flex items-center justify-center bg-gray-200 mt-5 p-1 rounded-full space-x-2 '>
+                {Tabs.map((item) => (
+                  <Tab
+                    key={item}
+                    className="rounded-full py-2 px-5 font-['Semibold'] text-xs md:text-sm text-gray-500 data-[selected]:text-black data-[selected]:bg-white data-[hover]:bg-white/5 outline-0 data-[focus]:outline-1 data-[focus]:outline-white"
+                  >
+                    {item}
+                  </Tab>
+                ))}
+              </TabList>
+              <TabPanels className='mt-10 w-full'>
+                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
 
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Custom Branding</div>
-                        <div class='font-["Medium"] text-gray-300'>Create a storefront that reflects your brand with customizable templates and design tools.</div>
-                      </div>
                     </div>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Sales Analytics</div>
-                        <div class='font-["Medium"] text-gray-300'>Track your sales in real-time with integrated analytics.</div>
-                      </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Custom Branding</div>
+                      <div class='font-["Medium"] text-gray-300'>Create a storefront that reflects your brand with customizable templates and design tools.</div>
                     </div>
-                  </TabPanel>
-                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Simple Link Management</div>
-                        <div class='font-["Medium"] text-gray-300'>Easily organize and manage all your important links in one location for seamless access.</div>
-                      </div>
-                    </div>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>QR Generation</div>
-                        <div class='font-["Medium"] text-gray-300'>Generate a QR code for your link page, perfect for offline marketing.</div>
-                      </div>
-                    </div>
-                  </TabPanel>
-                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Payment Integration</div>
-                        <div class='font-["Medium"] text-gray-300'>Connect various payment methods such as PayPal, Stripe, or credit cards to easily process payments.</div>
-                      </div>
-                    </div>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Custom Payment Forms</div>
-                        <div class='font-["Medium"] text-gray-300'>Create custom forms that suit your business needs, whether for donations, subscriptions, or one-time orders.</div>
-                      </div>
-                    </div>
-                  </TabPanel>
-                  <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
-                        <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-                      </div>
-                    </div>
-                    <div class='flex flex-col'>
-                      <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                      </div>
-                      <div class='mt-5'>
-                        <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
-                        <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-
-                      </div>
-                    </div>
-                  </TabPanel>
-                </TabPanels>
-              </TabGroup>
-              <div class='text-center font-["Semibold"] max-w-lg mx-auto my-16 mt-10 md:mt-40 text-3xl md:text-5xl'>
-                Use Commercify for its simplicity</div>
-              <div class='grid md:grid-cols-3 w-full gap-8'>
-                <div class='flex flex-col'>
-                  <div class='h-72 bg-gray-100 w-full rounded-lg'>
                   </div>
-                  <div class='mt-5'>
-                    <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
-                    <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Sales Analytics</div>
+                      <div class='font-["Medium"] text-gray-300'>Track your sales in real-time with integrated analytics.</div>
+                    </div>
                   </div>
+                </TabPanel>
+                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Simple Link Management</div>
+                      <div class='font-["Medium"] text-gray-300'>Easily organize and manage all your important links in one location for seamless access.</div>
+                    </div>
+                  </div>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>QR Generation</div>
+                      <div class='font-["Medium"] text-gray-300'>Generate a QR code for your link page, perfect for offline marketing.</div>
+                    </div>
+                  </div>
+                </TabPanel>
+                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Payment Integration</div>
+                      <div class='font-["Medium"] text-gray-300'>Connect various payment methods such as PayPal, Stripe, or credit cards to easily process payments.</div>
+                    </div>
+                  </div>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Custom Payment Forms</div>
+                      <div class='font-["Medium"] text-gray-300'>Create custom forms that suit your business needs, whether for donations, subscriptions, or one-time orders.</div>
+                    </div>
+                  </div>
+                </TabPanel>
+                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
+                      <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+                    </div>
+                  </div>
+                  <div class='flex flex-col'>
+                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
+
+                    </div>
+                    <div class='mt-5'>
+                      <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
+                      <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+
+                    </div>
+                  </div>
+                </TabPanel>
+              </TabPanels>
+            </TabGroup>
+            <div class='text-center font-["Semibold"] max-w-lg mx-auto my-16 mt-10 md:mt-40 text-3xl md:text-5xl'>
+              Use Commercify for its simplicity</div>
+            <div class='grid md:grid-cols-3 w-full gap-8'>
+              <div class='flex flex-col'>
+                <div class='h-72 bg-gray-100 w-full rounded-lg'>
                 </div>
-                <div class='flex flex-col'>
-                  <div class='h-72 bg-gray-100 w-full rounded-lg'>
-
-                  </div>
-                  <div class='mt-5'>
-                    <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
-                    <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-
-                  </div>
+                <div class='mt-5'>
+                  <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
+                  <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
                 </div>
-                <div class='flex flex-col'>
-                  <div class='h-72 bg-gray-100 w-full rounded-lg'>
+              </div>
+              <div class='flex flex-col'>
+                <div class='h-72 bg-gray-100 w-full rounded-lg'>
 
-                  </div>
-                  <div class='mt-5'>
-                    <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
-                    <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+                </div>
+                <div class='mt-5'>
+                  <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
+                  <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
 
-                  </div>
+                </div>
+              </div>
+              <div class='flex flex-col'>
+                <div class='h-72 bg-gray-100 w-full rounded-lg'>
+
+                </div>
+                <div class='mt-5'>
+                  <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
+                  <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
+
                 </div>
               </div>
             </div>
-            <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-40 text-3xl md:text-4xl'>
-              Simplify the way your selling with commercify</div>
-            <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
-            <div class='w-full flex mt-4 items-center justify-center space-x-3'>
-              <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
-              <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
-            </div>
           </div>
-
+          <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-40 text-3xl md:text-4xl'>
+            Simplify the way your selling with commercify</div>
+          <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
+          <div class='w-full flex mt-4 items-center justify-center space-x-3'>
+            <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
+            <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
+          </div>
         </div>
+
       </div>
-      );
+    </div>
+  );
 }
