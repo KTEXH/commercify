@@ -141,13 +141,13 @@ export default function LandingPage({ className = "" }) {
                       </a>
                       <a
                         href="#"
-                        className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-3 text-base/7 text-sm font-['Semibold']"
+                        className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-3 text-lg font-['Semibold']"
                       >
                         Get started with beta
                       </a>
                       <a
                         href="#"
-                        className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-3 text-base/7 text-sm font-['Semibold']"
+                        className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-3 text-lg font-['Semibold']"
                       >
                         Close
                       </a>
