@@ -221,7 +221,7 @@ export default function LandingPage({ className = "" }) {
               <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-56 left-1/2 transform -translate-x-1/2 animate-float" />
               <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-36 left-32 animate-float" />
               <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-36 right-16 animate-float" />
-              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-2 animate-float"/>
+              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float"/>
                 <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float"/>
                 <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
                 <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
@@ -229,6 +229,7 @@ export default function LandingPage({ className = "" }) {
                 <img src={github} alt="Logo 7" class="absolute w-16 h-16 top-32 right-28 animate-float"/>
                 <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-48 left-24 animate-float" />
                 <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
+                <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
 
                   <div class="text-center">
                     <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
