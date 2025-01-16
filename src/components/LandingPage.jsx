@@ -208,7 +208,7 @@ export default function LandingPage({ className = "" }) {
           </div>
           <div className='h-96 relative w-full sm:flex md:hidden'>
             {/* Centered Text */}
-            <div class="relative w-full h-full bg-gray-50 flex items-center justify-center">
+            <div class="relative w-full h-fullflex items-center justify-center">
               <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-12 left-20 animate-float" />
               <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-8 right-36 animate-float" />
               <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-20 left-1/2 transform -translate-x-1/2 animate-float" />
