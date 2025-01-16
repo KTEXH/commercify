@@ -11,6 +11,11 @@ import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
 import spotify from '../components/assets/Spotify.svg'
 import medium from '../components/assets/Medium.svg'
+import yelp from '../components/assets/Yelp.svg'
+import zoom from '../components/assets/Zoom.svg'
+import googlemeet from '../components/assets/GoogleMeets.svg'
+import truth from '../components/assets/TruthSocial.svg'
+import github from '../components/assets/Github.svg'
 import reddit from '../components/assets/Reddit.svg'
 import patreon from '../components/assets/Patreon.svg'
 import twitch from '../components/assets/twitch.svg'
@@ -213,13 +218,17 @@ export default function LandingPage({ className = "" }) {
             <div class="relative w-full h-full flex items-center justify-center">
               <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-12 left-20 animate-float" />
               <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-8 right-36 animate-float" />
-              <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-28 left-1/2 transform -translate-x-1/2 animate-float" />
-              <img src={pinterest} alt="Logo 4" class="absolute w-16 h-16 bottom-12 left-16 animate-float" />
-              <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-20 right-16 animate-float" />
-              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-32 left-2 animate-float"/>
+              <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-56 left-1/2 transform -translate-x-1/2 animate-float" />
+              <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-36 left-32 animate-float" />
+              <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-36 right-16 animate-float" />
+              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-2 animate-float"/>
                 <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float"/>
-                <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-56 right-2 animate-float" />
+                <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
                 <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
+                <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float"/>
+                <img src={github} alt="Logo 7" class="absolute w-16 h-16 top-32 right-28 animate-float"/>
+                <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-48 left-24 animate-float" />
+                <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
 
                   <div class="text-center">
                     <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
