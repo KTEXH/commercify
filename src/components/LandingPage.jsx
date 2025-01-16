@@ -91,10 +91,10 @@ export default function LandingPage({ className = "" }) {
 
   return (
     <div
-      className={`font-general-sans w-full font-medium tracking-[0px] ${className}`}
+      className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
     >
-      <div class='lg:max-w-screen-lg lg:mx-auto mx-5 self-stretch'>
-      <div class="bg-gray-200 overflow-hidden z-50 bg-opacity-65 backdrop-blur-md w-full max-w-xl fixed top-6 left-1/2 transform -translate-x-1/2 flex items-center justify-between mx-auto rounded-full px-6 p-4">
+      <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justif0fy-center flex-col'>
+      <div class="bg-gray-200 overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-72 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
       <div class='flex items-center gap-2'>
             <Group className='w-7 h-7' />
             <div class='font-["Semibold"]'>Commercify</div>
@@ -107,7 +107,7 @@ export default function LandingPage({ className = "" }) {
             <Bars3Icon onClick={() => setMobileMenuOpen(true)} class='text-black h-5' />
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
               <div className="fixed inset-0 z-10" />
-              <DialogPanel className="fixed inset-y-0 top-10 rounded-t-2xl flex flex-col justify-center items-center right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+              <DialogPanel className="fixed inset-y-0 top-10 rounded-t-2xl flex flex-col justify-center items-center right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div className="flex items-center justify-between">
                   <a href="#" className="-m-1.5 p-1.5">
                     <span className="sr-only">Your Company</span>
@@ -172,7 +172,7 @@ export default function LandingPage({ className = "" }) {
               <AnimatePresence>
                 <motion.div
                   key={platforms[currentIndex].name}
-                  className="absolute w-full h-full flex justify-center items-center rounded-xl z-10"
+                  className="absolute w-full h-full flex justify-center items-center rounded-xl z-1"
                   initial={{ y: "100%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
