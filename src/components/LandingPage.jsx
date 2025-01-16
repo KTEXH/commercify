@@ -21,7 +21,7 @@ import patreon from '../components/assets/Patreon.svg'
 import twitch from '../components/assets/twitch.svg'
 import { Dialog, DialogPanel } from "@headlessui/react";
 import pinterest from '../components/assets/pinterest.svg'
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
+import { ArrowRightIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 const platforms = [
   { name: "Twitter", icon: "🐦", image: twitter },
@@ -115,7 +115,7 @@ export default function LandingPage({ className = "" }) {
               <DialogPanel className="fixed inset-y-0 top-10 rounded-t-2xl flex flex-col justify-center items-center right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div class='flex flex-col relative items-center ustify-center'>
                   <div className="fixed items-center justify-center flex flex-col top-16">
-                  <Group className='w-7 h-7' />
+                    <Group className='w-7 h-7' />
 
                   </div>
                   <div className="mt-6 flow-root">
@@ -149,7 +149,7 @@ export default function LandingPage({ className = "" }) {
                           Get started with beta
                         </a>
                         <a
-                        onClick={() => setMobileMenuOpen(false)}
+                          onClick={() => setMobileMenuOpen(false)}
                           href="#"
                           className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-4 text-xl font-['Semibold']"
                         >
@@ -208,9 +208,12 @@ export default function LandingPage({ className = "" }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='my-10 max-w-screen-lg mx-auto w-full bg-black p-10 rounded-2xl'>
-            <div class='bg-black h-96 rounded-2xl w-full'>
-
+          <div class='my-10 max-w-screen-lg relative h-[500px] overflow-hidden mx-auto w-full border rounded-2xl'>
+            <div class='absolute bg-blur-md bg-gray-50 bg-opacity-75 bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
+              <div class='font-["Semibold"] text-sm'>Get Started</div>
+              <div class='rounded-full border p-2'>
+                <ArrowRightIcon class='w-4 h-4 text-black' />
+              </div>
             </div>
           </div>
           <div className='h-[700px] relative w-full sm:flex md:hidden'>
@@ -374,8 +377,17 @@ export default function LandingPage({ className = "" }) {
             <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
             <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
           </div>
+          <div class='my-20'>
+
+          </div>
+
         </div>
 
+      </div>
+      <div class="relative">
+        <div class="absolute h-20 w-full bg-white rounded-b-[50px] z-10"></div>
+
+        <div class="bg-black top-20 h-96 w-full z-0"></div>
       </div>
     </div>
   );
