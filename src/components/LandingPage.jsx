@@ -94,8 +94,8 @@ export default function LandingPage({ className = "" }) {
       className={`font-general-sans w-full font-medium tracking-[0px] ${className}`}
     >
       <div class='lg:max-w-screen-lg lg:mx-auto mx-5 self-stretch'>
-        <div class='bg-gray-100 max-w-xl flex items-center justify-between mx-auto mt-6 rounded-full px-6 p-4'>
-          <div class='flex items-center gap-2'>
+      <div class="bg-gray-200 overflow-hidden z-50 bg-opacity-65 backdrop-blur-md w-full max-w-xl fixed top-6 left-1/2 transform -translate-x-1/2 flex items-center justify-between mx-auto rounded-full px-6 p-4">
+      <div class='flex items-center gap-2'>
             <Group className='w-7 h-7' />
             <div class='font-["Semibold"]'>Commercify</div>
           </div>
@@ -158,7 +158,7 @@ export default function LandingPage({ className = "" }) {
             </Dialog>
           </div>
         </div>
-        <div class='w-full justify-center flex-col flex items-center mt-12 md:mt-16'>
+        <div class='w-full justify-center flex-col flex items-center mt-32 md:mt-36'>
           <div class='flex justify-center items-center'>
             <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl">
               {/* Back File: Hovering Grey Box Representing "Up Next" */}
