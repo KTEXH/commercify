@@ -228,10 +228,10 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='my-10  max-w-screen-lg py-5 space-y-5 relative h-[500px] overflow-hidden mx-auto w-full border rounded-2xl'>
+          <div class='my-10  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float"
+                className="flex w-max gap-20 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -247,7 +247,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float2"
+                className="flex w-max gap-20 animate-float2"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -263,7 +263,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float"
+                className="flex w-max gap-20 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -279,7 +279,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float2"
+                className="flex w-max gap-20 animate-float2"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -293,38 +293,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 ))}
               </div>
             </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max gap-16 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images2, ...images2].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="w-16 h-16" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max gap-16 animate-float2"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images3, ...images3].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="w-16 h-16" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+         
             <div class='absolute bg-blur-md bg-gray-50 bg-opacity-75 bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
               <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
               <div class='rounded-full border p-2'>
