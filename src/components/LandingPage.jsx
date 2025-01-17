@@ -38,7 +38,14 @@ const platforms = [
   { name: 'medium', image: medium },
   { name: 'dh', image: reddit }
 ];
-const images1 = [
+
+function shuffleArray(array) {
+  return array
+    .map((item) => ({ item, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ item }) => item);
+}
+const images1 = shuffleArray([
   { name: 'Twitch', image: twitch },
   { name: 'Pinterest', image: pinterest },
   { name: 'Reddit', image: reddit },
@@ -51,24 +58,23 @@ const images1 = [
   { name: 'Truth', image: truth },
   { name: 'Yelp', image: yelp },
   { name: 'Google Meets', image: googlemeet },
-];
+]);
 
-const images2 = [
+const images2 = shuffleArray([
   { name: 'Dribble', image: dribble },
   { name: 'Notion', image: notion },
   { name: 'Dropbox', image: dropbox },
   { name: 'Behance', image: behance },
-  { name: 'LinkedIn', image: linkden },
-  { name: 'Github', image: github },
   { name: 'Spotify', image: spotify },
+  { name: 'Github', image: github },
   { name: 'Patreon', image: patreon },
   { name: 'Medium', image: medium },
   { name: 'Reddit', image: reddit },
   { name: 'Pinterest', image: pinterest },
   { name: 'Twitch', image: twitch },
-];
+]);
 
-const images3 = [
+const images3 = shuffleArray([
   { name: 'Google Meets', image: googlemeet },
   { name: 'Yelp', image: yelp },
   { name: 'Truth', image: truth },
@@ -81,7 +87,7 @@ const images3 = [
   { name: 'Reddit', image: reddit },
   { name: 'Pinterest', image: pinterest },
   { name: 'Twitch', image: twitch },
-];
+]);
 
 
 
@@ -228,7 +234,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='my-10  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
+          <div class='md:my-10 my-16  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
             <div className="relative w-full overflow-hidden">
               <div
                 className="flex w-max md:gap-16 gap-7 animate-float"
@@ -296,8 +302,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
          
             <div class='absolute bg-white bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
               <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
-              <div class='rounded-full border p-2'>
-                <ArrowRightIcon class='w-4 h-4 text-black' />
+              <div class='rounded-full bg-black flex px-4 gap-2 items-center text-white border p-2.5'>
+                <div class='font-["Semibold"] text-xs'>Get started</div>
               </div>
             </div>
           </div>
@@ -400,7 +406,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </TabPanels>
             </TabGroup>
 
-            <div className='h-[700px] relative w-full sm:flex md:hidden'>
+            <div className='h-[700px] relative w-full my-7 sm:flex md:hidden'>
             {/* Centered Text */}
             <div class="relative w-full h-full flex items-center justify-center">
               <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-2 left-20 animate-float" />
