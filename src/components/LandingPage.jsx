@@ -231,7 +231,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           <div class='my-10  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float"
+                className="flex w-max md:gap-16 gap-7 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -239,7 +239,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 {/* Repeat the array to ensure infinite loop */}
                 {[...images1, ...images1].map((image, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
                     <div className="text-2xl font-['Semibold']">{image.name}</div>
                   </div>
                 ))}
@@ -247,7 +247,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float2"
+                className="flex w-max md:gap-16 gap-7 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -255,7 +255,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 {/* Repeat the array to ensure infinite loop */}
                 {[...images2, ...images2].map((image, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
                     <div className="text-2xl font-['Semibold']">{image.name}</div>
                   </div>
                 ))}
@@ -263,7 +263,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float"
+                className="flex w-max md:gap-16 gap-7 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -271,7 +271,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 {/* Repeat the array to ensure infinite loop */}
                 {[...images3, ...images3].map((image, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
                     <div className="text-2xl font-['Semibold']">{image.name}</div>
                   </div>
                 ))}
@@ -279,7 +279,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-16 animate-float2"
+                className="flex w-max md:gap-16 gap-7 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -287,7 +287,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 {/* Repeat the array to ensure infinite loop */}
                 {[...images1, ...images1].map((image, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
                     <div className="text-2xl font-['Semibold']">{image.name}</div>
                   </div>
                 ))}
