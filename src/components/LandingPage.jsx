@@ -231,7 +231,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           <div class='my-10  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-20 animate-float"
+                className="flex w-max gap-16 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -247,7 +247,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-20 animate-float2"
+                className="flex w-max gap-16 animate-float2"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -263,7 +263,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-20 animate-float"
+                className="flex w-max gap-16 animate-float"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -279,7 +279,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div className="relative w-full overflow-hidden">
               <div
-                className="flex w-max gap-20 animate-float2"
+                className="flex w-max gap-16 animate-float2"
                 style={{
                   animationDuration: `165s`, // Control speed
                 }}
@@ -294,37 +294,14 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </div>
             </div>
          
-            <div class='absolute bg-blur-md bg-gray-50 bg-opacity-75 bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
+            <div class='absolute bg-white bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
               <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
               <div class='rounded-full border p-2'>
                 <ArrowRightIcon class='w-4 h-4 text-black' />
               </div>
             </div>
           </div>
-          <div className='h-[700px] relative w-full sm:flex md:hidden'>
-            {/* Centered Text */}
-            <div class="relative w-full h-full flex items-center justify-center">
-              <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-2 left-20 animate-float" />
-              <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-5 right-36 animate-float" />
-              <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-32 right-28 transform -translate-x-1/2 animate-float" />
-              <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-12 left-32 animate-float" />
-              <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-8 right-16 animate-float" />
-              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float" />
-              <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float" />
-              <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
-              <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
-              <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float" />
-              <img src={github} alt="Logo 7" class="absolute w-12 h-12 top-28 right-36 animate-float" />
-              <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-40 left-28 animate-float" />
-              <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
-              <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
-
-              <div class="text-center">
-                <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
-
-              </div>
-            </div>
-          </div>
+         
           <div class='max-w-screen-lg mx-auto w-full rounded-2xl'>
             <div class='text-center font-["Semibold"] max-w-lg mx-auto text-4xl'>
               Design straightforward single-page layouts</div>
@@ -422,6 +399,31 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 </TabPanel>
               </TabPanels>
             </TabGroup>
+
+            <div className='h-[700px] relative w-full sm:flex md:hidden'>
+            {/* Centered Text */}
+            <div class="relative w-full h-full flex items-center justify-center">
+              <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-2 left-20 animate-float" />
+              <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-5 right-36 animate-float" />
+              <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-32 right-28 transform -translate-x-1/2 animate-float" />
+              <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-12 left-32 animate-float" />
+              <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-8 right-16 animate-float" />
+              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float" />
+              <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float" />
+              <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
+              <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
+              <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float" />
+              <img src={github} alt="Logo 7" class="absolute w-12 h-12 top-28 right-36 animate-float" />
+              <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-40 left-28 animate-float" />
+              <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
+              <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
+
+              <div class="text-center">
+                <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
+
+              </div>
+            </div>
+          </div>
             <div class='text-center font-["Semibold"] max-w-lg mx-auto my-16 mt-10 md:mt-40 text-3xl md:text-5xl'>
               Use Commercify for its simplicity</div>
             <div class='grid md:grid-cols-3 w-full gap-8'>
