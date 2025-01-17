@@ -234,76 +234,13 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='md:my-10 my-16  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-16 gap-7 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images1, ...images1].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-16 gap-7 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images2, ...images2].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-16 gap-7 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images3, ...images3].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-16 gap-7 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images1, ...images1].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div class='md:my-10 my-16  max-w-screen-lg py-5 space-y-5 relative h-[500px] overflow-hidden mx-auto w-full border rounded-2xl'>
+           
          
-            <div class='absolute bg-white bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
+            <div class='absolute bg-white bottom-0 h-12 px-3 flex justify-between items-center border-t w-full'>
               <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
-              <div class='rounded-full bg-black flex px-4 gap-2 items-center text-white border p-2.5'>
-                <div class='font-["Semibold"] text-xs'>Get started</div>
+              <div class='rounded-full flex gap-2 items-center p-2 text-white border'>
+                <ArrowRightIcon class='h-4 w-4 text-black' />
               </div>
             </div>
           </div>
@@ -470,8 +407,71 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
             <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
           </div>
-          <div class='my-20'>
-
+          <div class='my-20 space-y-4'>
+          <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max md:gap-12 gap-4 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images1, ...images1].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max md:gap-12 gap-4 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images2, ...images2].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max md:gap-12 gap-4 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images3, ...images3].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max md:gap-12 gap-4 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images1, ...images1].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
         </div>
