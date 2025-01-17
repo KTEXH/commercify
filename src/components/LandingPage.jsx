@@ -104,7 +104,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
 
   const [positions, setPositions] = useState([]);
 
-  
+
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -125,7 +125,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
       className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
     >
       <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justif0fy-center flex-col'>
-        <div class="bg-gray-200 overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
+        <div class="bg-gray-200  overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
           <div class='flex items-center gap-2'>
             <Group className='w-7 h-7' />
             <div class='font-["Semibold"]'>Commercify HQ</div>
@@ -234,9 +234,9 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='md:my-10 my-16  max-w-screen-lg py-5 space-y-5 relative h-[500px] overflow-hidden mx-auto w-full border rounded-2xl'>
-           
-         
+          <div class='md:my-10 my-16  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
+
+
             <div class='absolute bg-white bottom-0 h-12 px-3 flex justify-between items-center border-t w-full'>
               <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
               <div class='rounded-full flex gap-2 items-center p-2 text-white border'>
@@ -244,7 +244,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </div>
             </div>
           </div>
-         
+
           <div class='max-w-screen-lg mx-auto w-full rounded-2xl'>
             <div class='text-center font-["Semibold"] max-w-lg mx-auto text-4xl'>
               Design straightforward single-page layouts</div>
@@ -344,29 +344,29 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </TabGroup>
 
             <div className='h-[700px] relative w-full my-7 sm:flex md:hidden'>
-            {/* Centered Text */}
-            <div class="relative w-full h-full flex items-center justify-center">
-              <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-2 left-20 animate-float" />
-              <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-5 right-36 animate-float" />
-              <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-32 right-28 transform -translate-x-1/2 animate-float" />
-              <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-12 left-32 animate-float" />
-              <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-8 right-16 animate-float" />
-              <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float" />
-              <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float" />
-              <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
-              <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
-              <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float" />
-              <img src={github} alt="Logo 7" class="absolute w-12 h-12 top-28 right-36 animate-float" />
-              <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-40 left-28 animate-float" />
-              <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
-              <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
+              {/* Centered Text */}
+              <div class="relative w-full h-full flex items-center justify-center">
+                <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-2 left-20 animate-float" />
+                <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-5 right-36 animate-float" />
+                <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-32 right-28 transform -translate-x-1/2 animate-float" />
+                <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-12 left-32 animate-float" />
+                <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-8 right-16 animate-float" />
+                <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float" />
+                <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float" />
+                <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
+                <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
+                <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float" />
+                <img src={github} alt="Logo 7" class="absolute w-12 h-12 top-28 right-36 animate-float" />
+                <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-40 left-28 animate-float" />
+                <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
+                <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
 
-              <div class="text-center">
-                <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
+                <div class="text-center">
+                  <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
 
+                </div>
               </div>
             </div>
-          </div>
             <div class='text-center font-["Semibold"] max-w-lg mx-auto my-16 mt-10 md:mt-40 text-3xl md:text-5xl'>
               Use Commercify for its simplicity</div>
             <div class='grid md:grid-cols-3 w-full gap-8'>
@@ -407,76 +407,76 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
             <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
           </div>
-          <div class='my-20 space-y-4'>
+        </div>
+        </div>
+        <div class='my-20 flex flex-col w-full space-y-4'>
           <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-12 gap-4 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images1, ...images1].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-12 gap-4 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images2, ...images2].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-12 gap-4 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images3, ...images3].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <div
-                className="flex w-max md:gap-12 gap-4 animate-float"
-                style={{
-                  animationDuration: `165s`, // Control speed
-                }}
-              >
-                {/* Repeat the array to ensure infinite loop */}
-                {[...images1, ...images1].map((image, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                    <div className="text-2xl font-['Semibold']">{image.name}</div>
-                  </div>
-                ))}
-              </div>
+            <div
+              className="flex w-max md:gap-12 gap-4 animate-float"
+              style={{
+                animationDuration: `165s`, // Control speed
+              }}
+            >
+              {/* Repeat the array to ensure infinite loop */}
+              {[...images1, ...images1].map((image, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                  <div className="text-2xl font-['Semibold']">{image.name}</div>
+                </div>
+              ))}
             </div>
           </div>
-
+          <div className="relative w-full overflow-hidden">
+            <div
+              className="flex w-max md:gap-12 gap-4 animate-float"
+              style={{
+                animationDuration: `165s`, // Control speed
+              }}
+            >
+              {/* Repeat the array to ensure infinite loop */}
+              {[...images2, ...images2].map((image, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                  <div className="text-2xl font-['Semibold']">{image.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative w-full overflow-hidden">
+            <div
+              className="flex w-max md:gap-12 gap-4 animate-float"
+              style={{
+                animationDuration: `165s`, // Control speed
+              }}
+            >
+              {/* Repeat the array to ensure infinite loop */}
+              {[...images3, ...images3].map((image, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                  <div className="text-2xl font-['Semibold']">{image.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative w-full overflow-hidden">
+            <div
+              className="flex w-max md:gap-12 gap-4 animate-float"
+              style={{
+                animationDuration: `165s`, // Control speed
+              }}
+            >
+              {/* Repeat the array to ensure infinite loop */}
+              {[...images1, ...images1].map((image, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                  <div className="text-2xl font-['Semibold']">{image.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-      </div>
+
       <div class="relative">
         <div class="absolute h-20 w-full bg-white rounded-b-[50px] z-10"></div>
         <img src='/Browser.svg' />
