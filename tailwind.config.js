@@ -61,6 +61,14 @@ export default {
         },
         to: { height: "0px" },
       },
+      float: {
+        "0%": { transform: "translateX(0)" },
+        "100%": { transform: "translateX(-50%)" }, // Fully out to the left
+      },
+      float2: {
+        "100%": { transform: "translateX(-100%)" },
+        "0%": { transform: "translateX(0%)" }, // Fully out to the right
+      },
       dialogOverlayShow: {
         from: { opacity: "0" },
         to: { opacity: "1" },
@@ -82,6 +90,8 @@ export default {
       },
     },
     animation: {
+      float: "float linear infinite",
+      float2: "float2 linear infinite", // Define float animation
       hide: "hide 150ms cubic-bezier(0.16, 1, 0.3, 1)",
       slideDownAndFade:
         "slideDownAndFade 150ms cubic-bezier(0.16, 1, 0.3, 1)",

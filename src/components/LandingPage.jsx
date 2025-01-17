@@ -13,8 +13,12 @@ import spotify from '../components/assets/Spotify.svg'
 import medium from '../components/assets/Medium.svg'
 import yelp from '../components/assets/Yelp.svg'
 import zoom from '../components/assets/Zoom.svg'
+import behance from '../components/assets/Behance.svg'
+import dribble from '../components/assets/Dribble.svg'
 import googlemeet from '../components/assets/GoogleMeets.svg'
+import dropbox from '../components/assets/Dropbox.svg'
 import truth from '../components/assets/TruthSocial.svg'
+import notion from '../components/assets/Notion.svg'
 import github from '../components/assets/GitHub.svg'
 import reddit from '../components/assets/Reddit.svg'
 import patreon from '../components/assets/Patreon.svg'
@@ -34,14 +38,53 @@ const platforms = [
   { name: 'medium', image: medium },
   { name: 'dh', image: reddit }
 ];
-
-const images = [
-  twitter,
-  twitch,
-  youtube,
-  linkden,
-  pintrest,
+const images1 = [
+  { name: 'Twitch', image: twitch },
+  { name: 'Pinterest', image: pinterest },
+  { name: 'Reddit', image: reddit },
+  { name: 'Medium', image: medium },
+  { name: 'Patreon', image: patreon },
+  { name: 'Spotify', image: spotify },
+  { name: 'Github', image: github },
+  { name: 'LinkedIn', image: linkden },
+  { name: 'Zoom', image: zoom },
+  { name: 'Truth', image: truth },
+  { name: 'Yelp', image: yelp },
+  { name: 'Google Meets', image: googlemeet },
 ];
+
+const images2 = [
+  { name: 'Dribble', image: dribble },
+  { name: 'Notion', image: notion },
+  { name: 'Dropbox', image: dropbox },
+  { name: 'Behance', image: behance },
+  { name: 'LinkedIn', image: linkden },
+  { name: 'Github', image: github },
+  { name: 'Spotify', image: spotify },
+  { name: 'Patreon', image: patreon },
+  { name: 'Medium', image: medium },
+  { name: 'Reddit', image: reddit },
+  { name: 'Pinterest', image: pinterest },
+  { name: 'Twitch', image: twitch },
+];
+
+const images3 = [
+  { name: 'Google Meets', image: googlemeet },
+  { name: 'Yelp', image: yelp },
+  { name: 'Truth', image: truth },
+  { name: 'Zoom', image: zoom },
+  { name: 'LinkedIn', image: linkden },
+  { name: 'Github', image: github },
+  { name: 'Spotify', image: spotify },
+  { name: 'Patreon', image: patreon },
+  { name: 'Medium', image: medium },
+  { name: 'Reddit', image: reddit },
+  { name: 'Pinterest', image: pinterest },
+  { name: 'Twitch', image: twitch },
+];
+
+
+
 
 
 const Tabs = [
@@ -50,36 +93,13 @@ const Tabs = [
   'Workshops'
 ]
 
-export default function LandingPage({ className = "" }) {
+export default function LandingPage({ className = "", duration = 3000 }) {
+
 
   const [positions, setPositions] = useState([]);
 
-  useEffect(() => {
-    const generateRandomPositions = () => {
-      const minDistanceFromCenter = 200; // Minimum distance from the center (to avoid images near the text)
-      const newPositions = images.map(() => {
-        let top, left;
-        // Ensure images are placed away from the center
-        do {
-          top = Math.floor(Math.random() * window.innerHeight);
-          left = Math.floor(Math.random() * window.innerWidth);
-        } while (
-          Math.abs(top - window.innerHeight / 2) < minDistanceFromCenter &&
-          Math.abs(left - window.innerWidth / 2) < minDistanceFromCenter
-        );
-        return { top, left };
-      });
-      setPositions(newPositions);
-    };
+  
 
-    generateRandomPositions();
-
-    // Optionally, regenerate random positions on window resize
-    window.addEventListener('resize', generateRandomPositions);
-    return () => {
-      window.removeEventListener('resize', generateRandomPositions);
-    };
-  }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Cycle through platforms
@@ -208,9 +228,105 @@ export default function LandingPage({ className = "" }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='my-10 max-w-screen-lg relative h-[500px] overflow-hidden mx-auto w-full border rounded-2xl'>
+          <div class='my-10  max-w-screen-lg py-5 space-y-5 relative h-[500px] overflow-hidden mx-auto w-full border rounded-2xl'>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max gap-16 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images1, ...images1].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max gap-16 animate-float2"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images2, ...images2].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max gap-16 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images3, ...images3].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max gap-16 animate-float2"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images1, ...images1].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max gap-16 animate-float"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images2, ...images2].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex w-max gap-16 animate-float2"
+                style={{
+                  animationDuration: `165s`, // Control speed
+                }}
+              >
+                {/* Repeat the array to ensure infinite loop */}
+                {[...images3, ...images3].map((image, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <img src={image.image} alt={image.name} className="w-16 h-16" />
+                    <div className="text-2xl font-['Semibold']">{image.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div class='absolute bg-blur-md bg-gray-50 bg-opacity-75 bottom-0 h-12 p-5 flex justify-between items-center border-t w-full'>
-              <div class='font-["Semibold"] text-sm'>Get Started</div>
+              <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
               <div class='rounded-full border p-2'>
                 <ArrowRightIcon class='w-4 h-4 text-black' />
               </div>
@@ -386,7 +502,7 @@ export default function LandingPage({ className = "" }) {
       </div>
       <div class="relative">
         <div class="absolute h-20 w-full bg-white rounded-b-[50px] z-10"></div>
-
+        <img src='/Browser.svg' />
         <div class="bg-black top-20 h-96 w-full z-0"></div>
       </div>
     </div>

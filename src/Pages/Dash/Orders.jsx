@@ -106,10 +106,10 @@ export const Orders = ({ className = "" }) => {
                                                 <div class='w-[15%]'>
                                                     <div class='flex items-center gap-2'>
                                                         <div class='w-9 h-9 rounded-full bg-cyan-100 flex items-center justify-center txt-[10px] font-["Semibold"]'>
-                                                            {item.name.charAt(0)}
+                                                            {item.name ? item.name.charAt(0) : 'C'}
                                                         </div>
                                                         <div class='flex flex-col font-["Semibold"] capitalize text-[10px]'>
-                                                            <label>{item.name}</label>
+                                                            <label>{item.name || 'Customer'}</label>
                                                             <label>{item.email}</label>
                                                         </div>
                                                     </div>
