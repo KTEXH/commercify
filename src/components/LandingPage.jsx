@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Group from "./assets/Group";
+import Groop3 from './assets/Group3'
 import { motion, AnimatePresence } from "framer-motion";
 import dribbble from '../components/assets/dribbble.svg'
 import facebookLong from '../components/assets/Facebook.svg'
@@ -10,6 +11,7 @@ import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
 import spotify from '../components/assets/Spotify.svg'
+import introducing from '../components/assets/introducing.mp4'
 import medium from '../components/assets/Medium.svg'
 import yelp from '../components/assets/Yelp.svg'
 import zoom from '../components/assets/Zoom.svg'
@@ -25,8 +27,10 @@ import patreon from '../components/assets/Patreon.svg'
 import twitch from '../components/assets/twitch.svg'
 import { Dialog, DialogPanel } from "@headlessui/react";
 import pinterest from '../components/assets/pinterest.svg'
-import { ArrowRightIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
+import { ArrowRightIcon, Bars3Icon, PlayIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import Group3 from "./assets/Group3";
+import { Header } from "./LandingHeader";
 const platforms = [
   { name: "Twitter", icon: "🐦", image: twitter },
   { name: "Twitch", icon: "🤷‍♀️", image: twitch },
@@ -104,7 +108,18 @@ export default function LandingPage({ className = "", duration = 3000 }) {
 
   const [positions, setPositions] = useState([]);
 
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
+  const handlePlayPause = () => {
+    if (videoRef.current.paused || videoRef.current.ended) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -125,70 +140,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
       className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
     >
       <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justif0fy-center flex-col'>
-        <div class="bg-gray-200  overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
-          <div class='flex items-center gap-2'>
-            <Group className='w-7 h-7' />
-            <div class='font-["Semibold"]'>Commercify HQ</div>
-          </div>
-          <div class='items-center gap-7 md:flex hidden font-["Semibold"] text-sm'>
-            <a href='/pricing'>Pricing</a>
-            <a href='/signin'>Login</a>
-          </div>
-          <div class='sm:flex md:hidden'>
-            <Bars3Icon onClick={() => setMobileMenuOpen(true)} class='text-black h-5' />
-            <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-              <div className="fixed inset-0 z-10" />
-              <DialogPanel className="fixed inset-y-0 top-10 rounded-t-2xl flex flex-col justify-center items-center right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                <div class='flex flex-col relative items-center ustify-center'>
-                  <div className="fixed items-center justify-center flex flex-col top-16">
-                    <Group className='w-7 h-7' />
-
-                  </div>
-                  <div className="mt-6 flow-root">
-                    <div className="-my-6">
-
-
-                      <a
-                        href="#"
-                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
-                      >
-                        Plans
-                      </a>
-
-                      <a
-                        href="#"
-                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
-                      >
-                        Socials
-                      </a>
-                      <div className="pb-3 flex flex-col gap-2">
-                        <a
-                          href="#"
-                          className="-mx-3 block rounded-lg text-3xl text-center px-3 py-2  font-['Semibold'] text-gray-900 hover:bg-gray-50"
-                        >
-                          Login
-                        </a>
-                        <a
-                          href="#"
-                          className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-4 text-xl font-['Semibold']"
-                        >
-                          Get started with beta
-                        </a>
-                        <a
-                          onClick={() => setMobileMenuOpen(false)}
-                          href="#"
-                          className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-4 text-xl font-['Semibold']"
-                        >
-                          Close
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </DialogPanel>
-            </Dialog>
-          </div>
-        </div>
+        <Header />
         <div class='w-full justify-center flex-col flex items-center mt-32 md:mt-36'>
           <div class='flex justify-center items-center'>
             <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl">
@@ -234,13 +186,32 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div class='md:my-10 my-16  max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl'>
+          <div className="md:my-10 my-16 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
+            {/* Video Container */}
+            <div className="relative h-full">
+              <video
+                ref={videoRef}
+                onClick={handlePlayPause}
+                className="w-full h-full object-cover rounded-2xl"
+                src={introducing} // Pass the video source as a prop
+              />
+              {!isPlaying && (
+                <button
+                  onClick={handlePlayPause}
+                  className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold rounded-lg transition-opacity duration-300 hover:opacity-75"
+                >
+                  <div class='bg-black h-14 justify-center flex items-center rounded-full w-14'>
+                       <PlayIcon class='w-5 h-5 text-white' />
+                  </div>
+                </button>
+              )}
+            </div>
 
-
-            <div class='absolute bg-white bottom-0 h-12 px-3 flex justify-between items-center border-t w-full'>
-              <div class='font-["Semibold"] text-sm'>Start Growing Today</div>
-              <div class='rounded-full flex gap-2 items-center p-2 text-white border'>
-                <ArrowRightIcon class='h-4 w-4 text-black' />
+            {/* Bottom Bar */}
+            <div className="absolute bg-white bottom-0 h-12 px-3 flex justify-between items-center border-t w-full">
+              <div className="font-semibold text-sm">Start Growing Today</div>
+              <div className="rounded-full flex gap-2 items-center p-2 text-white border">
+                <ArrowRightIcon className="h-4 w-4 text-black" />
               </div>
             </div>
           </div>
@@ -408,79 +379,92 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
           </div>
         </div>
-        </div>
-        <div class='my-20 flex flex-col w-full space-y-4'>
-          <div className="relative w-full overflow-hidden">
-            <div
-              className="flex w-max md:gap-12 gap-4 animate-float"
-              style={{
-                animationDuration: `165s`, // Control speed
-              }}
-            >
-              {/* Repeat the array to ensure infinite loop */}
-              {[...images1, ...images1].map((image, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                  <div className="text-2xl font-['Semibold']">{image.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative w-full overflow-hidden">
-            <div
-              className="flex w-max md:gap-12 gap-4 animate-float"
-              style={{
-                animationDuration: `165s`, // Control speed
-              }}
-            >
-              {/* Repeat the array to ensure infinite loop */}
-              {[...images2, ...images2].map((image, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                  <div className="text-2xl font-['Semibold']">{image.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative w-full overflow-hidden">
-            <div
-              className="flex w-max md:gap-12 gap-4 animate-float"
-              style={{
-                animationDuration: `165s`, // Control speed
-              }}
-            >
-              {/* Repeat the array to ensure infinite loop */}
-              {[...images3, ...images3].map((image, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                  <div className="text-2xl font-['Semibold']">{image.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative w-full overflow-hidden">
-            <div
-              className="flex w-max md:gap-12 gap-4 animate-float"
-              style={{
-                animationDuration: `165s`, // Control speed
-              }}
-            >
-              {/* Repeat the array to ensure infinite loop */}
-              {[...images1, ...images1].map((image, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                  <div className="text-2xl font-['Semibold']">{image.name}</div>
-                </div>
-              ))}
-            </div>
+      </div>
+      <div class='my-20 flex flex-col w-full space-y-4'>
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex w-max md:gap-12 gap-4 animate-float"
+            style={{
+              animationDuration: `165s`, // Control speed
+            }}
+          >
+            {/* Repeat the array to ensure infinite loop */}
+            {[...images1, ...images1].map((image, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                <div className="text-2xl font-['Semibold']">{image.name}</div>
+              </div>
+            ))}
           </div>
         </div>
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex w-max md:gap-12 gap-4 animate-float"
+            style={{
+              animationDuration: `165s`, // Control speed
+            }}
+          >
+            {/* Repeat the array to ensure infinite loop */}
+            {[...images2, ...images2].map((image, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                <div className="text-2xl font-['Semibold']">{image.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex w-max md:gap-12 gap-4 animate-float"
+            style={{
+              animationDuration: `165s`, // Control speed
+            }}
+          >
+            {/* Repeat the array to ensure infinite loop */}
+            {[...images3, ...images3].map((image, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                <div className="text-2xl font-['Semibold']">{image.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex w-max md:gap-12 gap-4 animate-float"
+            style={{
+              animationDuration: `165s`, // Control speed
+            }}
+          >
+            {/* Repeat the array to ensure infinite loop */}
+            {[...images1, ...images1].map((image, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
+                <div className="text-2xl font-['Semibold']">{image.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
 
       <div class="relative">
         <div class="absolute h-20 w-full bg-white rounded-b-[50px] z-10"></div>
         <img src='/Browser.svg' />
-        <div class="bg-black top-20 h-96 w-full z-0"></div>
+        <div class="bg-black relative h-96 w-full z-0">
+          <div class='flex items-center w-full justify-between p-8'>
+            <div class='mt-16'>
+              <Group3 />
+              <div clas>
+                <div class='text-lg font-["Semibold"] text-white'>Commercify HQ</div>
+
+              </div>
+            </div>
+            <div>
+
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

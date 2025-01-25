@@ -15,6 +15,7 @@ import { Products } from "./Pages/Dash/Products";
 import { Orders } from "./Pages/Dash/Orders";
 import { Bookings } from "./Pages/Dash/Booking";
 import { Analytics } from "./Pages/Dash/Analytics";
+import { Pricing} from './Pages/Pages/Pricing'
 import { Pages } from "./Pages/Dash/Pages";
 import { Storefronts } from "./Pages/Pages/Storefronts";
 import { Workshops } from "./Pages/Pages/Workshops";
@@ -75,6 +76,7 @@ function App() {
           <Route element={<Authenticated><Storefronts /></Authenticated>} path='/storefronts'/>
           <Route element={<Authenticated><Pages /></Authenticated>} path='/pages'/>
           <Route element={<Authenticated><Builder /></Authenticated>} path='/builder'/>
+          <Route element={<Pricing />} path='/pricing'/>
           <Route element={<Authenticated><BuilderForm /></Authenticated>} path='/builder/:type'/>
           <Route element={<Authenticated><Setup /></Authenticated>} path='/setup'/>
           <Route path='/storefront' element={
