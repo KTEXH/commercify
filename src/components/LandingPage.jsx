@@ -214,38 +214,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
         </div>
       </div>
       <div class='my-20 flex flex-col w-full space-y-4'>
-        <div className="relative w-full overflow-hidden">
-          <div
-            className="flex w-max md:gap-12 gap-4 animate-float"
-            style={{
-              animationDuration: `165s`, // Control speed
-            }}
-          >
-            {/* Repeat the array to ensure infinite loop */}
-            {[...images1, ...images1].map((image, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                <div className="text-2xl font-['Semibold']">{image.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="relative w-full overflow-hidden">
-          <div
-            className="flex w-max md:gap-12 gap-4 animate-float"
-            style={{
-              animationDuration: `165s`, // Control speed
-            }}
-          >
-            {/* Repeat the array to ensure infinite loop */}
-            {[...images2, ...images2].map((image, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                <div className="text-2xl font-['Semibold']">{image.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+      
+       
         <div className="relative w-full overflow-hidden">
           <div
             className="flex w-max md:gap-12 gap-4 animate-float"
@@ -285,16 +255,18 @@ export default function LandingPage({ className = "", duration = 3000 }) {
         <div class="absolute h-20 w-full bg-white rounded-b-[50px] z-10"></div>
         <img src='/Browser.svg' />
         <div class="bg-black relative h-96 w-full z-0">
-          <div class='flex items-center w-full justify-between p-8'>
+          <div class='flex items-center w-full justify-between p-8 max-w-screen-xl mx-auto'>
             <div class='mt-16'>
-              <Group3 />
+              <Group3 className='w-10 h-10' />
               <div clas>
-                <div class='text-lg font-["Semibold"] text-white'>Commercify HQ</div>
+                <div class='text-md font-["Medium"] mt-5 text-white'>Simplify your ecommerce expirence</div>
 
               </div>
             </div>
-            <div>
-
+            <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
+                 <div>Create account</div>
+                 <div>Login</div>
+                 <div>Pricing</div>
             </div>
           </div>
         </div>

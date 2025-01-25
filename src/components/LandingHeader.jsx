@@ -16,7 +16,7 @@ export const Header = () => {
             </div>
             <div class='items-center gap-7 md:flex hidden font-["Semibold"] text-sm'>
                 <a href='/pricing'>Pricing</a>
-                <a href='/signin'>Login</a>
+                <a href='/login'>Login</a>
             </div>
             <div class='sm:flex md:hidden'>
                 <Bars3Icon onClick={() => setMobileMenuOpen(true)} class='text-black h-5' />
