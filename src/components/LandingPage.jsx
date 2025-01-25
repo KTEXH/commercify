@@ -11,7 +11,7 @@ import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
 import spotify from '../components/assets/Spotify.svg'
-import introducing from '../components/assets/introducing.mp4'
+import introducing from '../components/assets/video.mp4'
 import medium from '../components/assets/Medium.svg'
 import yelp from '../components/assets/Yelp.svg'
 import zoom from '../components/assets/Zoom.svg'
@@ -186,25 +186,10 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div className="md:my-10 my-16 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
+          <div className="md:my-10 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
             {/* Video Container */}
             <div className="relative h-full">
-              <video
-                ref={videoRef}
-                onClick={handlePlayPause}
-                className="w-full h-full object-cover rounded-2xl"
-                src={introducing} // Pass the video source as a prop
-              />
-              {!isPlaying && (
-                <button
-                  onClick={handlePlayPause}
-                  className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold rounded-lg transition-opacity duration-300 hover:opacity-75"
-                >
-                  <div class='bg-black h-14 justify-center flex items-center rounded-full w-14'>
-                       <PlayIcon class='w-5 h-5 text-white' />
-                  </div>
-                </button>
-              )}
+              
             </div>
 
             {/* Bottom Bar */}
@@ -214,164 +199,12 @@ export default function LandingPage({ className = "", duration = 3000 }) {
                 <ArrowRightIcon className="h-4 w-4 text-black" />
               </div>
             </div>
+
+         
+          
+           
           </div>
-
-          <div class='max-w-screen-lg mx-auto w-full rounded-2xl'>
-            <div class='text-center font-["Semibold"] max-w-lg mx-auto text-4xl'>
-              Design straightforward single-page layouts</div>
-            <TabGroup className='flex flex-col justify-center items-center w-full'>
-              <TabList class='inline-flex items-center justify-center bg-gray-200 mt-5 p-1 rounded-full space-x-2 '>
-                {Tabs.map((item) => (
-                  <Tab
-                    key={item}
-                    className="rounded-full py-2 px-5 font-['Semibold'] text-xs md:text-sm text-gray-500 data-[selected]:text-black data-[selected]:bg-white data-[hover]:bg-white/5 outline-0 data-[focus]:outline-1 data-[focus]:outline-white"
-                  >
-                    {item}
-                  </Tab>
-                ))}
-              </TabList>
-              <TabPanels className='mt-10 w-full'>
-                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Custom Branding</div>
-                      <div class='font-["Medium"] text-gray-300'>Create a storefront that reflects your brand with customizable templates and design tools.</div>
-                    </div>
-                  </div>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Sales Analytics</div>
-                      <div class='font-["Medium"] text-gray-300'>Track your sales in real-time with integrated analytics.</div>
-                    </div>
-                  </div>
-                </TabPanel>
-                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Simple Link Management</div>
-                      <div class='font-["Medium"] text-gray-300'>Easily organize and manage all your important links in one location for seamless access.</div>
-                    </div>
-                  </div>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>QR Generation</div>
-                      <div class='font-["Medium"] text-gray-300'>Generate a QR code for your link page, perfect for offline marketing.</div>
-                    </div>
-                  </div>
-                </TabPanel>
-                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Payment Integration</div>
-                      <div class='font-["Medium"] text-gray-300'>Connect various payment methods such as PayPal, Stripe, or credit cards to easily process payments.</div>
-                    </div>
-                  </div>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Custom Payment Forms</div>
-                      <div class='font-["Medium"] text-gray-300'>Create custom forms that suit your business needs, whether for donations, subscriptions, or one-time orders.</div>
-                    </div>
-                  </div>
-                </TabPanel>
-                <TabPanel class='grid md:grid-cols-2 w-full gap-4'>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
-                      <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-                    </div>
-                  </div>
-                  <div class='flex flex-col'>
-                    <div class='h-96 bg-gray-100 w-full rounded-xl'>
-
-                    </div>
-                    <div class='mt-5'>
-                      <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
-                      <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-
-                    </div>
-                  </div>
-                </TabPanel>
-              </TabPanels>
-            </TabGroup>
-
-            <div className='h-[700px] relative w-full my-7 sm:flex md:hidden'>
-              {/* Centered Text */}
-              <div class="relative w-full h-full flex items-center justify-center">
-                <img src={youtube} alt="Logo 1" class="absolute w-16 h-16 top-2 left-20 animate-float" />
-                <img src={twitch} alt="Logo 2" class="absolute w-12 h-12 top-5 right-36 animate-float" />
-                <img src={linkden} alt="Logo 3" class="absolute w-16 h-16 bottom-32 right-28 transform -translate-x-1/2 animate-float" />
-                <img src={pinterest} alt="Logo 4" class="absolute w-12 h-12 bottom-12 left-32 animate-float" />
-                <img src={twitter} alt="Logo 5" class="absolute w-14 h-14 bottom-8 right-16 animate-float" />
-                <img src={patreon} alt="Logo 6" class="absolute w-16 h-16 bottom-60 left-8 animate-float" />
-                <img src={spotify} alt="Logo 7" class="absolute w-16 h-16 top-28 right-5 animate-float" />
-                <img src={medium} alt="Logo 8" class="absolute w-16 h-16 top-52 right-2 animate-float" />
-                <img src={reddit} alt="Logo 3" class="absolute w-12 h-12 top-28 left-7 transform -translate-x-1/2 animate-float" />
-                <img src={truth} alt="Logo 6" class="absolute w-16 h-16 bottom-28 left-4 animate-float" />
-                <img src={github} alt="Logo 7" class="absolute w-12 h-12 top-28 right-36 animate-float" />
-                <img src={googlemeet} alt="Logo 8" class="absolute w-16 h-16 top-40 left-28 animate-float" />
-                <img src={yelp} alt="Logo 3" class="absolute w-12 h-12 bottom-64 right-10 transform -translate-x-1/2 animate-float" />
-                <img src={zoom} alt="Logo 8" class="absolute w-12 h-12 top-60 left-2 animate-float" />
-
-                <div class="text-center">
-                  <h1 class="text-3xl font-['Semibold'] max-w-72 mb-4">Use Commercify with a variety of apps</h1>
-
-                </div>
-              </div>
-            </div>
-            <div class='text-center font-["Semibold"] max-w-lg mx-auto my-16 mt-10 md:mt-40 text-3xl md:text-5xl'>
-              Use Commercify for its simplicity</div>
-            <div class='grid md:grid-cols-3 w-full gap-8'>
-              <div class='flex flex-col'>
-                <div class='h-72 bg-gray-100 w-full rounded-lg'>
-                </div>
-                <div class='mt-5'>
-                  <div class='text-xl font-["Semibold"]'>Event Scheduling</div>
-                  <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-                </div>
-              </div>
-              <div class='flex flex-col'>
-                <div class='h-72 bg-gray-100 w-full rounded-lg'>
-
-                </div>
-                <div class='mt-5'>
-                  <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
-                  <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-
-                </div>
-              </div>
-              <div class='flex flex-col'>
-                <div class='h-72 bg-gray-100 w-full rounded-lg'>
-
-                </div>
-                <div class='mt-5'>
-                  <div class='text-xl font-["Semibold"]'>Registrations & Tickets</div>
-                  <div class='font-["Medium"] text-gray-300'>Allow users to register for your events and receive personalized tickets.</div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-40 text-3xl md:text-4xl'>
+          <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-10 text-3xl md:text-4xl'>
             Simplify the way your selling with commercify</div>
           <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
           <div class='w-full flex mt-4 items-center justify-center space-x-3'>
