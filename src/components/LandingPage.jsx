@@ -252,7 +252,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
 
 
       <div class="relative">
-        <div class="absolute h-10 w-full bg-white rounded-b-[50px] z-10"></div>
+        <div class="absolute h-16 w-full bg-white rounded-b-[50px] z-10"></div>
         <img src='/Browser.svg' />
         <div class="bg-black relative h-96 w-full z-0">
           <div class='md:flex items-center w-full justify-between p-8 max-w-screen-xl mx-auto'>
