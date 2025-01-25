@@ -186,7 +186,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div className="md:my-10 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
+          <div className="mb-10 mt-7 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
             {/* Video Container */}
             <div className="relative h-full">
               
