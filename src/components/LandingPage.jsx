@@ -213,7 +213,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           </div>
         </div>
       </div>
-      <div class='my-20 flex flex-col w-full space-y-4'>
+      <div class='my-10 mt-20 flex flex-col w-full space-y-4'>
       
        
         <div className="relative w-full overflow-hidden">
@@ -252,10 +252,10 @@ export default function LandingPage({ className = "", duration = 3000 }) {
 
 
       <div class="relative">
-        <div class="absolute h-20 w-full bg-white rounded-b-[50px] z-10"></div>
+        <div class="absolute h-10 w-full bg-white rounded-b-[50px] z-10"></div>
         <img src='/Browser.svg' />
         <div class="bg-black relative h-96 w-full z-0">
-          <div class='flex items-center w-full justify-between p-8 max-w-screen-xl mx-auto'>
+          <div class='md:flex items-center w-full justify-between p-8 max-w-screen-xl mx-auto'>
             <div class='mt-16'>
               <Group3 className='w-10 h-10' />
               <div clas>
@@ -263,10 +263,17 @@ export default function LandingPage({ className = "", duration = 3000 }) {
 
               </div>
             </div>
+            <div class='flex gap-8 xs:justify-between w-full md:justify-center'>
+            <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
+                 <div>Instagram</div>
+                 <div>Twitter</div>
+                 <div>Get started with beta</div>
+            </div>
             <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
                  <div>Create account</div>
                  <div>Login</div>
                  <div>Pricing</div>
+            </div>
             </div>
           </div>
         </div>
