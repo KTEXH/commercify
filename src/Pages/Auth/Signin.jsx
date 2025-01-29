@@ -52,7 +52,7 @@ export const SignIn = () => {
     return (
         <div class='md:grid md:grid-cols-2  gap-10 h-screen relative'>
          
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="flex min-h-full flex-1 flex-col justify-center px-6 md:py-12 lg:px-8">
                 <div className="flex items-center justify-center flex-col">
                   <Group className='w-10 h-10' />
 
