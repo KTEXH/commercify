@@ -33,27 +33,27 @@ export const Header = () => {
 
 
                                     <a
-                                        href="#"
+                                        href="/pricing"
                                         className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
                                     >
-                                        Plans
+                                        Pricing
                                     </a>
 
                                     <a
-                                        href="#"
+                                        href="/socials"
                                         className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
                                     >
                                         Socials
                                     </a>
                                     <div className="pb-3 flex flex-col gap-2">
                                         <a
-                                            href="#"
+                                            href="/login"
                                             className="-mx-3 block rounded-lg text-3xl text-center px-3 py-2  font-['Semibold'] text-gray-900 hover:bg-gray-50"
                                         >
                                             Login
                                         </a>
                                         <a
-                                            href="#"
+                                            href="/beta"
                                             className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-4 text-xl font-['Semibold']"
                                         >
                                             Get started with beta
