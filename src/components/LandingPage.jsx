@@ -173,8 +173,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             Create and scale your brand, business, and platforms featuring forms, workshops, storefronts, link-in-bios, and much more.
           </div>
           <div class='w-full flex mt-6 items-center justify-center space-x-3'>
-            <button class='px-4 py-3 text-sm text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
-            <button class='px-4 py-3 text-sm text-black rounded-full border font-["Semibold"]'>See our plans</button>
+            <a href='/beta' class='px-4 py-3 text-sm text-white rounded-full bg-black font-["Semibold"]'>Join for free</a>
+            <a href='/pricing' class='px-4 py-3 text-sm text-black rounded-full border font-["Semibold"]'>See our plans</a>
           </div>
           <div class='max-w-screen-xl mx-auto mt-10'>
             <div class='font-["Medium"] text-xs text-center text-gray-400'>Use to sale and grow on multiple platforms</div>

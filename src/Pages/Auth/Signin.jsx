@@ -118,7 +118,7 @@ export const SignIn = () => {
                                 href='/register'
                                 className="flex w-full rounded-full justify-center border text-black px-3 py-2.5 text-sm font-['Semibold'] leading-6 mt-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                Create Account
+                                Get started with beta
                             </a>
                         </div>
                     </form>
