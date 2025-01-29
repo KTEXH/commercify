@@ -139,7 +139,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
     <div
       className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
     >
-      <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justif0fy-center flex-col'>
+      <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justify-center flex-col'>
         <Header />
         <div class='w-full justify-center flex-col flex items-center mt-32 md:mt-36'>
           <div class='flex justify-center items-center'>

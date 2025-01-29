@@ -37,10 +37,10 @@ export function Pricing() {
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
-      }
+    }
 
     return (
-        <div>
+        <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justify-center flex-col'>
             <Header />
             <div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
                 <div aria-hidden="true" className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
@@ -58,74 +58,77 @@ export function Pricing() {
                         Choose the right plan for you
                     </p>
                     <p className="mx-auto mt-6 max-w-2xl text-center text-lg font-['Medium'] text-gray-500">
-                    Choose an affordable plan that’s packed with the best features for engaging your audience, creating customer
-                    loyalty, and driving sales.
-                </p>
+                        Choose an affordable plan that’s packed with the best features for engaging your audience, creating customer
+                        loyalty, and driving sales.
+                    </p>
                 </div>
                 <div>
-                    <TabGroup class='flex w-full justify-center items-center mt-5'>
+                    <TabGroup class='flex flex-col w-full justify-center items-center mt-5'>
                         <TabList class='bg-gray-100 rounded-full px-2 py-1'>
                             {time.map(time => {
-                                return(
+                                return (
                                     <Tab
-                                       className='data-[selected]:bg-white rounded-full px-3 text-gray-400 py-1 data-[selected]:text-md text-sm outline-0 data-[selected]:text-black font-["Medium"] data-[selected]:font-["Semibold"]'
+                                        className='data-[selected]:bg-white rounded-full px-3 text-gray-400 py-1 data-[selected]:text-md text-sm outline-0 data-[selected]:text-black font-["Medium"] data-[selected]:font-["Semibold"]'
                                     >
                                         {time}
                                     </Tab>
                                 )
                             })}
                         </TabList>
-                        </TabGroup>
-                </div>
-               
-                <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-x-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-                    {tiers.map((tier) => (
-                        <div
-                            key={tier.id}
-                            className={classNames(
-                                'border rounded-xl p-7'
-                            )}
-                        >
-                            <h3
-                                id={tier.id}
-                                className={classNames('font-["Semibold"] text-2xl')}
-                            >
-                                {tier.name}
-                            </h3>
-                            <p className="mt-4 flex items-baseline gap-x-2">
-                                <span
-                                    className={classNames('font-["Semibold"] text-2xl')}
-                                >
-                                    {tier.priceMonthly}
-                                </span>
-                                <span className={classNames(tier.featured ? 'text-gray-400' : 'text-gray-500', 'font-["Medium"]')}>/month</span>
-                            </p>
-                            <p className={classNames('mt-6 font-["Medium"] text-sm mb-4 text-base/7')}>
-                                {tier.description}
-                            </p>
-                            <div
-                                className={classNames('')}
-                            >
-                                {tier.features.map((feature) => (
-                                    <li key={feature} className="flex font-['Medium'] text-sm gap-x-3">
-                                        <CheckIcon
-                                            aria-hidden="true"
-                                            className={classNames( 'h-5 w-4 text-gray-400 flex-none')}
-                                        />
-                                        {feature}
-                                    </li>
+                        <TabPanel>
+
+                            <div className="mx-auto grid max-w-lg grid-cols-1 items-center gap-x-6 mt-7 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
+                                {tiers.map((tier) => (
+                                    <div
+                                        key={tier.id}
+                                        className={classNames(
+                                            'border rounded-xl p-7'
+                                        )}
+                                    >
+                                        <h3
+                                            id={tier.id}
+                                            className={classNames('font-["Semibold"] text-2xl')}
+                                        >
+                                            {tier.name}
+                                        </h3>
+                                        <p className="mt-4 flex items-baseline gap-x-2">
+                                            <span
+                                                className={classNames('font-["Semibold"] text-2xl')}
+                                            >
+                                                {tier.priceMonthly}
+                                            </span>
+                                            <span className={classNames(tier.featured ? 'text-gray-400' : 'text-gray-500', 'font-["Medium"]')}>/month</span>
+                                        </p>
+                                        <p className={classNames('mt-6 font-["Medium"] text-sm mb-4 text-base/7')}>
+                                            {tier.description}
+                                        </p>
+                                        <div
+                                            className={classNames('space-y-2')}
+                                        >
+                                            {tier.features.map((feature) => (
+                                                <li key={feature} className="flex font-['Medium'] text-sm gap-x-3">
+                                                    <CheckIcon
+                                                        aria-hidden="true"
+                                                        className={classNames('h-5 w-4 text-gray-400 flex-none')}
+                                                    />
+                                                    {feature}
+                                                </li>
+                                            ))}
+                                        </div>
+                                        <div
+                                            href={tier.href}
+                                            aria-describedby={tier.id}
+                                            className={classNames(tier.featured === false ? 'border text-black font-["Semibold"]' : 'bg-black font-["Semibold"] text-white', 'w-full rounded-full mt-4 text-sm flex items-center justify-center py-3')}
+                                        >
+                                            Get started today
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
-                            <div
-                                href={tier.href}
-                                aria-describedby={tier.id}
-                                className={classNames(tier.featured === false ? 'border text-black font-["Semibold"]' : 'bg-black font-["Semibold"] text-white', 'w-full rounded-full mt-4 text-sm flex items-center justify-center py-3')}
-                            >
-                                Get started today
-                            </div>
-                        </div>
-                    ))}
+                        </TabPanel>
+                    </TabGroup>
                 </div>
+
             </div>
         </div>
     )
