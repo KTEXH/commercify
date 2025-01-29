@@ -73,7 +73,7 @@ export const Register = () => {
     });
 
     return (
-        <div class='grid grid-cols-2 gap-10 relative'>
+        <div class='md:grid md:grid-cols-2  gap-10 h-screen relative'>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 
                 <div className="flex items-center justify-center flex-col">
@@ -192,9 +192,9 @@ export const Register = () => {
                     {error && <p className="text-red-500">Error during registration</p>}
                 </div>
             </div>
-            <div class='w-full rounded-tl-3xl rounded-bl-3xl h-full flex flex-col bg-black'>
+            <div class='bg-black hidden md:flex rounded-tl-3xl rounded-bl-3xl h-full w-full '>
 
-            </div>
+</div>
         </div>
     );
 };

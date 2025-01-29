@@ -50,7 +50,7 @@ export const SignIn = () => {
 
 
     return (
-        <div class='grid md:grid-cols-2 gap-10 h-screen relative'>
+        <div class='md:grid md:grid-cols-2  gap-10 h-screen relative'>
          
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="flex items-center justify-center flex-col">
@@ -126,7 +126,7 @@ export const SignIn = () => {
 
                 </div>
             </div>
-            <div class='bg-black xs:hidden md:flex rounded-tl-3xl rounded-bl-3xl h-full w-full '>
+            <div class='bg-black hidden md:flex rounded-tl-3xl rounded-bl-3xl h-full w-full '>
 
             </div>
         </div>
