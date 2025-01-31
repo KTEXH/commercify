@@ -3,6 +3,7 @@ import { Header } from '../../components/LandingHeader'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { Tab, TabGroup, TabList, TabPanel } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom'
+import Group3 from '../../components/assets/Group3'
 const tiers = [
     {
         name: 'Starter',
@@ -40,6 +41,7 @@ export function Pricing() {
     }
 
     return (
+        <div>
         <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justify-center flex-col'>
             <Header />
             <div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -77,7 +79,7 @@ export function Pricing() {
                         </TabList>
                         <TabPanel>
 
-                            <div className="mx-auto grid max-w-lg grid-cols-1 items-center gap-x-6 mt-7 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
+                            <div className="mx-auto grid max-w-lg grid-cols-1 gap-y-5 items-center gap-x-6 mt-7 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                                 {tiers.map((tier) => (
                                     <div
                                         key={tier.id}
@@ -130,6 +132,35 @@ export function Pricing() {
                 </div>
 
             </div>
+            </div>
+            <div class="relative w-full">
+        <div class="absolute h-16 w-full bg-white rounded-b-[50px] z-10"></div>
+        <img src='/Browser.svg' />
+        <div class="bg-black relative h-96 w-full z-0">
+          <div class='md:flex items-center w-full justify-between p-8 max-w-screen-xl mx-auto'>
+            <div class='mt-16'>
+              <Group3 className='w-10 h-10' />
+              <div clas>
+                <div class='text-md font-["Medium"] mt-5 text-white'>Simplify your ecommerce expirence</div>
+
+              </div>
+            </div>
+            <div class='flex gap-8 xs:justify-between w-full md:justify-center'>
+            <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
+                 <div>Instagram</div>
+                 <div>Twitter</div>
+                 <div>Get started with beta</div>
+            </div>
+            <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
+                 <div>Create account</div>
+                 <div>Login</div>
+                 <div>Pricing</div>
+            </div>
+            </div>
+          </div>
         </div>
+      </div>
+      
+</div>
     )
 }
