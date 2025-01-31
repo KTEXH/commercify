@@ -27,6 +27,7 @@ import { Storefront } from "./Pages/Viewers/Storefront";
 import { Linkinbio } from "./Pages/Viewers/Linkinbio";
 import { Linkinbio as LinkBuilder} from "./Pages/Pages/Linkinbio";
 import { Insights } from "./Pages/Pages/Insights";
+import { Beta } from "./components/Beta";
 
 function App() {
 
@@ -75,6 +76,7 @@ function App() {
           <Route element={<Authenticated><LinkBuilder /></Authenticated>} path='/linkinbio'/>
           <Route element={<Authenticated><Storefronts /></Authenticated>} path='/storefronts'/>
           <Route element={<Authenticated><Pages /></Authenticated>} path='/pages'/>
+          <Route element={<Beta />}  path='/beta' />
           <Route element={<Authenticated><Builder /></Authenticated>} path='/builder'/>
           <Route element={<Pricing />} path='/pricing'/>
           <Route element={<Authenticated><BuilderForm /></Authenticated>} path='/builder/:type'/>

@@ -77,7 +77,7 @@ export const SignIn = () => {
                                     value={formik.values.email}
                                     required
                                     autoComplete="email"
-                                    className="block w-full px-5 bg-gray-200 font-['Medium'] rounded-2xl py-2.5 text-gray-900 shadow-sm placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full px-5 border font-['Medium'] rounded-full py-2.5 text-gray-900 shadow-sm placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -99,7 +99,7 @@ export const SignIn = () => {
                                     placeholder='*********'
                                     required
                                     autoComplete="current-password"
-                                    className="block w-full rounded-2xl bg-gray-200 px-5 border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-full border px-5 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -114,12 +114,7 @@ export const SignIn = () => {
                             >
                                 Sign in
                             </button>
-                            <a
-                                href='/register'
-                                className="flex w-full rounded-full justify-center border text-black px-3 py-2.5 text-sm font-['Semibold'] leading-6 mt-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                Get started with beta
-                            </a>
+                           
                         </div>
                     </form>
 
