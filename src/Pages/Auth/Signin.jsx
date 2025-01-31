@@ -114,7 +114,7 @@ export const SignIn = () => {
                             >
                                 Sign in
                             </button>
-                           
+                           <div class='mt-3 text-xs text-center text-gray-400 font-["Medium"]'>Create a account <a class='font-["Semibold"] text-black'>Here</a></div>
                         </div>
                     </form>
 
