@@ -56,7 +56,7 @@ export const SignIn = () => {
                 <div className="flex items-center justify-center flex-col">
                   <Group className='w-10 h-10' />
 
-                    <h2 className="mt-10 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
+                    <h2 className="mt-7 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
                         Welcome Back
                     </h2>
                 </div>
