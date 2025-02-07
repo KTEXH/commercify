@@ -54,41 +54,34 @@ export const SignIn = () => {
 
       <div className="flex min-h-full flex-1 flex-col md:justify-center px-6 py-12 lg:px-8">
         <div className="flex items-center justify-center flex-col">
-          <Group className='w-10 h-10' />
-
+           <Group className='w-10 h-10' />
           <h2 className="mt-7 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
-            Welcome Back
+            Welcome Back to Commercify
           </h2>
+          <div class='font-["Medium"] mt-2 text-sm text-gray-400'>Login to Commercify</div>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={formik.handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-['Semibold'] leading-6 text-gray-900">
-                Email address
-              </label>
+           
               <div className="mt-2">
                 <input
                   id="email"
                   name="email"
-                  placeholder='Johndoe@gmail.com'
+                  placeholder='Email'
                   type="email"
                   onChange={formik.handleChange}
                   value={formik.values.email}
                   required
                   autoComplete="email"
-                  className="block w-full px-5 border text-sm font-['Medium'] rounded-full py-3 text-gray-900 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full px-3 border text-sm font-['Medium'] rounded-xl py-2 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-['Semibold'] leading-6 text-gray-900">
-                  Password
-                </label>
-
-              </div>
+          
               <div className="mt-2">
                 <input
                   id="password"
@@ -96,10 +89,10 @@ export const SignIn = () => {
                   type="password"
                   onChange={formik.handleChange}
                   value={formik.values.password}
-                  placeholder='*********'
+                  placeholder='Password'
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-full text-sm border px-5 py-3 text-gray-900 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-2 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -110,13 +103,13 @@ export const SignIn = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full rounded-full justify-center bg-black px-3 py-2.5 text-sm font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
               </button>
               <button
                 type="submit"
-                className="flex w-full rounded-full mt-2 justify-center border px-3 py-2.5 text-sm font-['Semibold'] leading-6 text-black shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full rounded-full mt-2 justify-center border px-3 py-3 font-['Semibold'] leading-6 text-black hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Get started
               </button>
