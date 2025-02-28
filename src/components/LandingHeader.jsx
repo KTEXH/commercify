@@ -12,7 +12,7 @@ export const Header = () => {
         <div class="bg-gray-200  overflow-hidden z-10 bg-opacity-65 backdrop-blur-md md:w-full w-96 sm:max-w-xl fixed top-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 mx-2 sm:mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 p-4 overflow-x-auto">
             <div class='flex items-center gap-2'>
                 <Group className='w-7 h-7' />
-                <div class='font-["Semibold"]'>Commercify HQ</div>
+                <a href='/' class='font-["Semibold"]'>Commercify HQ</a>
             </div>
             <div class='items-center gap-7 md:flex hidden font-["Semibold"] text-sm'>
                 <a href='/pricing'>Pricing</a>
@@ -40,23 +40,18 @@ export const Header = () => {
                                     </a>
 
                                     <a
-                                        href="/socials"
+                                        href="/beta"
                                         className="-mx-3 mb-5 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
                                     >
-                                        Socials
+                                        Beta
                                     </a>
                                     <div className="pb-3 flex flex-col gap-2">
                                   
-                                        <a
-                                            href="/beta"
-                                            className="-mx-3 inline-block rounded-full text-white bg-black px-5 py-4 text-xl font-['Semibold']"
-                                        >
-                                            Get started with beta
-                                        </a>
+                                     
                                         <a
                                             onClick={() => setMobileMenuOpen(false)}
                                             href="#"
-                                            className="-mx-3 inline-block rounded-full text-black bg-gray-100 text-center px-5 py-4 text-xl font-['Semibold']"
+                                            className="inline-block rounded-full text-white bg-black px-8 py-4 text-xl font-['Semibold']"
                                         >
                                             Close
                                         </a>

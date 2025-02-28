@@ -208,8 +208,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             Simplify the way your selling with commercify</div>
           <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
           <div class='w-full flex mt-4 items-center justify-center space-x-3'>
-            <button class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</button>
-            <button class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</button>
+            <a href='/beta' class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</a>
+            <a href='/pricing' class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</a>
           </div>
         </div>
       </div>
