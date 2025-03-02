@@ -118,12 +118,12 @@ export const SignIn = () => {
 
   return (
     <div class='w-full'>
-      <div class=' flex items-center justify-center relative'>
+      <div class=' md:flex items-center md:justify-center relative'>
 
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-          <div className="flex items-center justify-center flex-col">
-            <Group className='w-10 h-10' />
-            <h2 className="mt-7 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
+        <div className="flex min-h-full flex-1 flex-col md:justify-center px-6 py-12 lg:px-8">
+          <div className="md:flex items-center sm:justify-center flex-col">
+            <Group className='w-8 h-8' />
+            <h2 className="mt-7 md:text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
               Welcome Back
             </h2>
           </div>
