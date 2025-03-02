@@ -185,12 +185,13 @@ export const SignIn = () => {
                 </a>
               </div>
 
-              <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black '>terms of use</div></div>
+              <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black font-["Semibold"]'>terms of use</div></div>
+                <div class='rounded-md mt-5 text-gray-400 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
+                  <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
+                </div>
             </form>
 
-            <div class='p-2 rounded-md text-gray-400 border gap-1 text-center fixed bottom-5 text-xs flex items-center font-["Medium"]'>
-            <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
-            </div>
+
           </div>
         </div>
       </div>
