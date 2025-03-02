@@ -120,7 +120,7 @@ export const SignIn = () => {
     <div class='w-full'>
       <div class=' flex items-center justify-center relative'>
 
-        <div className="flex min-h-full flex-1 flex-col md:justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="flex items-center justify-center flex-col">
             <Group className='w-10 h-10' />
             <h2 className="mt-7 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
@@ -188,8 +188,8 @@ export const SignIn = () => {
               <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black '>terms of use</div></div>
             </form>
 
-            <div class='p-2 rounded-md text-gray-400 border gap-1 fixed bottom-5 text-xs flex items-center font-["Medium"]'>
-              By continuing to browse our site you are accepting our <span class='font-["Semibold"] text-black'>cookie policy</span>
+            <div class='p-2 rounded-md text-gray-400 border gap-1 text-center fixed bottom-5 text-xs flex items-center font-["Medium"]'>
+            <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
             </div>
           </div>
         </div>
