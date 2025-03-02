@@ -186,7 +186,7 @@ export const SignIn = () => {
               </div>
 
               <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black font-["Semibold"]'>terms of use</div></div>
-                <div class='rounded-md mt-5 text-gray-400 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
+                <div class='rounded-lg mt-10 text-gray-400 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
                   <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
                 </div>
             </form>
