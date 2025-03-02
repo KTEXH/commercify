@@ -41,7 +41,7 @@ export const Header = () => {
 
                                     <a
                                         href="/beta"
-                                        className="-mx-3 mb-5 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                                        className="-mx-3 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
                                     >
                                         Beta
                                     </a>
