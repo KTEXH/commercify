@@ -45,6 +45,12 @@ export const Header = () => {
                                     >
                                         Beta
                                     </a>
+                                    <a
+                                        href="/login"
+                                        className="-mx-3 mb-5 block rounded-lg px-3 py-2 text-center text-3xl font-['Semibold'] text-gray-900 hover:bg-gray-50"
+                                    >
+                                        Login
+                                    </a>
                                     <div className="pb-3 flex flex-col gap-2">
                                   
                                      

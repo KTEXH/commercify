@@ -58,7 +58,7 @@ export const SignIn = () => {
     { name: 'Yelp', image: yelp },
     { name: 'Google Meets', image: googlemeet },
   ]);
-  
+
   const images2 = shuffleArray([
     { name: 'Dribble', image: dribble },
     { name: 'Notion', image: notion },
@@ -72,7 +72,7 @@ export const SignIn = () => {
     { name: 'Pinterest', image: pinterest },
     { name: 'Twitch', image: twitch },
   ]);
-  
+
   const images3 = shuffleArray([
     { name: 'Google Meets', image: googlemeet },
     { name: 'Yelp', image: yelp },
@@ -118,78 +118,83 @@ export const SignIn = () => {
 
   return (
     <div class='w-full'>
-    <div class=' flex items-center justify-center mt-20 relative'>
-      
-      <div className="flex min-h-full flex-1 flex-col md:justify-center px-6 py-12 lg:px-8">
-        <div className="flex items-center justify-center flex-col">
-          <Group className='w-10 h-10' />
-          <h2 className="mt-7 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
-            Welcome Back
-          </h2>
-        </div>
+      <div class=' flex items-center justify-center relative'>
 
-        <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={formik.handleSubmit} className="space-y-6">
-            <div>
+        <div className="flex min-h-full flex-1 flex-col md:justify-center px-6 py-12 lg:px-8">
+          <div className="flex items-center justify-center flex-col">
+            <Group className='w-10 h-10' />
+            <h2 className="mt-7 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
+              Welcome Back
+            </h2>
+          </div>
 
-            <div className="mt-2 gap-2 flex flex-col">
-            <label class='font-["Semibold"] text-sm'>Email</label>
-                <input
-                  id="email"
-                  name="email"
-                  placeholder='email@example.com'
-                  type="email"
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                  required
-                  autoComplete="email"
-                  className="block w-full px-3 border text-sm font-['Medium'] rounded-xl py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+          <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form onSubmit={formik.handleSubmit} className="space-y-6">
+              <div>
+
+                <div className="mt-2 gap-2 flex flex-col">
+                  <label class='font-["Semibold"] text-sm'>Email</label>
+                  <input
+                    id="email"
+                    name="email"
+                    placeholder='email@example.com'
+                    type="email"
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                    required
+                    autoComplete="email"
+                    className="block w-full px-3 border text-sm font-['Medium'] rounded-xl py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div>
+              <div>
 
-              <div className="mt-2 gap-2 flex flex-col">
-                <label class='font-["Semibold"] text-sm'>Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  placeholder='*******'
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                <div className="mt-2 gap-2 flex flex-col">
+                  <label class='font-["Semibold"] text-sm'>Password</label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    placeholder='*******'
+                    required
+                    autoComplete="current-password"
+                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
               </div>
-            </div>
 
-            {error && (<div>{error.message}</div>)}
+              {error && (<div>{error.message}</div>)}
 
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-        
-          
-            </div>
+              <div>
+                <button
+                  type="submit"
+                  className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Sign in
+                </button>
 
-            <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black '>terms of use</div></div>
-          </form>
+                <a
+                  href='/beta'
+                  className="flex mt-2 w-full rounded-full justify-center border px-3 py-3 font-['Semibold'] leading-6 text-black hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Create account
+                </a>
+              </div>
+
+              <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black '>terms of use</div></div>
+            </form>
 
             <div class='p-2 rounded-md text-gray-400 border gap-1 fixed bottom-5 text-xs flex items-center font-["Medium"]'>
-            By continuing to browse our site you are accepting our <span class='font-["Semibold"] text-black'>cookie policy</span>
+              By continuing to browse our site you are accepting our <span class='font-["Semibold"] text-black'>cookie policy</span>
             </div>
+          </div>
         </div>
       </div>
-      </div>
-     
+
     </div>
   )
 }
