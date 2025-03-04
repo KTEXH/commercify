@@ -143,7 +143,7 @@ export const SignIn = () => {
                     value={formik.values.email}
                     required
                     autoComplete="email"
-                    className="block w-full px-3 border text-sm font-['Medium'] rounded-xl py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -161,7 +161,7 @@ export const SignIn = () => {
                     placeholder='*******'
                     required
                     autoComplete="current-password"
-                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
