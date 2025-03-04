@@ -64,14 +64,14 @@ export const Beta = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:border hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Get access
                 </button>
 
                 <a
                   href='/login'
-                  className="flex mt-2 w-full rounded-full justify-center border px-3 py-3 font-['Semibold'] leading-6 text-black hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex mt-2 w-full rounded-full justify-center border px-3 py-3 font-['Semibold'] leading-6 text-black hover:bg-indigo-500 hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign in
                 </a>
