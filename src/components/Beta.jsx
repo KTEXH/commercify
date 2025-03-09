@@ -1,14 +1,39 @@
 import Group from '../components/assets/Group'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import emailjs from "@emailjs/browser";
 
 export const Beta = () => {
 
     const dont = [
         'Musician', 'Barber', 'Ecom', 'Stylist', 'Brand', 'Artist', 'Other'
     ]
+
+    const form = useRef();
+
+    const sendEmail = (e) => {
+      e.preventDefault();
+  
+      emailjs
+        .sendForm(
+          "service_xfryk6l", // Replace with your EmailJS Service ID
+          "template_w6m3tax", // Replace with your EmailJS Template ID
+          form.current,
+          "x0THIutAaDpuiL_nY" // Replace with your EmailJS Public Key
+        )
+        .then(
+          (result) => {
+            console.log("Email sent:", result.text);
+            alert("Message sent successfully!");
+          },
+          (error) => {
+            console.error("Error sending email:", error.text);
+            alert("Failed to send message.");
+          }
+        );
+    };
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -25,7 +50,7 @@ export const Beta = () => {
           </div>
 
           <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6">
+            <form ref={form} onSubmit={sendEmail} className="space-y-6">
               <div>
 
                 <div className="mt-2 gap-2 flex flex-col">
