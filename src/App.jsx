@@ -80,7 +80,7 @@ function App() {
           <Route element={<Beta />}  path='/beta' />
           <Route element={<Authenticated><Builder /></Authenticated>} path='/builder'/>
           <Route element={<Pricing />} path='/pricing'/>
-          <Route element={<Confirmation />} path='/confirmation'/>
+          <Route element={<Authenticated><Confirmation /></Authenticated>} path='/confirmation'/>
           <Route element={<Authenticated><BuilderForm /></Authenticated>} path='/builder/:type'/>
           <Route element={<Authenticated><Setup /></Authenticated>} path='/setup'/>
           <Route path='/storefront' element={

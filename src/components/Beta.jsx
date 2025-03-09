@@ -1,7 +1,7 @@
 import Group from '../components/assets/Group'
 import React, { useState, useRef } from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import emailjs from "@emailjs/browser";
 
@@ -11,7 +11,9 @@ export const Beta = () => {
         'Musician', 'Barber', 'Ecom', 'Stylist', 'Brand', 'Artist', 'Other'
     ]
 
-    const form = useRef();
+    const form = useRef()
+    
+    const navigate = useNavigate();
 
     const sendEmail = (e) => {
       e.preventDefault();
@@ -27,6 +29,7 @@ export const Beta = () => {
           (result) => {
             console.log("Email sent:", result.text);
             alert("Message sent successfully!");
+            navigate('/confirmation')
           },
           (error) => {
             console.error("Error sending email:", error.text);
