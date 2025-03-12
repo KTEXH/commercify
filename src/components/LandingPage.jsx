@@ -11,7 +11,7 @@ import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
 import youtube from '../components/assets/youtube.svg'
 import spotify from '../components/assets/Spotify.svg'
-import introducing from '../components/assets/video.mp4'
+import introducing from '../components/assets/ad.mp4'
 import medium from '../components/assets/Medium.svg'
 import yelp from '../components/assets/Yelp.svg'
 import zoom from '../components/assets/Zoom.svg'
@@ -189,8 +189,23 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           <div className="mb-10 mt-7 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
             {/* Video Container */}
             <div className="relative h-full">
-              <video src={introducing} autoPlay
-               />
+              {/* Attach ref to the video element */}
+              <video ref={videoRef} src={introducing} className="w-full h-full" />
+
+              {/* Play/Pause Button */}
+              <button
+                onClick={handlePlayPause}
+                className="absolute inset-0 flex items-center justify-center px-6 py-3 rounded-full"
+                >
+                  {isPlaying ? (
+                       <div />
+                  ) : (
+                    <div class='bg-black w-14 flex items-center justify-center h-14 rounded-full'>
+                    <PlayIcon class='h-7 w-7 text-white'/>
+                    </div>
+                  )}
+                 
+              </button>
             </div>
 
             {/* Bottom Bar */}
@@ -201,9 +216,9 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </div>
             </div>
 
-         
-          
-           
+
+
+
           </div>
           <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-10 text-3xl md:text-4xl'>
             Simplify the way your selling with commercify</div>
@@ -216,8 +231,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
         >
       </div>
       <div class='my-10 mt-20 flex flex-col w-full space-y-4'>
-      
-       
+
+
         <div className="relative w-full overflow-hidden">
           <div
             className="flex w-max md:gap-12 gap-4 animate-float"
@@ -266,16 +281,16 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </div>
             </div>
             <div class='flex gap-8 xs:justify-between w-full md:justify-center'>
-            <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
-                 <div>Instagram</div>
-                 <div>Twitter</div>
-                 <div>Get started with beta</div>
-            </div>
-            <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
-                 <div>Create account</div>
-                 <div>Login</div>
-                 <div>Pricing</div>
-            </div>
+              <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
+                <div>Instagram</div>
+                <div>Twitter</div>
+                <div>Get started with beta</div>
+              </div>
+              <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
+                <div>Create account</div>
+                <div>Login</div>
+                <div>Pricing</div>
+              </div>
             </div>
           </div>
         </div>
