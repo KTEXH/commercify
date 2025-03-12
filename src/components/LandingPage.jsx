@@ -6,6 +6,9 @@ import dribbble from '../components/assets/dribbble.svg'
 import facebookLong from '../components/assets/Facebook.svg'
 import youtubeLong from '../components/assets/youtubeLong.svg'
 import twitter from '../components/assets/twitter.svg'
+import example3 from '../components/assets/exampl.svg'
+import exa from '../components/assets/expa.svg'
+import more from '../components/assets/more.svg'
 import linkedin from '../components/assets/Linkedin.svg'
 import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
@@ -166,7 +169,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </AnimatePresence>
             </div>
           </div>
-          <div class='md:text-7xl text-4xl text-center mt-5 md:mt-6 md:mx-auto md:max-w-4xl font-["Semibold"]'>
+          <div class='border bg-gray-100 rounded-full px-5 mt-5 md:mt-6 py-2 text-xs mb-2 font-["Semibold"]'>Get stared with beta today</div>
+          <div class='md:text-7xl text-4xl text-center  md:mx-auto md:max-w-4xl font-["Semibold"]'>
             Simplifying E-commerce one page at a time.
           </div>
           <div class='text-gray-400 mt-6 text-md lg:text-xl font-["Medium"] max-w-3xl text-center mx-auto'>
@@ -186,23 +190,41 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div className="mb-10 mt-7 max-w-screen-lg space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
-            {/* Video Container */}
-            <div className="relative h-full">
-              {/* Attach ref to the video element */}
-             
+          <div class='mt-20 w-full flex flex-col justify-center items-center mb-7'>
+            <div class='font-["Semibold"] text-center w-[600px] text-3xl mb-2'>Unlock the Power of Simple, All-in-One Solutions for Your Business</div>
+            <div class='font-["Medium"] text-center text-gray-400 w-[700px]'>Streamline your online presence with Commercify’s easy-to-use tools—perfect for storefronts, links, forms, and payments.</div>
+          </div>
+          <div className="mb-10 mt-7 max-w-screen-lg  grid md:grid-cols-3 md:gap-5 gap-10">
+            <div class='border relative rounded-xl w-full'>
+              <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Digital Storefront</div>
+              <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-gray-100 to-transparent rounded-t-lg'>
+              <img src={more} class='h-36'/>
+              </div>
+              <div class='p-4 px-8'>
+                <div class='font-["Semibold"]'>Digital Storefronts - create storefronts with ease</div>
+                <div class='text-gray-400 font-["Medium"] mt-2'>Create a fully customizable online store in minutes with easy setup, seamless design, and optimized sales features.</div>
+              </div>
             </div>
-
-            {/* Bottom Bar */}
-            <div className="absolute bg-white bottom-0 h-12 px-3 flex justify-between items-center border-t w-full">
-              <div className="font-semibold text-sm">Get started with beta</div>
-              <a href='/beta' className="rounded-full flex gap-2 items-center p-2 text-white border">
-                <ArrowRightIcon className="h-4 w-4 text-black" />
-              </a>
+            <div class='border relative  rounded-xl w-full'>
+              <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Lin-in-bios</div>
+              <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-gray-100 to-transparent rounded-t-lg'>
+              <img src={exa} class='h-36'/>
+              </div>
+              <div class='p-4 px-8'>
+                <div class='font-["Semibold"]'>Link-in-bios - link management never been easier</div>
+                <div class='text-gray-400 font-["Medium"] mt-2'>Boost engagement by linking everything in one place—socials, store, and content. Customizable and mobile-friendly.</div>
+              </div>
             </div>
-
-
-
+            <div class='border relative rounded-xl w-full'>
+              <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Forms & Payments</div>
+              <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                <img src={example3} class='w-48'/>
+              </div>
+              <div class='p-4 px-8'>
+                <div class='font-["Semibold"]'>Forms & Payments- create simplified forms or payment frms for your users to access</div>
+                <div class='text-gray-400 font-["Medium"] mt-2'>Easily collect information and accept payments with customizable forms and secure payment integrations.</div>
+              </div>
+            </div>
 
           </div>
           <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-10 text-3xl md:text-4xl'>
