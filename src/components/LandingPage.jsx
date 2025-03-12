@@ -186,12 +186,11 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               <img class='h-10' src={facebookLong} />
             </div>
           </div>
-          <div className="mb-10 mt-7 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
+          <div className="mb-10 mt-7 max-w-screen-lg space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
             {/* Video Container */}
             <div className="relative h-full">
               {/* Attach ref to the video element */}
-              <video ref={videoRef} src={introducing} playsInline className="w-full h-full" />
-
+              <video ref={videoRef} src={introducing} playsInline className="w-full h-[250px]" />
               {/* Play/Pause Button */}
               <button
                 onClick={handlePlayPause}
