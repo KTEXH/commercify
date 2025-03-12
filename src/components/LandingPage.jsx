@@ -190,7 +190,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             {/* Video Container */}
             <div className="relative h-full">
               {/* Attach ref to the video element */}
-              <video ref={videoRef} src={introducing} className="w-full h-full" />
+              <video ref={videoRef} src={introducing} playsInline className="w-full h-full" />
 
               {/* Play/Pause Button */}
               <button
