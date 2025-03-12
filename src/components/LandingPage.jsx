@@ -169,8 +169,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </AnimatePresence>
             </div>
           </div>
-          <div class='border bg-gray-100 rounded-full px-5 mt-5 md:mt-6 py-2 text-xs mb-2 font-["Semibold"]'>Get stared with beta today</div>
-          <div class='md:text-7xl text-4xl text-center  md:mx-auto md:max-w-4xl font-["Semibold"]'>
+          <div class='md:text-7xl text-4xl text-center mt-5 md:mt-6 md:mx-auto md:max-w-4xl font-["Semibold"]'>
             Simplifying E-commerce one page at a time.
           </div>
           <div class='text-gray-400 mt-6 text-md lg:text-xl font-["Medium"] max-w-3xl text-center mx-auto'>
