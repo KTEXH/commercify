@@ -190,29 +190,15 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             {/* Video Container */}
             <div className="relative h-full">
               {/* Attach ref to the video element */}
-              <video ref={videoRef} src={introducing} playsInline className="w-full h-[250px]" />
-              {/* Play/Pause Button */}
-              <button
-                onClick={handlePlayPause}
-                className="absolute inset-0 flex items-center justify-center px-6 py-3 rounded-full"
-                >
-                  {isPlaying ? (
-                       <div />
-                  ) : (
-                    <div class='bg-black w-14 flex items-center justify-center h-14 rounded-full'>
-                    <PlayIcon class='h-7 w-7 text-white'/>
-                    </div>
-                  )}
-                 
-              </button>
+             
             </div>
 
             {/* Bottom Bar */}
             <div className="absolute bg-white bottom-0 h-12 px-3 flex justify-between items-center border-t w-full">
-              <div className="font-semibold text-sm">Start Growing Today</div>
-              <div className="rounded-full flex gap-2 items-center p-2 text-white border">
+              <div className="font-semibold text-sm">Get started with beta</div>
+              <a href='/beta' className="rounded-full flex gap-2 items-center p-2 text-white border">
                 <ArrowRightIcon className="h-4 w-4 text-black" />
-              </div>
+              </a>
             </div>
 
 
