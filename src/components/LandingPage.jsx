@@ -191,16 +191,16 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
           </div>
           <div class='mt-20 w-full flex flex-col justify-center items-center mb-7'>
-            <div class='font-["Semibold"] text-center w-[600px] text-3xl mb-2'>Unlock the Power of Simple, All-in-One Solutions for Your Business</div>
-            <div class='font-["Medium"] text-center text-gray-400 w-[700px]'>Streamline your online presence with Commercify’s easy-to-use tools—perfect for storefronts, links, forms, and payments.</div>
+            <div class='font-["Semibold"] text-center md:w-[600px] md:text-3xl text-xl  mb-2'>Unlock the Power of Simple, All-in-One Solutions for Your Business</div>
+            <div class='font-["Medium"] text-center text-gray-400   md:w-[700px]'>Streamline your online presence with Commercify’s easy-to-use tools—perfect for storefronts, links, forms, and payments.</div>
           </div>
           <div className="mb-10 mt-7 max-w-screen-lg  grid md:grid-cols-3 md:gap-5 gap-10">
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Digital Storefront</div>
-              <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-orange-100 to-transparent rounded-t-lg'>
+              <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-gray-100 to-transparent rounded-t-lg'>
               <img src={more} class='h-44'/>
               </div>
-              <div class='p-4 px-8'>
+              <div class='p-6 px-8'>
                 <div class='font-["Semibold"]'>Digital Storefronts - create storefronts with ease</div>
                 <div class='text-gray-400 font-["Medium"] mt-2 mb-5'>Create a fully customizable online store in minutes with easy setup, seamless design, and optimized sales features.</div>
                 <a href='/beta' class='bg-black rounded-full px-3 py-2 text-sm font-["Semibold"] text-white'>Get started with storefronts</a>
@@ -208,10 +208,10 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div class='border relative  rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Lin-in-bios</div>
-              <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-blue-100 to-transparent rounded-t-lg'>
+              <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-gray-100 to-transparent rounded-t-lg'>
               <img src={exa} class='h-36'/>
               </div>
-              <div class='p-4 px-8'>
+              <div class='p-6 px-8'>
                 <div class='font-["Semibold"]'>Link-in-bios - link management never been easier</div>
                 <div class='text-gray-400 font-["Medium"] mt-2 mb-5'>Boost engagement by linking everything in one place—socials, store, and content. Customizable and mobile-friendly.</div>
                 <a href='/beta' class='bg-black rounded-full px-3 py-2 text-sm font-["Semibold"] text-white'>Get started with link-in-bios</a>
@@ -220,10 +220,10 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Forms & Payments</div>
-              <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-green-100 to-transparent rounded-t-lg'>
+              <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
                 <img src={example3} class='w-48'/>
               </div>
-              <div class='p-4 px-8'>
+              <div class='p-6 px-8'>
                 <div class='font-["Semibold"]'>Forms & Payments- Create seamless forms for your users</div>
                 <div class='text-gray-400 font-["Medium"] mt-2 mb-5'>Easily collect information and accept payments with customizable forms and secure payment integrations.</div>
                 <a href='/beta' class='bg-black rounded-full px-3 py-2 text-sm font-["Semibold"] text-white'>Get started with forms</a>
