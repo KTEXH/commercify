@@ -194,7 +194,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <div class='font-["Semibold"] text-center md:w-[600px] md:text-3xl text-xl  mb-2'>Unlock the Power of Simple, All-in-One Solutions for Your Business</div>
             <div class='font-["Medium"] text-center text-gray-400   md:w-[700px]'>Streamline your online presence with Commercify’s easy-to-use tools—perfect for storefronts, links, forms, and payments.</div>
           </div>
-          <div className="mb-10 mt-7 max-w-screen-lg  grid md:grid-cols-3 md:gap-5 gap-10">
+          <div className="mb-10 mt-7 max-w-screen-lg  grid md:grid-cols-3 md:gap-5 gap-12 mx-5">
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Digital Storefront</div>
               <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-gray-100 to-transparent rounded-t-lg'>
