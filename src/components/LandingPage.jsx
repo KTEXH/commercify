@@ -189,7 +189,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           <div className="mb-10 mt-7 max-w-screen-lg py-5 space-y-5 relative h-[300px] overflow-hidden mx-auto w-full border rounded-2xl">
             {/* Video Container */}
             <div className="relative h-full">
-              
+              <video src={introducing} autoPlay
+               />
             </div>
 
             {/* Bottom Bar */}
@@ -211,7 +212,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <a href='/beta' class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</a>
             <a href='/pricing' class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</a>
           </div>
-        </div>
+        </div
+        >
       </div>
       <div class='my-10 mt-20 flex flex-col w-full space-y-4'>
       
