@@ -197,8 +197,8 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           <div className="mb-10 mt-7 max-w-screen-lg  grid md:grid-cols-3 md:gap-5 gap-10">
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Digital Storefront</div>
-              <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-gray-100 to-transparent rounded-t-lg'>
-              <img src={more} class='h-36'/>
+              <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-orange-100 to-transparent rounded-t-lg'>
+              <img src={more} class='h-44'/>
               </div>
               <div class='p-4 px-8'>
                 <div class='font-["Semibold"]'>Digital Storefronts - create storefronts with ease</div>
@@ -207,7 +207,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div class='border relative  rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Lin-in-bios</div>
-              <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-gray-100 to-transparent rounded-t-lg'>
+              <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-blue-100 to-transparent rounded-t-lg'>
               <img src={exa} class='h-36'/>
               </div>
               <div class='p-4 px-8'>
@@ -217,11 +217,11 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Forms & Payments</div>
-              <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+              <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-green-100 to-transparent rounded-t-lg'>
                 <img src={example3} class='w-48'/>
               </div>
               <div class='p-4 px-8'>
-                <div class='font-["Semibold"]'>Forms & Payments- create simplified forms or payment frms for your users to access</div>
+                <div class='font-["Semibold"]'>Forms & Payments- create simplified forms or payment forms for your users to access</div>
                 <div class='text-gray-400 font-["Medium"] mt-2'>Easily collect information and accept payments with customizable forms and secure payment integrations.</div>
               </div>
             </div>
