@@ -3,15 +3,24 @@ import Group from "./assets/Group";
 import Groop3 from './assets/Group3'
 import { motion, AnimatePresence } from "framer-motion";
 import dribbble from '../components/assets/dribbble.svg'
+import files from '../components/assets/file.svg'
 import facebookLong from '../components/assets/Facebook.svg'
 import youtubeLong from '../components/assets/youtubeLong.svg'
+import lll from '../components/assets/lll.svg'
 import twitter from '../components/assets/twitter.svg'
-import example3 from '../components/assets/exampl.svg'
-import exa from '../components/assets/expa.svg'
-import more from '../components/assets/more.svg'
+import example3 from '../components/assets/lpd.svg'
+import ghg from '../components/assets/ghg.svg'
+import mai from '../components/assets/mail.svg'
+import ColorPicker from '../components/assets/ColorPicker.svg'
+import lpsd from '../components/assets/hvf.svg'
+import vv from '../components/assets/VV.svg'
+import exa from '../components/assets/FloatingSheet.svg'
+import more from '../components/assets/plgg.svg'
 import linkedin from '../components/assets/Linkedin.svg'
+import DatePicker from '../components/assets/DatePicker.svg'
 import pintrest from '../components/assets/Pintrest.svg'
 import linkden from '../components/assets/linkden.svg'
+import jn from '../components/assets/jn.svg'
 import youtube from '../components/assets/youtube.svg'
 import spotify from '../components/assets/Spotify.svg'
 import introducing from '../components/assets/ad.mp4'
@@ -197,7 +206,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Digital Storefront</div>
               <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-gray-100 to-transparent rounded-t-lg'>
-              <img src={more} class='h-44'/>
+                <img src={more} class='h-32' />
               </div>
               <div class='p-6 px-8'>
                 <div class='font-["Semibold"]'>Digital Storefronts - create storefronts with ease</div>
@@ -208,7 +217,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <div class='border relative  rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Lin-in-bios</div>
               <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-gray-100 to-transparent rounded-t-lg'>
-              <img src={exa} class='h-36'/>
+                <img src={exa} class='h-36' />
               </div>
               <div class='p-6 px-8'>
                 <div class='font-["Semibold"]'>Link-in-bios - link management never been easier</div>
@@ -220,7 +229,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <div class='border relative rounded-xl w-full'>
               <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Forms & Payments</div>
               <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <img src={example3} class='w-48'/>
+                <img src={example3} class='w-44' />
               </div>
               <div class='p-6 px-8'>
                 <div class='font-["Semibold"]'>Forms & Payments- Create seamless forms for your users</div>
@@ -231,6 +240,111 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
 
           </div>
+          <div class='flex flex-col w-full px-5'>
+            <div class='mb-2 md:text-lg font-["Semibold"] mt-10'>Digital Storefronts</div>
+            <div class='md:text-4xl text-xl md:mt-5 font-["Semibold"] w-full md:w-2/3'>Start selling smarter, not harder. Get your Commercify Storefront today! </div>
+            <div class='grid md:grid-cols-2 gap-10 mt-7'>
+              <div class='w-full border rounded-xl'>
+                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                <img src={lll} class='w-40' />
+                </div>
+                <div class='p-6 px-8'>
+                  <div class='font-["Semibold"] text-lg'>Easy Setup</div>
+                  <div class='text-gray-400 font-["Medium"] mt-2'>No coding required! Launch your store with just a few clicks.</div>
+                </div>
+              </div>
+              <div class='w-full border rounded-xl'>
+                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                      <img src={ColorPicker} class='w-48' />
+                </div>
+                <div class='p-6 px-8'>
+                  <div class='font-["Semibold"] text-lg'>Seamless Customization</div>
+                  <div class='text-gray-400 font-["Medium"] mt-2'>Design your storefront to match your brand’s identity.</div>
+                </div>
+              </div>
+            </div>
+            <div class='w-full border mt-6 rounded-xl'>
+              <div class='w-full h-96 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+              <img src={DatePicker} class='w-96' />
+              </div>
+              <div class='p-6 px-8'>
+                <div class='font-["Semibold"] text-lg'>Book & Sell</div>
+                <div class='text-gray-400 font-["Medium"] mt-2'>Let people buy and book sessions from you with no platform charges.</div>
+              </div>
+            </div>
+          </div>
+          <div class='flex flex-col w-full px-5'>
+          <div class='mb-2 md:text-lg font-["Semibold"] mt-10'>Link-in-bios</div>
+            <div class='md:text-4xl text-xl md:mt-5 font-["Semibold"] w-full md:w-2/3'>Stop losing clicks—turn your followers into customers today!</div>
+            <div class='grid md:grid-cols-2 gap-10 mt-7'>
+              <div class='w-full border rounded-xl'>
+                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                <img src={jn} class='w-60' />
+                </div>
+                <div class='p-6 px-8'>
+                  <div class='font-["Semibold"] text-lg'>Seamless Integrations </div>
+                  <div class='text-gray-400 font-["Medium"] mt-2'>Connect your shop, social media, and content in one place.</div>
+                </div>
+              </div>
+              <div class='w-full border rounded-xl'>
+                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                <div class='w-full flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+              <img src={lpsd} class='w-72' />
+              </div>
+                </div>
+                <div class='p-6 px-8'>
+                  <div class='font-["Semibold"] text-lg'>Boost Engagement </div>
+                  <div class='text-gray-400 font-["Medium"] mt-2'>Drive traffic to your most important links with ease</div>
+                </div>
+              </div>
+            </div>
+            <div class='w-full border mt-6 rounded-xl'>
+              <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+              <img src={ghg} class='w-72' />
+
+              </div>
+              <div class='p-6 px-8'>
+                <div class='font-["Semibold"] text-lg'>SEO & Custom Domains</div>
+                <div class='text-gray-400 font-["Medium"] mt-2'>Improve discoverability with SEO settings and a branded URL.</div>
+              </div>
+            </div>
+          </div>
+          <div class='flex flex-col w-full px-5'>
+          <div class='mb-2 md:text-lg font-["Semibold"] mt-10'>Forms & Payments</div>
+            <div class='md:text-4xl text-xl md:mt-5 font-["Semibold"] w-full md:w-2/3'>Get paid and gather insights—without the hassle! </div>
+            <div class='grid md:grid-cols-2 gap-10 mt-7'>
+              <div class='w-full border rounded-xl'>
+                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                <img src={vv} class='w-44' />
+
+                </div>
+                <div class='p-6 px-8'>
+                  <div class='font-["Semibold"] text-lg'>Seamless Payment Integration </div>
+                  <div class='text-gray-400 font-["Medium"] mt-2'>Accept payments via Stripe, PayPal, and more.</div>
+                </div>
+              </div>
+              <div class='w-full border rounded-xl'>
+                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+                <img src={mai} class='w-60' />
+
+                </div>
+                <div class='p-6 px-8'>
+                  <div class='font-["Semibold"] text-lg'>Automated Responses</div>
+                  <div class='text-gray-400 font-["Medium"] mt-2'> Send confirmation emails and notifications instantly.</div>
+                </div>
+              </div>
+            </div>
+            <div class='w-full border mt-6 rounded-xl'>
+              <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
+              <img src={files} class='w-60' />
+
+              </div>
+              <div class='p-6 px-8'>
+                <div class='font-["Semibold"] text-lg'>File Uploads </div>
+                <div class='text-gray-400 font-["Medium"] mt-2'>Allow users to upload documents, images, or other files directly in forms.</div>
+              </div>
+            </div>
+          </div>
           <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-10 text-3xl md:text-4xl'>
             Simplify the way your selling with commercify</div>
           <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
@@ -238,8 +352,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             <a href='/beta' class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</a>
             <a href='/pricing' class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</a>
           </div>
-        </div
-        >
+        </div>
       </div>
       <div class='my-10 mt-20 flex flex-col w-full space-y-4'>
 
