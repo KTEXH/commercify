@@ -39,10 +39,11 @@ import patreon from '../components/assets/Patreon.svg'
 import twitch from '../components/assets/twitch.svg'
 import { Dialog, DialogPanel } from "@headlessui/react";
 import pinterest from '../components/assets/pinterest.svg'
-import { ArrowRightIcon, Bars3Icon, PlayIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { ArrowRightIcon, Bars3Icon, CursorArrowRaysIcon, PlayIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Group3 from "./assets/Group3";
 import { Header } from "./LandingHeader";
+import { RiCursorFill } from "@remixicon/react";
 const platforms = [
   { name: "Twitter", icon: "🐦", image: twitter },
   { name: "Twitch", icon: "🤷‍♀️", image: twitch },
@@ -199,6 +200,9 @@ export default function LandingPage({ className = "", duration = 3000 }) {
             </div>
           </div>
           <div class='mt-20 w-full flex flex-col justify-center items-center mb-7'>
+            <div class='w-9 flex items-center justify-center h-9 rounded-full bg-black mb-5'>
+                 <CursorArrowRaysIcon class='text-white w-5 h-5' />
+            </div>
             <div class='font-["Semibold"] text-center md:w-[600px] md:text-3xl text-xl  mb-2'>Unlock the Power of Simple, All-in-One Solutions for Your Business</div>
             <div class='font-["Medium"] text-center text-gray-400   md:w-[700px]'>Streamline your online presence with Commercify’s easy-to-use tools—perfect for storefronts, links, forms, and payments.</div>
           </div>
