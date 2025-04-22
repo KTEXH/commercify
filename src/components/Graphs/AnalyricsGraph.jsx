@@ -70,18 +70,9 @@ const SimpleChart = () => {
     };
 
     return (
-        <div className="w-full border rounded-lg mt-3 p-3 font-sans">
+        <div className="w-full border rounded-xl mt-3 p-3 font-sans">
             <div className='w-full flex items-center p-4'>
-                <label className='font-["Semibold"] text-xs'>Revenue</label>
-                <div className='h-5 w-[2px] rounded-xl mx-5 bg-gray-200' />
-                <div className='flex items-center gap-2'>
-                    <div className='w-1 h-1 rounded-full bg-black' />
-                    <div className='text-xs font-["Medium"] flex gap-1'>Current Month <div className='text-xs font-["Semibold"]'>${}</div></div>
-                </div>
-                <div className='flex items-center gap-2 ml-10'>
-                    <div className='w-2 h-2 rounded-full bg-sky-100' />
-                    <div className='text-xs font-["Medium"] flex gap-1'>Last 10 Months <div className='text-xs font-["Semibold"]'>${}</div></div>
-                </div>
+                
             </div>
             <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={payoutsOverTime} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>

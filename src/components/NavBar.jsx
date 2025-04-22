@@ -14,7 +14,7 @@ const CREATE_PRODUCT_MUTATION = gql`
   }
 `;
 
-export const NavBar = ({ products, home, pages, orders, bookings, analytics, pagesNav, builder }) => {
+export const NavBar = ({ products, home, audience, pages, orders, settings, bookings, analytics, pagesNav, builder, storefront }) => {
 
   const { data, error, loading } = useState(ME_QUERY)
   const [createProduct] = useMutation(CREATE_PRODUCT_MUTATION)
@@ -356,270 +356,45 @@ export const NavBar = ({ products, home, pages, orders, bookings, analytics, pag
   if (loading) return <div>Loading...</div>
 
   return (
-    <div className="flex flex-col  gap-y-2 border-r border-solid border-neutral-900/10 pb-7 pr-2 pl-4 pt-6 text-sm leading-5 text-neutral-900" >
-      <div className="flex items-center px-1">
-        <div className="flex items-center justify-center gap-x-2">
-          <Group
-            className="h-6 w-6 flex-shrink-0 rounded-full object-cover object-center"
-          />
-          <div className='font-["Semibold"]'>Commercify</div>
-        </div>
-      </div>
-      <div className="flex flex-col items-center justify-end self-stretch pt-4" >
-        <div className="flex items-center pr-5">
-          <div className="flex items-start justify-center gap-x-[3px]">
-            <div className="flex h-20 w-20 flex-shrink-0 flex-col items-start gap-y-3" >
-              <div className="text-neutral-800/40 font-['Medium']">Favorites</div>
-              <div className="flex flex-col items-start gap-y-3">
-                <a href='/dashboard' className="flex items-center justify-center gap-x-1" >
-
-                  <img
-                    className="h-4 w-4 flex-shrink-0"
-                    src={pagesNav === true ? '/assets/IconSet1.svg' : '/assets/BlackDot.svg'}
-                    loading="lazy"
-                  />
-                  <div class='font-["Medium"]'>Overview</div>
-                </a>
-                <a href='/page' className="flex items-center gap-x-1">
-                  <img
-                    className="h-4 w-4 flex-shrink-0"
-                    src={pagesNav === false ? '/assets/IconSet1.svg' : '/assets/BlackDot.svg'}
-                    loading="lazy"
-                  />
-                  <div class='font-["Medium"]'>Pages</div>
-
-                </a>
-              </div>
+    <div class='h-full'>
+      <aside className="w-[275px] h-full bg-white border-l border-r p-6 shadow-sm">
+        <nav className="px-5 mt-5">
+          <div class='text-xs font-["Semibold"] text-gray-300'>Navigation</div>
+          <div class='space-y-4 mt-3'>
+            <div className={home === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/dashboard' class='font-["Semibold"] mt-3 text-sm'>Dashboard</a>
             </div>
-            <div className="text-neutral-900/20 font-['Medium']">Recently</div>
-          </div>
-        </div>
-      </div>
-      <div className="self-stretch pt-7">
-        <div className="text-neutral-900/20 font-['Medium'] text-sm">{pagesNav === true ? 'Pages' : 'Dashboard'}</div>
-      </div>
-      {pagesNav === false && (
-        <div className="flex items-start justify-start px-2 self-stretch">
-          <div className="flex items-start">
-            <div className="flex items-start justify-start gap-x-1">
-              <div className="flex flex-col items-center justify-center gap-x-1">
-
-                <div className="flex flex-col gap-y-3">
-                  <a href='/dashboard' className={`flex items-start ${home && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${home === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${home === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet3.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Home</div>
-                  </a>
-                  <a href='/products' className={`flex items-start ${products && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${products === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${products === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet7.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Products</div>
-                  </a>
-                  <a href='/pages' className={`flex items-start ${pages && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${pages === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${pages === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet8.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Pages</div>
-                  </a>
-                  <a href='/orders' className={`flex items-start ${orders && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${orders === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${orders === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet9.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Orders</div>
-                  </a>
-                  <a href='/bookings' className={`flex items-start ${bookings && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${bookings === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${bookings === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/CalendarBlank.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Bookings</div>
-                  </a>
-                  <a href='/analytics' className={`flex items-start ${analytics && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${analytics === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${analytics === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/AlignBottom.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Analytics</div>
-                  </a>
-                </div>
-              </div>
-
+            <div className={builder === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/editor' class='font-["Semibold"] text-sm'>Page Editor</a>
+            </div>
+            <div className={orders === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/orders' class='font-["Semibold"] text-sm'>{storefront === true ? 'Orders' : 'Bookings'}</a>
+            </div>
+            <div className={audience === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/audience' class='font-["Semibold"] text-sm'>Customers</a>
+            </div>
+            <div className={products === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/products' class='font-["Semibold"] text-sm'>{storefront === true ? 'Products' : 'Services'}</a>
+            </div>
+            <div className={analytics === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/stats' class='font-["Semibold"] text-sm'>Stats</a>
+            </div>
+            <div className={settings === true ? 'text-black' : 'text-gray-400'}>
+              <a href='/settings' class='font-["Semibold"] text-sm'>Settings</a>
             </div>
           </div>
-        </div>
-      )}
-
-      {pagesNav === true && (
-        <div className="flex items-start justify-start px-2 self-stretch">
-          <div className="flex items-start">
-            <div className="flex items-start justify-start gap-x-1">
-              <div className="flex flex-col items-center justify-center gap-x-1">
-
-                <div className="flex flex-col gap-y-3">
-                  <a href='/page' className={`flex items-start ${home && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${home === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${home === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet3.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Home</div>
-                  </a>
-                  <a href='/storefronts' className={`flex items-start ${products && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${products === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${products === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet7.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Storefronts</div>
-                  </a>
-                  <a href='/forms' className={`flex items-start ${pages && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${pages === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${pages === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet8.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Forms</div>
-                  </a>
-                  <a href='/workshops' className={`flex items-start ${orders && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${orders === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${orders === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/IconSet9.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Workshops</div>
-                  </a>
-                  <a href='/linkinbio' className={`flex items-start ${bookings && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${bookings === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${bookings === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/CalendarBlank.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Link-in-bio</div>
-                  </a>
-                  <a href='/insights' className={`flex items-start ${analytics && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${analytics === false && 'hidden'} bg-black`} />
-                    <div className={`flex items-center ${analytics === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/AlignBottom.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Insights</div>
-                  </a>
-                  <a href='/builder' className={`flex items-start ${builder && 'bg-gray-100'} rounded-md justify-start gap-x-1`}>
-                    <div class={`h-5 w-1 rounded-full ${builder === false && 'hidden'} bg-black`}></div>
-                    <div className={`flex items-center ${builder === false ? 'pl-3' : 'pl-1'} justify-start`}>
-                      <img
-                        className="h-5 w-5 flex-shrink-0"
-                        src="/assets/TreeStructure.svg"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div class='font-["Medium"]'>Builder</div>
-                  </a>
-                </div>
-              </div>
-
+          <div class='mt-20'>
+            <div class='text-xs font-["Semibold"] text-gray-300'>Account</div>
+            <div class='space-y-4 mt-4'>
+              <div class='text-gray-400 font-["Semibold"] text-sm'>Stats</div>
+              <div class='text-gray-400 font-["Semibold"] text-sm'>Settings</div>
             </div>
           </div>
-        </div>
-      )}
+        </nav>
+      </aside>
 
-      <div className="self-stretch pt-7">
-        <div className="text-neutral-900/20 font-['Medium']">Admin</div>
-      </div>
-      <div className="flex items-center px-2 pt-1">
-        <div className="flex items-center justify-center gap-x-1">
 
-          <div className="flex flex-col px-3 font-['Medium'] items-start gap-y-3">
-            <div class='flex items-center hover:bg-gray-100 gap-1'>
-              <img
-                className="h-5 w-5 flex-shrink-0"
-                src="/assets/IconSet15.svg"
-                loading="lazy"
-              />
-              <div>Profile</div>
-            </div>
-           
-            <div class='flex items-center hover:bg-gray-100  gap-1'>
-              <img
-                className="h-5 w-5 flex-shrink-0"
-                src="/assets/IconSet17.svg"
-                loading="lazy"
-              />
-              <div>Campaigns</div>
-            </div>
-            <div class='flex items-center hover:bg-gray-100 gap-1'>
-              <img
-                className="h-5 w-5 flex-shrink-0"
-                src="/assets/IconSet18.svg"
-                loading="lazy"
-              />
-              <div>Setting</div>
-            </div>
-            <div class='flex items-center hover:bg-gray-100 gap-1'>
-              <img
-                className="h-5 w-5 flex-shrink-0"
-                src="/assets/IconSet19.svg"
-                loading="lazy"
-              />
-              <div>Social</div>
-            </div>
-          </div>
-        </div>
 
-      </div>
-      <div>
-        <button onClick={() => setIsOpen(true)} class='w-full rounded-full mt-2 text-sm text-white font-["Semibold"] bg-black py-3 '>
-          Create
-        </button>
-      </div>
       <Dialog open={isFinishing} onClose={() => setIsFinishing(false)} class='relative font-general-sans z-50'>
         <div className="fixed inset-0 flex bg-opacity-70 w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-2xl w-full space-y-4 flex-col flex  border rounded-xl bg-white p-10">

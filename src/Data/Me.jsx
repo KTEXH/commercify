@@ -6,6 +6,9 @@ query me{
     name
     avatar
     createdAt
+    Payouts{
+    id
+    }
     OnlyProducts{
     id
     thumbnail
@@ -36,7 +39,6 @@ query me{
     type
     tag
     createdAt
-
     }
     Notifications(take: 4){
     id
@@ -59,7 +61,6 @@ query me{
      id
      thumbnail
      title
-
      }
      }
       Bookings{
@@ -81,6 +82,12 @@ query me{
      title
 
      }
+     }
+     Pages{
+     id
+     headerImage
+     storefront
+     name
      }
      Orders{
      id
@@ -107,23 +114,7 @@ query me{
      price
      serviceOrProduct
      }
-      allStorefronts{
-      id
-      }
-      Workshops{
-      id
-      name
-      subdomain
-      }
-      Storefront{
-      id
-      name 
-      subdomain
-      }
-      Linkinbios{
-      id
-      title
-      }
+     
      Links{
      id
      image

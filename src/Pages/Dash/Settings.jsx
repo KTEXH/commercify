@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { CheckCircle, Bell, User, Check, TrendingUp } from "lucide-react";
+import { CheckCircle, Bell, User, Check } from "lucide-react";
 import { CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { RiCheckFill } from "@remixicon/react";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { useQuery } from "@apollo/client";
 import { NavBar } from "../../components/NavBar";
-import SimpleChart from "../../components/Graphs/PayoutGraph";
 
-export const Analytics = ({ className = "" }) => {
+export const Settings = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
     const [showBanner, setShowBanner] = useState(true);
 
@@ -39,7 +38,7 @@ export const Analytics = ({ className = "" }) => {
                     <PlusIcon class='w-4 h-4 text-black' />
                 </div>
             </div>
-             <NavBar home={false} analytics={true}/>
+            <NavBar home={false} settings={true} />
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
@@ -56,46 +55,41 @@ export const Analytics = ({ className = "" }) => {
                 </header>
 
                 {/* Dashboard Content */}
-                <main className="p-6 px-16 flex-1">
-                    <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Stats</div>
+                <main className="p-6 px-32 flex-1">
+                    <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Settings</div>
+                    <div class='rounded-xl bg-white w-full mt-5 p-10 border'>
+                        <div class='font-["Semibold"] text-black text-sm'>Account settings</div>
+                        <div class='font-["Medium"] text-sm text-gray-400'>Default settings and info for you account.</div>
+                        <div class='mt-7 flex w-full items-center gap-5'>
+                            <div class='w-full'>
+                                <div class='font-["Medium"]'>Page name</div>
+                                <input value={selectedPage?.name} class='px-4 mt-3 font-["Medium"] w-full text-sm py-2 border rounded-md' />
+                            </div>
+                            <div class='w-full'>
+                                <div class='font-["Medium"]'>Website URL</div>
+                                <input value={selectedPage?.name} class='px-4 mt-3 font-["Medium"] w-full text-sm py-2 border rounded-md' />
+                            </div>
+                        </div>
+                        <div class='mt-14 space-y-2'>
+                          <div class='font-["Semibold"] flex gap-2 items-center'>
+                            Custom domain
+                             <div class='px-2 py-1 text-[10px] text-green-600 bg-green-100 rounded-lg border border-green-400'>Pro</div>
+                            </div>
+                          <div class='font-["Medium"] text-gray-400 text-sm'>You can use your own domain for your landing page.</div>
+                            <div class='px-5 py-3 text-white inline-block font-["Semibold"] text-sm bg-black rounded-full'>Upgrade to Pro</div>
+                        </div>
+                        <div class='mt-14 space-y-2'>
+                          <div class='font-["Semibold"]'>Take page offline</div>
+                          <div class='font-["Medium"] text-gray-400 text-sm'>You can use your own domain for your landing page.</div>
+                            <div class='px-5 py-3 text-white inline-block font-["Semibold"] text-sm bg-black rounded-full'>Disable your page</div>
+                        </div>
+                        <div class='mt-14 space-y-2'>
+                          <div class='font-["Semibold"]'>Delete page</div>
+                          <div class='font-["Medium"] text-gray-400 text-sm'>You can use your own domain for your landing page.</div>
+                            <div class='px-5 py-2 text-white inline-block font-["Semibold"] text-sm bg-red-500 rounded-full'>Delete your page</div>
+                        </div>
+                    </div>
 
-                    <div class='mt-2 grid grid-cols-4 gap-5'>
-                        <div class='border p-5 bg-white rounded-xl'>
-                            <div class='text-xs text-gray-400 font-["Medium"]'>Number of clicks</div>
-                            <div class='text-4xl font-["Semibold"]'>0</div>
-                            <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
-                                <TrendingUp class='text-green-500 w-4 h-4' />
-                                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
-                            </div>
-                        </div>
-                        <div class='border p-5 bg-white rounded-xl'>
-                            <div class='text-xs text-gray-400 font-["Medium"]'>Revenue today</div>
-                            <div class='text-4xl font-["Semibold"]'>$0</div>
-                            <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
-                                <TrendingUp class='text-green-500 w-4 h-4' />
-                                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
-                            </div>
-                        </div>
-                        <div class='border bg-white p-5 rounded-xl'>
-                            <div class='text-xs text-gray-400 font-["Medium"]'>Number of orders</div>
-                            <div class='text-4xl font-["Semibold"]'>{data.me.Payouts.length}</div>
-                            <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
-                                <TrendingUp class='text-green-500 w-4 h-4' />
-                                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
-                            </div>
-                        </div>
-                        <div class='border bg-white p-5 rounded-xl'>
-                            <div class='text-xs text-gray-400 font-["Medium"]'>Revenue in all</div>
-                            <div class='text-4xl font-["Semibold"]'>$0</div>
-                            <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
-                                <TrendingUp class='text-green-500 w-4 h-4' />
-                                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='mt-10'>
-                       <SimpleChart />
-                    </div>
                 </main>
 
                 {/* Cookie Policy Notice */}

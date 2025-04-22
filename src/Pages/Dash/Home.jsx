@@ -1,170 +1,140 @@
-import Card from "../../components/Card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { CheckCircle, Bell, User, Check, TrendingUp } from "lucide-react";
+import { CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { RiCheckFill } from "@remixicon/react";
+import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { useQuery } from "@apollo/client";
-import SimpleChart from "../../components/Graphs/PayoutGraph";
-import moment from "moment";
 import { NavBar } from "../../components/NavBar";
-import { Notifications } from '../../components/Notifications'
-import { Header } from "../../components/Header";
-import Group from "../../components/assets/Group";
-import group2 from '../../../public/assets/Group2.svg'
-
-export default function Default({ className = "" }) {
-
+export default function Default() {
   const { data, error, loading } = useQuery(ME_QUERY)
+  const [showBanner, setShowBanner] = useState(true);
 
-  const [percentageWidth, setPercentage] = useState(0)
+  const [selectedPage, setSelectedPage] = useState(null);
 
-  const formattedDate = (item) => {
-    const date = moment(item);  // Ensure `item` is a valid date or timestamp
-    return date.fromNow();      // Returns the relative time like "X days ago"
-  };
+  useEffect(() => {
+    if (data?.me?.Pages?.length > 0 && !selectedPage) {
+      setSelectedPage(data.me.Pages[0]); // Set first page as default
+    }
+  }, [data, selectedPage]);
 
-
-  if (loading) return <div class='w-full h-screen flex items-center justify-center'><Group className='w-20 h-20' /></div>
   if (error) return <div>{error.message}</div>
-
+  if (loading) return <div>loading...</div>
   return (
-    <div
-      className={`flex w-full items-start h-full self-stretch flex-col rounded-3xl ${className}`}
-    >
-      <div className="h-full w-full flex-shrink-0 overflow-clip rounded-3xl bg-white" >
-        <div className="font-general-sans flex flex  flex-shrink-0  tracking-[0px] " >
-          <NavBar home={true} pagesNav={false} orders={false} analytics={false} pages={false} bookings={false} products={false} />
-          <div className="flex flex-col gap-y-5 w-full self-stretch">
-            <Header />
-            <div className="flex items-end self-stretch px-9 pt-3">
-              <div className="flex items-center justify-center gap-x-1">
-                <div className="text-sm font-semibold leading-5 text-neutral-900" >
-                  Home Dashboard
-                </div>
-                <img
-                  className="h-4 w-4 flex-shrink-0"
-                  src="/assets/IconSet21.svg"
-                  loading="lazy"
-                />
-              </div>
+    <div className="flex h-screen bg-gray-50">
+      <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+        {data.me.Pages.map(item => (
+          <div key={item.id} className="relative flex items-center">
+            {/* Left curved indicator */}
+            {selectedPage?.id === item.id && (
+              <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
+              ></div>
+            )}
+            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-lg' src={!item?.headerImage ? logo : item?.headerImage} />
+          </div>
+        ))}
+        <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
+          <PlusIcon class='w-4 h-4 text-black' />
+        </div>
+      </div>
+      <NavBar home={true} products={false} storefront={selectedPage?.storefront} />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
+        <header className="flex justify-between border-b items-center px-6 py-4 bg-white">
+          <div class='flex items-center gap-2'>
+            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
+            <span className="text-lg font-['Semibold'] text-sm">{selectedPage?.name} • commercifyhq.com/{selectedPage?.name}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <Bell className="text-gray-600" />
+            <User className="text-gray-600" />
+          </div>
+        </header>
+
+        {/* Dashboard Content */}
+        <main className="p-6 px-16 flex-1">
+          <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Dashboard</div>
+          <div class='flex w-full h-96 border bg-white shadow-sm rounded-xl items-center'>
+            <div className="p-16 w-2/3">
+              <h1 className="text-4xl font-['Semibold']">Welcome, let’s get your page up and running</h1>
+              <p className="text-gray-600 font-['Medium'] mt-2">
+                We’ll have you up and running creating an audience for your product in minutes.
+              </p>
+              <button className="bg-black mt-5 px-6 py-3 rounded-full text-white font-['Semibold']" onClick={() => setShowBanner(false)}>Edit your page</button>
             </div>
-            <div class='w-full px-9'>
-              <div className="flex w-full self-stretch gap-x-7 gap-y-7 text-neutral-900" >
-                <Card
-                  container1="bg-sky-100"
-                  text="Clicks"
-                  container2="gap-x-8"
-                  text1="721K"
-                  attr1="/assets/IconSet22.svg"
-                  text2="+11.01%"
-                />
-                <Card
-                  container1="bg-slate-200"
-                  text="Orders"
-                  container2="gap-x-8"
-                  text1="367K"
-                  attr1="/assets/IconSet23.svg"
-                  text2="-0.03%"
-                />
-                <Card
-                  container1="bg-sky-100"
-                  text="Audience"
-                  container2="gap-x-7"
-                  text1="1,156"
-                  attr1="/assets/IconSet24.svg"
-                  text2="+15.03%"
-                />
-                <Card
-                  container1="bg-slate-200"
-                  text="Net"
-                  container2="gap-x-7"
-                  text1="239K"
-                  attr1="/assets/IconSet25.svg"
-                  text2="+6.08%"
-                />
-              </div>
-              <div class='flex mt-2 gap-5'>
-                <div class='w-full'>
-                  <label class='text-black font-["Semibold"] text-xs'>Earnings</label>
-                  <SimpleChart />
-                </div>
 
-              </div>
-              <div class='flex mt-3 gap-3'>
 
-                <div class='w-2/3'>
-                  <label class='font-["Semibold"] text-xs' >Product List</label>
-                  <div class='border px-4 py-2 mt-2 rounded-lg'>
-                    {data?.me?.Products?.map((item, index) => {
-                      const productTitle = item.title;
-                      const percentage = percentageWidth[productTitle] || 0;
-
-                      return (
-                        <div key={index}>
-                          {/* Product Item */}
-                          <div class='w-full py-2 items-center flex'>
-                            <div class='flex items-center w-[25%] gap-2'>
-                              {!item.thumbnail ? (
-                                <div class='bg-purple-100 w-10 h-10 rounded-xl flex items-center justify-center text-xs font-["Semibold"]'>
-                                  {item.title.charAt(0)}
-                                </div>
-                              ) : (
-                                <img />
-                              )}
-                              <div>
-                                <label class='text-[10px] line-clamp-1 font-["Semibold"]'>{item.title}</label>
-                              </div>
-                            </div>
-                            <div class='w-[10%]'>
-                              <div class='px-3 py-1 rounded-full gap-1 inline-flex items-center border font-["Semibold"] text-[10px]'>
-                                ${item.price}
-                                <img class='w-3 h-3' src='/assets/Tag.svg' />
-                              </div>
-                            </div>
-                       
-                            <div class='w-[25%] flex items-center gap-1'>
-                              <img class='w-4 h-4' src='/assets/CalendarBlank.svg' />
-                              <div class='font-["Semibold"] line-clamp-1 text-[11px]'>{formattedDate(item.createdAt)}</div>
-                            </div>
-                        
-                            <div class='w-[25%]'>
-                              <div class='font-["Semibold"] px-3 py-1 bg-gray-100 inline-block text-gray-500 rounded-md capitalize text-[10px]'>{item.serviceOrProduct}</div>
-                            </div>
-                            <div class='w-[15%] flex items-center gap-2'>
-                              <div class='text-xs text-black font-["Semibold"]'>{percentage.toFixed(0)}%</div>
-                              <div className="w-full bg-gray-100 h-1.5 overflow-hidden rounded-full relative">
-                                <div className="bg-black h-1.5" style={{ width: `${percentage}%` }}></div>
-                              </div>
-                            </div>
-                            <div class='w-[5%] flex justify-end'>
-                              <img src='/assets/DotsThree.svg' class='w-4 h-4' />
-                            </div>
-                          </div>
-
-                          {/* Divider */}
-                          {index !== data.me.Products.length - 1 && (
-                            <hr class="border-t" />
-                          )}
-                        </div>
-                      );
-                    })}
+            {/* Page Checklist */}
+            <div class='border-l h-full flex items-center justify-center flex-col w-1/3'>
+              <div>
+                <h2 className="font-['Semibold'] mb-4">Page checklist</h2>
+                <ul className="space-y-4">
+                  <div class='flex items-center gap-2'>
+                    <div class='bg-gray-200 rounded-full flex items-center justify-center w-7 h-7'><RiCheckFill className='w-4 h-4 text-white' /></div>
+                    <div class='font-["Medium"] text-gray-400 text-sm'>Publish your page</div>
                   </div>
-                </div>
-                <div class='w-1/3'>
-                  <div class='border w-full rounded-lg'>
-                        <div class='w-full border-b p-3'>
-                           <div class='text-xs font-["Semibold"]'>Your Pages</div>
-                        </div>
-                        <div class='p-3'>
-
-                        </div>
+                  <div class='flex items-center gap-2'>
+                    <div class='bg-gray-200 rounded-full flex items-center justify-center w-7 h-7'><RiCheckFill className='w-4 h-4 text-white' /></div>
+                    <div class='font-["Medium"] text-gray-400 text-sm'>Add your product icon</div>
                   </div>
-                </div>
-              </div>
+                  <div class='flex items-center gap-2'>
+                    <div class='bg-gray-200 rounded-full flex items-center justify-center w-7 h-7'><RiCheckFill className='w-4 h-4 text-white' /></div>
+                    <div class='font-["Medium"] text-gray-400 text-sm'>Add a product</div>
+                  </div>
+                  <div class='flex items-center gap-2'>
+                    <div class='bg-gray-200 rounded-full flex items-center justify-center w-7 h-7'><RiCheckFill className='w-4 h-4 text-white' /></div>
+                    <div class='font-["Medium"] text-gray-400 text-sm'>Publish your page</div>
+                  </div>
+                  <div class='flex items-center gap-2'>
+                    <div class='bg-gray-200 rounded-full flex items-center justify-center w-7 h-7'><RiCheckFill className='w-4 h-4 text-white' /></div>
+                    <div class='font-["Medium"] text-gray-400 text-sm'>Publish your page</div>
+                  </div>
 
+
+                </ul>
+              </div>
             </div>
 
           </div>
+          <div class='mt-10 grid grid-cols-4 gap-5'>
+            <div class='border p-5 bg-white rounded-xl'>
+              <div class='text-xs text-gray-400 font-["Medium"]'>Number of clicks</div>
+              <div class='text-4xl font-["Semibold"]'>0</div>
+              <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
+                <TrendingUp class='text-green-500 w-4 h-4' />
+                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
+              </div>
+            </div>
+            <div class='border bg-white p-5 rounded-xl'>
+              <div class='text-xs text-gray-400 font-["Medium"]'>Revenue today</div>
+              <div class='text-4xl font-["Semibold"]'>$0</div>
+              <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
+                <TrendingUp class='text-green-500 w-4 h-4' />
+                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
+              </div>
+            </div>
+            <div class='border bg-white p-5 rounded-xl'>
+              <div class='text-xs text-gray-400 font-["Medium"]'>Number of orders</div>
+              <div class='text-4xl font-["Semibold"]'>{data.me.Payouts.length}</div>
+              <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
+                <TrendingUp class='text-green-500 w-4 h-4' />
+                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
+              </div>
+            </div>
+            <div class='border p-5 bg-white rounded-xl'>
+              <div class='text-xs text-gray-400 font-["Medium"]'>Revenue in all</div>
+              <div class='text-4xl font-["Semibold"]'>$0</div>
+              <div class='flex items-center text-sm mt-2 gap-2 text-green-500 font-["Medium"]'>
+                <TrendingUp class='text-green-500 w-4 h-4' />
+                <div class='flex items-center gap-1'>+0 <div class='text-gray-300'>from yesterday</div></div>
+              </div>
+            </div>
+          </div>
+        </main>
 
-        </div>
+        {/* Cookie Policy Notice */}
 
       </div>
     </div>

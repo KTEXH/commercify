@@ -60,7 +60,7 @@ export const CREATE_LINK_IN_BIO = gql`
 `;
 
 export const CREATE_STORE = gql`
-  mutation CreateStorefront(
+  mutation createPage(
     $subdomain: String,
     $name: String,
     $backgroundColor: String,
@@ -72,6 +72,9 @@ export const CREATE_STORE = gql`
     $secondaryText: String,
     $componentColor: String,
     $storefront: Boolean!,
+    $form: Boolean!,
+    $workshop: Boolean!,
+    $linkinbio: Boolean!,
     $headingColor: String,
     $subTextColor: String,
     $embeddedLink: String,
@@ -99,7 +102,7 @@ export const CREATE_STORE = gql`
     $description: String,
     $template: Int
   ) {
-    createStorefront(
+    createPage(
       subdomain: $subdomain,
       name: $name,
       backgroundColor: $backgroundColor,
@@ -109,6 +112,9 @@ export const CREATE_STORE = gql`
       newsletterImage: $newsletterImage,
       componentColor: $componentColor,
       storefront: $storefront,
+      form: $form,
+      linkinbio: $linkinbio,
+      workshop: $workshop,
       headingColor: $headingColor,
       subTextColor: $subTextColor,
       embeddedLink: $embeddedLink,

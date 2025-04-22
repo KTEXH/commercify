@@ -79,17 +79,20 @@ const SimpleChart = () => {
     };
 
     return (
-        <div className="w-full border rounded-lg mt-3 p-3 font-sans">
-            <div className='w-full flex items-center p-4'>
-                <label className='font-["Semibold"] text-xs'>Revenue</label>
-                <div className='h-5 w-[2px] rounded-xl mx-5 bg-gray-200' />
-                <div className='flex items-center gap-2'>
-                    <div className='w-1 h-1 rounded-full bg-black' />
-                    <div className='text-xs font-["Medium"] flex gap-1'>Current Month <div className='text-xs font-["Semibold"]'>${currentMonthTotal}</div></div>
+        <div className="w-full border bg-white rounded-lg mt-3 p-3 font-sans">
+            <div className='w-full flex justify-between items-center p-4'>
+                <div>
+                <label className='font-["Semibold"] text-sm'>Year 2025</label>
                 </div>
-                <div className='flex items-center gap-2 ml-10'>
-                    <div className='w-2 h-2 rounded-full bg-sky-100' />
-                    <div className='text-xs font-["Medium"] flex gap-1'>Last 10 Months <div className='text-xs font-["Semibold"]'>${totalPay}</div></div>
+                <div class='flex items-center gap-2'>
+                <div className='flex items-center border px-3 p-1 rounded-full gap-2'>
+                    <div className='w-3 h-2 rounded-full bg-black' />
+                    <div className='text-xs font-["Semibold"] flex gap-1'>Money made</div>
+                </div>
+                <div className='flex items-center border px-3 p-1 rounded-full gap-2'>
+                    <div className='w-3 h-2 rounded-full bg-sky-100' />
+                    <div className='text-xs font-["Semibold"] flex gap-1'>No money made</div>
+                </div>
                 </div>
             </div>
             {cumulativePayouts.length === 0 ? (
@@ -103,7 +106,7 @@ const SimpleChart = () => {
                             dataKey="amount"
                             radius={[10, 10, 0, 0]}
                             minPointSize={minHeight} // Set the minimum height for bars
-                            barSize={60} // Set the width of the bars
+                            barSize={40} // Set the width of the bars
                         >
                             {
                                 cumulativePayouts.map((entry, index) => (

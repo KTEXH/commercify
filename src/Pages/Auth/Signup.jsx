@@ -73,64 +73,64 @@ export const Register = () => {
     });
 
     return (
-        <div class='md:grid md:grid-cols-2  gap-10 h-screen relative'>
+        <div class=' md:flex items-center md:justify-center relative'>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 
                 <div className="flex items-center justify-center flex-col">
                     <Group className='w-10 h-10' />
 
-                    <h2 className="mt-10 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
+                    <h2 className="mt-5 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
                         Get started
                     </h2>
                 </div>
 
-                <div className="mt-10 w-full sm:mx-auto sm:w-full h-full sm:max-w-sm">
-                    <form onSubmit={formik.handleSubmit} className="space-y-6">
+                <div className="mt-7 w-full sm:mx-auto sm:w-full h-full sm:max-w-sm">
+                    <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div class='flex items-center gap-3'>
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-['Semibold'] leading-6 text-gray-900"
-                            >
-                                Email address
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="johndoe@gmail.com"
-                                    required
-                                    autoComplete="email"
-                                    onChange={formik.handleChange}
-                                    value={formik.values.email}
-                                    className="block font-['Semibold'] bg-gray-200 px-5 rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 w-full sm:text-sm sm:leading-6"
-                                />
+                            <div>
+                                <label
+                                    htmlFor="email"
+                                    className="block text-sm font-['Semibold'] leading-6 text-gray-900"
+                                >
+                                    Email address
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="johndoe@gmail.com"
+                                        required
+                                        autoComplete="email"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.email}
+                                        className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <label
-                                htmlFor="username"
-                                className="block text-sm font-['Semibold'] leading-6 text-gray-900"
-                            >
-                                Username
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    id="username"
-                                    name="username"
-                                    type="text"
-                                    placeholder="John Doe"
-                                    required
-                                    autoComplete="username"
-                                    onChange={formik.handleChange}
-                                    value={formik.values.username}
-                                    className="block font-['Semibold'] bg-gray-200 px-5 rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 w-full sm:text-sm sm:leading-6"
-                                />
+                            <div>
+                                <label
+                                    htmlFor="username"
+                                    className="block text-sm font-['Semibold'] leading-6 text-gray-900"
+                                >
+                                    Username
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="username"
+                                        name="username"
+                                        type="text"
+                                        placeholder="John Doe"
+                                        required
+                                        autoComplete="username"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.username}
+                                        className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+                                    />
+                                </div>
                             </div>
                         </div>
-</div>
                         <div>
                             <label
                                 htmlFor="password"
@@ -147,7 +147,7 @@ export const Register = () => {
                                     required
                                     onChange={formik.handleChange}
                                     value={formik.values.password}
-                                    className="block w-full bg-gray-200 font-['Semibold'] px-5 rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -168,7 +168,7 @@ export const Register = () => {
                                     required
                                     onChange={formik.handleChange}
                                     value={formik.values.confirmPassword}
-                                    className="block font-['Semibold'] bg-gray-200 px-5 w-full rounded-2xl border-0 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -188,13 +188,14 @@ export const Register = () => {
                             </a>
                         </div>
                     </form>
-
+                    <div class='text-gray-400 text-center text-xs font-["Medium"] mt-5'>By signing up you are agreeing to our <div class='text-black font-["Semibold"]'>terms of use</div></div>
+                    <div class='rounded-lg mt-10 text-gray-400 mt-4 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
+                        <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
+                    </div>
                     {error && <p className="text-red-500">Error during registration</p>}
                 </div>
             </div>
-            <div class='bg-black hidden md:flex rounded-tl-3xl rounded-bl-3xl h-full w-full '>
 
-</div>
         </div>
     );
 };
