@@ -18,7 +18,7 @@
     "@supabase/supabase-js": "^2.45.4",
     "@tailwindcss/forms": "^0.5.9",
     "@tremor/react": "^3.18.3",
-    "@vercel/analytics": "^1.5.0",
+    "@vercel/analytics": "^1.4.0",
     "apollo-link-context": "^1.0.20",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
@@ -36,7 +36,7 @@
     "react-router-dom": "^6.26.2",
     "recharts": "^2.12.7",
     "supabase": "^1.200.3",
-    "svelte": "^3.59.2",
+    "svelte": "^5.28.2",
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1",
     "vue": "^3.2.47",
@@ -68,7 +68,6 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
-
   },
   "browserslist": {
     "production": [
