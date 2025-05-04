@@ -2,7 +2,7 @@ import { useQuery, gql } from '@apollo/client';
 import group2 from '../../../public/assets/Group2.svg'
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Button, Description, Simple } from '../../Pages/Pages/Builder';
+import { BackdropSimple, Button, Description, Simple } from '../../Pages/Pages/Builder';
 import { EllipsisVertical } from 'lucide-react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 const GET_LINK_BY_SUBDOMAIN = gql`
@@ -14,6 +14,7 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       headerText
       description
       subText
+      backdrop
       simple
       desc 
       button
@@ -81,7 +82,7 @@ export const Linkinbio = () => {
                     <div class={`${store?.storefront === true ? 'flex' : 'hidden'}`}>
                         {store?.user?.Products?.map(item => (
                             <div class='w-full flex'>
-                                {store?.simple === true && (<Simple item={item} />)}
+                                {store?.simple === true && (<div>{store?.backdrop === true ? (<BackdropSimple item={item} />) : (<Simple item={item} />)} </div>)}
                                 {store?.description === true && (<Description item={item} />)}
                                 {store?.button === true && (<Button item={item} />)}
                             </div>
@@ -90,8 +91,8 @@ export const Linkinbio = () => {
 
                     {store?.user?.Links?.map(item => (
                         <div class='w-full flex'>
-                            {store?.simple === true && (<Simple item={item} />)}
-                            {store?.description === true && (<Description item={item} />)}
+                                {store?.simple === true && (<div class='w-full'>{store?.backdrop === true ? (<BackdropSimple item={item} />) : (<Simple item={item} />)} </div>)}
+                                {store?.description === true && (<Description item={item} />)}
                             {store?.button === true && (<Button item={item} />)}
                         </div>
                     ))}

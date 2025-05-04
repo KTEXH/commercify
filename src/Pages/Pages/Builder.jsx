@@ -20,7 +20,7 @@ const supabase = createClient(
 
 export const Simple = ({ item }) => {
     return (
-        <div style={{}} class='flex w-full border mt-3 items-center px-3 py-2 rounded-full'>
+        <div style={{}} class={`flex w-full border mt-3 items-center px-3 py-2 rounded-full`}>
 
             <div class='w-full'>
                 {item.thumbnail || item.image ? (
@@ -36,6 +36,27 @@ export const Simple = ({ item }) => {
         </div>
     )
 }
+
+
+export const BackdropSimple = ({ item }) => {
+    return (
+        <div style={{ boxShadow: '4px 6px 0px 0px'}} class={`flex w-full border-2 border-black mt-4 items-center p-3 rounded-full`}>
+
+            <div class='w-full'>
+                {item.thumbnail || item.image ? (
+                    <img src={item.thumbnail || item.image} class='w-10 h-10 rounded-full' />
+                ) : (
+                    <div class='h-10 w-10 rounded-full' />
+                )}
+            </div>
+            <div class='font-["Semibold"] w-full text-center text-sm'>{item.title || item.linkText}</div>
+            <div class='w-full justify-end flex pr-2'>
+                <EllipsisHorizontalIcon class='w-5' />
+            </div>
+        </div>
+    )
+}
+
 
 export const Description = ({ item }) => {
     return (
