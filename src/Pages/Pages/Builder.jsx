@@ -20,7 +20,7 @@ import { createClient } from "@supabase/supabase-js";
 
 export const Simple = ({ item }) => {
     return (
-        <div class='flex w-full border mt-2 items-center px-3 py-2 rounded-full'>
+        <div class='flex w-full border mt-3 items-center px-3 py-2 rounded-full'>
             <div class='w-full'>
                 {item.thumbnail || item.image ? (
                     <img src={item.thumbnail || item.image} class='w-10 h-10 rounded-full' />
