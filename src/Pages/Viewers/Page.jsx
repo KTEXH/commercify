@@ -3,6 +3,8 @@ import group2 from '../../../public/assets/Group2.svg'
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { Button, Description, Simple } from '../../Pages/Pages/Builder';
+import { EllipsisVertical } from 'lucide-react';
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 const GET_LINK_BY_SUBDOMAIN = gql`
   query storeBySubdomain($subdomain: String!) {
     storeBySubdomain(subdomain: $subdomain) {
@@ -64,7 +66,10 @@ export const Linkinbio = () => {
     }
 
     return (
-        <div class='flex flex-col min-h-screen px-5 h-full w-full'>
+        <div class='flex flex-col min-h-screen px-5 relative h-full w-full'>
+            <div class='absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10'>
+                 <EllipsisHorizontalIcon class='w-4 h-4 text-white' />
+            </div>
             <div class='max-w-md flex items-center justify-center flex w-full mt-20 flex-col mx-auto'>
                 <img src={store?.headerImage} class='w-28 h-28 rounded-full' />
 
