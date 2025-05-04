@@ -28,7 +28,7 @@ export const Simple = ({ item }) => {
                     <div class='h-10 w-10 rounded-full'/>
                 )}
             </div>
-            <div class='font-["Semibold"] w-full text-center line-clamp-1 text-sm'>{item.title || item.linkText}</div>
+            <div class='font-["Semibold"] w-full text-center text-sm'>{item.title || item.linkText}</div>
             <div class='w-full justify-end flex pr-2'>
                 <EllipsisHorizontalIcon class='w-3' />
             </div>
