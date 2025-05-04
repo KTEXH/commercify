@@ -40,20 +40,30 @@ export const Simple = ({ item }) => {
 
 export const BackdropSimple = ({ item }) => {
     return (
-        <div style={{ boxShadow: '4px 6px 0px 0px'}} class={`flex w-full border-2 border-black mt-4 items-center p-3 rounded-full`}>
-
-            <div class='w-full'>
+        <div
+            style={{ boxShadow: '4px 6px 0px 0px black' }}
+            className="flex items-center justify-between border-2 border-black mt-4 p-3 rounded-full w-full"
+        >
+            {/* Left: Icon */}
+            <div className="flex items-center justify-center w-10 h-10 mr-3">
                 {item.thumbnail || item.image ? (
-                    <img src={item.thumbnail || item.image} class='w-10 h-10 rounded-full' />
+                    <img src={item.thumbnail || item.image} className="w-10 h-10 rounded-full object-cover" />
                 ) : (
-                    <div class='h-10 w-10 rounded-full' />
+                    <div className="w-10 h-10 rounded-full" />
                 )}
             </div>
-            <div class='font-["Semibold"] w-full text-center text-sm'>{item.title || item.linkText}</div>
-            <div class='w-full justify-end flex pr-2'>
-                <EllipsisHorizontalIcon class='w-5' />
+
+            {/* Center: Text */}
+            <div className="flex-1 text-center text-sm font-['Semibold']">
+                {item.title || item.linkText}
+            </div>
+
+            {/* Right: Ellipsis */}
+            <div className="flex items-center justify-center w-6 h-6 ml-3">
+                <EllipsisHorizontalIcon className="w-5 h-5" />
             </div>
         </div>
+
     )
 }
 
@@ -522,30 +532,30 @@ export const Builder = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                                <div class='grid w-full mt-5 grid-cols-3 gap-5'>
-                                                    <div onClick={() => updateStyle('backdrop', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                        <div class='text-sm font-["Semibold"]'>Backdrop</div>
+                                            <div class='grid w-full mt-5 grid-cols-3 gap-5'>
+                                                <div onClick={() => updateStyle('backdrop', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Backdrop</div>
 
-                                                        <div style={{ boxShadow: '0px 5px 0px 0px'}} class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
-                                                           
-                                                        </div>
+                                                    <div style={{ boxShadow: '0px 5px 0px 0px' }} class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
+
                                                     </div>
-                                                    <div onClick={() => updateStyle('outline', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                        <div class='text-sm font-["Semibold"]'>Outline</div>
+                                                </div>
+                                                <div onClick={() => updateStyle('outline', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Outline</div>
 
-                                                        <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
-                                                           
-                                                           </div>
+                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
+
                                                     </div>
-                                                    <div onClick={() => updateStyle('color', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                        <div class='text-sm font-["Semibold"]'>Color</div>
+                                                </div>
+                                                <div onClick={() => updateStyle('color', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Color</div>
 
-                                                        <div class='flex bg-black w-full mt-2 items-center p-2 py-4 rounded-full'>
-                                                           
-                                                           </div>
+                                                    <div class='flex bg-black w-full mt-2 items-center p-2 py-4 rounded-full'>
+
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                     )}
                                 </div>
                                 <div>
