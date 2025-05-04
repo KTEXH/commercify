@@ -42,14 +42,14 @@ export const BackdropSimple = ({ item }) => {
     return (
         <div
             style={{ boxShadow: '4px 6px 0px 0px black' }}
-            className="flex items-center justify-between border-2 border-black mt-4 p-3 rounded-full w-full"
+            className="flex items-center justify-between border-2 border-black mt-4 p-2 rounded-full w-full"
         >
             {/* Left: Icon */}
-            <div className="flex items-center justify-center w-10 h-10 mr-3">
+            <div className="flex items-center justify-center w-12 h-12 mr-3">
                 {item.thumbnail || item.image ? (
-                    <img src={item.thumbnail || item.image} className="w-10 h-10 rounded-full object-cover" />
+                    <img src={item.thumbnail || item.image} className="w-11 h-11 rounded-full object-cover" />
                 ) : (
-                    <div className="w-10 h-10 rounded-full" />
+                    <div className="w-11 h-11 rounded-full" />
                 )}
             </div>
 
