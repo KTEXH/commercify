@@ -13,19 +13,20 @@ import { useFormik } from "formik";
 import { createClient } from "@supabase/supabase-js";
 
 
-    const supabase = createClient(
-        'https://hrvpmllpyogxsgxcwrcq.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhydnBtbGxweW9neHNneGN3cmNxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjM5OTgwNywiZXhwIjoyMDU3OTc1ODA3fQ.Li3A-TLcPvQukSagJilD1D9rGuioodkursddKkYufYk'
-    );
+const supabase = createClient(
+    'https://hrvpmllpyogxsgxcwrcq.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhydnBtbGxweW9neHNneGN3cmNxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjM5OTgwNywiZXhwIjoyMDU3OTc1ODA3fQ.Li3A-TLcPvQukSagJilD1D9rGuioodkursddKkYufYk'
+);
 
 export const Simple = ({ item }) => {
     return (
-        <div class='flex w-full border mt-3 items-center px-3 py-2 rounded-full'>
+        <div style={{}} class='flex w-full border mt-3 items-center px-3 py-2 rounded-full'>
+
             <div class='w-full'>
                 {item.thumbnail || item.image ? (
                     <img src={item.thumbnail || item.image} class='w-10 h-10 rounded-full' />
                 ) : (
-                    <div class='h-10 w-10 rounded-full'/>
+                    <div class='h-10 w-10 rounded-full' />
                 )}
             </div>
             <div class='font-["Semibold"] w-full text-center text-sm'>{item.title || item.linkText}</div>
@@ -94,60 +95,60 @@ export const Builder = () => {
 
     const [links, setLinks] = useState([{ linkText: '', link: '', image: '', file: null }]);
     const [createLinks] = useMutation(LINK_CREATION);
-  
+
     const handleAddLink = () => {
-      setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
+        setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
     };
-  
+
     const handleChange = (index, field, value) => {
-      const updated = [...links];
-      updated[index][field] = value;
-      setLinks(updated);
+        const updated = [...links];
+        updated[index][field] = value;
+        setLinks(updated);
     };
-  
+
     const handleFileChange = (index, file) => {
-      const updated = [...links];
-      updated[index].file = file;
-      setLinks(updated);
+        const updated = [...links];
+        updated[index].file = file;
+        setLinks(updated);
     };
-  
+
     const uploadImages = async () => {
-      return await Promise.all(
-        links.map(async (item) => {
-          if (!item.file) return '';
-          const fileExt = item.file.name.split('.').pop();
-          const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
-  
-          const { error } = await supabase.storage.from('bubble').upload(fileName, item.file);
-          if (error) {
-            console.error('Upload error:', error.message);
-            return '';
-          }
-  
-          const { data: publicUrl } = supabase.storage.from('bubble').getPublicUrl(fileName);
-          return publicUrl.publicUrl;
-        })
-      );
+        return await Promise.all(
+            links.map(async (item) => {
+                if (!item.file) return '';
+                const fileExt = item.file.name.split('.').pop();
+                const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+
+                const { error } = await supabase.storage.from('bubble').upload(fileName, item.file);
+                if (error) {
+                    console.error('Upload error:', error.message);
+                    return '';
+                }
+
+                const { data: publicUrl } = supabase.storage.from('bubble').getPublicUrl(fileName);
+                return publicUrl.publicUrl;
+            })
+        );
     };
-  
+
     const handleSubmit = async () => {
-      const imageUrls = await uploadImages();
-  
-      const payload = links.map((item, i) => ({
-        linkText: item.linkText,
-        link: item.link,
-        image: imageUrls[i],
-      }));
-  
-      try {
-        await createLinks({ variables: { links: payload } });
-        alert('Links created!');
-        setLinks([{ linkText: '', link: '', image: '', file: null }]);
-      } catch (error) {
-        console.error('Create error:', error.message);
-      }
+        const imageUrls = await uploadImages();
+
+        const payload = links.map((item, i) => ({
+            linkText: item.linkText,
+            link: item.link,
+            image: imageUrls[i],
+        }));
+
+        try {
+            await createLinks({ variables: { links: payload } });
+            alert('Links created!');
+            setLinks([{ linkText: '', link: '', image: '', file: null }]);
+        } catch (error) {
+            console.error('Create error:', error.message);
+        }
     };
-  
+
 
     const navigate = useNavigate()
     const [selectedPage, setSelectedPage] = useState(null);
@@ -215,6 +216,7 @@ export const Builder = () => {
                         desc: display.description,
                         simple: display.simple,
                         button: display.button,
+                        backdrop: style.backdrop,
                         subdomain: formData.subdomain
                     },
                 });
@@ -246,6 +248,25 @@ export const Builder = () => {
         description: false,
         button: false
     })
+
+    const [style, setStyle] = useState({
+        backdrop: false,
+        outline: false,
+        color: false
+    })
+
+    const updateStyle = (key, value) => {
+        if (!value) return; // prevent setting false, because one must stay true
+
+        setStyle((prev) => {
+            const updated = Object.keys(prev).reduce((acc, currKey) => {
+                acc[currKey] = currKey === key ? true : false;
+                return acc;
+            }, {});
+            return updated;
+        });
+    };
+
 
     const updateDisplay = (key, value) => {
         if (!value) return; // prevent setting false, because one must stay true
@@ -354,11 +375,11 @@ export const Builder = () => {
                                                     </button>
                                                 </MenuItem>
                                                 {selectedPage?.linkinbio === true && (
-                                                     <MenuItem>
-                                                     <button onClick={() => setPage('Links')} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-                                                         Links
-                                                     </button>
-                                                 </MenuItem>
+                                                    <MenuItem>
+                                                        <button onClick={() => setPage('Links')} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                                                            Links
+                                                        </button>
+                                                    </MenuItem>
                                                 )}
                                                 <MenuItem>
                                                     <button onClick={() => setPage('Style')} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
@@ -370,7 +391,7 @@ export const Builder = () => {
                                                         Display
                                                     </button>
                                                 </MenuItem>
-                                            
+
                                             </MenuItems>
                                         </Menu>
                                         <button onClick={open} class='bg-black px-5 py-2 rounded-md text-white font-["Semibold"] text-sm'>Publish</button>
@@ -435,94 +456,119 @@ export const Builder = () => {
                                 </div>
                                 <div>
                                     {page === 'Display' && (
-                                        <div class='w-full grid mt-5 grid-cols-3 gap-3'>
-                                            <div onClick={() => updateDisplay('simple', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                <div class='text-sm font-["Semibold"]'>Simple</div>
+                                        <div class='w-full flex flex-col'>
+                                            <div class='w-full grid mt-5 grid-cols-3 gap-3'>
+                                                <div onClick={() => updateDisplay('simple', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Simple</div>
 
-                                                <div class='flex border mt-2 items-center p-2 rounded-full'>
-                                                    <div class='w-full'>
-                                                        <div class='w-6 h-6 rounded-full bg-black' />
+                                                    <div class='flex border mt-2 items-center p-2 rounded-full'>
+                                                        <div class='w-full'>
+                                                            <div class='w-6 h-6 rounded-full bg-black' />
+                                                        </div>
+                                                        <div class='font-["Semibold"] w-full text-xs'>Product</div>
+                                                        <div class='w-full justify-end flex pr-2'>
+                                                            <EllipsisHorizontalIcon class='w-3' />
+                                                        </div>
                                                     </div>
-                                                    <div class='font-["Semibold"] w-full text-xs'>Product</div>
-                                                    <div class='w-full justify-end flex pr-2'>
-                                                        <EllipsisHorizontalIcon class='w-3' />
+                                                </div>
+                                                <div onClick={() => updateDisplay('description', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Description</div>
+
+                                                    <div class='flex border mt-2 items-center p-2 rounded-full'>
+                                                        <div class='w-full'>
+                                                            <div class='w-6 h-6 rounded-full bg-black' />
+                                                        </div>
+                                                        <div class='font-["Semibold"] w-full text-xs'>
+                                                            <div class='text-center'>Product</div>
+                                                            <div class='text-gray-300 line-clamp-1 font-["Medium"] text-center'>Product description</div>
+                                                        </div>
+                                                        <div class='w-full justify-end flex pr-2'>
+                                                            <EllipsisHorizontalIcon class='w-3' />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div onClick={() => updateDisplay('button', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Button</div>
+
+                                                    <div class='flex border mt-2 items-center p-2 rounded-xl'>
+                                                        <div class='w-full'>
+                                                            <div class='w-8 h-8 rounded-xl bg-black' />
+                                                        </div>
+                                                        <div class='font-["Semibold"] w-full text-xs'>Product</div>
+                                                        <div class='w-full justify-end flex pr-2'>
+                                                            <div class='px-2 font-["Semibold"] py-1 rounded-full text-[10px] bg-black text-white'>Buy</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div onClick={() => updateDisplay('description', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                <div class='text-sm font-["Semibold"]'>Description</div>
+                                                <div class='grid w-full mt-5 grid-cols-3 gap-5'>
+                                                    <div onClick={() => updateStyle('backdrop', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                        <div class='text-sm font-["Semibold"]'>Backdrop</div>
 
-                                                <div class='flex border mt-2 items-center p-2 rounded-full'>
-                                                    <div class='w-full'>
-                                                        <div class='w-6 h-6 rounded-full bg-black' />
+                                                        <div style={{ boxShadow: '0px 5px 0px 0px'}} class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
+                                                           
+                                                        </div>
                                                     </div>
-                                                    <div class='font-["Semibold"] w-full text-xs'>
-                                                        <div class='text-center'>Product</div>
-                                                        <div class='text-gray-300 line-clamp-1 font-["Medium"] text-center'>Product description</div>
+                                                    <div onClick={() => updateStyle('outline', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                        <div class='text-sm font-["Semibold"]'>Outline</div>
+
+                                                        <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
+                                                           
+                                                           </div>
                                                     </div>
-                                                    <div class='w-full justify-end flex pr-2'>
-                                                        <EllipsisHorizontalIcon class='w-3' />
+                                                    <div onClick={() => updateStyle('color', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                        <div class='text-sm font-["Semibold"]'>Color</div>
+
+                                                        <div class='flex bg-black w-full mt-2 items-center p-2 py-4 rounded-full'>
+                                                           
+                                                           </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div onClick={() => updateDisplay('button', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                <div class='text-sm font-["Semibold"]'>Button</div>
-
-                                                <div class='flex border mt-2 items-center p-2 rounded-xl'>
-                                                    <div class='w-full'>
-                                                        <div class='w-8 h-8 rounded-xl bg-black' />
-                                                    </div>
-                                                    <div class='font-["Semibold"] w-full text-xs'>Product</div>
-                                                    <div class='w-full justify-end flex pr-2'>
-                                                        <div class='px-2 font-["Semibold"] py-1 rounded-full text-[10px] bg-black text-white'>Buy</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     )}
                                 </div>
                                 <div>
                                     {page === 'Links' && (
-                                         <div className="space-y-4 max-w-lg mx-auto">
-                                         {links.map((link, idx) => (
-                                           <div key={idx} className="border p-4 rounded-lg space-y-2">
-                                             <input
-                                               type="text"
-                                               value={link.linkText}
-                                               onChange={(e) => handleChange(idx, 'linkText', e.target.value)}
-                                               placeholder="Link Text"
-                                               className="w-full border px-3 py-2 rounded"
-                                             />
-                                             <input
-                                               type="text"
-                                               value={link.link}
-                                               onChange={(e) => handleChange(idx, 'link', e.target.value)}
-                                               placeholder="URL"
-                                               className="w-full border px-3 py-2 rounded"
-                                             />
-                                             <input
-                                               type="file"
-                                               accept="image/*"
-                                               onChange={(e) => handleFileChange(idx, e.target.files[0])}
-                                               className="file-input w-full"
-                                             />
-                                           </div>
-                                         ))}
-                                   
-                                         <button
-                                           onClick={handleAddLink}
-                                           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                                         >
-                                           Add Another Link
-                                         </button>
-                                   
-                                         <button
-                                           onClick={handleSubmit}
-                                           className="w-full bg-black text-white py-2 rounded-lg"
-                                         >
-                                           Submit All Links
-                                         </button>
-                                       </div>
+                                        <div className="space-y-4 max-w-lg mx-auto">
+                                            {links.map((link, idx) => (
+                                                <div key={idx} className="border p-4 rounded-lg space-y-2">
+                                                    <input
+                                                        type="text"
+                                                        value={link.linkText}
+                                                        onChange={(e) => handleChange(idx, 'linkText', e.target.value)}
+                                                        placeholder="Link Text"
+                                                        className="w-full border px-3 py-2 rounded"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        value={link.link}
+                                                        onChange={(e) => handleChange(idx, 'link', e.target.value)}
+                                                        placeholder="URL"
+                                                        className="w-full border px-3 py-2 rounded"
+                                                    />
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        onChange={(e) => handleFileChange(idx, e.target.files[0])}
+                                                        className="file-input w-full"
+                                                    />
+                                                </div>
+                                            ))}
+
+                                            <button
+                                                onClick={handleAddLink}
+                                                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                            >
+                                                Add Another Link
+                                            </button>
+
+                                            <button
+                                                onClick={handleSubmit}
+                                                className="w-full bg-black text-white py-2 rounded-lg"
+                                            >
+                                                Submit All Links
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
                                 <div>
@@ -598,7 +644,7 @@ export const Builder = () => {
                                                 </div>
                                             ))}
                                         </div>
-                                    ) }
+                                    )}
                                     {selectedPage?.workshop === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Services.map(item => (
@@ -609,9 +655,9 @@ export const Builder = () => {
                                                 </div>
                                             ))}
                                         </div>
-                                    ) }
-                                      
-                                      {selectedPage?.linkinbio === true && (
+                                    )}
+
+                                    {selectedPage?.linkinbio === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Links.map(item => (
                                                 <div class='w-full flex'>
@@ -619,8 +665,8 @@ export const Builder = () => {
                                                 </div>
                                             ))}
                                         </div>
-                                    ) }
-                                    
+                                    )}
+
 
                                 </div>
                             </div>
