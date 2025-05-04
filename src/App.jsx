@@ -25,7 +25,7 @@ import { Builder } from "./Pages/Pages/Builder";
 import { BuilderForm } from "./Pages/Pages/BuilderForm";
 import { Form } from "./Pages/Pages/Form";
 import { Storefront } from "./Pages/Viewers/Storefront";
-import { Linkinbio } from "./Pages/Viewers/Linkinbio";
+import { Linkinbio } from "./Pages/Viewers/Page";
 import { Linkinbio as LinkBuilder} from "./Pages/Pages/Linkinbio";
 import { Insights } from "./Pages/Pages/Insights";
 import { Beta } from "./components/Beta";
@@ -36,7 +36,7 @@ import { Settings } from "./Pages/Dash/Settings";
 function App() {
 
   const httpLink = new HttpLink({
-    uri: "http://localhost:4000/", // Replace with your GraphQL API URI
+    uri: "https://commercifybackend-j0o4.onrender.com/", // Replace with your GraphQL API URI
   });
   
   // Create an Auth Link to include the Authorization header

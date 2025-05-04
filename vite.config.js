@@ -5,6 +5,10 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   build: {
+      outDir: 'dist', // ensure the dist folder is created
+      rollupOptions: {
+        input: 'src/server.js', // entry point for backend (server code)
+      },
     rollupOptions: {
       external: ['@fullcalendar/core/preact.js'],
     },

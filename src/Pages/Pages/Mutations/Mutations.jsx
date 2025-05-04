@@ -1,68 +1,42 @@
 import { gql } from "@apollo/client";
 
+export const LINK_CREATION = gql`
+mutation CreateMultipleLinks($links: [LinkInput!]!) {
+  createLinks(links: $links) {
+    id
+    linkText
+    link
+    image
+  }
+}
+`
 
 export const CREATE_LINK_IN_BIO = gql`
-  mutation CreateLinkinbio(
-    $backgroundColor: String
-    $font: String
-    $mediaColor: String
-    $textColor: String
-    $iconColor: String
-    $isBackground: Boolean
-    $template: Int
-    $subdomain: String
-    $background: String
-    $borderRadius: String
-    $backdrop: Boolean
-    $backdropColor: String
-    $outline: Boolean
-    $backdropAvatar: Boolean
-    $newsletter: Boolean
-    $newsletterText: String
-    $newsletterButton: String
-    $newsletterDescription: String
-    $headerTextColor: String
-    $headerText: String
-    $secondaryText: String
-    $userId: Int
+  mutation createPage(
+     $name: String,
+     $form: Boolean!,
+     $storefront: Boolean!,
+     $workshop: Boolean!,
+     $linkinbio: Boolean!,
+     $headerImage: String
   ) {
-    createLinkinbio(
-      backgroundColor: $backgroundColor
-      font: $font
-      mediaColor: $mediaColor
-      textColor: $textColor
-      iconColor: $iconColor
-      isBackground: $isBackground
-      template: $template
-      subdomain: $subdomain
-      background: $background
-      borderRadius: $borderRadius
-      backdrop: $backdrop
-      backdropColor: $backdropColor
-      outline: $outline
-      backdropAvatar: $backdropAvatar
-      newsletter: $newsletter
-      newsletterText: $newsletterText
-      newsletterButton: $newsletterButton
-      newsletterDescription: $newsletterDescription
-      headerTextColor: $headerTextColor
-      headerText: $headerText
-      secondaryText: $secondaryText
-      userId: $userId
+    createPage(
+     name: $name,
+     form: $form,
+     storefront: $storefront,
+     linkinbio: $linkinbio,
+     workshop: $workshop,
+     headerImage: $headerImage
     ) {
       id
-      backgroundColor
-      font
-      textColor
-      userId
     }
   }
 `;
 
 export const CREATE_STORE = gql`
-  mutation createPage(
+  mutation updatePage(
+  $id: Int!,
     $subdomain: String,
-    $name: String,
     $backgroundColor: String,
     $storefrontIsPasscode: Boolean,
     $storefrontPass: String,
@@ -71,10 +45,6 @@ export const CREATE_STORE = gql`
     $headerText: String,
     $secondaryText: String,
     $componentColor: String,
-    $storefront: Boolean!,
-    $form: Boolean!,
-    $workshop: Boolean!,
-    $linkinbio: Boolean!,
     $headingColor: String,
     $subTextColor: String,
     $embeddedLink: String,
@@ -96,25 +66,24 @@ export const CREATE_STORE = gql`
     $twitter: String,
     $subscribeText: String,
     $subscribeSubText: String,
+    $desc: Boolean!,
+    $button: Boolean!,
+    $simple: Boolean!,
     $headerImage: String,
     $secondaryImage: String,
     $subText: String,
     $description: String,
     $template: Int
   ) {
-    createPage(
+    updatePage(
+    id: $id,
       subdomain: $subdomain,
-      name: $name,
       backgroundColor: $backgroundColor,
       storefrontIsPasscode: $storefrontIsPasscode,
       storefrontPass: $storefrontPass,
       newsletterSection: $newsletterSection,
       newsletterImage: $newsletterImage,
       componentColor: $componentColor,
-      storefront: $storefront,
-      form: $form,
-      linkinbio: $linkinbio,
-      workshop: $workshop,
       headingColor: $headingColor,
       subTextColor: $subTextColor,
       embeddedLink: $embeddedLink,
@@ -139,6 +108,9 @@ export const CREATE_STORE = gql`
       subscribeText: $subscribeText,
       subscribeSubText: $subscribeSubText,
       headerImage: $headerImage,
+      button: $button,
+      desc: $desc,
+      simple: $simple,
       secondaryImage: $secondaryImage,
       subText: $subText,
       description: $description,

@@ -87,6 +87,10 @@ query me{
      id
      headerImage
      storefront
+     linkinbio
+     form
+     storefront
+     workshop
      name
      }
      Orders{
