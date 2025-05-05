@@ -72,7 +72,7 @@ export const Linkinbio = () => {
     }
 
     return (
-        <div class='flex flex-col min-h-screen px-5 relative max-w-md mx-auto h-full w-full'>
+        <div class='flex flex-col min-h-screen px-5 mb-20 relative max-w-md mx-auto h-full w-full'>
            
             <div class='absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10'>
                  <EllipsisHorizontalIcon class='w-4 h-4 text-white' />

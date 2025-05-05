@@ -5,12 +5,31 @@ import { HexColorPicker } from "react-colorful";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { CREATE_STORE, LINK_CREATION } from "./Mutations/Mutations";
-import { useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../../components/NavBar";
 import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@headlessui/react";
 import { useFormik } from "formik";
 import { createClient } from "@supabase/supabase-js";
+
+const DELETE_LINK = gql`
+  mutation DeleteLink($id: Int!) {
+    deleteLink(id: $id) {
+      id
+    }
+  }
+`;
+
+const UPDATE_LINK = gql`
+  mutation UpdateLink($id: Int!, $link: String!, $linkText: String) {
+    updateLink(id: $id, link: $link, linkText: $linkText) {
+      id
+      link
+      linkText
+      image
+    }
+  }
+`;
 
 
 const supabase = createClient(
@@ -115,6 +134,7 @@ export const Builder = () => {
     const [showBanner, setShowBanner] = useState(true);
     const [create] = useMutation(CREATE_STORE)
     let [isOpen, setIsOpen] = useState(false)
+    const [updateLinkMutation] = useMutation(UPDATE_LINK);
 
     function open() {
         setIsOpen(true)
@@ -273,6 +293,44 @@ export const Builder = () => {
             }));
         }
     }, [selectedPage]);
+    const [existingLinks, setExistingLinks] = useState([]); // fetched from DB
+    const [newLinks, setNewLinks] = useState([]); // local inputs not saved yet
+    // Update existing link
+    const submitUpdate = async (id, idx) => {
+        const link = existingLinks[idx];
+        await updateLinkMutation({ variables: { id, link: link.link, linkText: link.linkText } });
+    };
+
+    // Delete existing link
+    const handleDelete = async (id) => {
+        await deleteLink({ variables: { id } });
+        await refetchExistingLinks();
+    };
+    // Add new link input field
+    
+
+    const refetchExistingLinks = async () => {
+        try {
+            const { data } = await refetch();
+            setExistingLinks(data.me.Links);
+        } catch (err) {
+            console.error("Failed to refetch links:", err);
+        }
+    };
+
+    const [deleteLink] = useMutation(DELETE_LINK);
+
+   
+     const handleUpdateLink = (index, field, value) => {
+        const updated = [...existingLinks];
+        updated[index] = {
+            ...updated[index],
+            [field]: value,
+        };
+        setExistingLinks(updated);
+    };
+    
+      
 
     const [display, setDisplay] = useState({
         simple: true,
@@ -311,6 +369,17 @@ export const Builder = () => {
         });
     };
 
+    useEffect(() => {
+        if (selectedPage) {
+          setFormData({
+            headerText: selectedPage?.headerText || '',
+            description: selectedPage?.description || '',
+            headerImage: selectedPage?.headerImage || '',
+            pageIcon: selectedPage?.pageIcon || '',
+          });
+        }
+      }, [selectedPage]);
+
     const [backgroundColor, setBackgroundColor] = useState("#ffffff");
     const [primaryText, setPrimaryText] = useState('#000000')
     const [secondaryText, setSecondaryText] = useState('#777777')
@@ -323,6 +392,11 @@ export const Builder = () => {
         }));
     };
 
+    useEffect(() => {
+        if (data && data.me.Links) {
+            setExistingLinks(data.me.Links);
+        }
+    }, [data]);
 
 
     const [colorPicker, setColorPicker] = useState(false)
@@ -560,8 +634,47 @@ export const Builder = () => {
                                 </div>
                                 <div>
                                     {page === 'Links' && (
-                                        <div className="space-y-4 max-w-lg mx-auto">
-                                            {links.map((link, idx) => (
+                                        <div className="space-y-6 max-w-lg mx-auto">
+
+                                            {/* Existing Links (Editable) */}
+                                            <div className="space-y-4">
+                                                <h2 className="font-bold">Your Current Links</h2>
+                                                {existingLinks.map((link, idx) => (
+                                                    <div key={idx} className="border p-4 rounded-lg space-y-2">
+                                                        <input
+                                                            type="text"
+                                                            value={existingLinks[idx].linkText}
+                                                            onChange={(e) => handleUpdateLink(idx, 'linkText', e.target.value)}
+                                                            className="w-full border px-3 py-2 rounded"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            value={existingLinks[idx].link}
+                                                            onChange={(e) => handleUpdateLink(idx, 'link', e.target.value)}
+                                                            className="w-full border px-3 py-2 rounded"
+                                                        />
+                                                        <div className="flex justify-between">
+                                                            <button
+                                                                onClick={() => submitUpdate(link.id, idx)}
+                                                                className="text-blue-600 hover:underline"
+                                                            >
+                                                                Update
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDelete(link.id)}
+                                                                className="text-red-600 hover:underline"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            {/* New Links (Add Mode) */}
+                                            <div className="space-y-4">
+                                                <h2 className="font-bold">Create New Links</h2>
+                                                {links.map((link, idx) => (
                                                 <div key={idx} className="border p-4 rounded-lg space-y-2">
                                                     <input
                                                         type="text"
@@ -586,21 +699,23 @@ export const Builder = () => {
                                                 </div>
                                             ))}
 
-                                            <button
-                                                onClick={handleAddLink}
-                                                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                                            >
-                                                Add Another Link
-                                            </button>
+                                                <button
+                                                    onClick={handleAddLink}
+                                                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                                >
+                                                    Add New Link
+                                                </button>
 
-                                            <button
-                                                onClick={handleSubmit}
-                                                className="w-full bg-black text-white py-2 rounded-lg"
-                                            >
-                                                Submit All Links
-                                            </button>
+                                                <button
+                                                    onClick={handleSubmit}
+                                                    className="w-full bg-black text-white py-2 rounded-lg"
+                                                >
+                                                    Submit New Links
+                                                </button>
+                                            </div>
                                         </div>
                                     )}
+
                                 </div>
                                 <div>
                                     {page === 'Content' && (

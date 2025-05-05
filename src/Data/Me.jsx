@@ -86,6 +86,8 @@ query me{
      Pages{
      id
      headerImage
+     headerText
+     description
      storefront
      linkinbio
      form
