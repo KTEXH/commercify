@@ -89,6 +89,11 @@ query me{
      headerText
      description
      storefront
+     desc
+     button
+     backdrop
+     simple
+     subdomain
      linkinbio
      form
      storefront

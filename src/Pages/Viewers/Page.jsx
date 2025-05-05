@@ -72,7 +72,7 @@ export const Linkinbio = () => {
     }
 
     return (
-        <div class='flex flex-col min-h-screen px-5 mb-20 relative max-w-md mx-auto h-full w-full'>
+        <div class='flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto h-full w-full'>
            
             <div class='absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10'>
                  <EllipsisHorizontalIcon class='w-4 h-4 text-white' />
@@ -81,7 +81,7 @@ export const Linkinbio = () => {
                 <img src={store?.headerImage} class={`w-28 h-28 rounded-full`} />
 
                 <div class='text-center mt-6'>
-                    <div class='text-xl text-black flex items-center gap-1 font-["Semibold"]' style={{}}>{store?.headerText} <img src={verified} class={`${store?.user?.verified === true ? 'w-6 h-6' : 'hidden'}`} /></div>
+                    <div class='text-xl text-black flex items-center gap-1 font-["Semibold"]' style={{}}>{store?.headerText} <img src={verified} class={`${store?.user?.verified === true ? 'w-5 h-5' : 'hidden'}`} /></div>
                     <div class='text-gray-400 text-center max-w-sm mt-1'>{store?.description}</div>
                 </div>
                 <div class='mt-5 w-full'>

@@ -39,18 +39,24 @@ const supabase = createClient(
 
 export const Simple = ({ item }) => {
     return (
-        <div style={{}} class={`flex w-full border mt-3 items-center px-3 py-2 rounded-full`}>
+        <div style={{}}
+            className="flex items-center justify-between border-[2px] mt-4 p-2 rounded-full w-full"
+        >
 
-            <div class='w-full'>
+            <div className="flex items-center justify-center w-12 h-12 mr-3">
                 {item.thumbnail || item.image ? (
-                    <img src={item.thumbnail || item.image} class='w-10 h-10 rounded-full' />
+                    <img src={item.thumbnail || item.image} className="w-11 h-11 rounded-full object-cover" />
                 ) : (
-                    <div class='h-10 w-10 rounded-full' />
+                    <div className="w-11 h-11 rounded-full" />
                 )}
             </div>
-            <div class='font-["Semibold"] w-full text-center text-sm'>{item.title || item.linkText}</div>
-            <div class='w-full justify-end flex pr-2'>
-                <EllipsisHorizontalIcon class='w-3' />
+            <div className="flex-1 text-center text-sm font-['Semibold']">
+                {item.title || item.linkText}
+            </div>
+
+            {/* Right: Ellipsis */}
+            <div className="flex items-center justify-center w-6 h-6 ml-3">
+                <EllipsisHorizontalIcon className="w-5 h-5" />
             </div>
         </div>
     )
@@ -208,7 +214,7 @@ export const Builder = () => {
 
     const [formData, setFormData] = useState({
         id: selectedPage?.id,
-        subdomain: '',
+        subdomain: selectedPage?.subdomain || '',
         name: 'Untitled',
         backgroundColor: '#fff',
         storefrontIsPasscode: false,
@@ -264,10 +270,10 @@ export const Builder = () => {
                         id: selectedPage?.id,
                         description: formData.description,
                         headerText: formData.headerText,
-                        desc: display.description,
+                        desc: display?.description,
                         simple: display.simple,
                         button: display.button,
-                        backdrop: style.backdrop,
+                        backdrop: style?.backdrop,
                         subdomain: formData.subdomain
                     },
                 });
@@ -307,7 +313,7 @@ export const Builder = () => {
         await refetchExistingLinks();
     };
     // Add new link input field
-    
+
 
     const refetchExistingLinks = async () => {
         try {
@@ -320,8 +326,8 @@ export const Builder = () => {
 
     const [deleteLink] = useMutation(DELETE_LINK);
 
-   
-     const handleUpdateLink = (index, field, value) => {
+
+    const handleUpdateLink = (index, field, value) => {
         const updated = [...existingLinks];
         updated[index] = {
             ...updated[index],
@@ -329,14 +335,14 @@ export const Builder = () => {
         };
         setExistingLinks(updated);
     };
-    
-      
+
+
 
     const [display, setDisplay] = useState({
         simple: true,
         description: false,
         button: false
-    })
+    });
 
     const [style, setStyle] = useState({
         backdrop: false,
@@ -371,14 +377,25 @@ export const Builder = () => {
 
     useEffect(() => {
         if (selectedPage) {
-          setFormData({
-            headerText: selectedPage?.headerText || '',
-            description: selectedPage?.description || '',
-            headerImage: selectedPage?.headerImage || '',
-            pageIcon: selectedPage?.pageIcon || '',
-          });
+            setFormData({
+                headerText: selectedPage?.headerText || '',
+                description: selectedPage?.description || '',
+                headerImage: selectedPage?.headerImage || '',
+                pageIcon: selectedPage?.pageIcon || '',
+                subdomain: selectedPage?.subdomain || '',
+                name: selectedPage?.name
+            });
+            setDisplay({
+                simple: selectedPage?.simple,
+                description: selectedPage?.desc, // fix here
+                button: selectedPage?.button
+            });
+
+            setStyle({
+                backdrop: selectedPage?.backdrop
+            })
         }
-      }, [selectedPage]);
+    }, [selectedPage]);
 
     const [backgroundColor, setBackgroundColor] = useState("#ffffff");
     const [primaryText, setPrimaryText] = useState('#000000')
@@ -516,8 +533,9 @@ export const Builder = () => {
                                                     Give your page a name before you publish.
                                                 </p>
                                                 <input
+
                                                     onChange={handleNameChange}
-                                                    value={formData.subdomain}
+                                                    value={formData?.subdomain}
                                                     name="subdomain"
                                                     class='py-2 px-4 my-4 text-sm font-["Medium"] rounded-lg border w-full' placeholder='Name...' />
                                                 <div className="">
@@ -675,29 +693,29 @@ export const Builder = () => {
                                             <div className="space-y-4">
                                                 <h2 className="font-bold">Create New Links</h2>
                                                 {links.map((link, idx) => (
-                                                <div key={idx} className="border p-4 rounded-lg space-y-2">
-                                                    <input
-                                                        type="text"
-                                                        value={link.linkText}
-                                                        onChange={(e) => handleChange(idx, 'linkText', e.target.value)}
-                                                        placeholder="Link Text"
-                                                        className="w-full border px-3 py-2 rounded"
-                                                    />
-                                                    <input
-                                                        type="text"
-                                                        value={link.link}
-                                                        onChange={(e) => handleChange(idx, 'link', e.target.value)}
-                                                        placeholder="URL"
-                                                        className="w-full border px-3 py-2 rounded"
-                                                    />
-                                                    <input
-                                                        type="file"
-                                                        accept="image/*"
-                                                        onChange={(e) => handleFileChange(idx, e.target.files[0])}
-                                                        className="file-input w-full"
-                                                    />
-                                                </div>
-                                            ))}
+                                                    <div key={idx} className="border p-4 rounded-lg space-y-2">
+                                                        <input
+                                                            type="text"
+                                                            value={link.linkText}
+                                                            onChange={(e) => handleChange(idx, 'linkText', e.target.value)}
+                                                            placeholder="Link Text"
+                                                            className="w-full border px-3 py-2 rounded"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            value={link.link}
+                                                            onChange={(e) => handleChange(idx, 'link', e.target.value)}
+                                                            placeholder="URL"
+                                                            className="w-full border px-3 py-2 rounded"
+                                                        />
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={(e) => handleFileChange(idx, e.target.files[0])}
+                                                            className="file-input w-full"
+                                                        />
+                                                    </div>
+                                                ))}
 
                                                 <button
                                                     onClick={handleAddLink}
