@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { BackdropSimple, Button, Description, Simple } from '../../Pages/Pages/Builder';
 import { EllipsisVertical } from 'lucide-react';
-import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
+import logo from '../../components/assets/logo.png'
+import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import verified from '../../components/assets/twitterverified.png'
 const GET_LINK_BY_SUBDOMAIN = gql`
   query storeBySubdomain($subdomain: String!) {
@@ -41,6 +42,8 @@ const GET_LINK_BY_SUBDOMAIN = gql`
 `;
 
 export const Linkinbio = () => {
+
+    const [isSeen, setIsSeen] = useState(false)
 
     const { subdomain } = useParams()
     const { loading, error, data } = useQuery(GET_LINK_BY_SUBDOMAIN, {
@@ -101,8 +104,24 @@ export const Linkinbio = () => {
                             {store?.button === true && (<Button item={item} />)}
                         </div>
                     ))}
+                    
                 </div>
+                {isSeen === false && (
+                    <div className="fixed space-x-1 w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+                        <div className='bottom-6 fixed justify-center items-center flex flex-col'>
+                            <div className="bg-black px-4 py-4 rounded-full space-x-2 justify-center items-center inline-flex">
+                                <img src={logo} className='h-4 w-4' />
+                                <div className="font-['Semibold'] text-white text-xs">commercifyhq.com</div>
+                                <XMarkIcon className='w-4 h-4 ml-3 cursor-pointer text-gray-500' />
+                            </div>
+                            <div className='text-sm text-white mt-4 font-["Medium"]'>
+                                Get started with Commercify today!
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
+            
         </div>
     )
 }
