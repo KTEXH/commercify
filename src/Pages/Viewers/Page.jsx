@@ -107,12 +107,12 @@ export const Linkinbio = () => {
                 {isSeen === false && (
                     <div className="fixed space-x-1 w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
                         <div className='bottom-6 fixed justify-center items-center flex flex-col'>
-                            <div className="bg-black px-4 py-4 rounded-full space-x-2 justify-center items-center inline-flex">
+                            <div className="bg-black px-3 py-3 rounded-full space-x-2 justify-center items-center inline-flex">
                                 <img src={logo} className='h-4 w-4' />
                                 <div className="font-['Semibold'] text-white text-xs">commercifyhq.com</div>
                                 <XMarkIcon className='w-4 h-4 ml-3 cursor-pointer text-gray-500' />
                             </div>
-                            <div className='text-sm text-white mt-4 font-["Medium"]'>
+                            <div className='text-xs text-white mt-3 font-["Semibold"]'>
                                 Get started with Commercify today!
                             </div>
                         </div>
