@@ -125,3 +125,22 @@ export const CREATE_STORE = gql`
   }
 `;
 
+
+export const DELETE_LINK = gql`
+  mutation DeleteLink($id: Int!) {
+    deleteLink(id: $id) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_LINK = gql`
+  mutation UpdateLink($id: Int!, $link: String!, $linkText: String) {
+    updateLink(id: $id, link: $link, linkText: $linkText) {
+      id
+      link
+      linkText
+      image
+    }
+  }
+`;

@@ -78,7 +78,7 @@ export const Linkinbio = () => {
                  <EllipsisHorizontalIcon class='w-4 h-4 text-white' />
             </div>
             <div class='max-w-md flex items-center justify-center flex w-full mt-20 flex-col mx-auto'>
-                <img src={store?.headerImage} class={`w-28 h-28 rounded-full`} />
+                <img src={store?.headerImage}  style={{ boxShadow: '4px 5px 0px 0px' }} class={`w-28 h-28 ${store?.backdrop === true && 'border-2 border-black'} rounded-full`} />
 
                 <div class='text-center mt-6'>
                     <div class='text-xl text-black flex items-center gap-1 font-["Semibold"]' style={{}}>{store?.headerText} <img src={verified} class={`${store?.user?.verified === true ? 'w-5 h-5' : 'hidden'}`} /></div>

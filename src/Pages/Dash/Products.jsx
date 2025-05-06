@@ -44,7 +44,7 @@ export const Products = ({ className = "" }) => {
                     <PlusIcon class='w-4 h-4 text-black' />
                 </div>
             </div>
-            <NavBar home={false} products={true} storefront={selectedPage?.storefront} />
+            <NavBar home={false} products={true} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col">

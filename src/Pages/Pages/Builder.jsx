@@ -4,38 +4,13 @@ import { CheckIcon, ChevronDownIcon, EllipsisHorizontalIcon, PlusIcon } from "@h
 import { HexColorPicker } from "react-colorful";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
-import { CREATE_STORE, LINK_CREATION } from "./Mutations/Mutations";
+import { CREATE_STORE, LINK_CREATION, UPDATE_LINK, DELETE_LINK } from "./Mutations/Mutations";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../../components/NavBar";
 import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@headlessui/react";
 import { useFormik } from "formik";
-import { createClient } from "@supabase/supabase-js";
-
-const DELETE_LINK = gql`
-  mutation DeleteLink($id: Int!) {
-    deleteLink(id: $id) {
-      id
-    }
-  }
-`;
-
-const UPDATE_LINK = gql`
-  mutation UpdateLink($id: Int!, $link: String!, $linkText: String) {
-    updateLink(id: $id, link: $link, linkText: $linkText) {
-      id
-      link
-      linkText
-      image
-    }
-  }
-`;
-
-
-const supabase = createClient(
-    'https://hrvpmllpyogxsgxcwrcq.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhydnBtbGxweW9neHNneGN3cmNxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjM5OTgwNywiZXhwIjoyMDU3OTc1ODA3fQ.Li3A-TLcPvQukSagJilD1D9rGuioodkursddKkYufYk'
-);
+import { supabase } from "../../Utils/utils";
 
 export const Simple = ({ item }) => {
     return (
@@ -136,82 +111,15 @@ export const Button = ({ item }) => {
 
 
 export const Builder = () => {
-    const { data, error, loading } = useQuery(ME_QUERY)
-    const [showBanner, setShowBanner] = useState(true);
-    const [create] = useMutation(CREATE_STORE)
-    let [isOpen, setIsOpen] = useState(false)
-    const [updateLinkMutation] = useMutation(UPDATE_LINK);
-
-    function open() {
-        setIsOpen(true)
-    }
-
-    function close() {
-        setIsOpen(false)
-    }
-
-    const [links, setLinks] = useState([{ linkText: '', link: '', image: '', file: null }]);
+    const { data, error, loading, refetch } = useQuery(ME_QUERY);
+    const [create] = useMutation(CREATE_STORE);
     const [createLinks] = useMutation(LINK_CREATION);
+    const [updateLinkMutation] = useMutation(UPDATE_LINK);
+    const [deleteLink] = useMutation(DELETE_LINK);
 
-    const handleAddLink = () => {
-        setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
-    };
-
-    const handleChange = (index, field, value) => {
-        const updated = [...links];
-        updated[index][field] = value;
-        setLinks(updated);
-    };
-
-    const handleFileChange = (index, file) => {
-        const updated = [...links];
-        updated[index].file = file;
-        setLinks(updated);
-    };
-
-    const uploadImages = async () => {
-        return await Promise.all(
-            links.map(async (item) => {
-                if (!item.file) return '';
-                const fileExt = item.file.name.split('.').pop();
-                const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
-
-                const { error } = await supabase.storage.from('bubble').upload(fileName, item.file);
-                if (error) {
-                    console.error('Upload error:', error.message);
-                    return '';
-                }
-
-                const { data: publicUrl } = supabase.storage.from('bubble').getPublicUrl(fileName);
-                return publicUrl.publicUrl;
-            })
-        );
-    };
-
-    const handleSubmit = async () => {
-        const imageUrls = await uploadImages();
-
-        const payload = links.map((item, i) => ({
-            linkText: item.linkText,
-            link: item.link,
-            image: imageUrls[i],
-        }));
-
-        try {
-            await createLinks({ variables: { links: payload } });
-            alert('Links created!');
-            setLinks([{ linkText: '', link: '', image: '', file: null }]);
-        } catch (error) {
-            console.error('Create error:', error.message);
-        }
-    };
-
-
-    const navigate = useNavigate()
     const [selectedPage, setSelectedPage] = useState(null);
-
-    const [page, setPage] = useState('Content')
-
+    const [links, setLinks] = useState([{ linkText: "", link: "", image: "", file: null }]);
+    const [existingLinks, setExistingLinks] = useState([]);
     const [formData, setFormData] = useState({
         id: selectedPage?.id,
         subdomain: selectedPage?.subdomain || '',
@@ -255,100 +163,170 @@ export const Builder = () => {
         subText: '',
         description: 'Description goes here',
         template: 1,
+        // Add all other default fields here as needed
     });
 
+    const [display, setDisplay] = useState({ simple: true, description: false, button: false });
+    const [style, setStyle] = useState({ backdrop: false, outline: false, color: false });
+    const [colorPicker, setColorPicker] = useState(false)
+    const [page, setPage] = useState('Content')
+    const [isOpen, setIsOpen] = useState(false)
+    const [color, setColor] = useState("#ffffff");
 
-    const formik = useFormik({
-        initialValues: {
-            formData
-        },
-
-        onSubmit: async (values) => {
-            try {
-                const response = await create({
-                    variables: {
-                        id: selectedPage?.id,
-                        description: formData.description,
-                        headerText: formData.headerText,
-                        desc: display?.description,
-                        simple: display.simple,
-                        button: display.button,
-                        backdrop: style?.backdrop,
-                        subdomain: formData.subdomain
-                    },
-                });
-                navigate('/dashboard');
-            } catch (err) {
-                console.error('Login error:', err);
-            }
-        },
-    });
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.me?.Pages?.length > 0 && !selectedPage) {
-            setSelectedPage(data.me.Pages[0]); // Set first page as default
+            setSelectedPage(data.me.Pages[0]);
         }
-    }, [data, selectedPage]);
+        if (data?.me?.Links) {
+            setExistingLinks(data.me.Links);
+        }
+    }, [data]);
 
     useEffect(() => {
         if (selectedPage) {
             setFormData((prev) => ({
                 ...prev,
-                title: selectedPage.name || "",
-
+                subdomain: selectedPage.subdomain || "",
+                name: selectedPage.name || "",
+                headerText: selectedPage.headerText || "",
+                description: selectedPage.description || "",
+                headerImage: selectedPage.headerImage || "",
             }));
+            setDisplay({
+                simple: selectedPage.simple,
+                description: selectedPage.desc,
+                button: selectedPage.button,
+            });
+            setStyle({ backdrop: selectedPage.backdrop });
         }
     }, [selectedPage]);
-    const [existingLinks, setExistingLinks] = useState([]); // fetched from DB
-    const [newLinks, setNewLinks] = useState([]); // local inputs not saved yet
-    // Update existing link
-    const submitUpdate = async (id, idx) => {
-        const link = existingLinks[idx];
-        await updateLinkMutation({ variables: { id, link: link.link, linkText: link.linkText } });
+
+    const handleNameChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
-    // Delete existing link
+    const handleChange = (index, field, value) => {
+        const updated = [...links];
+        updated[index][field] = value;
+        setLinks(updated);
+    };
+
+
+    function open() {
+        setIsOpen(true)
+    }
+
+    function close() {
+        setIsOpen(false)
+    }
+
+    const handleFileChange = (index, file) => {
+        const updated = [...links];
+        updated[index].file = file;
+        setLinks(updated);
+    };
+
+    const uploadImages = async () => {
+        return await Promise.all(
+            links.map(async ({ file }) => {
+                if (!file) return "";
+                const fileName = `${Date.now()}-${Math.random()}.${file.name.split(".").pop()}`;
+                const { error } = await supabase.storage.from("bubble").upload(fileName, file);
+                if (error) return "";
+                const { data } = supabase.storage.from("bubble").getPublicUrl(fileName);
+                return data?.publicUrl || "";
+            })
+        );
+    };
+
+    const handleSubmit = async () => {
+        const imageUrls = await uploadImages();
+        const payload = links.map((item, i) => ({
+            linkText: item.linkText,
+            link: item.link,
+            image: imageUrls[i],
+        }));
+
+        try {
+            await createLinks({ variables: { links: payload } });
+            alert("Links created!");
+            setLinks([{ linkText: "", link: "", image: "", file: null }]);
+        } catch (err) {
+            console.error("Link creation failed:", err.message);
+        }
+    };
+
+    const handleAddLink = () => {
+        setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
+    };
+
     const handleDelete = async (id) => {
         await deleteLink({ variables: { id } });
         await refetchExistingLinks();
     };
-    // Add new link input field
 
-
-    const refetchExistingLinks = async () => {
-        try {
-            const { data } = await refetch();
-            setExistingLinks(data.me.Links);
-        } catch (err) {
-            console.error("Failed to refetch links:", err);
-        }
-    };
-
-    const [deleteLink] = useMutation(DELETE_LINK);
-
-
-    const handleUpdateLink = (index, field, value) => {
-        const updated = [...existingLinks];
-        updated[index] = {
-            ...updated[index],
-            [field]: value,
-        };
-        setExistingLinks(updated);
-    };
-
-
-
-    const [display, setDisplay] = useState({
-        simple: true,
-        description: false,
-        button: false
+    const formik = useFormik({
+        initialValues: { formData },
+        onSubmit: async () => {
+            try {
+                await create({
+                    variables: {
+                        id: selectedPage?.id,
+                        subdomain: formData.subdomain,
+                        description: formData.description,
+                        headerText: formData.headerText,
+                        desc: display.description,
+                        simple: display.simple,
+                        button: display.button,
+                        backdrop: style.backdrop,
+                        headerImage: formData?.headerImage
+                    },
+                });
+                navigate("/dashboard");
+            } catch (err) {
+                console.error("Form submission error:", err.message);
+            }
+        },
     });
 
-    const [style, setStyle] = useState({
-        backdrop: false,
-        outline: false,
-        color: false
-    })
+
+
+    async function uploadHeaderImage(file) {
+        if (!file) return;
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `headers/${fileName}`;
+
+        const { data, error } = await supabase.storage
+            .from('bubble') // your bucket name
+            .upload(filePath, file);
+
+        if (error) {
+            console.error('Upload failed:', error.message);
+            return;
+        }
+
+        const { data: publicUrlData } = supabase.storage
+            .from('bubble')
+            .getPublicUrl(filePath);
+
+        const publicUrl = publicUrlData?.publicUrl;
+
+        if (publicUrl) {
+            // 🔄 Update formData.headerImage with the public URL
+            setFormData((prev) => ({
+                ...prev,
+                headerImage: publicUrl,
+            }));
+        }
+    }
 
     const updateStyle = (key, value) => {
         if (!value) return; // prevent setting false, because one must stay true
@@ -362,73 +340,36 @@ export const Builder = () => {
         });
     };
 
-
-    const updateDisplay = (key, value) => {
-        if (!value) return; // prevent setting false, because one must stay true
-
-        setDisplay((prev) => {
-            const updated = Object.keys(prev).reduce((acc, currKey) => {
-                acc[currKey] = currKey === key ? true : false;
-                return acc;
-            }, {});
-            return updated;
-        });
+    const handleUpdateLink = (index, field, value) => {
+        const updated = [...existingLinks];
+        updated[index] = {
+            ...updated[index],
+            [field]: value,
+        };
+        setExistingLinks(updated);
     };
 
-    useEffect(() => {
-        if (selectedPage) {
-            setFormData({
-                headerText: selectedPage?.headerText || '',
-                description: selectedPage?.description || '',
-                headerImage: selectedPage?.headerImage || '',
-                pageIcon: selectedPage?.pageIcon || '',
-                subdomain: selectedPage?.subdomain || '',
-                name: selectedPage?.name
-            });
-            setDisplay({
-                simple: selectedPage?.simple,
-                description: selectedPage?.desc, // fix here
-                button: selectedPage?.button
-            });
-
-            setStyle({
-                backdrop: selectedPage?.backdrop
-            })
-        }
-    }, [selectedPage]);
-
-    const [backgroundColor, setBackgroundColor] = useState("#ffffff");
-    const [primaryText, setPrimaryText] = useState('#000000')
-    const [secondaryText, setSecondaryText] = useState('#777777')
-
-    const handleNameChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const submitUpdate = async (id, idx) => {
+        const link = existingLinks[idx];
+        await updateLinkMutation({ variables: { id, link: link.link, linkText: link.linkText } });
     };
 
-    useEffect(() => {
-        if (data && data.me.Links) {
+    const handleExistingDelete = async (id) => {
+        await deleteLink({ variables: { id } });
+        refetchExistingLinks();
+    };
+
+    const refetchExistingLinks = async () => {
+        try {
+            const { data } = await refetch();
             setExistingLinks(data.me.Links);
+        } catch (err) {
+            console.error("Failed to refetch links:", err);
         }
-    }, [data]);
-
-
-    const [colorPicker, setColorPicker] = useState(false)
-
-    const handleDescriptionChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
     };
-    const [color, setColor] = useState("#ffffff");
 
-    if (error) return <div>{error.message}</div>
-    if (loading) return <div>loading...</div>
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error.message}</div>;
     return (
         <div class='w-full h-full'>
             {colorPicker === true && (
@@ -456,7 +397,7 @@ export const Builder = () => {
                         <PlusIcon class='w-4 h-4 text-black' />
                     </div>
                 </div>
-                <NavBar home={false} builder={true} products={false} storefront={selectedPage?.storefront} />
+                <NavBar home={false} builder={true} products={false} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
@@ -759,22 +700,7 @@ export const Builder = () => {
                                             </div>
 
                                             <div class='flex items-center justify-between w-full'>
-                                                <div>
-                                                    <div class='mb-3 mt-5 text-sm font-["Semibold"]'>Page icon</div>
 
-                                                    <div class='flex items-center gap-5'>
-                                                        {!selectedPage?.headerImage ? (
-                                                            <div className="w-12 h-12 bg-black rounded-xl" />
-                                                        ) : (
-                                                            <img src={selectedPage?.headerImage} className="w-12 h-12 bg-black rounded-xl" />
-                                                        )}
-
-
-                                                        <div>
-                                                            <div class='font-["Semibold"] px-4 py-2 text-sm shadow-sm border rounded-lg'>Change page icon</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div>
                                                     <div class='mb-3 mt-5 text-sm font-["Semibold"]'>Header Image </div>
                                                     <div class='flex items-center gap-5'>
@@ -784,8 +710,27 @@ export const Builder = () => {
                                                             <img src={selectedPage?.headerImage} className="w-12 h-12 bg-black rounded-xl" />
                                                         )}
                                                         <div>
-                                                            <div class='font-["Semibold"] px-4 py-2 text-sm shadow-sm border rounded-lg'>Change header image</div>
+                                                            <input
+                                                                id="headerImageUpload"
+                                                                type="file"
+                                                                class='hidden'
+                                                                accept="image/*"
+                                                                onChange={(e) => {
+                                                                    const file = e.target.files[0];
+                                                                    if (file) {
+                                                                        uploadHeaderImage(file); // pass to upload function
+                                                                    }
+                                                                }}
+                                                            />
+
+                                                            <label
+                                                                htmlFor="headerImageUpload"
+                                                                className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-lg inline-block'
+                                                            >
+                                                                Change header image
+                                                            </label>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
