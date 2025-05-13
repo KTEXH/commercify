@@ -15,7 +15,7 @@ import { supabase } from "../../Utils/utils";
 export const Simple = ({ item }) => {
     return (
         <div style={{}}
-            className="flex items-center justify-between border-[2px] mt-4 p-2 rounded-full w-full"
+            className="flex items-center justify-between border-[1px] mt-4 p-2 rounded-full w-full"
         >
 
             <div className="flex items-center justify-center w-12 h-12 mr-3">
