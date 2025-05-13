@@ -5,7 +5,7 @@ import { Formik, useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import Group from '../../../components/assets/Group'
 import { PlusIcon } from '@heroicons/react/20/solid'
-import { CREATE_STORE } from '../../../Pages/Pages/Mutations/Mutations'
+import { CREATE_LINK_IN_BIO } from '../../../Pages/Pages/Mutations/Mutations'
 import { createClient } from '@supabase/supabase-js'
 export const Setup = () => {
 
@@ -44,7 +44,7 @@ export const Setup = () => {
     };
     const [uploading, setUploading] = useState(false);
 
-    const [create] = useMutation(CREATE_STORE)
+    const [create] = useMutation(CREATE_LINK_IN_BIO)
     const handleImageUpload = async (event) => {
         if (!event || !event.target.files || event.target.files.length === 0) return;
     

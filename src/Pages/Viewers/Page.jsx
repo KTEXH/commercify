@@ -17,10 +17,9 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       headerText
       description
       subText
-      backdrop
-      simple
-      desc 
-      button
+      style
+      base
+      rounded
       headerImage
       user {
         id
@@ -55,10 +54,10 @@ export const Linkinbio = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (!store) return <div>No store found</div>;
 
-  const showSimple = store.simple;
-  const showBackdrop = store.backdrop;
-  const showDescription = store.description;
-  const showButton = store.button;
+  const style = store.style
+  const base = store.base
+
+
 
   return (
     <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
@@ -70,10 +69,8 @@ export const Linkinbio = () => {
         <img
           src={store.headerImage}
           loading="lazy"
-          style={{ boxShadow: '4px 5px 0px 0px' }}
           className={clsx(
             'w-28 h-28 rounded-full',
-            store.backdrop && 'border-2 border-black'
           )}
           alt="Store header"
         />
@@ -97,17 +94,17 @@ export const Linkinbio = () => {
             <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
               {store.user.Products.map((item) => (
                 <div className="w-full flex" key={item.id}>
-                  {showSimple && (
+                  {base === 'simple' && (
                     <div className="w-full">
-                      {showBackdrop ? (
+                      {style === 'backdrop' ? (
                         <BackdropSimple item={item} />
                       ) : (
                         <Simple item={item} />
                       )}
                     </div>
                   )}
-                  {showDescription && <Description item={item} />}
-                  {showButton && <Button item={item} />}
+                  {base === 'desc' && <Description item={item} />}
+                  {base === 'button' && <Button item={item} />}
                 </div>
               ))}
             </div>
@@ -115,21 +112,19 @@ export const Linkinbio = () => {
 
           {store.user?.Links?.map((item) => (
             <div className="w-full flex" key={item.id}>
-              {showSimple && (
+              {base === 'simple' && (
                 <div className="w-full">
-                  {showBackdrop ? (
+                  {style === 'backdrop' ? (
                     <BackdropSimple item={item} />
                   ) : (
                     <Simple item={item} />
                   )}
                 </div>
               )}
-              {showDescription && <Description item={item} />}
-              {showButton && <Button item={item} />}
             </div>
           ))}
         </div>
-
+     
         {!isSeen && (
           <div className="fixed w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
             <div className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">

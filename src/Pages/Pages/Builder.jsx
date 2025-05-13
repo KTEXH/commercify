@@ -193,13 +193,9 @@ export const Builder = () => {
                 headerText: selectedPage.headerText || "",
                 description: selectedPage.description || "",
                 headerImage: selectedPage.headerImage || "",
+                linkinbio: selectedPage.linkinbio
             }));
-            setDisplay({
-                simple: selectedPage.simple,
-                description: selectedPage.desc,
-                button: selectedPage.button,
-            });
-            setStyle({ backdrop: selectedPage.backdrop });
+
         }
     }, [selectedPage]);
 
@@ -281,10 +277,8 @@ export const Builder = () => {
                         subdomain: formData.subdomain,
                         description: formData.description,
                         headerText: formData.headerText,
-                        desc: display.description,
-                        simple: display.simple,
-                        button: display.button,
-                        backdrop: style.backdrop,
+                        base: base,
+                        rounded: rounded,
                         headerImage: formData?.headerImage
                     },
                 });
@@ -339,7 +333,8 @@ export const Builder = () => {
             return updated;
         });
     };
-
+    const [rounded, setRounded] = useState('rounded-full')
+    const [base, setBase] = useState('simple')
     const handleUpdateLink = (index, field, value) => {
         const updated = [...existingLinks];
         updated[index] = {
@@ -521,8 +516,8 @@ export const Builder = () => {
                                 <div>
                                     {page === 'Display' && (
                                         <div class='w-full flex flex-col'>
-                                            <div class='w-full grid mt-5 grid-cols-3 gap-3'>
-                                                <div onClick={() => updateDisplay('simple', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                            <div class='w-full grid mt-5 grid-cols-3 gap-3' style={{ display: formData.linkinbio === true && 'none' }}>
+                                                <div onClick={() => setBase('simple')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Simple</div>
 
                                                     <div class='flex border mt-2 items-center p-2 rounded-full'>
@@ -535,7 +530,7 @@ export const Builder = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div onClick={() => updateDisplay('description', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div onClick={() => setBase('description')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Description</div>
 
                                                     <div class='flex border mt-2 items-center p-2 rounded-full'>
@@ -551,7 +546,7 @@ export const Builder = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div onClick={() => updateDisplay('button', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div onClick={() => setBase('button')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Button</div>
 
                                                     <div class='flex border mt-2 items-center p-2 rounded-xl'>
@@ -588,49 +583,35 @@ export const Builder = () => {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class='grid w-full mt-5 grid-cols-3 gap-5'>
+                                                <div onClick={() => setRounded('rounded-full')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Rounded full</div>
+
+                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
+
+                                                    </div>
+                                                </div>
+                                                <div onClick={() => setRounded('rounded-medium')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Rounded medium</div>
+
+                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-xl'>
+
+                                                    </div>
+                                                </div>
+                                                <div onClick={() => setRounded('none')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                    <div class='text-sm font-["Semibold"]'>Square</div>
+
+                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4'>
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                                 <div>
                                     {page === 'Links' && (
                                         <div className="space-y-6 max-w-lg mx-auto">
-
-                                            {/* Existing Links (Editable) */}
-                                            <div className="space-y-4">
-                                                <h2 className="font-bold">Your Current Links</h2>
-                                                {existingLinks.map((link, idx) => (
-                                                    <div key={idx} className="border p-4 rounded-lg space-y-2">
-                                                        <input
-                                                            type="text"
-                                                            value={existingLinks[idx].linkText}
-                                                            onChange={(e) => handleUpdateLink(idx, 'linkText', e.target.value)}
-                                                            className="w-full border px-3 py-2 rounded"
-                                                        />
-                                                        <input
-                                                            type="text"
-                                                            value={existingLinks[idx].link}
-                                                            onChange={(e) => handleUpdateLink(idx, 'link', e.target.value)}
-                                                            className="w-full border px-3 py-2 rounded"
-                                                        />
-                                                        <div className="flex justify-between">
-                                                            <button
-                                                                onClick={() => submitUpdate(link.id, idx)}
-                                                                className="text-blue-600 hover:underline"
-                                                            >
-                                                                Update
-                                                            </button>
-                                                            <button
-                                                                onClick={() => handleDelete(link.id)}
-                                                                className="text-red-600 hover:underline"
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-
-                                            {/* New Links (Add Mode) */}
                                             <div className="space-y-4">
                                                 <h2 className="font-bold">Create New Links</h2>
                                                 {links.map((link, idx) => (
@@ -672,6 +653,43 @@ export const Builder = () => {
                                                     Submit New Links
                                                 </button>
                                             </div>
+                                            {/* Existing Links (Editable) */}
+                                            <div className="space-y-4">
+                                                <h2 className="font-bold">Your Current Links</h2>
+                                                {existingLinks.map((link, idx) => (
+                                                    <div key={idx} className="border p-4 rounded-lg space-y-2">
+                                                        <input
+                                                            type="text"
+                                                            value={existingLinks[idx].linkText}
+                                                            onChange={(e) => handleUpdateLink(idx, 'linkText', e.target.value)}
+                                                            className="w-full border px-3 py-2 rounded"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            value={existingLinks[idx].link}
+                                                            onChange={(e) => handleUpdateLink(idx, 'link', e.target.value)}
+                                                            className="w-full border px-3 py-2 rounded"
+                                                        />
+                                                        <div className="flex justify-between">
+                                                            <button
+                                                                onClick={() => submitUpdate(link.id, idx)}
+                                                                className="text-blue-600 hover:underline"
+                                                            >
+                                                                Update
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDelete(link.id)}
+                                                                className="text-red-600 hover:underline"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            {/* New Links (Add Mode) */}
+
                                         </div>
                                     )}
 

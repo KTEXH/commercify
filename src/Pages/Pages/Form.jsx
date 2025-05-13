@@ -17,7 +17,7 @@ export const Form = ({ }) => {
                             <div className="flex items-center justify-center gap-x-1">
                                 <div className="text-sm font-semibold leading-5 text-neutral-900" >
                                     Forms
-                                </div>
+                                                                    </div>
                                 <img
                                     className="h-4 w-4 flex-shrink-0"
                                     src="/assets/IconSet21.svg"
