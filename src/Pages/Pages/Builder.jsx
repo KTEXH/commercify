@@ -12,9 +12,9 @@ import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@hea
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
 
-export const Simple = ({ item, round, color, style }) => {
+export const Simple = ({ item, round, color, style, link }) => {
     return (
-        <div style={{backgroundColor: style === 'color' && color, 
+        <a href={link} style={{backgroundColor: style === 'color' && color, 
             borderColor: style === 'outline' && color,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
          }}
@@ -36,7 +36,7 @@ export const Simple = ({ item, round, color, style }) => {
             <div className="flex items-center justify-center w-6 h-6 ml-3">
                 <EllipsisHorizontalIcon className="w-5 h-5" />
             </div>
-        </div>
+        </a>
     )
 }
 

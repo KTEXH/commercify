@@ -108,7 +108,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
               {base === 'simple' && (
                 <div className="w-full">
          
-                   <Simple item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
+                   <Simple link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
         
                 </div>
               )}
