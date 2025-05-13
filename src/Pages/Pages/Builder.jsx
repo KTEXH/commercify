@@ -12,10 +12,13 @@ import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@hea
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
 
-export const Simple = ({ item, round }) => {
+export const Simple = ({ item, round, color, style }) => {
     return (
-        <div style={{}}
-            className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between border-[1px] mt-4 p-2 w-full`}
+        <div style={{backgroundColor: style === 'color' && color, 
+            borderColor: style === 'outline' && color,
+            boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
+         }}
+            className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-4 p-2 w-full`}
         >
 
             <div className="flex items-center justify-center w-12 h-12 mr-3">
@@ -167,7 +170,6 @@ export const Builder = () => {
     });
 
     const [display, setDisplay] = useState({ simple: true, description: false, button: false });
-    const [style, setStyle] = useState({ backdrop: false, outline: false, color: false });
     const [colorPicker, setColorPicker] = useState(false)
     const [page, setPage] = useState('Content')
     const [isOpen, setIsOpen] = useState(false)
@@ -279,6 +281,7 @@ export const Builder = () => {
                         headerText: formData.headerText,
                         base: base,
                         rounded: rounded,
+                        style: style,
                         headerImage: formData?.headerImage
                     },
                 });
@@ -334,7 +337,9 @@ export const Builder = () => {
         });
     };
     const [rounded, setRounded] = useState('rounded-full')
+    const [styleColor, setStyleColor] = useState('#ededed')
     const [base, setBase] = useState('simple')
+    const [style, setStyle] = useState('outline')
     const handleUpdateLink = (index, field, value) => {
         const updated = [...existingLinks];
         updated[index] = {
@@ -561,21 +566,21 @@ export const Builder = () => {
                                                 </div>
                                             </div>
                                             <div class='grid w-full mt-5 grid-cols-3 gap-5'>
-                                                <div onClick={() => updateStyle('backdrop', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div onClick={() => setStyle('backdrop')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Backdrop</div>
 
                                                     <div style={{ boxShadow: '0px 5px 0px 0px' }} class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
 
                                                     </div>
                                                 </div>
-                                                <div onClick={() => updateStyle('outline', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div onClick={() => setStyle('outline')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Outline</div>
 
                                                     <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
 
                                                     </div>
                                                 </div>
-                                                <div onClick={() => updateStyle('color', true)} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div onClick={() => setStyle('color')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Color</div>
 
                                                     <div class='flex bg-black w-full mt-2 items-center p-2 py-4 rounded-full'>
@@ -789,7 +794,7 @@ export const Builder = () => {
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Links.map(item => (
                                                 <div class='w-full flex'>
-                                                   <Simple item={item} round={rounded}/>
+                                                   <Simple item={item} round={rounded} style={style} color={styleColor} />
                                                 </div>
                                             ))}
                                         </div>

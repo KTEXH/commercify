@@ -1,7 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 import group2 from '../../../public/assets/Group2.svg';
 import { useParams } from "react-router-dom";
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { BackdropSimple, Button, Description, Simple } from '../../Pages/Pages/Builder';
 import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import logo from '../../components/assets/logo.png';
@@ -18,6 +18,7 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       description
       subText
       style
+      styleColor
       base
       rounded
       headerImage
@@ -48,7 +49,7 @@ export const Linkinbio = () => {
     variables: { subdomain },
   });
 
-  const store = data?.storeBySubdomain;
+const store = useMemo(() => data?.storeBySubdomain, [data]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -94,17 +95,9 @@ export const Linkinbio = () => {
             <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
               {store.user.Products.map((item) => (
                 <div className="w-full flex" key={item.id}>
-                  {base === 'simple' && (
-                    <div className="w-full">
-                      {style === 'backdrop' ? (
-                        <BackdropSimple item={item} />
-                      ) : (
-                        <Simple item={item} />
-                      )}
-                    </div>
-                  )}
+                  {base === 'simple' && (<Simple item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>)}
                   {base === 'desc' && <Description item={item} />}
-                  {base === 'button' && <Button item={item} />}
+                  {base === 'button' && <Button item={item}/>}
                 </div>
               ))}
             </div>
@@ -114,11 +107,9 @@ export const Linkinbio = () => {
             <div className="w-full flex" key={item.id}>
               {base === 'simple' && (
                 <div className="w-full">
-                  {style === 'backdrop' ? (
-                    <BackdropSimple item={item} />
-                  ) : (
-                    <Simple item={item} />
-                  )}
+         
+                   <Simple item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
+        
                 </div>
               )}
             </div>
