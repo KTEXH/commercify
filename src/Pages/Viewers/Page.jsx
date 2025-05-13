@@ -15,6 +15,9 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       subdomain
       name
       headerText
+      backgroundColor
+      baseText
+      textColor
       description
       subText
       style
@@ -61,6 +64,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
 
 
   return (
+    <div style={{ backgroundColor: store?.backgroundColor}} class='flex w-full'>
     <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
       <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10">
         <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
@@ -77,7 +81,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
         />
 
         <div className="text-center mt-6">
-          <div className="text-xl text-black flex items-center gap-1 font-['Semibold']">
+          <div style={{ color: store?.textColor }} className="text-xl text-black flex items-center gap-1 font-['Semibold']">
             {store.headerText}
             <img
               src={verified}
@@ -108,7 +112,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
               {base === 'simple' && (
                 <div className="w-full">
          
-                   <Simple link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
+                   <Simple textColor={store?.baseText} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
         
                 </div>
               )}
@@ -136,6 +140,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

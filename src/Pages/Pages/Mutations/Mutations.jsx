@@ -68,6 +68,8 @@ export const CREATE_STORE = gql`
     $tiktok: String,
     $font: String,
     $twitter: String,
+    $textColor: String,
+    $baseText: String,
     $subscribeText: String,
     $subscribeSubText: String,
     $headerImage: String,
@@ -79,6 +81,8 @@ export const CREATE_STORE = gql`
     updatePage(
     id: $id,
       subdomain: $subdomain,
+      textColor: $textColor,
+      baseText: $baseText,
       backgroundColor: $backgroundColor,
       storefrontIsPasscode: $storefrontIsPasscode,
       storefrontPass: $storefrontPass,

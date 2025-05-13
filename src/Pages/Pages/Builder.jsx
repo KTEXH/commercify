@@ -12,12 +12,13 @@ import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@hea
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
 
-export const Simple = ({ item, round, color, style, link }) => {
+export const Simple = ({ item, round, color, style, link, textColor }) => {
     return (
-        <a href={link} style={{backgroundColor: style === 'color' && color, 
+        <a href={link} style={{
+            backgroundColor: style === 'color' && color,
             borderColor: style === 'outline' && color,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
-         }}
+        }}
             className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-4 p-2 w-full`}
         >
 
@@ -28,7 +29,7 @@ export const Simple = ({ item, round, color, style, link }) => {
                     <div className="w-11 h-11 rounded-full" />
                 )}
             </div>
-            <div className="flex-1 text-center text-sm font-['Semibold']">
+            <div style={{ color: textColor}} className="flex-1 text-center text-sm font-['Semibold']">
                 {item.title || item.linkText}
             </div>
 
@@ -174,7 +175,10 @@ export const Builder = () => {
     const [page, setPage] = useState('Content')
     const [isOpen, setIsOpen] = useState(false)
     const [color, setColor] = useState("#ffffff");
-
+    const [rounded, setRounded] = useState('rounded-full')
+    const [styleColor, setStyleColor] = useState('#ededed')
+    const [base, setBase] = useState('simple')
+    const [style, setStyle] = useState('outline')
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -184,6 +188,8 @@ export const Builder = () => {
         if (data?.me?.Links) {
             setExistingLinks(data.me.Links);
         }
+        setStyle(selectedPage?.style || 'outline')
+        setBase(selectedPage?.base || 'simple')
     }, [data]);
 
     useEffect(() => {
@@ -278,10 +284,14 @@ export const Builder = () => {
                         id: selectedPage?.id,
                         subdomain: formData.subdomain,
                         description: formData.description,
+                        backgroundColor: color,
                         headerText: formData.headerText,
                         base: base,
                         rounded: rounded,
                         style: style,
+                        styleColor: styleColor,
+                        textColor: textColor,
+                        baseText: baseText,
                         headerImage: formData?.headerImage
                     },
                 });
@@ -336,10 +346,7 @@ export const Builder = () => {
             return updated;
         });
     };
-    const [rounded, setRounded] = useState('rounded-full')
-    const [styleColor, setStyleColor] = useState('#ededed')
-    const [base, setBase] = useState('simple')
-    const [style, setStyle] = useState('outline')
+
     const handleUpdateLink = (index, field, value) => {
         const updated = [...existingLinks];
         updated[index] = {
@@ -368,6 +375,11 @@ export const Builder = () => {
         }
     };
 
+    const [colorPickerBase, setColorPickerBase] = useState(false)
+    const [textColorPicker, setTextColorPicker] = useState(false)
+    const [textColor, setTextColor] = useState("#000")
+    const [baseText, setBaseText] = useState("#000")
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error.message}</div>;
     return (
@@ -377,6 +389,22 @@ export const Builder = () => {
                     <div class='z-50'>
                         <HexColorPicker color={color} onChange={setColor} />
                         <div onClick={() => setColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                    </div>
+                </div>
+            )}
+            {colorPickerBase === true && (
+                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                    <div class='z-50'>
+                        <HexColorPicker color={styleColor} onChange={setStyleColor} />
+                        <div onClick={() => setColorPickerBase(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                    </div>
+                </div>
+            )}
+            {textColorPicker === true && (
+                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                    <div class='z-50'>
+                        <HexColorPicker color={textColor} onChange={setTextColor} />
+                        <div onClick={() => setTextColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
                     </div>
                 </div>
             )}
@@ -501,19 +529,13 @@ export const Builder = () => {
 
                                                 </div>
                                                 <div class='w-full'>
-                                                    <div class='mb-3 text-sm font-["Semibold"]'>Primary Color</div>
+                                                    <div class='mb-3 text-sm font-["Semibold"]'>Text Color</div>
                                                     <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{  }} />
-                                                        <div class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
+                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{}} />
+                                                        <div onClick={() => setTextColorPicker(true)} class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
                                                     </div>
                                                 </div>
-                                                <div class='w-full'>
-                                                    <div class='mb-3 text-sm font-["Semibold"]'>Secondary Color</div>
-                                                    <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{ }} />
-                                                        <div class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     )}
@@ -609,6 +631,15 @@ export const Builder = () => {
                                                     <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4'>
 
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class='grid grid-cols-2 gap-2 w-full'>
+                                                <div>
+                                                    <button onClick={() => setColorPickerBase(true)}>setcolor</button>
+
+                                                </div>
+                                                <div>
+                                                    <HexColorPicker color={baseText} onChange={setBaseText} />
                                                 </div>
                                             </div>
                                         </div>
@@ -764,20 +795,19 @@ export const Builder = () => {
                             <div class='w-1/3 h-full p-5'>
                                 <div style={{ backgroundColor: color }} class='w-full h-full border-2 flex  px-5 flex-col items-center bg-white rounded-2xl'>
                                     <img src={!selectedPage?.headerImage ? logo : selectedPage?.headerImage} class='w-24 h-24 rounded-full mt-10' />
-                                    <div class='mt-3 text-xl font-["Semibold"]'>{formData?.headerText}</div>
-                                    <div class='mt-1 text-sm text-gray-400 font-["Medium"]'>{formData?.description}</div>
+                                    <div style={{ color: textColor }} class='mt-3 text-xl font-["Semibold"]'>{formData?.headerText}</div>
+                                    <div style={{ color: textColor }} class='mt-1 text-sm text-gray-400 font-["Medium"]'>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.OnlyProducts.map(item => (
                                                 <div class='w-full flex'>
-                                                    {display.simple === true && (<Simple item={item} round={rounded}/>)}
+                                                    {display.simple === true && (<Simple item={item} round={rounded} />)}
                                                     {display.description === true && (<Description item={item} />)}
                                                     {display.button === true && (<Button item={item} />)}
                                                 </div>
                                             ))}
                                         </div>
                                     )}
-                                    {rounded}
                                     {selectedPage?.workshop === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Services.map(item => (
@@ -789,12 +819,12 @@ export const Builder = () => {
                                             ))}
                                         </div>
                                     )}
-
+                                       {baseText}{textColor}
                                     {selectedPage?.linkinbio === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Links.map(item => (
                                                 <div class='w-full flex'>
-                                                   <Simple item={item} round={rounded} style={style} color={styleColor} />
+                                                    <Simple textColor={baseText} item={item} round={rounded} style={style} color={styleColor} />
                                                 </div>
                                             ))}
                                         </div>
