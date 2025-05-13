@@ -1,12 +1,13 @@
 import { useQuery, gql } from '@apollo/client';
-import group2 from '../../../public/assets/Group2.svg'
+import group2 from '../../../public/assets/Group2.svg';
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BackdropSimple, Button, Description, Simple } from '../../Pages/Pages/Builder';
-import { EllipsisVertical } from 'lucide-react';
-import logo from '../../components/assets/logo.png'
 import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
-import verified from '../../components/assets/twitterverified.png'
+import logo from '../../components/assets/logo.png';
+import verified from '../../components/assets/twitterverified.png';
+import clsx from 'clsx';
+
 const GET_LINK_BY_SUBDOMAIN = gql`
   query storeBySubdomain($subdomain: String!) {
     storeBySubdomain(subdomain: $subdomain) {
@@ -21,105 +22,134 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       desc 
       button
       headerImage
-      user{
-      id
-      verified
-      Links{
-      id
-      linkText
-      link
-      image
-      }
-      Products{
-      id
-      title
-      description
-      thumbnail
-      }
+      user {
+        id
+        verified
+        Links {
+          id
+          linkText
+          link
+          image
+        }
+        Products {
+          id
+          title
+          description
+          thumbnail
+        }
       }
     }
   }
 `;
 
 export const Linkinbio = () => {
+  const [isSeen, setIsSeen] = useState(false);
+  const { subdomain } = useParams();
+  const { loading, error, data } = useQuery(GET_LINK_BY_SUBDOMAIN, {
+    variables: { subdomain },
+  });
 
-    const [isSeen, setIsSeen] = useState(false)
+  const store = data?.storeBySubdomain;
 
-    const { subdomain } = useParams()
-    const { loading, error, data } = useQuery(GET_LINK_BY_SUBDOMAIN, {
-        variables: { subdomain }
-    })
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!store) return <div>No store found</div>;
 
-    const [store, setStore] = useState(null);
+  const showSimple = store.simple;
+  const showBackdrop = store.backdrop;
+  const showDescription = store.description;
+  const showButton = store.button;
 
-    useEffect(() => {
-        if (data) {
-            setStore(data.storeBySubdomain);
-        }
-    }, [data])
+  return (
+    <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
+      <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10">
+        <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
+      </div>
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+      <div className="max-w-md w-full mt-20 flex flex-col items-center mx-auto">
+        <img
+          src={store.headerImage}
+          loading="lazy"
+          style={{ boxShadow: '4px 5px 0px 0px' }}
+          className={clsx(
+            'w-28 h-28 rounded-full',
+            store.backdrop && 'border-2 border-black'
+          )}
+          alt="Store header"
+        />
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-
-    if (!data) {
-        return <div>No store found</div>;
-    }
-
-    return (
-        <div class='flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto h-full w-full'>
-           
-            <div class='absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10'>
-                 <EllipsisHorizontalIcon class='w-4 h-4 text-white' />
-            </div>
-            <div class='max-w-md flex items-center justify-center flex w-full mt-20 flex-col mx-auto'>
-                <img src={store?.headerImage}  style={{ boxShadow: '4px 5px 0px 0px' }} class={`w-28 h-28 ${store?.backdrop === true && 'border-2 border-black'} rounded-full`} />
-
-                <div class='text-center mt-6'>
-                    <div class='text-xl text-black flex items-center gap-1 font-["Semibold"]' style={{}}>{store?.headerText} <img src={verified} class={`${store?.user?.verified === true ? 'w-5 h-5' : 'hidden'}`} /></div>
-                    <div class='text-gray-400 text-center max-w-sm mt-1'>{store?.description}</div>
-                </div>
-                <div class='mt-5 w-full'>
-                    <div class={`${store?.storefront === true ? 'flex' : 'hidden'}`}>
-                        {store?.user?.Products?.map(item => (
-                            <div class='w-full flex'>
-                                {store?.simple === true && (<div>{store?.backdrop === true ? (<BackdropSimple item={item} />) : (<Simple item={item} />)} </div>)}
-                                {store?.description === true && (<Description item={item} />)}
-                                {store?.button === true && (<Button item={item} />)}
-                            </div>
-                        ))}
-                    </div>
-
-                    {store?.user?.Links?.map(item => (
-                        <div class='w-full flex'>
-                                {store?.simple === true && (<div class='w-full'>{store?.backdrop === true ? (<BackdropSimple item={item} />) : (<Simple item={item} />)} </div>)}
-                                {store?.description === true && (<Description item={item} />)}
-                            {store?.button === true && (<Button item={item} />)}
-                        </div>
-                    ))}
-                    
-                </div>
-                {isSeen === false && (
-                    <div className="fixed space-x-1 w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
-                        <div className='bottom-6 fixed justify-center items-center flex flex-col'>
-                            <div className="bg-black px-3 py-3 rounded-full space-x-2 justify-center items-center inline-flex">
-                                <img src={logo} className='h-4 w-4' />
-                                <div className="font-['Semibold'] text-white text-xs">commercifyhq.com</div>
-                                <XMarkIcon className='w-4 h-4 ml-3 cursor-pointer text-gray-500' />
-                            </div>
-                            <div className='text-xs text-white mt-3 font-["Semibold"]'>
-                                Get started with Commercify today!
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
-            
+        <div className="text-center mt-6">
+          <div className="text-xl text-black flex items-center gap-1 font-['Semibold']">
+            {store.headerText}
+            <img
+              src={verified}
+              className={clsx(store.user?.verified ? 'w-5 h-5' : 'hidden')}
+              alt="Verified badge"
+            />
+          </div>
+          <div className="text-gray-400 mt-1 max-w-sm text-center">
+            {store.description}
+          </div>
         </div>
-    )
-}
+
+        <div className="mt-5 w-full">
+          {store.user?.Products?.length > 0 && (
+            <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
+              {store.user.Products.map((item) => (
+                <div className="w-full flex" key={item.id}>
+                  {showSimple && (
+                    <div className="w-full">
+                      {showBackdrop ? (
+                        <BackdropSimple item={item} />
+                      ) : (
+                        <Simple item={item} />
+                      )}
+                    </div>
+                  )}
+                  {showDescription && <Description item={item} />}
+                  {showButton && <Button item={item} />}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {store.user?.Links?.map((item) => (
+            <div className="w-full flex" key={item.id}>
+              {showSimple && (
+                <div className="w-full">
+                  {showBackdrop ? (
+                    <BackdropSimple item={item} />
+                  ) : (
+                    <Simple item={item} />
+                  )}
+                </div>
+              )}
+              {showDescription && <Description item={item} />}
+              {showButton && <Button item={item} />}
+            </div>
+          ))}
+        </div>
+
+        {!isSeen && (
+          <div className="fixed w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+            <div className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">
+              <div className="bg-black px-3 py-3 rounded-full flex items-center space-x-2">
+                <img src={logo} className="h-4 w-4" alt="Commercify logo" />
+                <div className="font-['Semibold'] text-white text-xs">
+                  commercifyhq.com
+                </div>
+                <XMarkIcon
+                  onClick={() => setIsSeen(false)}
+                  className="w-4 h-4 ml-3 cursor-pointer text-gray-500"
+                />
+              </div>
+              <div className="text-xs text-white font-['Semibold']">
+                Get started with Commercify today!
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
