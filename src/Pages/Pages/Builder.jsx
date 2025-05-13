@@ -12,10 +12,10 @@ import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@hea
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
 
-export const Simple = ({ item }) => {
+export const Simple = ({ item, round }) => {
     return (
         <div style={{}}
-            className="flex items-center justify-between border-[1px] mt-4 p-2 rounded-full w-full"
+            className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between border-[1px] mt-4 p-2 w-full`}
         >
 
             <div className="flex items-center justify-center w-12 h-12 mr-3">
@@ -498,14 +498,14 @@ export const Builder = () => {
                                                 <div class='w-full'>
                                                     <div class='mb-3 text-sm font-["Semibold"]'>Primary Color</div>
                                                     <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{ backgroundColor: primaryText }} />
+                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{  }} />
                                                         <div class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
                                                     </div>
                                                 </div>
                                                 <div class='w-full'>
                                                     <div class='mb-3 text-sm font-["Semibold"]'>Secondary Color</div>
                                                     <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{ backgroundColor: secondaryText }} />
+                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{ }} />
                                                         <div class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
                                                     </div>
                                                 </div>
@@ -765,20 +765,21 @@ export const Builder = () => {
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.OnlyProducts.map(item => (
                                                 <div class='w-full flex'>
-                                                    {display.simple === true && (<Simple item={item} />)}
+                                                    {display.simple === true && (<Simple item={item} round={rounded}/>)}
                                                     {display.description === true && (<Description item={item} />)}
                                                     {display.button === true && (<Button item={item} />)}
                                                 </div>
                                             ))}
                                         </div>
                                     )}
+                                    {rounded}
                                     {selectedPage?.workshop === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Services.map(item => (
                                                 <div class='w-full flex'>
-                                                    {display.simple === true && (<Simple item={item} />)}
-                                                    {display.description === true && (<Description item={item} />)}
-                                                    {display.button === true && (<Button item={item} />)}
+                                                    {base === 'simple' && (<Simple item={item} />)}
+                                                    {base === 'descritpion' && (<Description item={item} />)}
+                                                    {base === 'button' && (<Button item={item} />)}
                                                 </div>
                                             ))}
                                         </div>
@@ -788,7 +789,7 @@ export const Builder = () => {
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Links.map(item => (
                                                 <div class='w-full flex'>
-                                                    {display.simple === true && (<Simple item={item} />)}
+                                                   <Simple item={item} round={rounded}/>
                                                 </div>
                                             ))}
                                         </div>
