@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useMemo, useState } from 'react';
 import { BackdropSimple, Button, Description, Simple } from '../../Pages/Pages/Builder';
 import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { BellAlertIcon, BellIcon } from '@heroicons/react/24/outline'
 import logo from '../../components/assets/logo.png';
 import verified from '../../components/assets/twitterverified.png';
 import clsx from 'clsx';
@@ -70,7 +71,9 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
       <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10">
         <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
       </div>
-
+  <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10">
+        <BellAlertIcon className="w-4 h-4 text-white" />
+      </div>
       <div className="max-w-md w-full mt-20 flex flex-col items-center mx-auto">
         <img
           src={store.headerImage}
