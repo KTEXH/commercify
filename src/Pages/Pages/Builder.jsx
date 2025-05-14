@@ -12,7 +12,7 @@ import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@hea
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
 
-export const Simple = ({ item, round, color, style, link, textColor }) => {
+export const Simple = ({ item, round, color, style, font, link, textColor }) => {
     return (
         <a href={link} style={{
             backgroundColor: style === 'color' && color,
@@ -24,12 +24,12 @@ export const Simple = ({ item, round, color, style, link, textColor }) => {
 
             <div className="flex items-center justify-center w-12 h-12 mr-3">
                 {item.thumbnail || item.image ? (
-                    <img src={item.thumbnail || item.image} className="w-11 h-11 rounded-full object-cover" />
+                    <img src={item.thumbnail || item.image} className={`w-11 h-11 ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} ${round === 'rounded-medium' && 'rounded-xl'} object-cover0`} />
                 ) : (
-                    <div className="w-11 h-11 rounded-full" />
+                    <div className="w-11 h-11" />
                 )}
             </div>
-            <div style={{ color: textColor}} className="flex-1 text-center text-sm font-['Semibold']">
+            <div style={{ color: textColor }} className={`flex-1 ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-center text-sm]`}>
                 {item.title || item.linkText}
             </div>
 
@@ -170,11 +170,14 @@ export const Builder = () => {
         // Add all other default fields here as needed
     });
 
+
+
     const [display, setDisplay] = useState({ simple: true, description: false, button: false });
     const [colorPicker, setColorPicker] = useState(false)
     const [page, setPage] = useState('Content')
     const [isOpen, setIsOpen] = useState(false)
     const [color, setColor] = useState("#ffffff");
+    const [font, setFont] = useState('General-Sans')
     const [rounded, setRounded] = useState('rounded-full')
     const [styleColor, setStyleColor] = useState('#ededed')
     const [base, setBase] = useState('simple')
@@ -188,8 +191,6 @@ export const Builder = () => {
         if (data?.me?.Links) {
             setExistingLinks(data.me.Links);
         }
-        setStyle(selectedPage?.style || 'outline')
-        setBase(selectedPage?.base || 'simple')
     }, [data]);
 
     useEffect(() => {
@@ -201,9 +202,15 @@ export const Builder = () => {
                 headerText: selectedPage.headerText || "",
                 description: selectedPage.description || "",
                 headerImage: selectedPage.headerImage || "",
-                linkinbio: selectedPage.linkinbio
+                linkinbio: selectedPage.linkinbio,
             }));
-
+            setTextColor(selectedPage?.textColor)
+            setColor(selectedPage?.backgroundColor)
+            setBase(selectedPage?.base)
+            setStyleColor(selectedPage?.styleColor)
+            setStyle(selectedPage?.style)
+            setBaseText(selectedPage?.baseText)
+            setRounded(selectedPage?.rounded)
         }
     }, [selectedPage]);
 
@@ -289,6 +296,7 @@ export const Builder = () => {
                         base: base,
                         rounded: rounded,
                         style: style,
+                        font: font,
                         styleColor: styleColor,
                         textColor: textColor,
                         baseText: baseText,
@@ -334,18 +342,6 @@ export const Builder = () => {
             }));
         }
     }
-
-    const updateStyle = (key, value) => {
-        if (!value) return; // prevent setting false, because one must stay true
-
-        setStyle((prev) => {
-            const updated = Object.keys(prev).reduce((acc, currKey) => {
-                acc[currKey] = currKey === key ? true : false;
-                return acc;
-            }, {});
-            return updated;
-        });
-    };
 
     const handleUpdateLink = (index, field, value) => {
         const updated = [...existingLinks];
@@ -536,6 +532,20 @@ export const Builder = () => {
                                                     </div>
                                                 </div>
 
+                                            </div>
+                                            <div>
+                                                <div>Fonts</div>
+                                                <div class='grid grid-cols-4 mt-4 gap-3'>
+                                                    <div onClick={() => setFont('General-Sans')} class='border rounded-xl font-["Normal"] w-full justify-center items-center flex py-5'>
+                                                          Normal
+                                                    </div>
+                                                      <div onClick={() => setFont('Cascadia')} class='border rounded-xl font-["CNormal"] w-full justify-center items-center flex py-5'>
+                                                          Cascadia
+                                                    </div>
+                                                       <div onClick={() => setFont('Rubrik')} class='border rounded-xl font-["RNormal"] w-full justify-center items-center flex py-5'>
+                                                          Rubrik
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
@@ -795,8 +805,8 @@ export const Builder = () => {
                             <div class='w-1/3 h-full p-5'>
                                 <div style={{ backgroundColor: color }} class='w-full h-full border-2 flex  px-5 flex-col items-center bg-white rounded-2xl'>
                                     <img src={!selectedPage?.headerImage ? logo : selectedPage?.headerImage} class='w-24 h-24 rounded-full mt-10' />
-                                    <div style={{ color: textColor }} class='mt-3 text-xl font-["Semibold"]'>{formData?.headerText}</div>
-                                    <div style={{ color: textColor }} class='mt-1 text-sm text-gray-400 font-["Medium"]'>{formData?.description}</div>
+                                    <div style={{ color: textColor }} class={`mt-3 text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
+                                    <div style={{ color: textColor }} class={`mt-1 text-sm text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.OnlyProducts.map(item => (
@@ -819,12 +829,11 @@ export const Builder = () => {
                                             ))}
                                         </div>
                                     )}
-                                       {baseText}{textColor}
                                     {selectedPage?.linkinbio === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Links.map(item => (
                                                 <div class='w-full flex'>
-                                                    <Simple textColor={baseText} item={item} round={rounded} style={style} color={styleColor} />
+                                                    <Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />
                                                 </div>
                                             ))}
                                         </div>

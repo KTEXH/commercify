@@ -59,3 +59,52 @@
   font-family: "Bold";   
   src: url("/src/Fonts/GENERALSANS/GENERALSANS-BOLD.OTF") format("opentype");
 }
+
+
+@font-face {
+  font-family: "CNormal";   /*Can be any text*/
+  src: url("/src/Fonts/CASCADIA/CascadiaMono-Regular.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMedium";   /*Can be any text*/
+  src: url("/src/Fonts/CASCADIA/CascadiaMono-Medium.ttf") format("opentype");
+}
+
+
+@font-face {
+  font-family: "CSemibold";   /*Can be any text*/
+  src: url("/src/Fonts/CASCADIA/CascadiaMono-SemiBold.ttf") format("opentype");
+}
+
+
+
+@font-face {
+  font-family: "CBold";   
+  src: url("/src/Fonts/CASCADIA/CascadiaMono-Bold.ttf") format("opentype");
+}
+
+
+
+@font-face {
+  font-family: "RNormal";   /*Can be any text*/
+  src: url("/src/Fonts/RUBRIK/Rubik-Regular.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "RMedium";   /*Can be any text*/
+  src: url("/src/Fonts/RUBRIK/Rubik-Medium.ttf") format("opentype");
+}
+
+
+@font-face {
+  font-family: "RSemibold";   /*Can be any text*/
+  src: url("/src/Fonts/RUBRIK/Rubik-SemiBold.ttf") format("opentype");
+}
+
+
+
+@font-face {
+  font-family: "RBold";   
+  src: url("/src/Fonts/RUBRIK/Rubik-Bold.ttf") format("opentype");
+}

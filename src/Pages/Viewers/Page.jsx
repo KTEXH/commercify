@@ -21,6 +21,7 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       description
       subText
       style
+      font
       styleColor
       base
       rounded
@@ -60,7 +61,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
 
   const style = store.style
   const base = store.base
-
+  const font = store?.font
 
 
   return (
@@ -81,7 +82,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
         />
 
         <div className="text-center mt-6">
-          <div style={{ color: store?.textColor }} className="text-xl text-black flex items-center gap-1 font-['Semibold']">
+          <div style={{ color: store?.textColor }} className={`text-xl text-black ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'}  flex items-center gap-1`}>
             {store.headerText}
             <img
               src={verified}
@@ -89,7 +90,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
               alt="Verified badge"
             />
           </div>
-          <div className="text-gray-400 mt-1 max-w-sm text-center">
+          <div style={{ color: store?.textColor}} className={`mt-1 max-w-sm ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'}  text-center`}>
             {store.description}
           </div>
         </div>
@@ -112,7 +113,7 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
               {base === 'simple' && (
                 <div className="w-full">
          
-                   <Simple textColor={store?.baseText} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
+                   <Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
         
                 </div>
               )}

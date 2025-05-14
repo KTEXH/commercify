@@ -88,7 +88,15 @@ query me{
      headerImage
      headerText
      description
+     style
+     base
+     textColor 
+     styleColor
+     font
+     baseText
+     backgroundColor
      storefront
+     textColor
      subdomain
      linkinbio
      form
