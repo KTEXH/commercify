@@ -74,8 +74,11 @@ export const Button = ({ item, style, color, round, textColor, font }) => {
             borderColor: (style === 'outline' || 'backdrop') && color,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
         }}
-            className={`flex flex-col relative ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-2xl'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-3 overflow-hidden w-full`}>
+            className={`flex flex-col relative ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-3xl'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-3 overflow-hidden w-full`}>
             <img src={item.thumbnail || item.image} class='w-full h-full' />
+              <div className="absolute top-3 right-3 rounded-full flex items-center justify-center w-8 h-8 bg-black bg-opacity-10">
+          <EllipsisHorizontalIcon className="w-3 h-3 text-white" />
+        </div>
              <div className="absolute w-full h-40 bottom-0 px-5 bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
               
                 <div className="absolute bottom-5 text-start w-2/3 line-clamp-2 text-white font-['Semibold']">
