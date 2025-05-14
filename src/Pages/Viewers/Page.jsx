@@ -68,10 +68,10 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
   return (
     <div style={{ backgroundColor: store?.backgroundColor}} class='flex w-full'>
     <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
-      <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10">
+      <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
         <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
       </div>
-  <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-10 h-10 bg-black bg-opacity-10">
+  <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
         <BellAlertIcon className="w-4 h-4 text-white" />
       </div>
       <div className="max-w-md w-full mt-20 flex flex-col items-center mx-auto">
