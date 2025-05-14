@@ -29,6 +29,7 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       workshop
       styleColor
       base
+      verified
       rounded
       headerImage
       user {
@@ -103,7 +104,7 @@ export const Linkinbio = () => {
               <div>{store.headerText}</div>
               <img
                 src={verified}
-                className={`${store?.user?.verified ? 'w-5 h-5' : 'hidden'}`}
+                className={`${store?.verified ? 'w-5 h-5' : 'hidden'}`}
                 alt="Verified badge"
               />
             </div>
