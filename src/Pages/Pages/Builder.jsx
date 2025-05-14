@@ -58,7 +58,7 @@ export const Description = ({ item, style, round, font, textColor, color }) => {
             {/* Title and Description */}
             <div className="flex flex-col flex-1 mt-2 px-3">
                 <div style={{ color: textColor }} className={`line-clamp-1 text-center ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-[12px]`}>{item.title}</div>
-                <div className='text-gray-300 font-["Medium"] text-xs line-clamp-2'>{item.description}</div>
+                <div className='text-gray-300 font-["Medium"] text-center px-5 text-xs line-clamp-2'>{item.description}</div>
             </div>
 
 
@@ -187,6 +187,7 @@ export const Builder = () => {
             setStyle(selectedPage?.style)
             setBaseText(selectedPage?.baseText)
             setRounded(selectedPage?.rounded)
+            setGrid(selectedPage?.grid)
         }
     }, [selectedPage]);
 
@@ -276,7 +277,8 @@ export const Builder = () => {
                         styleColor: styleColor,
                         textColor: textColor,
                         baseText: baseText,
-                        headerImage: formData?.headerImage
+                        headerImage: formData?.headerImage,
+                        grid: grid
                     },
                 });
                 navigate("/dashboard");
@@ -285,6 +287,8 @@ export const Builder = () => {
             }
         },
     });
+
+    const [grid, setGrid] = useState(false)
 
 
 
@@ -619,7 +623,7 @@ export const Builder = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class='grid grid-cols-2 gap-2 w-full'>
+                                            <div class={`grid grid-cols-2 ${base === 'description' && 'grid-cols-3'} gap-2 w-full`}>
                                                 <div>
                                                     <button onClick={() => setColorPickerBase(true)}>setcolor</button>
 
@@ -627,6 +631,9 @@ export const Builder = () => {
                                                 <div>
                                                     <HexColorPicker color={baseText} onChange={setBaseText} />
                                                 </div>
+                                                <div>
+                                                    <div onClick={() => setGrid(true)}>{grid === true ? 'Grid' : 'No Grid'}</div>
+                                                    </div>
                                             </div>
                                         </div>
                                     )}
@@ -784,9 +791,9 @@ export const Builder = () => {
                                     <div style={{ color: textColor }} class={`mt-3 text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
                                     <div style={{ color: textColor }} class={`mt-1 text-sm text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
-                                        <div class='w-full'>
-                                            <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'} w-full`}>
-                                                {data.me.OnlyProducts.map(item => (
+                                       <div class='w-full'>
+                                            <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
+                                                {data.me.Services.map(item => (
                                                     <div class='w-full flex'>
                                                         {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
                                                         {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
@@ -794,8 +801,8 @@ export const Builder = () => {
                                                     </div>
                                                 ))}
                                             </div>
-                                            <div class={`${base === 'simple' && 'hidden'} ${base === 'button' && 'hidden'} grid grid-cols-2 gap-2 w-full`}>
-                                                {data.me.OnlyProducts.map(item => (
+                                            <div class={`${grid === false ? 'flex flex-col' : 'grid grid-cols-2'} ${base === 'button' && 'hidden'} gap-2 w-full`}>
+                                                {data.me.Services.map(item => (
                                                     <div class='w-full'>
                                                         {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
                                                     </div>
@@ -805,7 +812,7 @@ export const Builder = () => {
                                     )}
                                     {selectedPage?.workshop === true && (
                                         <div class='w-full'>
-                                            <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'} w-full`}>
+                                            <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
                                                 {data.me.Services.map(item => (
                                                     <div class='w-full flex'>
                                                         {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
@@ -814,7 +821,7 @@ export const Builder = () => {
                                                     </div>
                                                 ))}
                                             </div>
-                                            <div class={`${base === 'simple' && 'hidden'} ${base === 'button' && 'hidden'} grid grid-cols-2 gap-2 w-full`}>
+                                            <div class={`${grid === false ? 'flex flex-col' : 'grid grid-cols-2'} ${base === 'button' && 'hidden'} gap-2 w-full`}>
                                                 {data.me.Services.map(item => (
                                                     <div class='w-full'>
                                                         {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}

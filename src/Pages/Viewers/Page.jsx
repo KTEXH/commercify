@@ -25,6 +25,7 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       font
       storefront
       linkinbio
+      grid
       workshop
       styleColor
       base
@@ -63,9 +64,13 @@ export const Linkinbio = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (!store) return <div>No store found</div>;
 
-  const style = store.style
-  const base = store.base
+  const style = store?.style
+  const base = store?.base
   const font = store?.font
+  const rounded = store?.rounded
+  const styleColor = store?.styleColor
+  const baseText = store?.baseText 
+  const grid = store?.grid
 
 
   return (
@@ -104,13 +109,24 @@ export const Linkinbio = () => {
           <div className="mt-5 w-full">
             {store.user?.Products?.length > 0 && (
               <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
-                {store.user.Products.map((item) => (
-                  <div className="w-full flex" key={item.id}>
-                    {base === 'simple' && (<Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />)}
-                    {base === 'description' && <Description textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />}
-                    {base === 'button' && <Button item={item} />}
+                <div class='w-full'>
+                  <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
+                    {store?.user?.Products?.map(item => (
+                      <div class='w-full flex'>
+                        {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                        {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  <div class={`${grid === false ? 'flex flex-col' : 'grid grid-cols-2'} ${base === 'button' && 'hidden'} gap-2 w-full`}>
+                    {store?.user?.Products?.map(item => (
+                      <div class='w-full'>
+                        {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
             <div class={`${store?.linkinbio === false && 'hidden'} `}>
@@ -118,12 +134,12 @@ export const Linkinbio = () => {
                 <div className="w-full flex" key={item.id}>
                   {base === 'simple' && (
 
-                      <Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />
+                    <Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />
 
                   )}
-                     {base === 'button' && (
+                  {base === 'button' && (
 
-                      <Button textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />
+                    <Button textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />
 
                   )}
                 </div>

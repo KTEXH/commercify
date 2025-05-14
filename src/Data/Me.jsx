@@ -92,6 +92,7 @@ query me{
      base
      textColor 
      styleColor
+     grid
      font
      baseText
      backgroundColor
