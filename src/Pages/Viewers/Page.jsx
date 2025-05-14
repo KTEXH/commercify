@@ -40,7 +40,7 @@ const GET_LINK_BY_SUBDOMAIN = gql`
           link
           image
         }
-        Products {
+        OnlyProducts {
           id
           title
           description
@@ -103,7 +103,7 @@ export const Linkinbio = () => {
               <div>{store.headerText}</div>
               <img
                 src={verified}
-                className={clsx(store?.user?.verified ? 'w-5 h-5' : 'hidden')}
+                className={`${store?.user?.verified ? 'w-5 h-5' : 'hidden'}`}
                 alt="Verified badge"
               />
             </div>
@@ -113,11 +113,11 @@ export const Linkinbio = () => {
           </div>
 
           <div className="mt-5 w-full">
-            {store.user?.Products?.length > 0 && (
+            {store.user?.OnlyProducts?.length > 0 && (
               <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
                 <div class='w-full'>
                   <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
-                    {store?.user?.Products?.map(item => (
+                    {store?.user?.OnlyProducts?.map(item => (
                       <div class='w-full flex'>
                         {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
                         {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
@@ -126,7 +126,7 @@ export const Linkinbio = () => {
                     ))}
                   </div>
                   <div class={`${grid === false ? 'flex flex-col' : 'grid grid-cols-2'} ${base === 'button' && 'hidden'} gap-2 w-full`}>
-                    {store?.user?.Products?.map(item => (
+                    {store?.user?.OnlyProducts?.map(item => (
                       <div class='w-full'>
                         {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
                       </div>
