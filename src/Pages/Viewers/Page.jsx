@@ -107,7 +107,7 @@ export const Linkinbio = () => {
                 {store.user.Products.map((item) => (
                   <div className="w-full flex" key={item.id}>
                     {base === 'simple' && (<Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />)}
-                    {base === 'desc' && <Description item={item} />}
+                    {base === 'description' && <Description textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />}
                     {base === 'button' && <Button item={item} />}
                   </div>
                 ))}
