@@ -16,7 +16,7 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
     return (
         <a href={link} style={{
             backgroundColor: style === 'color' && color,
-            borderColor: style === 'outline' && color,
+            borderColor: (style === 'outline' || 'backdrop') && color ,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
         }}
             className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-4 p-2 w-full`}
@@ -29,13 +29,13 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
                     <div className="w-11 h-11" />
                 )}
             </div>
-            <div style={{ color: textColor }} className={`flex-1 ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-center text-sm]`}>
+            <div style={{ color: textColor }} className={`flex-1 ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-center text-[14px]`}>
                 {item.title || item.linkText}
             </div>
 
             {/* Right: Ellipsis */}
-            <div className="flex items-center justify-center w-6 h-6 ml-3">
-                <EllipsisHorizontalIcon className="w-5 h-5" />
+            <div className="flex items-center justify-center w-6 h-6 ml-3 mr-3">
+                <EllipsisHorizontalIcon style={{ color: textColor}} className="w-4 h-4" />
             </div>
         </a>
     )
