@@ -19,12 +19,12 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
             borderColor: (style === 'outline' || 'backdrop') && color ,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
         }}
-            className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-4 p-2 w-full`}
+            className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-4 p-1 w-full`}
         >
 
             <div className="flex items-center justify-center w-12 h-12 mr-3">
                 {item.thumbnail || item.image ? (
-                    <img src={item.thumbnail || item.image} className={`w-11 h-11 ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} ${round === 'rounded-medium' && 'rounded-xl'} object-cover0`} />
+                    <img src={item.thumbnail || item.image} className={`w-12 h-12 ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} ${round === 'rounded-medium' && 'rounded-xl'} object-cover0`} />
                 ) : (
                     <div className="w-11 h-11" />
                 )}

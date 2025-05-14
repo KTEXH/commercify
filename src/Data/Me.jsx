@@ -95,6 +95,7 @@ query me{
      font
      baseText
      backgroundColor
+     rounded
      storefront
      textColor
      subdomain
