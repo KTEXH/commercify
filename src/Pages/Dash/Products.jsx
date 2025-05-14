@@ -133,12 +133,7 @@ export const Products = ({ className = "" }) => {
                     <div class='flex items-center mt-7 justify-between w-full'>
                         <div class='font-["Semibold"] mb-3 text-3xl'>{selectedPage?.storefront === true && 'Products'}{selectedPage?.linkinbio === true && 'Links'}</div>
                         <div>
-                            {selectedPage?.linkinbio === true && (
-                                <button onClick={handleSubmit}
-                                    class='bg-black flex items-center gap-2 px-4 p-2 rounded-full text-white font-["Semibold"]'>Create Links
-                                    <ArrowRightIcon class='w-5 h-5' />
-                                </button>
-                            )}
+                        
 
 
                         </div>

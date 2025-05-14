@@ -2,7 +2,7 @@ import { useQuery, gql } from '@apollo/client';
 import group2 from '../../../public/assets/Group2.svg';
 import { useParams } from "react-router-dom";
 import { useMemo, useState } from 'react';
-import { BackdropSimple, Button, Description, Simple } from '../../Pages/Pages/Builder';
+import { Button, Description, Simple } from '../../Pages/Pages/Builder';
 import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { BellAlertIcon, BellIcon } from '@heroicons/react/24/outline'
 import logo from '../../components/assets/logo.png';
@@ -23,6 +23,9 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       subText
       style
       font
+      storefront
+      linkinbio
+      workshop
       styleColor
       base
       rounded
@@ -54,7 +57,7 @@ export const Linkinbio = () => {
     variables: { subdomain },
   });
 
-const store = useMemo(() => data?.storeBySubdomain, [data]);
+  const store = useMemo(() => data?.storeBySubdomain, [data]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -66,85 +69,89 @@ const store = useMemo(() => data?.storeBySubdomain, [data]);
 
 
   return (
-    <div style={{ backgroundColor: store?.backgroundColor}} class='flex w-full'>
-    <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
-      <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
-        <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
-      </div>
-  <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
-        <BellAlertIcon className="w-4 h-4 text-white" />
-      </div>
-      <div className="max-w-md w-full mt-20 flex flex-col items-center mx-auto">
-        <img
-          src={store.headerImage}
-          loading="lazy"
-          className={clsx(
-            'w-28 h-28 rounded-full',
-          )}
-          alt="Store header"
-        />
-
-        <div className="text-center mt-6">
-          <div style={{ color: store?.textColor }} className={`text-xl text-black ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'}  flex items-center gap-1`}>
-            {store.headerText}
-            <img
-              src={verified}
-              className={clsx(store.user?.verified ? 'w-5 h-5' : 'hidden')}
-              alt="Verified badge"
-            />
-          </div>
-          <div style={{ color: store?.textColor}} className={`mt-1 max-w-sm ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'}  text-center`}>
-            {store.description}
-          </div>
+    <div style={{ backgroundColor: store?.backgroundColor }} class='flex w-full'>
+      <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
+        <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
+          <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
         </div>
+        <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
+          <BellAlertIcon className="w-4 h-4 text-white" />
+        </div>
+        <div className="max-w-md w-full mt-20 flex flex-col items-center mx-auto">
+          <img
+            src={store.headerImage}
+            loading="lazy"
+            className={clsx(
+              'w-28 h-28 rounded-full',
+            )}
+            alt="Store header"
+          />
 
-        <div className="mt-5 w-full">
-          {store.user?.Products?.length > 0 && (
-            <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
-              {store.user.Products.map((item) => (
+          <div className="text-center mt-6">
+            <div style={{ color: store?.textColor }} className={`text-xl text-black ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'}  flex items-center gap-1`}>
+              {store.headerText}
+              <img
+                src={verified}
+                className={clsx(store.user?.verified ? 'w-5 h-5' : 'hidden')}
+                alt="Verified badge"
+              />
+            </div>
+            <div style={{ color: store?.textColor }} className={`mt-1 max-w-sm ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'}  text-center`}>
+              {store.description}
+            </div>
+          </div>
+
+          <div className="mt-5 w-full">
+            {store.user?.Products?.length > 0 && (
+              <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
+                {store.user.Products.map((item) => (
+                  <div className="w-full flex" key={item.id}>
+                    {base === 'simple' && (<Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />)}
+                    {base === 'desc' && <Description item={item} />}
+                    {base === 'button' && <Button item={item} />}
+                  </div>
+                ))}
+              </div>
+            )}
+            <div class={`${store?.linkinbio === false && 'hidden'} `}>
+              {store.user?.Links?.map((item) => (
                 <div className="w-full flex" key={item.id}>
-                  {base === 'simple' && (<Simple item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>)}
-                  {base === 'desc' && <Description item={item} />}
-                  {base === 'button' && <Button item={item}/>}
+                  {base === 'simple' && (
+
+                      <Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />
+
+                  )}
+                     {base === 'button' && (
+
+                      <Button textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded} />
+
+                  )}
                 </div>
               ))}
             </div>
-          )}
-
-          {store.user?.Links?.map((item) => (
-            <div className="w-full flex" key={item.id}>
-              {base === 'simple' && (
-                <div className="w-full">
-         
-                   <Simple textColor={store?.baseText} font={store?.font} link={item.link} item={item} color={store?.styleColor} style={store?.style} round={store?.rounded}/>
-        
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-     
-        {!isSeen && (
-          <div className="fixed w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
-            <div className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">
-              <div className="bg-black px-3 py-3 rounded-full flex items-center space-x-2">
-                <img src={logo} className="h-4 w-4" alt="Commercify logo" />
-                <div className="font-['Semibold'] text-white text-xs">
-                  commercifyhq.com
-                </div>
-                <XMarkIcon
-                  onClick={() => setIsSeen(false)}
-                  className="w-4 h-4 ml-3 cursor-pointer text-gray-500"
-                />
-              </div>
-              <div className="text-xs text-white font-['Semibold']">
-                Get started with Commercify today!
-              </div>
-            </div>
           </div>
-        )}
+
+          {!isSeen && (
+            <div className="fixed w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+              <div className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">
+                <div className="bg-black px-3 py-3 rounded-full flex items-center space-x-2">
+                  <img src={logo} className="h-4 w-4" alt="Commercify logo" />
+                  <div className="font-['Semibold'] text-white text-xs">
+                    commercifyhq.com
+                  </div>
+                  <XMarkIcon
+                    onClick={() => setIsSeen(false)}
+                    className="w-4 h-4 ml-3 cursor-pointer text-gray-500"
+                  />
+                </div>
+                <div className="text-xs text-white font-['Semibold']">
+                  Get started with Commercify today!
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
     return (
         <a href={link} style={{
             backgroundColor: style === 'color' && color,
-            borderColor: (style === 'outline' || 'backdrop') && color ,
+            borderColor: (style === 'outline' || 'backdrop') && color,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
         }}
             className={`flex items-center ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-full'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-3 px-1 py-1.5 w-full`}
@@ -35,79 +35,52 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
 
             {/* Right: Ellipsis */}
             <div className="flex items-center justify-center w-6 h-6 ml-3 mr-3">
-                <EllipsisHorizontalIcon style={{ color: textColor}} className="w-4 h-4" />
+                <EllipsisHorizontalIcon style={{ color: textColor }} className="w-4 h-4" />
             </div>
         </a>
     )
 }
 
 
-export const BackdropSimple = ({ item }) => {
+
+export const Description = ({ item, style, round, font, textColor, color }) => {
     return (
         <div
-            style={{ boxShadow: '4px 6px 0px 0px black' }}
-            className="flex items-center justify-between border-2 border-black mt-4 p-2 rounded-full w-full"
-        >
-            {/* Left: Icon */}
-            <div className="flex items-center justify-center w-12 h-12 mr-3">
-                {item.thumbnail || item.image ? (
-                    <img src={item.thumbnail || item.image} className="w-11 h-11 rounded-full object-cover" />
-                ) : (
-                    <div className="w-11 h-11 rounded-full" />
-                )}
-            </div>
-
-            {/* Center: Text */}
-            <div className="flex-1 text-center text-sm font-['Semibold']">
-                {item.title || item.linkText}
-            </div>
-
-            {/* Right: Ellipsis */}
-            <div className="flex items-center justify-center w-6 h-6 ml-3">
-                <EllipsisHorizontalIcon className="w-5 h-5" />
-            </div>
-        </div>
-
-    )
-}
-
-
-export const Description = ({ item }) => {
-    return (
-        <div className="flex w-full border mt-2 items-center p-2 rounded-full">
+            style={{
+                backgroundColor: style === 'color' && color,
+                borderColor: (style === 'outline' || 'backdrop') && color,
+                boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
+            }}
+            className={`flex flex-col ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-2xl'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-3 px-2 py-1.5 w-full`}>
             {/* Avatar */}
-            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-black" />
+            <div className={`w-full h-20 ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-2xl'} bg-black`} />
 
             {/* Title and Description */}
-            <div className="flex flex-col flex-1 px-3 text-center">
-                <div className='font-["Semibold"] text-sm line-clamp-1'>{item.title}</div>
+            <div className="flex flex-col flex-1 mt-2 px-3">
+                <div style={{ color: textColor }} className={`line-clamp-1 text-center ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-[12px]`}>{item.title}</div>
                 <div className='text-gray-300 font-["Medium"] text-xs line-clamp-2'>{item.description}</div>
             </div>
 
-            {/* Ellipsis Icon */}
-            <div className="flex-shrink-0 pr-1">
-                <EllipsisHorizontalIcon className="w-4 h-4 text-gray-400" />
-            </div>
+
         </div>
 
     )
 }
 
-export const Button = ({ item }) => {
+export const Button = ({ item, style, color, round, textColor, font }) => {
     return (
-        <div className="flex w-full border mt-2 items-center p-2 rounded-xl">
-            {/* Avatar */}
-            <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-black" />
-
-            {/* Title and Description */}
-            <div className="flex text-start flex-col flex-1 px-3 text-center">
-                <div className='font-["Semibold"] text-sm line-clamp-1'>{item.title}</div>
-                <div class='line-clamp-1 text-xs font-["Medium"] text-gray-300'>{item.description}</div>
-            </div>
-
-            {/* Ellipsis Icon */}
-            <div className="flex-shrink-0 pr-1">
-                <div class='bg-black px-2 py-1 rounded-full text-white font-["Medium"] text-xs'>Buy</div>
+        <div style={{
+            backgroundColor: style === 'color' && color,
+            borderColor: (style === 'outline' || 'backdrop') && color,
+            boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
+        }}
+            className={`flex flex-col relative ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-2xl'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-3 overflow-hidden w-full`}>
+            <img src={item.thumbnail || item.image} class='w-full h-full' />
+             <div className="absolute w-full h-40 bottom-0 px-5 bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+              
+                <div className="absolute bottom-5 text-start w-2/3 line-clamp-2 text-white font-['Semibold']">
+                  {item.linkText || item.title}
+              </div>
             </div>
         </div>
     )
@@ -537,13 +510,13 @@ export const Builder = () => {
                                                 <div>Fonts</div>
                                                 <div class='grid grid-cols-4 mt-4 gap-3'>
                                                     <div onClick={() => setFont('General-Sans')} class='border rounded-xl font-["Normal"] w-full justify-center items-center flex py-5'>
-                                                          Normal
+                                                        Normal
                                                     </div>
-                                                      <div onClick={() => setFont('Cascadia')} class='border rounded-xl font-["CNormal"] w-full justify-center items-center flex py-5'>
-                                                          Cascadia
+                                                    <div onClick={() => setFont('Cascadia')} class='border rounded-xl font-["CNormal"] w-full justify-center items-center flex py-5'>
+                                                        Cascadia
                                                     </div>
-                                                       <div onClick={() => setFont('Rubrik')} class='border rounded-xl font-["RNormal"] w-full justify-center items-center flex py-5'>
-                                                          Rubrik
+                                                    <div onClick={() => setFont('Rubrik')} class='border rounded-xl font-["RNormal"] w-full justify-center items-center flex py-5'>
+                                                        Rubrik
                                                     </div>
                                                 </div>
                                             </div>
@@ -553,7 +526,7 @@ export const Builder = () => {
                                 <div>
                                     {page === 'Display' && (
                                         <div class='w-full flex flex-col'>
-                                            <div class='w-full grid mt-5 grid-cols-3 gap-3' style={{ display: formData.linkinbio === true && 'none' }}>
+                                            <div class='w-full grid mt-5 grid-cols-3 gap-3' >
                                                 <div onClick={() => setBase('simple')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Simple</div>
 
@@ -567,7 +540,7 @@ export const Builder = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div onClick={() => setBase('description')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div style={{ display: formData.linkinbio === true && 'none' }} onClick={() => setBase('description')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
                                                     <div class='text-sm font-["Semibold"]'>Description</div>
 
                                                     <div class='flex border mt-2 items-center p-2 rounded-full'>
@@ -808,32 +781,51 @@ export const Builder = () => {
                                     <div style={{ color: textColor }} class={`mt-3 text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
                                     <div style={{ color: textColor }} class={`mt-1 text-sm text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
-                                        <div class='mt-7 space-y-2 w-full '>
-                                            {data.me.OnlyProducts.map(item => (
-                                                <div class='w-full flex'>
-                                                    {display.simple === true && (<Simple item={item} round={rounded} />)}
-                                                    {display.description === true && (<Description item={item} />)}
-                                                    {display.button === true && (<Button item={item} />)}
-                                                </div>
-                                            ))}
+                                        <div class='w-full'>
+                                            <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'} w-full`}>
+                                                {data.me.OnlyProducts.map(item => (
+                                                    <div class='w-full flex'>
+                                                        {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                                                        {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div class={`${base === 'simple' && 'hidden'} ${base === 'button' && 'hidden'} grid grid-cols-2 gap-2 w-full`}>
+                                                {data.me.OnlyProducts.map(item => (
+                                                    <div class='w-full'>
+                                                        {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                     {selectedPage?.workshop === true && (
-                                        <div class='mt-7 space-y-2 w-full '>
-                                            {data.me.Services.map(item => (
-                                                <div class='w-full flex'>
-                                                    {base === 'simple' && (<Simple item={item} />)}
-                                                    {base === 'descritpion' && (<Description item={item} />)}
-                                                    {base === 'button' && (<Button item={item} />)}
-                                                </div>
-                                            ))}
+                                        <div class='w-full'>
+                                            <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'} w-full`}>
+                                                {data.me.Services.map(item => (
+                                                    <div class='w-full flex'>
+                                                        {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                                                        {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div class={`${base === 'simple' && 'hidden'} ${base === 'button' && 'hidden'} grid grid-cols-2 gap-2 w-full`}>
+                                                {data.me.Services.map(item => (
+                                                    <div class='w-full'>
+                                                        {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                     {selectedPage?.linkinbio === true && (
                                         <div class='mt-7 space-y-2 w-full '>
                                             {data.me.Links.map(item => (
                                                 <div class='w-full flex'>
-                                                    <Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />
+                                                    {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                                                    {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
                                                 </div>
                                             ))}
                                         </div>

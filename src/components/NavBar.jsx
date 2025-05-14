@@ -389,6 +389,7 @@ export const NavBar = ({ products, home, audience, pages, orders, settings, book
               <div class='text-gray-400 font-["Semibold"] text-sm'>Stats</div>
               <div class='text-gray-400 font-["Semibold"] text-sm'>Settings</div>
             </div>
+            <button onClick={() => setIsOpen(true)} class='bg-black text-white font-["Semibold"] rounded-full w-full py-4 mt-5 text-sm'>Create</button>
           </div>
         </nav>
       </aside>
