@@ -360,31 +360,11 @@ export const Builder = () => {
     if (error) return <div>{error.message}</div>;
     return (
         <div class='w-full h-full'>
-            {colorPicker === true && (
-                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
-                    <div class='z-50'>
-                        <HexColorPicker color={color} onChange={setColor} />
-                        <div onClick={() => setColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
-                    </div>
-                </div>
-            )}
-            {colorPickerBase === true && (
-                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
-                    <div class='z-50'>
-                        <HexColorPicker color={styleColor} onChange={setStyleColor} />
-                        <div onClick={() => setColorPickerBase(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
-                    </div>
-                </div>
-            )}
-            {textColorPicker === true && (
-                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
-                    <div class='z-50'>
-                        <HexColorPicker color={textColor} onChange={setTextColor} />
-                        <div onClick={() => setTextColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
-                    </div>
-                </div>
-            )}
-            <div className="flex h-screen bg-gray-50">
+            <div className='h-14 bg-black w-full'></div>
+
+  {/* Spacer to prevent overlap */}
+           
+            <div className="flex h-screen overflow z-50 mt-[-15px] rounded-t-2xl bg-gray-50">
 
                 <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
                     {data.me.Pages.map(item => (
@@ -419,7 +399,30 @@ export const Builder = () => {
 
                     {/* Dashboard Content */}
                     <main className="p-6 px-16 h-full flex-1">
-
+ {colorPicker === true && (
+                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                    <div class='z-50'>
+                        <HexColorPicker color={color} onChange={setColor} />
+                        <div onClick={() => setColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                    </div>
+                </div>
+            )}
+            {colorPickerBase === true && (
+                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                    <div class='z-50'>
+                        <HexColorPicker color={styleColor} onChange={setStyleColor} />
+                        <div onClick={() => setColorPickerBase(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                    </div>
+                </div>
+            )}
+            {textColorPicker === true && (
+                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                    <div class='z-50'>
+                        <HexColorPicker color={textColor} onChange={setTextColor} />
+                        <div onClick={() => setTextColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                    </div>
+                </div>
+            )}
                         <div class='w-full gap-6 h-full flex'>
                             <div class='w-2/3 p-5'>
                                 <div className="flex items-center justify-between">

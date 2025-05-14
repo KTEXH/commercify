@@ -46,6 +46,12 @@ const GET_LINK_BY_SUBDOMAIN = gql`
           description
           thumbnail
         }
+           Services {
+          id
+          title
+          description
+          thumbnail
+        }
       }
     }
   }
@@ -69,7 +75,7 @@ export const Linkinbio = () => {
   const font = store?.font
   const rounded = store?.rounded
   const styleColor = store?.styleColor
-  const baseText = store?.baseText 
+  const baseText = store?.baseText
   const grid = store?.grid
 
 
@@ -129,6 +135,32 @@ export const Linkinbio = () => {
                 </div>
               </div>
             )}
+
+            <div className="mt-5 w-full">
+              {store.user?.Services?.length > 0 && (
+                <div className={clsx(store.workshop ? 'flex flex-col gap-4' : 'hidden')}>
+                  <div class='w-full'>
+                    <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
+                      {store?.user?.Services?.map(item => (
+                        <div class='w-full flex'>
+                          {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                          {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+
+                        </div>
+                      ))}
+                    </div>
+                    <div class={`${grid === false ? 'flex flex-col' : 'grid grid-cols-2'} ${base === 'button' && 'hidden'} gap-2 w-full`}>
+                      {store?.user?.Services?.map(item => (
+                        <div class='w-full'>
+                          {base === 'description' && (<Description textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div class={`${store?.linkinbio === false && 'hidden'} `}>
               {store.user?.Links?.map((item) => (
                 <div className="w-full flex" key={item.id}>
