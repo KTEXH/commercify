@@ -99,11 +99,11 @@ export const Linkinbio = () => {
           />
 
           <div className="text-center mt-6">
-            <div style={{ color: store?.textColor }} className={`text-xl text-black ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'}  flex items-center gap-1`}>
-              {store.headerText}
+            <div style={{ color: store?.textColor }} className={`text-xl justify-center text-black ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'}  flex items-center gap-1`}>
+              <div>{store.headerText}</div>
               <img
                 src={verified}
-                className={clsx(store.user?.verified ? 'w-5 h-5' : 'hidden')}
+                className={clsx(store?.user?.verified ? 'w-5 h-5' : 'hidden')}
                 alt="Verified badge"
               />
             </div>
