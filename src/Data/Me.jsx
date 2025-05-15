@@ -94,6 +94,7 @@ query me{
      styleColor
      grid
      font
+     formType
      verified
      baseText
      backgroundColor

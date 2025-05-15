@@ -187,6 +187,7 @@ export const Builder = () => {
             setBaseText(selectedPage?.baseText)
             setRounded(selectedPage?.rounded)
             setGrid(selectedPage?.grid)
+            setType(selectedPage?.formType)
         }
     }, [selectedPage]);
 
@@ -873,7 +874,10 @@ export const Builder = () => {
                                                 </div>
                                             )}
                                             {type === 'Upload' && (
-                                                <div class='w-full'>
+                                                <div class='w-full px-3'>
+                                                     <div class='h-64 rounded-xl mt-5 flex items-center justify-center border-dashed border'>
+                                                        <div class='flex text-center border rounded-xl font-["Semibold"] px-4 py-2 text-sm'>Upload file</div>
+                                                        </div>
                                                 </div>
                                             )}
                                             {type === 'Feedback' && (
