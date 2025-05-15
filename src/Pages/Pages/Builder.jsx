@@ -882,6 +882,8 @@ export const Builder = () => {
                                             )}
                                             {type === 'Feedback' && (
                                                 <div class='w-full'>
+                                                    <div>Feedback</div>
+                                                    <input placeholder='' class='mt-5 rounded-2xl border w-full h-40'/>
                                                 </div>
                                             )}
                                         </div>

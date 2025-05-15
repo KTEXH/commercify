@@ -191,7 +191,16 @@ export const Linkinbio = () => {
                   <div class='h-64 rounded-xl mt-5 flex items-center justify-center border-dashed border'>
                     <div class='flex text-center border rounded-xl font-["Semibold"] px-4 py-2 text-sm'>Upload file</div>
                   </div>
-                     <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                  <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                    Submit
+                  </div>
+                </div>
+              )}
+              {store?.formType === 'Feedback' && (
+                <div class='w-full'>
+                  <div class='text-sm font-["Semibold"]'>Feedback</div>
+                  <input placeholder='' class='mt-5 rounded-2xl border w-full h-40' />
+                  <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
                   </div>
                 </div>
