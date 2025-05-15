@@ -166,7 +166,7 @@ export const Linkinbio = () => {
 
             <div class={`${store?.form === false && 'hidden'}`}>
               {store?.formType === 'Contact' && (
-                <div class='w-full'>
+                <div class='w-full px-3'>
                   <div class='grid grid-cols-2 gap-3'>
                     <div class='w-full'>
                       <div class='text-sm font-["Semibold"]'>Name</div>
