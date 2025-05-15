@@ -199,7 +199,7 @@ export const Linkinbio = () => {
                 </div>
               )}
               {store?.formType === 'Feedback' && (
-                <div class='w-full'>
+                <div class='w-full px-4'>
                   <div class='text-sm font-["Semibold"]'>Feedback</div>
                   <input placeholder='' class='mt-5 rounded-2xl border w-full h-40' />
                   <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>

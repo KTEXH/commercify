@@ -37,14 +37,14 @@ export const Orders = ({ className = "" }) => {
                     <PlusIcon class='w-4 h-4 text-black' />
                 </div>
             </div>
-            <NavBar home={false} storefront={selectedPage?.storefront} orders={true} />
+            <NavBar home={false} storefront={selectedPage?.storefront} workshop={selectedPage?.workshop} orders={true} />
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 {/* Top Bar */}
                 <header className="flex justify-between border-b items-center px-6 py-4 bg-white">
                     <div class='flex items-center gap-2'>
-            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
+                        <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
                         <span className="text-lg font-['Semibold'] text-sm">{selectedPage?.name} • commercifyhq.com/{selectedPage?.name}</span>
                     </div>
                     <div className="flex items-center gap-4">
@@ -53,8 +53,11 @@ export const Orders = ({ className = "" }) => {
                     </div>
                 </header>
 
-                {/* Dashboard Content */}
-                <main className="p-6 px-16 flex-1">
+                <main class={`p-6 px-16 w-full flex justify-center ${(selectedPage?.storefront || selectedPage?.workshop) === true && 'hidden'} h-full flex-col  items-center`}>
+                    <div class='font-["Semibold"]'>Bookings or Orders dont exist with forms or link-in-bio pages</div>
+                    <button class='bg-black text-white mt-5 rounded-full px-5 py-3 font-["Semibold"]'>Go home</button>
+                </main>
+                <main className={`p-6 px-16 ${(selectedPage?.form || selectedPage?.linkinbio) === true && 'hidden'} flex-1`}>
                     <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>{selectedPage?.storefront ? 'Orders' : 'Bookings'}</div>
                     {selectedPage?.storefront ? (
                         <div class='mt-5 border bg-white rounded-lg'>
@@ -65,6 +68,12 @@ export const Orders = ({ className = "" }) => {
                                 <div class='w-full justify-end flex'>Options</div>
                             </div>
                             <div class={`p-5 ${data?.me?.Orders.length === 0 ? 'p-0' : 'p-5 border-t'} items-center space-y-3 w-full justify-between`}>
+                                {data?.me?.Orders?.length === 0 && (
+                                    <div class='h-64 w-full flex justify-center items-center'>
+
+                                        <div>You have no orders </div>
+                                    </div>
+                                )}
                                 {data?.me?.Orders?.map(item => (
                                     <div class='flex items-center w-full justify-between'>
                                         <div class='flex items-center gap-2 w-full'>
@@ -101,7 +110,13 @@ export const Orders = ({ className = "" }) => {
                                 <div class='w-full justify-center flex'>Status</div>
                                 <div class='w-full justify-end flex'>Options</div>
                             </div>
-                            <div class={`p-5 ${data?.me?.Orders.length === 0 ? 'p-0' : 'p-5 border-t'} items-center space-y-3 w-full justify-between`}>
+                            <div class={`p-5 ${data?.me?.Bookings.length === 0 ? 'p-0' : 'p-5 border-t'} items-center space-y-3 w-full justify-between`}>
+                                {data?.me?.Bookings?.length === 0 && (
+                                    <div class='h-64 w-full flex justify-center items-center'>
+
+                                        <div>You have no bookings</div>
+                                    </div>
+                                )}
                                 {data?.me?.Bookings?.map(item => (
                                     <div class='flex items-center w-full justify-between'>
                                         <div class='flex items-center gap-2 w-full'>
@@ -131,7 +146,7 @@ export const Orders = ({ className = "" }) => {
                             </div>
                         </div>
                     )}
-                   
+
 
                 </main>
 

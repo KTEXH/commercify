@@ -357,11 +357,10 @@ export const Builder = () => {
     if (error) return <div>{error.message}</div>;
     return (
         <div class='w-full h-full'>
-            <div className='h-14 bg-black w-full'></div>
 
             {/* Spacer to prevent overlap */}
 
-            <div className="flex h-screen overflow z-50 mt-[-15px] rounded-t-2xl bg-gray-50">
+            <div className="flex h-screen overflow z-50 rounded-t-2xl bg-gray-50">
 
                 <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
                     {data.me.Pages.map(item => (
@@ -378,7 +377,7 @@ export const Builder = () => {
                         <PlusIcon class='w-4 h-4 text-black' />
                     </div>
                 </div>
-                <NavBar home={false} builder={true} products={false} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
+                <NavBar home={false} builder={true} products={false} linkinbio={selectedPage?.linkinbio} form={selectedPage?.form} workshop={selectedPage?.workshop} storefront={selectedPage?.storefront} />
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">

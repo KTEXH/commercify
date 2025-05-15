@@ -14,8 +14,8 @@ const CREATE_PRODUCT_MUTATION = gql`
   }
 `;
 
-export const NavBar = ({ products, home, audience, pages, orders, settings, bookings, analytics, workshop, builder, storefront, linkinbio }) => {
 
+export const NavBar = ({ products, home, audience, form, orders, settings, bookings, analytics, workshop, builder, storefront, linkinbio }) => {
   const { data, error, loading } = useState(ME_QUERY)
   const [createProduct] = useMutation(CREATE_PRODUCT_MUTATION)
   let [isOpen, setIsOpen] = useState(false)
@@ -370,11 +370,11 @@ export const NavBar = ({ products, home, audience, pages, orders, settings, book
             <div className={`${orders === true ? 'text-black' : 'text-gray-400'} ${linkinbio === true && 'hidden'}`}>
               <a href='/orders' class='font-["Semibold"] text-sm'>{storefront === true && 'Orders'} {workshop === true && 'Bookings'}</a>
             </div>
-            <div className={`${audience === true ? 'text-black' : 'text-gray-400'} ${linkinbio === true && 'hidden'}`}>
-              <a href='/audience' class='font-["Semibold"] text-sm'>Customers</a>
+            <div className={`${audience === true ? 'text-black' : 'text-gray-400'}`}>
+              <a href='/audience' class='font-["Semibold"] text-sm'>{(workshop || storefront) === true && 'Customers'} {form === true && 'Audience'} {linkinbio === true && 'Audience'}</a>
             </div>
             <div className={products === true ? 'text-black' : 'text-gray-400'}>
-              <a href='/products' class='font-["Semibold"] text-sm'>{storefront === true && 'Products'} {linkinbio === true && 'Links'} {workshop === true && 'Services'}</a>
+              <a href='/products' class='font-["Semibold"] text-sm'>{storefront === true && 'Products'} {linkinbio === true && 'Links'} {form === true && 'Responses'} {workshop === true && 'Services'}</a>
             </div>
             <div className={analytics === true ? 'text-black' : 'text-gray-400'}>
               <a href='/stats' class='font-["Semibold"] text-sm'>Stats</a>

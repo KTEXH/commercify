@@ -26,6 +26,12 @@ export const Bookings = ({ className = "" }) => {
         };
     }) || [];
 
+    useEffect(() => {
+        if (data?.me?.Pages?.length > 0 && !selectedPage) {
+            setSelectedPage(data.me.Pages[0]); // Set first page as default
+        }
+    }, [data, selectedPage]);
+
 
 
     if (loading) return <div><Loading /></div>
@@ -35,9 +41,10 @@ export const Bookings = ({ className = "" }) => {
         <div className={`flex w-full items-start h-full self-stretch flex-col rounded-3xl ${className}`}>
             <div className="h-full w-full flex-shrink-0 overflow-clip rounded-3xl bg-white">
                 <div className="font-general-sans flex flex flex-shrink-0 tracking-[0px]">
-                    <NavBar home={false} pagesNav={false} pages={false} bookings={true} analytics={false} orders={false} products={false} />
+                    <NavBar home={true} products={false} workshop={selectedPage?.workshop} form={selectedPage?.form} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
                     <div className="flex flex-col w-full self-stretch">
                         <Header />
+                        
                         <div class='flex items-center h-full  w-full'>
                             <div class='w-96 h-full p-5 border-r'>
                                 <div class='font-["Semibold"] text-xs'>Services</div>

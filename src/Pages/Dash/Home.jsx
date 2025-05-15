@@ -214,7 +214,7 @@ export default function Default() {
         ))}
         <Add />
       </div>
-      <NavBar home={true} products={false} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
+      <NavBar home={true} products={false} workshop={selectedPage?.workshop} form={selectedPage?.form}  linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">

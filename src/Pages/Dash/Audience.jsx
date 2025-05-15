@@ -7,6 +7,7 @@ import { ME_QUERY } from "../../Data/Me";
 import { useQuery } from "@apollo/client";
 import SimpleChart from "../../components/Graphs/AnalyricsGraph";
 import { NavBar } from "../../components/NavBar";
+import { useSearchParams } from "react-router-dom"; // NEW import
 
 export const Audience = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
@@ -39,7 +40,7 @@ export const Audience = ({ className = "" }) => {
                     <PlusIcon class='w-4 h-4 text-black' />
                 </div>
             </div>
-            <NavBar home={false} analytics={false} audience={true} />
+            <NavBar home={false}  audience={true} workshop={selectedPage?.workshop} form={selectedPage?.form} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
@@ -66,6 +67,11 @@ export const Audience = ({ className = "" }) => {
                                 <div>Ordered</div>
                                 <div>More</div>
                             </div>
+                            {data?.me?.Orders?.length === 0 && (
+                                <div class='h-72 w-full flex items-center justify-center'>
+                                           You have no customers
+                                </div>
+                            )}
                             {data.me.Orders.map(item => (
                                 <div class='flex items-center justify-between px-5 py-2 text-sm font-["Semibold"]'>
                                     <div class='flex items-center gap-2'>
@@ -97,6 +103,11 @@ export const Audience = ({ className = "" }) => {
                                 <div class='w-full text-center'>Ordered</div>
                                 <div class='w-full text-end'>More</div>
                             </div>
+                                  {data?.me?.Bookings?.length === 0 && (
+                                <div class='h-72 w-full flex items-center justify-center'>
+                                           You have no clients
+                                </div>
+                            )}
                             {data.me.Bookings.map(item => (
                                 <div class='flex items-center justify-between px-5 py-2 text-sm font-["Semibold"]'>
                                     <div class='flex items-center w-full gap-2'>
