@@ -3,7 +3,7 @@ import group2 from '../../../public/assets/Group2.svg';
 import { useParams } from "react-router-dom";
 import { useMemo, useState } from 'react';
 import { Button, Description, Simple } from '../../Pages/Pages/Builder';
-import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { ArrowRightIcon, EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { BellAlertIcon, BellIcon } from '@heroicons/react/24/outline'
 import logo from '../../components/assets/logo.png';
 import verified from '../../components/assets/twitterverified.png';
@@ -181,8 +181,9 @@ export const Linkinbio = () => {
                     <div class='text-sm font-["Semibold"]'>Mobile Number</div>
                     <input placeholder='example@gmail.com' class='p-4 mt-2 font-["Medium"] border rounded-full text-sm w-full rounded-full' />
                   </div>
-                  <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                  <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
+                    <ArrowRightIcon class='w-5 h-5' />
                   </div>
                 </div>
               )}
@@ -191,8 +192,9 @@ export const Linkinbio = () => {
                   <div class='h-64 rounded-xl mt-5 flex items-center justify-center border-dashed border'>
                     <div class='flex text-center border rounded-xl font-["Semibold"] px-4 py-2 text-sm'>Upload file</div>
                   </div>
-                  <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                  <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
+                    <ArrowRightIcon class='w-5 h-5' />
                   </div>
                 </div>
               )}
@@ -200,8 +202,9 @@ export const Linkinbio = () => {
                 <div class='w-full'>
                   <div class='text-sm font-["Semibold"]'>Feedback</div>
                   <input placeholder='' class='mt-5 rounded-2xl border w-full h-40' />
-                  <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                  <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
+                    <ArrowRightIcon class='w-5 h-5' />
                   </div>
                 </div>
               )}
