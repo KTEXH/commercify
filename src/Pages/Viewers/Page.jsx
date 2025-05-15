@@ -19,10 +19,12 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       backgroundColor
       baseText
       textColor
+      formType
       description
       subText
       style
       font
+      form
       storefront
       linkinbio
       grid
@@ -81,15 +83,15 @@ export const Linkinbio = () => {
 
 
   return (
-    <div style={{ backgroundColor: store?.backgroundColor }} class='flex w-full'>
-      <div className="flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full">
+    <div style={{ backgroundColor: store?.backgroundColor }} class='w-full'>
+      <div className={`flex flex-col min-h-screen px-5 mb-20 relative max-w-xl mx-auto w-full`}>
         <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
           <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
         </div>
         <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
           <BellAlertIcon className="w-4 h-4 text-white" />
         </div>
-        <div className="max-w-md w-full mt-20 flex flex-col items-center mx-auto">
+        <div className={`max-w-md w-full mt-20 flex flex-col items-center mx-auto`}>
           <img
             src={store.headerImage}
             loading="lazy"
@@ -158,6 +160,30 @@ export const Linkinbio = () => {
                       ))}
                     </div>
                   </div>
+                </div>
+              )}
+            </div>
+
+            <div class={`${store?.form === false && 'hidden'}`}>
+              {store?.formType === 'Contact' && (
+                <div class='w-full'>
+                  <div class='grid grid-cols-2 gap-3'>
+                    <div class='w-full'>
+                      <div class='text-sm font-["Semibold"]'>Name</div>
+                      <input placeholder='Ex: John Doe' class='p-4 mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
+                    </div>
+                    <div class='w-full'>
+                      <div class='text-sm font-["Semibold"]'>Email</div>
+                      <input placeholder='example@gmail.com' class='p-4 mt-2 font-["Medium"] border rounded-full text-sm w-full rounded-full' />
+                    </div>
+                  </div>
+                  <div class='w-full mt-5'>
+                    <div class='text-sm font-["Semibold"]'>Mobile Number</div>
+                    <input placeholder='example@gmail.com' class='p-4 mt-2 font-["Medium"] border rounded-full text-sm w-full rounded-full' />
+                  </div>
+                  <div class='w-full py-4 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                    Submit
+                    </div>
                 </div>
               )}
             </div>

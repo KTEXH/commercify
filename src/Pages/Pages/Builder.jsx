@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { CheckCircle, Bell, User, Check, TrendingUp } from "lucide-react";
-import { CheckIcon, ChevronDownIcon, EllipsisHorizontalIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { Bell, User } from "lucide-react";
+import { ChevronDownIcon, EllipsisHorizontalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { HexColorPicker } from "react-colorful";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { CREATE_STORE, LINK_CREATION, UPDATE_LINK, DELETE_LINK } from "./Mutations/Mutations";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../../components/NavBar";
 import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@headlessui/react";
@@ -76,14 +76,14 @@ export const Button = ({ item, style, color, round, textColor, font }) => {
         }}
             className={`flex flex-col relative ${round === 'rounded-medium' && 'rounded-xl'} ${round === 'none' && ''} ${round === 'rounded-full' && 'rounded-3xl'} justify-between ${style === 'outline' && `border-[1px] border-[${color}]`} ${style === 'backdrop' && `border-[2px] border-[${color}]`} mt-3 overflow-hidden w-full`}>
             <img src={item.thumbnail || item.image} class='w-full h-full' />
-              <div className="absolute top-3 right-3 rounded-full flex items-center justify-center w-8 h-8 bg-black bg-opacity-10">
-          <EllipsisHorizontalIcon className="w-3 h-3 text-white" />
-        </div>
-             <div className="absolute w-full h-40 bottom-0 px-5 bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
-              
+            <div className="absolute top-3 right-3 rounded-full flex items-center justify-center w-8 h-8 bg-black bg-opacity-10">
+                <EllipsisHorizontalIcon className="w-3 h-3 text-white" />
+            </div>
+            <div className="absolute w-full h-40 bottom-0 px-5 bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+
                 <div className="absolute bottom-5 text-start w-2/3 line-clamp-2 text-white font-['Semibold']">
-                  {item.linkText || item.title}
-              </div>
+                    {item.linkText || item.title}
+                </div>
             </div>
         </div>
     )
@@ -148,7 +148,6 @@ export const Builder = () => {
 
 
 
-    const [display, setDisplay] = useState({ simple: true, description: false, button: false });
     const [colorPicker, setColorPicker] = useState(false)
     const [page, setPage] = useState('Content')
     const [isOpen, setIsOpen] = useState(false)
@@ -278,7 +277,8 @@ export const Builder = () => {
                         textColor: textColor,
                         baseText: baseText,
                         headerImage: formData?.headerImage,
-                        grid: grid
+                        grid: grid,
+                        formType: type
                     },
                 });
                 navigate("/dashboard");
@@ -289,7 +289,7 @@ export const Builder = () => {
     });
 
     const [grid, setGrid] = useState(false)
-
+    const [type, setType] = useState('Unlock')
 
 
     async function uploadHeaderImage(file) {
@@ -337,10 +337,6 @@ export const Builder = () => {
         await updateLinkMutation({ variables: { id, link: link.link, linkText: link.linkText } });
     };
 
-    const handleExistingDelete = async (id) => {
-        await deleteLink({ variables: { id } });
-        refetchExistingLinks();
-    };
 
     const refetchExistingLinks = async () => {
         try {
@@ -362,8 +358,8 @@ export const Builder = () => {
         <div class='w-full h-full'>
             <div className='h-14 bg-black w-full'></div>
 
-  {/* Spacer to prevent overlap */}
-           
+            {/* Spacer to prevent overlap */}
+
             <div className="flex h-screen overflow z-50 mt-[-15px] rounded-t-2xl bg-gray-50">
 
                 <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
@@ -399,30 +395,30 @@ export const Builder = () => {
 
                     {/* Dashboard Content */}
                     <main className="p-6 px-16 h-full flex-1">
- {colorPicker === true && (
-                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
-                    <div class='z-50'>
-                        <HexColorPicker color={color} onChange={setColor} />
-                        <div onClick={() => setColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
-                    </div>
-                </div>
-            )}
-            {colorPickerBase === true && (
-                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
-                    <div class='z-50'>
-                        <HexColorPicker color={styleColor} onChange={setStyleColor} />
-                        <div onClick={() => setColorPickerBase(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
-                    </div>
-                </div>
-            )}
-            {textColorPicker === true && (
-                <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
-                    <div class='z-50'>
-                        <HexColorPicker color={textColor} onChange={setTextColor} />
-                        <div onClick={() => setTextColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
-                    </div>
-                </div>
-            )}
+                        {colorPicker === true && (
+                            <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                                <div class='z-50'>
+                                    <HexColorPicker color={color} onChange={setColor} />
+                                    <div onClick={() => setColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                                </div>
+                            </div>
+                        )}
+                        {colorPickerBase === true && (
+                            <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                                <div class='z-50'>
+                                    <HexColorPicker color={styleColor} onChange={setStyleColor} />
+                                    <div onClick={() => setColorPickerBase(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                                </div>
+                            </div>
+                        )}
+                        {textColorPicker === true && (
+                            <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                                <div class='z-50'>
+                                    <HexColorPicker color={textColor} onChange={setTextColor} />
+                                    <div onClick={() => setTextColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                                </div>
+                            </div>
+                        )}
                         <div class='w-full gap-6 h-full flex'>
                             <div class='w-2/3 p-5'>
                                 <div className="flex items-center justify-between">
@@ -448,6 +444,13 @@ export const Builder = () => {
                                                     <MenuItem>
                                                         <button onClick={() => setPage('Links')} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
                                                             Links
+                                                        </button>
+                                                    </MenuItem>
+                                                )}
+                                                {selectedPage?.form === true && (
+                                                    <MenuItem>
+                                                        <button onClick={() => setPage('Type')} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                                                            Type
                                                         </button>
                                                     </MenuItem>
                                                 )}
@@ -636,7 +639,7 @@ export const Builder = () => {
                                                 </div>
                                                 <div>
                                                     <div onClick={() => setGrid(true)}>{grid === true ? 'Grid' : 'No Grid'}</div>
-                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
@@ -787,14 +790,30 @@ export const Builder = () => {
                                         </div>
                                     )}
                                 </div>
+                                <div>
+                                    {page === 'Type' && (
+                                        <div class='w-full mt-5 grid grid-cols-2 gap-5'>
+                                            <div onClick={() => setType('Contact')} class='w-full py-4 rounded-xl text-center border font-["Semibold"]'>
+                                                <div>Contact</div>
+                                            </div>
+                                            <div onClick={() => setType('Upload')} class='w-full py-4 rounded-xl text-center border font-["Semibold"]'>
+                                                <div>Upload</div>
+                                            </div>
+                                            <div onClick={() => setType('Feedback')} class='w-full py-4 rounded-xl text-center border font-["Semibold"]'>
+                                                <div>Feedback</div>
+                                            </div>
+
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <div class='w-1/3 h-full p-5'>
-                                <div style={{ backgroundColor: color }} class='w-full h-full border-2 flex  px-5 flex-col items-center bg-white rounded-2xl'>
+                                <div style={{ backgroundColor: color }} class={`w-full h-full border-2 px-5 ${selectedPage?.form ? 'flex flex-col w-full flex-start' : 'items-center flex-col flex'} bg-white rounded-2xl`}>
                                     <img src={!selectedPage?.headerImage ? logo : selectedPage?.headerImage} class='w-24 h-24 rounded-full mt-10' />
                                     <div style={{ color: textColor }} class={`mt-3 text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
                                     <div style={{ color: textColor }} class={`mt-1 text-sm text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
-                                       <div class='w-full'>
+                                        <div class='w-full'>
                                             <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
                                                 {data.me.Services.map(item => (
                                                     <div class='w-full flex'>
@@ -831,6 +850,36 @@ export const Builder = () => {
                                                     </div>
                                                 ))}
                                             </div>
+                                        </div>
+                                    )}
+                                    {selectedPage?.form === true && (
+                                        <div class='w-full'>
+                                            {type === 'Contact' && (
+                                                <div class='w-full'>
+                                                    <div class='grid grid-cols-2 gap-3'>
+                                                        <div class='w-full'>
+                                                            <div class='text-sm font-["Semibold"]'>Name</div>
+                                                            <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Name' />
+                                                        </div>
+                                                        <div>
+                                                            <div class='text-sm font-["Semibold"]'>Email</div>
+                                                            <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Email' />
+                                                        </div>
+                                                    </div>
+                                                    <div class='mt-7'>
+                                                        <div class='text-sm font-["Semibold"]'>Mobile Number</div>
+                                                            <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Number' />
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {type === 'Upload' && (
+                                                <div class='w-full'>
+                                                </div>
+                                            )}
+                                            {type === 'Feedback' && (
+                                                <div class='w-full'>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     {selectedPage?.linkinbio === true && (
