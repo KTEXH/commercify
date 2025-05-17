@@ -6,11 +6,15 @@ import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { useQuery } from "@apollo/client";
 import { NavBar } from "../../components/NavBar";
+import { useNavigate } from "react-router-dom";
+import CustomCalendar from "../../components/CustomerCalendar";
 export const Orders = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
     const [showBanner, setShowBanner] = useState(true);
 
     const [selectedPage, setSelectedPage] = useState(null);
+    const navigate = useNavigate();
+    const [tab, setTab] = useState('home')
 
     useEffect(() => {
         if (data?.me?.Pages?.length > 0 && !selectedPage) {
@@ -58,7 +62,16 @@ export const Orders = ({ className = "" }) => {
                     <button class='bg-black text-white mt-5 rounded-full px-5 py-3 font-["Semibold"]'>Go home</button>
                 </main>
                 <main className={`p-6 px-16 ${(selectedPage?.form || selectedPage?.linkinbio) === true && 'hidden'} flex-1`}>
-                    <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>{selectedPage?.storefront ? 'Orders' : 'Bookings'}</div>
+                    <div>
+                        {selectedPage?.storefront ? (
+                            <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Orders</div>
+                        ) : (
+                            <div class='flex items-center gap-4'>
+                                <div onClick={() => setTab('home')} class={`mt-7 ${tab === 'calendar' && 'text-gray-300'} font-["Semibold"] mb-3 text-3xl`}>Bookings</div>
+                                <div onClick={() => setTab('calendar')} class={`mt-7 font-["Semibold"] ${tab === 'home' && 'text-gray-300'} mb-3 text-3xl`}>Calendars</div>
+                            </div>
+                        )}
+                    </div>
                     {selectedPage?.storefront ? (
                         <div class='mt-5 border bg-white rounded-lg'>
                             <div class='flex items-center px-5 py-3 font-["Semibold"] text-sm justify-between'>
@@ -75,7 +88,7 @@ export const Orders = ({ className = "" }) => {
                                     </div>
                                 )}
                                 {data?.me?.Orders?.map(item => (
-                                    <div class='flex items-center w-full justify-between'>
+                                    <div onClick={() => navigate(`/orders/${item.id}`)} class='flex items-center w-full justify-between'>
                                         <div class='flex items-center gap-2 w-full'>
                                             <img src={!item.Product.thumbnail ? logo : item.Product.thumbnail} className='w-10 h-10 rounded-md' />
                                             <div>
@@ -103,47 +116,57 @@ export const Orders = ({ className = "" }) => {
                             </div>
                         </div>
                     ) : (
-                        <div class='mt-5 border bg-white rounded-lg'>
-                            <div class='flex items-center px-5 py-3 font-["Semibold"] text-sm justify-between'>
-                                <div class='w-full'>Service</div>
-                                <div class='w-full justify-center flex'>Customer</div>
-                                <div class='w-full justify-center flex'>Status</div>
-                                <div class='w-full justify-end flex'>Options</div>
-                            </div>
-                            <div class={`p-5 ${data?.me?.Bookings.length === 0 ? 'p-0' : 'p-5 border-t'} items-center space-y-3 w-full justify-between`}>
-                                {data?.me?.Bookings?.length === 0 && (
-                                    <div class='h-64 w-full flex justify-center items-center'>
-
-                                        <div>You have no bookings</div>
+                        <div class='flex w-full'>
+                            {tab === 'calendar' && (
+                                <div class='w-full'>
+                                    <CustomCalendar />
+                                </div>
+                            )}
+                            {tab === 'home' && (
+                                <div class='mt-5 border bg-white w-full rounded-lg'>
+                                    <div class='flex items-center px-5 py-3 font-["Semibold"] text-sm justify-between'>
+                                        <div class='w-full'>Service</div>
+                                        <div class='w-full justify-center flex'>Customer</div>
+                                        <div class='w-full justify-center flex'>Status</div>
+                                        <div class='w-full justify-end flex'>Options</div>
                                     </div>
-                                )}
-                                {data?.me?.Bookings?.map(item => (
-                                    <div class='flex items-center w-full justify-between'>
-                                        <div class='flex items-center gap-2 w-full'>
-                                            <img src={!item.Product.thumbnail ? logo : item.Product.thumbnail} className='w-10 h-10 rounded-md' />
-                                            <div>
-                                                <div class='font-["Semibold"] text-sm'>{item?.Product?.title}</div>
-                                            </div>
-                                        </div>
+                                    <div class={`p-5 ${data?.me?.Bookings.length === 0 ? 'p-0' : 'p-5 border-t'} items-center space-y-3 w-full justify-between`}>
+                                        {data?.me?.Bookings?.length === 0 && (
+                                            <div class='h-64 w-full flex justify-center items-center'>
 
-                                        <div class='flex items-center w-full flex gap-2 items-center justify-center'>
-                                            <div class='bg-pink-100 w-8 h-8 rounded-full flex items-center justify-center font-["Semibold"] text-sm'>
-                                                {item.name.charAt(0)}
+                                                <div>You have no bookings</div>
                                             </div>
-                                            <div class='w-2/3'>
-                                                <div class='text-xs font-["Semibold"]'>{item.name}</div>
-                                                <div class='text-xs font-["Medium"] text-gray-400'>{item.email}</div>
+                                        )}
+                                        {data?.me?.Bookings?.map(item => (
+                                            <div onClick={() => navigate(`/orders/${item.id}`)} class='flex items-center w-full justify-between'>
+                                                <div class='flex items-center gap-2 w-full'>
+                                                    <img src={!item.Product.thumbnail ? logo : item.Product.thumbnail} className='w-10 h-10 rounded-md' />
+                                                    <div>
+                                                        <div class='font-["Semibold"] text-sm'>{item?.Product?.title}</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class='flex items-center w-full flex gap-2 items-center justify-center'>
+                                                    <div class='bg-pink-100 w-8 h-8 rounded-full flex items-center justify-center font-["Semibold"] text-sm'>
+                                                        {item.name.charAt(0)}
+                                                    </div>
+                                                    <div class='w-2/3'>
+                                                        <div class='text-xs font-["Semibold"]'>{item.name}</div>
+                                                        <div class='text-xs font-["Medium"] text-gray-400'>{item.email}</div>
+                                                    </div>
+                                                </div>
+                                                <div class='flex items-center w-full justify-center'>
+                                                    <div class='text-green-600 bg-green-100 font-["Semibold"] text-xs px-4 py-2 rounded-full'>{item.fulfilled === true ? 'Fulfilled' : 'Unfulfilled'}</div>
+                                                </div>
+                                                <div class='w-full justify-end flex items-center'>
+                                                    <button class='bg-black px-4 py-2 rounded-full text-white text-xs font-["Semibold"]'>Fulfill</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class='flex items-center w-full justify-center'>
-                                            <div class='text-green-600 bg-green-100 font-["Semibold"] text-xs px-4 py-2 rounded-full'>{item.fulfilled === true ? 'Fulfilled' : 'Unfulfilled'}</div>
-                                        </div>
-                                        <div class='w-full justify-end flex items-center'>
-                                            <button class='bg-black px-4 py-2 rounded-full text-white text-xs font-["Semibold"]'>Fulfill</button>
-                                        </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            )}
+
                         </div>
                     )}
 

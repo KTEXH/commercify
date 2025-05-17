@@ -46,12 +46,28 @@ const GET_LINK_BY_SUBDOMAIN = gql`
         OnlyProducts {
           id
           title
+          price
           description
+          file
+          sizes
+          serviceOrProduct
+          colors
+          type
+          author{
+          id
+          }
           thumbnail
         }
            Services {
           id
           title
+          serviceOrProduct
+          price
+          author{
+          id
+          }
+          availablityDays
+          availablityHours
           description
           thumbnail
         }
@@ -116,8 +132,8 @@ export const Linkinbio = () => {
           </div>
 
           <div className="mt-5 w-full">
-            {store.user?.OnlyProducts?.length > 0 && (
-              <div className={clsx(store.storefront ? 'flex flex-col gap-4' : 'hidden')}>
+            {store?.user?.OnlyProducts?.length > 0 && (
+              <div className={clsx(store?.storefront ? 'flex flex-col gap-4' : 'hidden')}>
                 <div class='w-full'>
                   <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
                     {store?.user?.OnlyProducts?.map(item => (

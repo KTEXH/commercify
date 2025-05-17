@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 
 const GET_SERVICE = gql`
   query GetService($id: Int!) {
@@ -13,8 +11,8 @@ const GET_SERVICE = gql`
       specifications
       tag
       description
-      author{
-      id
+      author {
+        id
       }
     }
   }
@@ -46,48 +44,62 @@ const CREATE_BOOKING = gql`
       email: $email
     ) {
       id
-     
     }
   }
 `;
 
 const Booking = ({ productId, userId }) => {
   const [date, setDate] = useState(new Date());
+  const [bookableDates, setBookableDates] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
   const [selectedTime, setSelectedTime] = useState('');
-  const [amount, setAmount] = useState(30); // Default amount
-  const [currency, setCurrency] = useState('USD'); // Default currency
+  const [amount, setAmount] = useState(30);
+  const [currency, setCurrency] = useState('USD');
   const [name, setName] = useState('');
-  const [formattedDate, setFormattedDate] = useState('')
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
-  const [specification, setSpecification] = useState('')
+  const [specification, setSpecification] = useState('');
+  const [formattedDate, setFormattedDate] = useState('');
+
   const { data, loading, error } = useQuery(GET_SERVICE, {
     variables: { id: productId },
   });
 
   const [createBooking] = useMutation(CREATE_BOOKING);
 
-  // Function to check if the selected day of the week is available
-  const isDayAvailable = (day) => {
-    if (data && data.getService) {
-      const dayName = day.toLocaleDateString('en-US', { weekday: 'long' });
-      return data.getService.availablityDays.includes(dayName);
+  const generateBookableDates = (daysArray) => {
+    const upcomingDates = [];
+    const today = new Date();
+
+    for (let i = 0; i < 30; i++) {
+      const futureDate = new Date(today);
+      futureDate.setDate(today.getDate() + i);
+      const dayName = futureDate.toLocaleDateString('en-US', { weekday: 'long' });
+      if (daysArray.includes(dayName)) {
+        upcomingDates.push(futureDate);
+      }
     }
-    return false;
+    return upcomingDates;
   };
 
   useEffect(() => {
     if (data && data.getService) {
+      const bookable = generateBookableDates(data.getService.availablityDays);
+      setBookableDates(bookable);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data && data.getService) {
       const selectedDay = date.toLocaleDateString('en-US', { weekday: 'long' });
-      setFormattedDate(selectedDay)
-      if (isDayAvailable(date)) {
-        setAvailableTimes(data.getService.availablityHours); // Show available times for valid day
+      setFormattedDate(date.toDateString());
+      if (data.getService.availablityDays.includes(selectedDay)) {
+        setAvailableTimes(data.getService.availablityHours);
       } else {
-        setAvailableTimes([]); // No available times for invalid day
+        setAvailableTimes([]);
       }
     }
-  }, [data, date]);
+  }, [date, data]);
 
   const handleBooking = async () => {
     if (!selectedTime) {
@@ -103,11 +115,9 @@ const Booking = ({ productId, userId }) => {
           bookingDay: date.toLocaleDateString('en-US', { weekday: 'long' }),
           bookingTime: selectedTime,
           amount,
-          date: formattedDate,
           formattedDate: date.toDateString(),
-          specification: specification,
+          specification,
           currency,
-          tag: data.getService.tag,
           name,
           email,
         },
@@ -119,7 +129,7 @@ const Booking = ({ productId, userId }) => {
   };
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h2>Book a Service</h2>
 
       {loading ? (
@@ -130,18 +140,35 @@ const Booking = ({ productId, userId }) => {
         <>
           <h3>{data.getService.title}</h3>
 
-          <Calendar
-            onChange={setDate}
-            value={date}
-            tileClassName={({ date }) => (isDayAvailable(date) ? 'available-day' : 'unavailable-day')}
-          />
+          <h3>Select a Date:</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {bookableDates.map((d, i) => {
+              const isSelected = d.toDateString() === date.toDateString();
+              return (
+                <div
+                  key={i}
+                  onClick={() => setDate(d)}
+                  style={{
+                    padding: '10px 15px',
+                    border: '1px solid #ccc',
+                    borderRadius: '5px',
+                    backgroundColor: isSelected ? '#4CAF50' : '#f9f9f9',
+                    color: isSelected ? '#fff' : '#000',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {d.toDateString()}
+                </div>
+              );
+            })}
+          </div>
 
           <h3>Available Times for {date.toDateString()}:</h3>
           <select onChange={(e) => setSelectedTime(e.target.value)} value={selectedTime}>
             <option value="">Select a time</option>
             {availableTimes.length > 0 ? (
               availableTimes.map((time) => (
-                <option key={time} onClick={() => setSelectedTime(time)} value={time}>
+                <option key={time} value={time}>
                   {time}
                 </option>
               ))
@@ -175,16 +202,30 @@ const Booking = ({ productId, userId }) => {
             value={currency}
             onChange={(e) => setCurrency(e.target.value)}
           />
-          <div>
+
+          <h3>Select a Specification</h3>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             {data.getService.specifications.map((item, index) => (
-              <div key={index} onClick={() => setSpecification(item)}>
+              <div
+                key={index}
+                onClick={() => setSpecification(item)}
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  backgroundColor: specification === item ? '#4CAF50' : '#f1f1f1',
+                  color: specification === item ? '#fff' : '#000',
+                }}
+              >
                 {item}
               </div>
             ))}
           </div>
-          <div>{specification}</div>
 
-          <button onClick={handleBooking}>Book Now</button>
+          <button onClick={handleBooking} style={{ marginTop: '20px' }}>
+            Book Now
+          </button>
 
           {status && <p>{status}</p>}
         </>

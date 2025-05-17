@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavBar } from '../../components/NavBar'
 import { Header } from '../../components/Header'
 import { ME_QUERY } from '../../Data/Me'
@@ -13,7 +13,7 @@ import { Loading } from '../../components/Loading'
 export const Bookings = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY);
     const [activeTab, setActiveTab] = React.useState("Calendar");
-
+    
     // Map bookings data to events for the calendar
     const events = data?.me?.Bookings?.map(booking => {
         const bookedDate = new Date(booking.formattedDate); // Just use the date
@@ -26,11 +26,7 @@ export const Bookings = ({ className = "" }) => {
         };
     }) || [];
 
-    useEffect(() => {
-        if (data?.me?.Pages?.length > 0 && !selectedPage) {
-            setSelectedPage(data.me.Pages[0]); // Set first page as default
-        }
-    }, [data, selectedPage]);
+  
 
 
 
@@ -41,7 +37,7 @@ export const Bookings = ({ className = "" }) => {
         <div className={`flex w-full items-start h-full self-stretch flex-col rounded-3xl ${className}`}>
             <div className="h-full w-full flex-shrink-0 overflow-clip rounded-3xl bg-white">
                 <div className="font-general-sans flex flex flex-shrink-0 tracking-[0px]">
-                    <NavBar home={true} products={false} workshop={selectedPage?.workshop} form={selectedPage?.form} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
+                    <NavBar home={true} products={false} />
                     <div className="flex flex-col w-full self-stretch">
                         <Header />
                         

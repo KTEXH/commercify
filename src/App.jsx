@@ -16,7 +16,7 @@ import { Products } from "./Pages/Dash/Products";
 import { Orders } from "./Pages/Dash/Orders";
 import { Bookings } from "./Pages/Dash/Booking";
 import { Analytics } from "./Pages/Dash/Analytics";
-import { Pricing} from './Pages/Pages/Pricing'
+import { Pricing } from './Pages/Pages/Pricing'
 import { Pages } from "./Pages/Dash/Pages";
 import { Storefronts } from "./Pages/Pages/Storefronts";
 import { Workshops } from "./Pages/Pages/Workshops";
@@ -26,24 +26,31 @@ import { BuilderForm } from "./Pages/Pages/BuilderForm";
 import { Form } from "./Pages/Pages/Form";
 import { Storefront } from "./Pages/Viewers/Storefront";
 import { Linkinbio } from "./Pages/Viewers/Page";
-import { Linkinbio as LinkBuilder} from "./Pages/Pages/Linkinbio";
+import { Linkinbio as LinkBuilder } from "./Pages/Pages/Linkinbio";
 import { Insights } from "./Pages/Pages/Insights";
 import { Beta } from "./components/Beta";
 import { Confirmation } from "./components/Confirmation";
 import { Audience } from "./Pages/Dash/Audience";
 import { Settings } from "./Pages/Dash/Settings";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { Order } from "./Pages/Dash/Nested/Order";
 
 function App() {
+
+  const PUBLIC_KEY = "pk_test_51IiQZPD7NsuORBccbQ1juDSZc21IQIO8OJlwGouoRSLfbNAFvCeQjFDQzDQwW1w0iu63c2NLsLIDtPBa7zpQjSCv00EE8T2Snh"
+
+  const stripeTestPromise = loadStripe(PUBLIC_KEY)
 
   const httpLink = new HttpLink({
     uri: "https://commercifybackend-j0o4.onrender.com/", // Replace with your GraphQL API URI
   });
-  
+
   // Create an Auth Link to include the Authorization header
   const authLink = setContext(async (_, { headers }) => {
     // Get the token from localStorage
     const token = localStorage.getItem("token");
-  
+
     // Return the headers with the Authorization header
     return {
       headers: {
@@ -52,57 +59,61 @@ function App() {
       },
     };
   });
-  
+
   // Combine the authLink and httpLink
   const link = authLink.concat(httpLink);
-  
+
   // Create the Apollo Client instance with cache and link
   const client = new ApolloClient({
     link: link,
     cache: new InMemoryCache(),
   });
-  
+
 
 
 
 
   return (
     <ApolloProvider client={client}>
-      <Ana />
-      <Router>
-        <Routes>
-          <Route element={<LandingPage />} path="/" />
-          <Route element={<Register />} path="/register" />
-          <Route element={<SignIn />} path='/login' />
-          <Route element={<Authenticated><Buy /></Authenticated>} path='/buy'/>
-          <Route element={<Authenticated><Form /></Authenticated>} path='/forms'/>
-          <Route element={<Authenticated><Workshops /></Authenticated>} path='/workshops'/>
-          <Route element={<Authenticated><LinkBuilder /></Authenticated>} path='/linkinbio'/>
-          <Route element={<Authenticated><Storefronts /></Authenticated>} path='/storefronts'/>
-          <Route element={<Authenticated><Pages /></Authenticated>} path='/pages'/>
-          <Route element={<Beta />}  path='/beta' />
-          <Route element={<Authenticated><Builder /></Authenticated>} path='/editor'/>
-          <Route element={<Pricing />} path='/pricing'/>
-          <Route element={<Confirmation />} path='/confirmation'/>
-          <Route element={<Authenticated><BuilderForm /></Authenticated>} path='/builder/:type'/>
-          <Route element={<Authenticated><Setup /></Authenticated>} path='/setup'/>
-          <Route path='/storefront' element={
-            <Storefront />
-        } />
-        <Route path='/:subdomain' element={<Linkinbio/>}/>
-        <Route element={<Authenticated><Insights /></Authenticated>} path='/insights' />
-          <Route element={<Authenticated><Page /></Authenticated>} path='/page'/>
-          <Route element={<Authenticated><Products /></Authenticated>} path='/products'/>
-          <Route element={<Authenticated><Analytics /></Authenticated>} path='/stats'/>
-          <Route element={<Authenticated><Bookings /></Authenticated>} path='/bookings'/>
-          <Route element={<Authenticated><Orders/></Authenticated>} path='/orders'/>
-          <Route element={<Authenticated><Setup2 /></Authenticated>} path='/setup2'/>
-          <Route element={<Authenticated><Audience /></Authenticated>} path='/audience'/>
-          <Route element={<Authenticated><Setup3 /></Authenticated>} path='/setup3'/>
-          <Route element={<Authenticated><Default /></Authenticated>} path='/dashboard' />
-          <Route element={<Authenticated><Settings /></Authenticated>} path='/settings'/>
-        </Routes>
-      </Router>
+      <Elements stripe={stripeTestPromise}>
+        <Ana />
+        <Router>
+          <Routes>
+            <Route element={<LandingPage />} path="/" />
+            <Route element={<Register />} path="/register" />
+            <Route element={<SignIn />} path='/login' />
+            <Route element={<Authenticated><Buy /></Authenticated>} path='/buy' />
+            <Route element={<Authenticated><Order /></Authenticated>} path='/orders/:id'/>
+            <Route element={<Authenticated><Form /></Authenticated>} path='/forms' />
+            <Route element={<Authenticated><Workshops /></Authenticated>} path='/workshops' />
+            <Route element={<Authenticated><LinkBuilder /></Authenticated>} path='/linkinbio' />
+            <Route element={<Authenticated><Storefronts /></Authenticated>} path='/storefronts' />
+            <Route element={<Authenticated><Pages /></Authenticated>} path='/pages' />
+            <Route element={<Beta />} path='/beta' />
+            <Route element={<Authenticated><Builder /></Authenticated>} path='/editor' />
+            <Route element={<Pricing />} path='/pricing' />
+            <Route element={<Confirmation />} path='/confirmation' />
+            
+            <Route element={<Authenticated><BuilderForm /></Authenticated>} path='/builder/:type' />
+            <Route element={<Authenticated><Setup /></Authenticated>} path='/setup' />
+            <Route path='/storefront' element={
+              <Storefront />
+            } />
+            <Route path='/:subdomain' element={<Linkinbio />} />
+            <Route element={<Authenticated><Insights /></Authenticated>} path='/insights' />
+            <Route element={<Authenticated><Page /></Authenticated>} path='/page' />
+            <Route element={<Authenticated><Products /></Authenticated>} path='/products' />
+            <Route element={<Authenticated><Analytics /></Authenticated>} path='/stats' />
+            <Route element={<Authenticated><Bookings /></Authenticated>} path='/bookings' />
+            <Route element={<Authenticated><Orders /></Authenticated>} path='/orders' />
+            <Route element={<Authenticated><Setup2 /></Authenticated>} path='/setup2' />
+            <Route element={<Authenticated><Audience /></Authenticated>} path='/audience' />
+            <Route element={<Authenticated><Setup3 /></Authenticated>} path='/setup3' />
+            <Route element={<Authenticated><Default /></Authenticated>} path='/dashboard' />
+            <Route element={<Authenticated><Settings /></Authenticated>} path='/settings' />
+          </Routes>
+        </Router>
+        </Elements>
     </ApolloProvider>
   )
 }

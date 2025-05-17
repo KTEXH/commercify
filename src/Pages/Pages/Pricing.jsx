@@ -15,11 +15,12 @@ const tiers = [
         description: "The perfect plan if you're just getting started with our product.",
         features: [
             '5 products',
+            '5 services',
             '1 Storefront',
             '1 Workshop',
             '1 Link-in-bio',
             '1 Form',
-            '6.5% Transaction Fee',
+            '7.5% Transaction Fee',
             'Link-in-bio tools'],
         featured: false,
     },
@@ -27,11 +28,12 @@ const tiers = [
         name: 'Plus',
         id: 'tier-enterprise',
         href: '/beta',
-        priceMonthly: '$7',
+        priceMonthly: '$9',
         priceYearly: '$76',
         description: 'Perfect for creators and businesses any size.',
         features: [
             '10 products',
+            '10 services',
             'No transaction fees',
             '1 Storefront',
             '1 Workshop',
@@ -40,26 +42,6 @@ const tiers = [
             'Advanced analytics',
             'Passcoded storefronts',
             'Custom Domains',
-        ],
-        featured: true,
-    },
-    {
-        name: 'Pro',
-        id: 'tier-enterprise',
-        href: '/beta',
-        priceMonthly: '$24',
-        priceYearly: '$76',
-        description: 'Dedicated support and infrastructure for your company or prime-time creators.',
-        features: [
-            'Unlimited products',
-            'Unlimited Storefronts',
-            'Unlimited Workshops',
-            'Unlimited Link-in-bios',
-            'Unlimited Forms',
-            'No transaction fees',
-            'Advanced analytics',
-            'Passcoded storefronts',
-            'Custom form support',
             'Branding options'
         ],
         featured: true,
@@ -94,7 +76,7 @@ export function Pricing() {
                     <div>
 
 
-                        <div className="mx-auto grid max-w-lg grid-cols-1 gap-y-5 gap-x-6 mt-7 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-3">
+                        <div className="mx-auto grid max-w-lg grid-cols-1 gap-y-5 gap-x-6 mt-7 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                             {tiers.map((tier) => (
                                 <div
                                     key={tier.id}

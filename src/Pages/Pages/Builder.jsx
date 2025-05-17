@@ -11,10 +11,21 @@ import { NavBar } from "../../components/NavBar";
 import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@headlessui/react";
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
+import ProductDialog from "../../components/ProductDialog";
 
 export const Simple = ({ item, round, color, style, font, link, textColor }) => {
+     const [selectedPost, setSelectedPost] = useState(null);
+    const closeDialog = () => {
+        setSelectedPost(null);
+    };
+
+    const openDialog = (item) => {
+        setSelectedPost(item);
+    };
+
+
     return (
-        <a href={link} style={{
+        <a href={link} onClick={() => openDialog(item)} style={{
             backgroundColor: style === 'color' && color,
             borderColor: (style === 'outline' || 'backdrop') && color,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
@@ -37,6 +48,12 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
             <div className="flex items-center justify-center w-6 h-6 ml-3 mr-3">
                 <EllipsisHorizontalIcon style={{ color: textColor }} className="w-4 h-4" />
             </div>
+
+            <ProductDialog
+                item={selectedPost}
+                isOpen={!!selectedPost}
+                onClose={closeDialog}
+            />
         </a>
     )
 }
@@ -44,8 +61,21 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
 
 
 export const Description = ({ item, style, round, font, textColor, color }) => {
+    const [selectedPost, setSelectedPost] = useState(null);
+    const closeDialog = () => {
+        setSelectedPost(null);
+    };
+
+    const openDialog = (item) => {
+        setSelectedPost(item);
+    };
+
     return (
+
+
         <div
+
+            onClick={() => openDialog(item)}
             style={{
                 backgroundColor: style === 'color' && color,
                 borderColor: (style === 'outline' || 'backdrop') && color,
@@ -60,7 +90,11 @@ export const Description = ({ item, style, round, font, textColor, color }) => {
                 <div style={{ color: textColor }} className={`line-clamp-1 text-center ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-[12px]`}>{item.title}</div>
                 <div className='text-gray-300 font-["Medium"] text-center px-5 text-xs line-clamp-2'>{item.description}</div>
             </div>
-
+            <ProductDialog
+                item={selectedPost}
+                isOpen={!!selectedPost}
+                onClose={closeDialog}
+            />
 
         </div>
 
@@ -868,21 +902,21 @@ export const Builder = () => {
                                                     </div>
                                                     <div class='mt-7'>
                                                         <div class='text-sm font-["Semibold"]'>Mobile Number</div>
-                                                            <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Number' />
+                                                        <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Number' />
                                                     </div>
                                                 </div>
                                             )}
                                             {type === 'Upload' && (
                                                 <div class='w-full px-3'>
-                                                     <div class='h-64 rounded-xl mt-5 flex items-center justify-center border-dashed border'>
+                                                    <div class='h-64 rounded-xl mt-5 flex items-center justify-center border-dashed border'>
                                                         <div class='flex text-center border rounded-xl font-["Semibold"] px-4 py-2 text-sm'>Upload file</div>
-                                                        </div>
+                                                    </div>
                                                 </div>
                                             )}
                                             {type === 'Feedback' && (
                                                 <div class='w-full'>
                                                     <div>Feedback</div>
-                                                    <input placeholder='' class='mt-5 rounded-2xl border w-full h-40'/>
+                                                    <input placeholder='' class='mt-5 rounded-2xl border w-full h-40' />
                                                 </div>
                                             )}
                                         </div>

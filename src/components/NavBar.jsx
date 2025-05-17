@@ -5,7 +5,7 @@ import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { createClient } from "@supabase/supabase-js";
 import Group from "./assets/Group";
 import { ME_QUERY } from '../Data/Me';
-
+import { supabase } from '../Utils/utils';
 const CREATE_PRODUCT_MUTATION = gql`
   mutation CreateProduct($input: ProductInput!) {
     createProduct(input: $input) {
@@ -146,18 +146,15 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
         throw new Error('You must select an image to upload.');
       }
 
-      const supabase = createClient(
-        'https://rbsteedexxccoqrnyczp.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJic3RlZWRleHhjY29xcm55Y3pwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU5MzIwMTksImV4cCI6MjAwMTUwODAxOX0.FT3oCWVeAGjrMRhLTdCFBSOtIdMDeZj6ApuALkJ185A'
-      );
+    
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `${fileName}`;
       setFilename(fileName)
       setFileUrl(filePath);
-      let { error: uploadError } = await supabase.storage.from('conten').upload(filePath, file);
-      let { data } = supabase.storage.from('conten').getPublicUrl(`${filePath}`);
+      let { error: uploadError } = await supabase.storage.from('bubble').upload(filePath, file);
+      let { data } = supabase.storage.from('bubble').getPublicUrl(`${filePath}`);
 
       const publicFile = data.publicUrl;
       setPublicFile(publicFile);
@@ -386,8 +383,7 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
           <div class='mt-20'>
             <div class='text-xs font-["Semibold"] text-gray-300'>Account</div>
             <div class='space-y-4 mt-4'>
-              <div class='text-gray-400 font-["Semibold"] text-sm'>Stats</div>
-              <div class='text-gray-400 font-["Semibold"] text-sm'>Settings</div>
+              <div class='text-gray-400 font-["Semibold"] text-sm'>Log out</div>
             </div>
             <button onClick={() => setIsOpen(true)} class='bg-black text-white font-["Semibold"] rounded-full w-full py-4 mt-5 text-sm'>Create</button>
           </div>

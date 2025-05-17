@@ -189,6 +189,7 @@ export default function Default() {
   const { data, error, loading } = useQuery(ME_QUERY)
   const [showBanner, setShowBanner] = useState(true);
 
+  const navigate = useNavigate()
   const [selectedPage, setSelectedPage] = useState(null);
 
   useEffect(() => {
@@ -239,7 +240,7 @@ export default function Default() {
               <p className="text-gray-600 font-['Medium'] mt-2">
                 We’ll have you up and running creating an audience for your product in minutes.
               </p>
-              <button className="bg-black mt-5 px-6 py-3 rounded-full text-white font-['Semibold']" onClick={() => setShowBanner(false)}>Edit your page</button>
+              <button className="bg-black mt-5 px-6 py-3 rounded-full text-white font-['Semibold']" onClick={() => navigate('/editor')}>Edit your page</button>
             </div>
 
 
