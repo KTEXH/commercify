@@ -13,7 +13,7 @@ export default defineConfig({
       input: 'src/server.js', // entry point for backend (server code)
     },
     rollupOptions: {
-      external: ['@fullcalendar/core/preact.js', '@stripe/react-stripe-js']
+      external: ['@fullcalendar/core/preact.js', '@stripe/stripe-js']
     },
   },
 });
