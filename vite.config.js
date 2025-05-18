@@ -10,10 +10,10 @@ export default defineConfig({
   build: {
     outDir: 'dist', // ensure the dist folder is created
     rollupOptions: {
-      input: 'src/server.js', // entry point for backend (server code)
-    },
-    rollupOptions: {
+      input: 'src/server.js',
       external: ['@fullcalendar/core/preact.js']
+      // entry point for backend (server code)
     },
+
   },
 });
