@@ -110,7 +110,7 @@ export const Linkinbio = () => {
         </div>
         <div className={`max-w-md w-full mt-20 flex flex-col items-center mx-auto`}>
           <img
-            src={store.secondaryImage}
+            src={store?.secondaryImage}
             loading="lazy"
             className={clsx(
               'w-28 h-28 rounded-full',

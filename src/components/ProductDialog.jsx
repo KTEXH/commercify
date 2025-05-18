@@ -3,7 +3,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useMutation } from '@apollo/client'
 import { gql } from 'graphql-tag'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import emailjs from '@emailjs/browser'
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
