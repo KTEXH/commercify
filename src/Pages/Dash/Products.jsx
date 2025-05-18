@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { CheckCircle, Bell, User, Check } from "lucide-react";
 import { ArrowRightIcon, CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { RiCheckFill } from "@remixicon/react";
-import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { useMutation, useQuery } from "@apollo/client";
 import { NavBar } from "../../components/NavBar";
 import { Tab, TabGroup, TabList, TabPanel } from "@headlessui/react";
 import { DELETE_LINK, LINK_CREATION, UPDATE_LINK } from "../../Pages/Pages/Mutations/Mutations";
 import { supabase } from "../../Utils/utils";
+import { Banner } from "./Home";
+import logo from "../../components/assets/logo.svg";
 
 export const Products = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
@@ -96,126 +97,144 @@ export const Products = ({ className = "" }) => {
     if (error) return <div>{error.message}</div>
     if (loading) return <div>loading...</div>
     return (
-        <div className="flex h-screen bg-gray-50">
-            <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
-                {data.me.Pages.map(item => (
-                    <div key={item.id} className="relative flex items-center">
-                        {/* Left curved indicator */}
-                        {selectedPage?.id === item.id && (
-                            <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
-                            ></div>
-                        )}
-                        <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-lg' src={!item?.headerImage ? logo : item?.headerImage} />
-                    </div>
-                ))}
-                <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
-                    <PlusIcon class='w-4 h-4 text-black' />
-                </div>
-            </div>
-            <NavBar home={false} products={true} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
-
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col">
-                {/* Top Bar */}
-                <header className="flex justify-between border-b items-center px-6 py-4 bg-white">
-                    <div class='flex items-center gap-2'>
-                        <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
-                        <span className="text-lg font-['Semibold'] text-sm">{selectedPage?.name} • commercifyhq.com/{selectedPage?.name}</span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <Bell className="text-gray-600" />
-                        <User className="text-gray-600" />
-                    </div>
-                </header>
-
-                {/* Dashboard Content */}
-                <main className="p-6 px-16 flex-1">
-                    <div class='flex items-center mt-7 justify-between w-full'>
-                        <div class='font-["Semibold"] mb-3 text-3xl'>{selectedPage?.storefront === true && 'Products'}{selectedPage?.linkinbio === true && 'Links'}</div>
-                        <div>
-                        
-
-
+        <div>
+            <Banner />
+            <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
+                <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+                    {data.me.Pages.map(item => (
+                        <div key={item.id} className="relative flex items-center">
+                            {/* Left curved indicator */}
+                            {selectedPage?.id === item.id && (
+                                <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
+                                ></div>
+                            )}
+                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
                         </div>
+                    ))}
+                    <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
+                        <PlusIcon class='w-4 h-4 text-black' />
                     </div>
-                    <div>
-                        {selectedPage?.storefront === true && (
-                            <div class='mt-5 grid grid-cols-2 gap-7'>
-                                {data.me.OnlyProducts.map(item => (
-                                    <div class='w-full rounded-xl flex items-center bg-white justify-between border p-4'>
-                                        <div class='flex items-center gap-5'>
-                                            {item.thumbnail ? (
-                                                <img src={item.thumbnail} />
-                                            ) : (
-                                                <div class='w-16 h-16 rounded-2xl bg-black' />
-                                            )}
+                </div>
+                <NavBar home={false} products={true} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
-                                            <div class='w-2/3'>
-                                                <div class='font-["Semibold"]'>{item.title}</div>
-                                                <div class='line-clamp-1 font-["Medium"] text-gray-400 text-sm'>{item.description}</div>
+                {/* Main Content */}
+                <div className="flex-1 flex flex-col">
+                    {/* Top Bar */}
+                    <header className="flex justify-between border-b items-center px-6 py-4">
+                        <div class='flex items-center gap-2'>
+                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
+                            <span className="text-lg font-['Semibold'] text-sm">cmhq.me/{selectedPage?.subdomain}</span>
+                        </div>
+
+                    </header>
+
+                    {/* Dashboard Content */}
+                    <main className="px-16 flex-1">
+                        <div class='flex items-center mt-7 justify-between w-full'>
+                            <div class='font-["Semibold"] mb-3 text-3xl'>{selectedPage?.workshop === true && 'Services'}{selectedPage?.storefront === true && 'Products'}{selectedPage?.linkinbio === true && 'Links'}</div>
+                            <div>
+
+
+
+                            </div>
+                        </div>
+                        <div>
+                            {selectedPage?.storefront === true && (
+                                <div class='mt-5 grid grid-cols-2 gap-4'>
+                                    {data.me.OnlyProducts.map(item => (
+                                        <div onClick={() => navigate(`/orders/${item.id}`)} class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
+                                            <div class='flex items-center'>
+                                                <div class='px-2 text-xl w-28 shrink-0 text-center font-["Semibold"]'>
+                                                    ${item?.price}
+                                                </div>
+                                                <div class='h-10 w-1 border-l' />
+                                                <div class='px-5'>
+                                                    <div class='text-sm font-["Semibold"] '>{item?.title}</div>
+                                                    <div class='text-sm font-["Medium"] text-gray-300 line-clamp-2'>{item?.description}</div>
+
+                                                    <div class='mt-1 flex items-center gap-[-3px]'>
+                                                        <img src={selectedPage?.headerImage} class='w-5 h-5 border-2 border-white rounded-full' />
+                                                        <img
+                                                            src={
+                                                                !item?.thumbnail ? logo : item?.thumbnail
+                                                            }
+                                                            className="w-5 h-5 ml-[-6px] border-2 border-white rounded-full"
+                                                        />
+                                                        <div class='h-5 w-5 ml-[-6px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{item?.title?.charAt(0)}</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class='pr-5'>
+                                                <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
                                             </div>
                                         </div>
-                                        <div class='flex items-center gap-3'>
-                                            <button class='text-sm bg-gray-200 text-black font-["Semibold"] px-5 py-2 rounded-full'>Options</button>
-                                            <button class='px-5 py-2 rounded-full text-white font-["Semibold"] bg-black text-sm'>Edit</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        {selectedPage?.workshop === true && (
+                                    ))}
+                                </div>
+                            )}
+                            {selectedPage?.workshop === true && (
 
 
-                            <div class='mt-5 grid grid-cols-2 gap-7'>
-                                {data.me.Services.map(item => (
-                                    <div class='w-full rounded-xl flex items-center justify-between border p-4'>
-                                        <div class='flex items-center gap-5'>
-                                            {item.thumbnail ? (
-                                                <img src={item.thumbnail} />
-                                            ) : (
-                                                <div class='w-16 h-16 rounded-2xl bg-black' />
-                                            )}
+                                <div class='mt-5 grid grid-cols-2 gap-7'>
+                                    {data.me.Services.map(item => (
+                                        <div onClick={() => navigate(`/orders/${item.id}`)} class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
+                                            <div class='flex items-center'>
+                                                <div class='px-2 text-xl w-28 shrink-0 text-center font-["Semibold"]'>
+                                                    ${item?.price}
+                                                </div>
+                                                <div class='h-10 w-1 border-l' />
+                                                <div class='px-5'>
+                                                    <div class='text-sm font-["Semibold"] '>{item?.title}</div>
+                                                    <div class='text-sm font-["Medium"] text-gray-300 line-clamp-2'>{item?.description}</div>
 
-                                            <div class='w-2/3'>
-                                                <div class='font-["Semibold"]'>{item.title}</div>
-                                                <div class='line-clamp-1 font-["Medium"] text-gray-400 text-sm'>{item.description}</div>
+                                                    <div class='mt-1 flex items-center gap-[-3px]'>
+                                                        <img src={selectedPage?.headerImage} class='w-5 h-5 border-2 border-white rounded-full' />
+                                                        <img
+                                                            src={
+                                                                !item?.thumbnail ? logo : item?.thumbnail
+                                                            }
+                                                            className="w-5 h-5 ml-[-6px] border-2 border-white rounded-full"
+                                                        />
+                                                        <div class='h-5 w-5 ml-[-6px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{item?.title?.charAt(0)}</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class='pr-5'>
+                                                <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
                                             </div>
                                         </div>
-                                        <div class='flex items-center gap-3'>
-                                            <button class='text-sm bg-gray-200 text-black font-["Semibold"] px-5 py-2 rounded-full'>Options</button>
-                                            <button class='px-5 py-2 rounded-full text-white font-["Semibold"] bg-black text-sm'>Edit</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                    ))}
+                                </div>
+                            )}
 
-                        {selectedPage?.linkinbio === true && (
-                             <div class='mt-5 grid grid-cols-2 gap-7'>
-                                {data.me.Links.map(item => (
-                                    <div class='w-full rounded-xl flex items-center justify-between border p-4'>
-                                        <div class='flex items-center gap-5'>
-                                            {item.image ? (
-                                                <img src={item.image} class='w-12 h-12 rounded-rounded-full' />
-                                            ) : (
-                                                <div class='w-16 h-16 rounded-2xl bg-black' />
-                                            )}
+                            {selectedPage?.linkinbio === true && (
+                                <div class='mt-5 grid grid-cols-2 gap-7'>
+                                    {data.me.Links.map(item => (
+                                        <div class='w-full rounded-xl flex items-center justify-between border p-4'>
+                                            <div class='flex items-center gap-5'>
+                                                {item.image ? (
+                                                    <img src={item.image} class='w-12 h-12 rounded-rounded-full' />
+                                                ) : (
+                                                    <div class='w-16 h-16 rounded-2xl bg-black' />
+                                                )}
 
-                                            <div class='w-2/3'>
-                                                <div class='font-["Semibold"]'>{item.linkText}</div>
-                                                <div class='line-clamp-1 font-["Medium"] text-gray-400 text-sm'>{item.description}</div>
+                                                <div class='w-2/3'>
+                                                    <div class='font-["Semibold"]'>{item.linkText}</div>
+                                                    <div class='line-clamp-1 font-["Medium"] text-gray-400 text-sm'>{item.description}</div>
+                                                </div>
+                                            </div>
+                                            <div class='flex items-center gap-3'>
+                                                <button class='text-sm bg-gray-200 text-black font-["Semibold"] px-5 py-2 rounded-full'>Options</button>
+                                                <button class='px-5 py-2 rounded-full text-white font-["Semibold"] bg-black text-sm'>Edit</button>
                                             </div>
                                         </div>
-                                        <div class='flex items-center gap-3'>
-                                            <button class='text-sm bg-gray-200 text-black font-["Semibold"] px-5 py-2 rounded-full'>Options</button>
-                                            <button class='px-5 py-2 rounded-full text-white font-["Semibold"] bg-black text-sm'>Edit</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </main>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </main>
+                </div>
             </div>
         </div>
     );

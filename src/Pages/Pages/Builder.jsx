@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bell, User } from "lucide-react";
-import { ChevronDownIcon, EllipsisHorizontalIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, EllipsisHorizontalIcon, PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { HexColorPicker } from "react-colorful";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
@@ -12,9 +11,11 @@ import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel } from "@hea
 import { useFormik } from "formik";
 import { supabase } from "../../Utils/utils";
 import ProductDialog from "../../components/ProductDialog";
+import Group from "../../components/assets/Group";
+import { Banner } from "../../Pages/Dash/Home";
 
 export const Simple = ({ item, round, color, style, font, link, textColor }) => {
-     const [selectedPost, setSelectedPost] = useState(null);
+    const [selectedPost, setSelectedPost] = useState(null);
     const closeDialog = () => {
         setSelectedPost(null);
     };
@@ -146,6 +147,7 @@ export const Builder = () => {
         secondaryText: '',
         newsletterImage: '',
         componentColor: '',
+        secondaryImage: '',
         storefront: true,
         headingColor: '',
         subTextColor: '',
@@ -212,6 +214,7 @@ export const Builder = () => {
                 description: selectedPage.description || "",
                 headerImage: selectedPage.headerImage || "",
                 linkinbio: selectedPage.linkinbio,
+                secondaryImage: selectedPage?.secondaryImage || ""
             }));
             setTextColor(selectedPage?.textColor)
             setColor(selectedPage?.backgroundColor)
@@ -309,9 +312,11 @@ export const Builder = () => {
                         style: style,
                         font: font,
                         styleColor: styleColor,
+                        published: true,
                         textColor: textColor,
                         baseText: baseText,
                         headerImage: formData?.headerImage,
+                        secondaryImage: formData?.secondaryImage,
                         grid: grid,
                         formType: type
                     },
@@ -325,6 +330,37 @@ export const Builder = () => {
 
     const [grid, setGrid] = useState(false)
     const [type, setType] = useState('Unlock')
+
+        async function uploadSecondaryImage(file) {
+        if (!file) return;
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `headers/${fileName}`;
+
+        const { data, error } = await supabase.storage
+            .from('bubble') // your bucket name
+            .upload(filePath, file);
+
+        if (error) {
+            console.error('Upload failed:', error.message);
+            return;
+        }
+
+        const { data: publicUrlData } = supabase.storage
+            .from('bubble')
+            .getPublicUrl(filePath);
+
+        const publicUrl = publicUrlData?.publicUrl;
+
+        if (publicUrl) {
+            // 🔄 Update formData.headerImage with the public URL
+            setFormData((prev) => ({
+                ...prev,
+                secondaryImage: publicUrl,
+            }));
+        }
+    }
 
 
     async function uploadHeaderImage(file) {
@@ -383,6 +419,7 @@ export const Builder = () => {
     };
 
     const [colorPickerBase, setColorPickerBase] = useState(false)
+    const [textBaseColorPick, setTextBaseColorPicker] = useState(false)
     const [textColorPicker, setTextColorPicker] = useState(false)
     const [textColor, setTextColor] = useState("#000")
     const [baseText, setBaseText] = useState("#000")
@@ -392,9 +429,10 @@ export const Builder = () => {
     return (
         <div class='w-full h-full'>
 
-            {/* Spacer to prevent overlap */}
+            <Banner />
 
-            <div className="flex h-screen overflow z-50 rounded-t-2xl bg-gray-50">
+            {/* Curved panel overlapping the banner */}
+            <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
 
                 <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
                     {data.me.Pages.map(item => (
@@ -404,7 +442,7 @@ export const Builder = () => {
                                 <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
                                 ></div>
                             )}
-                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-lg' src={!item?.headerImage ? logo : item?.headerImage} />
+                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
                         </div>
                     ))}
                     <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
@@ -416,19 +454,18 @@ export const Builder = () => {
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
                     {/* Top Bar */}
-                    <header className="flex justify-between border-b items-center px-6 py-4 bg-white">
+
+                    <div className="border-b items-center px-6 py-4">
                         <div class='flex items-center gap-2'>
                             <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
-                            <span className="text-lg font-['Semibold'] text-sm">{selectedPage?.name} • commercifyhq.com/{selectedPage?.name}</span>
+                            <span className="text-lg font-['Semibold'] text-sm">cmhq.me/{selectedPage?.subdomain}</span>
                         </div>
                         <div className="flex items-center gap-4">
-                            <Bell className="text-gray-600" />
-                            <User className="text-gray-600" />
-                        </div>
-                    </header>
 
+                        </div>
+                    </div>
                     {/* Dashboard Content */}
-                    <main className="p-6 px-16 h-full flex-1">
+                    <main className="px-16 h-full flex-1">
                         {colorPicker === true && (
                             <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
                                 <div class='z-50'>
@@ -445,6 +482,16 @@ export const Builder = () => {
                                 </div>
                             </div>
                         )}
+
+                        {textBaseColorPick === true && (
+                            <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
+                                <div class='z-50'>
+                                    <HexColorPicker color={baseText} onChange={setBaseText} />
+                                    <div onClick={() => setTextBaseColorPicker(false)} class='w-full py-3 rounded-xl bg-black font-["Semibold"] text-white'>Close</div>
+                                </div>
+                            </div>
+                        )}
+
                         {textColorPicker === true && (
                             <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
                                 <div class='z-50'>
@@ -455,11 +502,11 @@ export const Builder = () => {
                         )}
                         <div class='w-full gap-6 h-full flex'>
                             <div class='w-2/3 p-5'>
-                                <div className="flex items-center justify-between">
+                                <div className="flex z-50 items-center justify-between">
                                     <div class='text-2xl font-["Semibold"]'>{page}</div>
                                     <div class='flex items-center gap-3'>
                                         <Menu>
-                                            <MenuButton className="inline-flex border gap-5 shadow-sm items-center bg-white px-5 py-2 rounded-lg font-['Semibold'] text-sm">
+                                            <MenuButton className="inline-flex z-50 border gap-5 shadow-sm items-center bg-white px-5 py-2 rounded-full font-['Semibold'] text-sm">
                                                 {page}
                                                 <ChevronDownIcon className="size-4 fill-black" />
                                             </MenuButton>
@@ -467,7 +514,7 @@ export const Builder = () => {
                                             <MenuItems
                                                 transition
                                                 anchor="bottom end"
-                                                className="w-52 origin-top-right rounded-xl border bg-white font-['Semibold'] mt-5 p-1 text-sm/6  text-black border shadow-sm transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                                                className="w-52 z-50 origin-top-right rounded-xl border bg-white font-['Semibold'] mt-5 p-1 text-sm/6  text-black border shadow-sm transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
                                             >
                                                 <MenuItem>
                                                     <button onClick={() => setPage('Content')} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
@@ -501,10 +548,10 @@ export const Builder = () => {
 
                                             </MenuItems>
                                         </Menu>
-                                        <button onClick={open} class='bg-black px-5 py-2 rounded-md text-white font-["Semibold"] text-sm'>Publish</button>
+                                        <button onClick={open} class='bg-black px-5 py-2 rounded-full text-white font-["Semibold"] text-sm'>Publish</button>
                                     </div>
                                 </div>
-                                <Dialog open={isOpen} as="div" className="relative w-full h-full bg-black z-10 focus:outline-none" onClose={close}>
+                                <Dialog open={isOpen} as="div" className="relative w-full h-full bg-black z-50 focus:outline-none" onClose={close}>
                                     <div className="fixed inset-0 w-screen overflow-y-auto flex items-center justify-center bg-black bg-opacity-25">
                                         <div className="flex min-h-full items-center justify-center p-4">
                                             <DialogPanel
@@ -522,10 +569,10 @@ export const Builder = () => {
                                                     onChange={handleNameChange}
                                                     value={formData?.subdomain}
                                                     name="subdomain"
-                                                    class='py-2 px-4 my-4 text-sm font-["Medium"] rounded-lg border w-full' placeholder='Name...' />
+                                                    class='py-2 px-4 my-4 text-sm font-["Medium"] rounded-full bg-white border w-full shadow-sm' placeholder='Name...' />
                                                 <div className="">
                                                     <form onSubmit={formik.handleSubmit}>
-                                                        <button type="submit" class='bg-black px-5 w-full py-2 rounded-md text-white font-["Semibold"] text-sm'>Publish</button>
+                                                        <button type="submit" class='bg-black px-5 w-full py-2 rounded-full text-white font-["Semibold"] text-sm'>Publish</button>
                                                     </form>
                                                 </div>
                                             </DialogPanel>
@@ -539,30 +586,30 @@ export const Builder = () => {
                                                 <div class='w-full'>
                                                     <div class='mb-3 text-sm font-["Semibold"]'>Background Color</div>
                                                     <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{ backgroundColor: color }} />
-                                                        <div onClick={() => setColorPicker(true)} class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
+                                                        <div class='w-10 h-10 shrink-0 rounded-full border' style={{ backgroundColor: color }} />
+                                                        <div onClick={() => setColorPicker(true)} class='w-full py-2 border bg-white text-sm rounded-full shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
                                                     </div>
 
                                                 </div>
                                                 <div class='w-full'>
                                                     <div class='mb-3 text-sm font-["Semibold"]'>Text Color</div>
                                                     <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-md border' style={{}} />
-                                                        <div onClick={() => setTextColorPicker(true)} class='w-full py-2 border bg-white text-sm rounded-lg shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
+                                                        <div class='w-10 h-10 shrink-0 rounded-full border' style={{}} />
+                                                        <div onClick={() => setTextColorPicker(true)} class='w-full py-2 border bg-white text-sm rounded-full shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
                                                     </div>
                                                 </div>
 
                                             </div>
-                                            <div>
-                                                <div>Fonts</div>
-                                                <div class='grid grid-cols-4 mt-4 gap-3'>
-                                                    <div onClick={() => setFont('General-Sans')} class='border rounded-xl font-["Normal"] w-full justify-center items-center flex py-5'>
+                                            <div className="mt-5">
+                                                <div class='mb-3 text-sm font-["Semibold"]'>Fonts</div>
+                                                <div class='flex items-center gap-3'>
+                                                    <div onClick={() => setFont('General-Sans')} class='border shadow-sm bg-white rounded-full font-["Medium"] justify-center items-center flex py-2 px-4 text-sm'>
                                                         Normal
                                                     </div>
-                                                    <div onClick={() => setFont('Cascadia')} class='border rounded-xl font-["CNormal"] w-full justify-center items-center flex py-5'>
+                                                    <div onClick={() => setFont('Cascadia')} class='border rounded-full shadow-sm font-["CMedium"] justify-center items-center flex py-2 px-4 text-sm'>
                                                         Cascadia
                                                     </div>
-                                                    <div onClick={() => setFont('Rubrik')} class='border rounded-xl font-["RNormal"] w-full justify-center items-center flex py-5'>
+                                                    <div onClick={() => setFont('Rubrik')} class='border rounded-full shadow-sm font-["RMedium"] justify-center items-center flex py-2 px-4 text-sm'>
                                                         Rubrik
                                                     </div>
                                                 </div>
@@ -573,11 +620,10 @@ export const Builder = () => {
                                 <div>
                                     {page === 'Display' && (
                                         <div class='w-full flex flex-col'>
-                                            <div class='w-full grid mt-5 grid-cols-3 gap-3' >
-                                                <div onClick={() => setBase('simple')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Simple</div>
-
-                                                    <div class='flex border mt-2 items-center p-2 rounded-full'>
+                                            <div class='font-["Semibold"] mt-5 text-sm'>Format</div>
+                                            <div class='w-full flex items-center mt-3 gap-3' >
+                                                <div onClick={() => setBase('simple')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-full border'>
+                                                    <div class='flex border items-center p-2 rounded-full'>
                                                         <div class='w-full'>
                                                             <div class='w-6 h-6 rounded-full bg-black' />
                                                         </div>
@@ -588,7 +634,6 @@ export const Builder = () => {
                                                     </div>
                                                 </div>
                                                 <div style={{ display: formData.linkinbio === true && 'none' }} onClick={() => setBase('description')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Description</div>
 
                                                     <div class='flex border mt-2 items-center p-2 rounded-full'>
                                                         <div class='w-full'>
@@ -603,12 +648,11 @@ export const Builder = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div onClick={() => setBase('button')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Button</div>
+                                                <div onClick={() => setBase('button')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-full border'>
 
-                                                    <div class='flex border mt-2 items-center p-2 rounded-xl'>
+                                                    <div class='flex border items-center p-2 rounded-full'>
                                                         <div class='w-full'>
-                                                            <div class='w-8 h-8 rounded-xl bg-black' />
+                                                            <div class='w-8 h-8 rounded-full bg-black' />
                                                         </div>
                                                         <div class='font-["Semibold"] w-full text-xs'>Product</div>
                                                         <div class='w-full justify-end flex pr-2'>
@@ -617,60 +661,60 @@ export const Builder = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class='grid w-full mt-5 grid-cols-3 gap-5'>
-                                                <div onClick={() => setStyle('backdrop')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Backdrop</div>
+                                            <div>
+                                                <div class='font-["Semibold"] text-sm'>Style</div>
+                                                <div class='w-full mt-3 flex items-center gap-5'>
+                                                    <div onClick={() => setStyle('backdrop')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-full border'>
+                                                        <div style={{ boxShadow: '0px 5px 0px 0px' }} class='flex border border-black border-[2px] w-full items-center p-2 py-4 rounded-full'>
 
-                                                    <div style={{ boxShadow: '0px 5px 0px 0px' }} class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
-
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div onClick={() => setStyle('outline')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Outline</div>
+                                                    <div onClick={() => setStyle('outline')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-full border'>
+                                                        <div class='flex border border-black border-[2px] w-full items-center p-2 py-4 rounded-full'>
 
-                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
-
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div onClick={() => setStyle('color')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Color</div>
+                                                    <div onClick={() => setStyle('color')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-full border'>
+                                                        <div class='flex bg-black w-full items-center p-2 py-4 rounded-full'>
 
-                                                    <div class='flex bg-black w-full mt-2 items-center p-2 py-4 rounded-full'>
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class='grid w-full mt-5 grid-cols-3 gap-5'>
-                                                <div onClick={() => setRounded('rounded-full')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Rounded full</div>
+                                            <div class='flex mt-3 items-center gap-5'>
+                                                <div class='w-full'>
+                                                    <div class='text-sm font-["Semibold"] '>Rounded</div>
+                                                    <div class=' mt-3 flex items-center gap-4'>
+                                                        <div onClick={() => setRounded('rounded-full')} class='bg-white shadow-sm px-4 py-3 justify-between rounded-full border'>
 
-                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-full'>
+                                                            <div class="flex w-7 items-center px-1 py-3 rounded-l-full border-l-2 border-r-2 border-t-2 border-b-2 border-l-black border-r-white border-t-black border-b-black">
+                                                            </div>
+                                                        </div>
+                                                        <div onClick={() => setRounded('rounded-medium')} class='bg-white shadow-sm px-4 py-3 justify-between rounded-full border'>
 
+                                                            <div class="flex w-7 items-center px-1 py-3 rounded-l-xl border-l-2 border-r-2 border-t-2 border-b-2 border-l-black border-r-white border-t-black border-b-black">
+
+                                                            </div>
+                                                        </div>
+                                                        <div onClick={() => setRounded('none')} class='bg-white shadow-sm px-4 py-3 justify-between rounded-full border'>
+
+                                                            <div class="flex w-7 items-center px-1 py-3 border-l-2 border-r-2 border-t-2 border-b-2 border-l-black border-r-white border-t-black border-b-black">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div onClick={() => setRounded('rounded-medium')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Rounded medium</div>
-
-                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4 rounded-xl'>
-
-                                                    </div>
-                                                </div>
-                                                <div onClick={() => setRounded('none')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
-                                                    <div class='text-sm font-["Semibold"]'>Square</div>
-
-                                                    <div class='flex border border-black border-[2px] w-full mt-2 items-center p-2 py-4'>
-
+                                                <div class='w-full'>
+                                                    <div class='text-sm font-["Semibold"] '>Color</div>
+                                                    <div class='flex items-center mt-3 gap-3'>
+                                                        <div onClick={() => setTextBaseColorPicker(true)} class='px-4 py-2 rounded-full shadow-sm border gap-2 text-sm flex whitespace-nowrap items-center font-["Semibold"]'><div>Change text color</div> <div class='w-5 h-5 rounded-full' style={{ backgroundColor: baseText }} /></div>
+                                                        <div onClick={() => setTextBaseColorPicker(true)} class='px-4 py-2 rounded-full shadow-sm border gap-2 text-sm flex whitespace-nowrap items-center font-["Semibold"]'><div>Change component color </div><div class='w-5 h-5 rounded-full' style={{ backgroundColor: styleColor }} /></div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class={`grid grid-cols-2 ${base === 'description' && 'grid-cols-3'} gap-2 w-full`}>
-                                                <div>
-                                                    <button onClick={() => setColorPickerBase(true)}>setcolor</button>
 
-                                                </div>
-                                                <div>
-                                                    <HexColorPicker color={baseText} onChange={setBaseText} />
-                                                </div>
+
                                                 <div>
                                                     <div onClick={() => setGrid(true)}>{grid === true ? 'Grid' : 'No Grid'}</div>
                                                 </div>
@@ -766,22 +810,22 @@ export const Builder = () => {
                                 <div>
                                     {page === 'Content' && (
                                         <div class='w-full'>
-                                            <div class='flex mt-5 w-full items-center gap-5'>
+                                            <div class='flex mt-5 w-full gap-5'>
                                                 <div class='w-full'>
                                                     <div class='text-sm font-["Semibold"]'>Name</div>
                                                     <input
                                                         onChange={handleNameChange}
                                                         value={formData.headerText}
                                                         name="headerText"
-                                                        className="px-5 py-2 text-sm w-full mt-3 font-['Medium'] rounded-md border bg-white shadow-sm"
+                                                        className="px-5 py-2 text-sm w-full mt-3 font-['Medium'] rounded-full border bg-white shadow-sm"
                                                     />        </div>
                                                 <div class='w-full'>
                                                     <div class='text-sm font-["Semibold"]'>Description</div>
-                                                    <input
+                                                    <textarea
                                                         onChange={handleNameChange}
                                                         value={formData.description}
                                                         name="description"
-                                                        className="px-5 py-2 text-sm w-full mt-3 font-['Medium'] rounded-md border bg-white shadow-sm"
+                                                        className="px-5 py-2 h-24 text-sm w-full mt-3 font-['Medium'] rounded-[35px] border bg-white shadow-sm"
                                                     />
                                                 </div>
                                             </div>
@@ -789,18 +833,18 @@ export const Builder = () => {
                                             <div class='flex items-center justify-between w-full'>
 
                                                 <div>
-                                                    <div class='mb-3 mt-5 text-sm font-["Semibold"]'>Header Image </div>
+                                                    <div class='mb-3 mt-5 text-sm font-["Semibold"]'>Icon Image </div>
                                                     <div class='flex items-center gap-5'>
                                                         {!selectedPage?.headerImage ? (
                                                             <div className="w-12 h-12 bg-black rounded-xl" />
                                                         ) : (
-                                                            <img src={selectedPage?.headerImage} className="w-12 h-12 bg-black rounded-xl" />
+                                                            <img src={selectedPage?.headerImage} className="w-12 h-12 bg-black rounded-full" />
                                                         )}
                                                         <div>
                                                             <input
                                                                 id="headerImageUpload"
                                                                 type="file"
-                                                                class='hidden'
+                                                                class='hidden rounded-full'
                                                                 accept="image/*"
                                                                 onChange={(e) => {
                                                                     const file = e.target.files[0];
@@ -812,6 +856,38 @@ export const Builder = () => {
 
                                                             <label
                                                                 htmlFor="headerImageUpload"
+                                                                className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-lg inline-block'
+                                                            >
+                                                                Change icon image
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class='mb-3 mt-5 text-sm font-["Semibold"]'>Header Image </div>
+                                                    <div class='flex items-center gap-5'>
+                                                        {!selectedPage?.secondaryImage ? (
+                                                            <div className="w-12 h-12 bg-black rounded-full" />
+                                                        ) : (
+                                                            <img src={selectedPage?.secondaryImage} className="w-12 h-12 bg-black rounded-full" />
+                                                        )}
+                                                        <div>
+                                                            <input
+                                                                id="headerSecondaryUpload"
+                                                                type="file"
+                                                                class='hidden rounded-full'
+                                                                accept="image/*"
+                                                                onChange={(e) => {
+                                                                    const file = e.target.files[0];
+                                                                    if (file) {
+                                                                        uploadSecondaryImage(file); // pass to upload function
+                                                                    }
+                                                                }}
+                                                            />
+
+                                                            <label
+                                                                htmlFor="headerSecondaryUpload"
                                                                 className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-lg inline-block'
                                                             >
                                                                 Change header image
@@ -842,8 +918,8 @@ export const Builder = () => {
                                 </div>
                             </div>
                             <div class='w-1/3 h-full p-5'>
-                                <div style={{ backgroundColor: color }} class={`w-full h-full border-2 px-5 ${selectedPage?.form ? 'flex flex-col w-full flex-start' : 'items-center flex-col flex'} bg-white rounded-2xl`}>
-                                    <img src={!selectedPage?.headerImage ? logo : selectedPage?.headerImage} class='w-24 h-24 rounded-full mt-10' />
+                                <div style={{ backgroundColor: color }} class={`w-full overflow-hidden h-full relative border-4 border-black px-5 ${selectedPage?.form ? 'flex flex-col w-full flex-start' : 'items-center flex-col flex'} bg-white rounded-3xl`}>
+                                    <img src={!selectedPage?.secondaryImage ? logo : selectedPage?.secondaryImage} class='w-24 h-24 rounded-full mt-10' />
                                     <div style={{ color: textColor }} class={`mt-3 text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
                                     <div style={{ color: textColor }} class={`mt-1 text-sm text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
@@ -932,7 +1008,22 @@ export const Builder = () => {
                                         </div>
                                     )}
 
-
+                                    <div className="absolute w-full h-28 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+                                        <div className="bottom-6 justify-center items-center flex flex-col space-y-3">
+                                            <div className="bg-black px-3 py-3 rounded-full flex items-center space-x-2">
+                                                <Group className="h-4 w-4" alt="Commercify logo" />
+                                                <div className="font-['Semibold'] text-white text-xs">
+                                                    commercifyhq.com
+                                                </div>
+                                                <XMarkIcon
+                                                    className="w-4 h-4 ml-3 cursor-pointer text-gray-500"
+                                                />
+                                            </div>
+                                            <div className="text-xs text-white font-['Semibold']">
+                                                Get started with Commercify today!
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

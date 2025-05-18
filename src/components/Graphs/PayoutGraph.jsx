@@ -79,7 +79,7 @@ const SimpleChart = () => {
     };
 
     return (
-        <div className="w-full border bg-white rounded-lg mt-3 p-3 font-sans">
+        <div className="w-full border shadow-sm bg-white rounded-3xl h-full mt-3 p-3">
             <div className='w-full flex justify-between items-center p-4'>
                 <div>
                 <label className='font-["Semibold"] text-sm'>Year 2025</label>

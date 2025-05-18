@@ -70,6 +70,7 @@ export const CREATE_STORE = gql`
     $font: String,
     $twitter: String,
     $textColor: String,
+    $published: Boolean!
     $baseText: String,
     $formType: String,
     $subscribeText: String,
@@ -93,6 +94,7 @@ export const CREATE_STORE = gql`
       componentColor: $componentColor,
       headingColor: $headingColor,
       subTextColor: $subTextColor,
+      published: $published
       embeddedLink: $embeddedLink,
       formType: $formType,
       featuredSection: $featuredSection,

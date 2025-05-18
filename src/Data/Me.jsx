@@ -67,12 +67,16 @@ query me{
       id
      createdAt
      name
+     date
      email
      formattedDate
      amount
      fulfilled
+     bookingDay
+     bookingTime
+     duration
+     type
      time
-
      formattedDate
      Product{
      tag
@@ -94,7 +98,9 @@ query me{
      styleColor
      grid
      font
+     secondaryImage
      formType
+     published
      verified
      baseText
      backgroundColor
@@ -113,13 +119,14 @@ query me{
      createdAt
      name
      email
-      
+    type
      fulfilled
      payoutStatus
      amount
      fulfilled
      Product{
      tag
+     type
      id
      thumbnail
      title

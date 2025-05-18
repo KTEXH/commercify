@@ -4,6 +4,7 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { createClient } from "@supabase/supabase-js";
 import Group from "./assets/Group";
+
 import { ME_QUERY } from '../Data/Me';
 import { supabase } from '../Utils/utils';
 const CREATE_PRODUCT_MUTATION = gql`
@@ -354,9 +355,11 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
 
   return (
     <div class='h-full'>
+    
       <aside className="w-[275px] h-full bg-white border-l border-r p-6 shadow-sm">
-        <nav className="px-5 mt-5">
-          <div class='text-xs font-["Semibold"] text-gray-300'>Navigation</div>
+        <nav className="px-5">
+           <Group className='w-8 h-8' />
+          <div class='text-xs font-["Semibold"] mt-5 text-gray-300'>Navigation</div>
           <div class='space-y-4 mt-3'>
             <div className={home === true ? 'text-black' : 'text-gray-400'}>
               <a href='/dashboard' class='font-["Semibold"] mt-3 text-sm'>Dashboard</a>
@@ -364,11 +367,12 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
             <div className={builder === true ? 'text-black' : 'text-gray-400'}>
               <a href='/editor' class='font-["Semibold"] text-sm'>Page Editor</a>
             </div>
-            <div className={`${orders === true ? 'text-black' : 'text-gray-400'} ${linkinbio === true && 'hidden'}`}>
+            <div className={`${orders === true ? 'text-black flex items-center justify-between' : 'text-gray-400 flex items-center justify-between'} ${(linkinbio || form) === true && 'hidden'}`}>
               <a href='/orders' class='font-["Semibold"] text-sm'>{storefront === true && 'Orders'} {workshop === true && 'Bookings'}</a>
+              <div class='bg-black text-white px-2 rounded-md text-sm font-["Medium"]'>{storefront === true && data?.me?.Orders?.length} {workshop === true && data?.me?.Bookings?.length}</div>
             </div>
-            <div className={`${audience === true ? 'text-black' : 'text-gray-400'}`}>
-              <a href='/audience' class='font-["Semibold"] text-sm'>{(workshop || storefront) === true && 'Customers'} {form === true && 'Audience'} {linkinbio === true && 'Audience'}</a>
+            <div className={`${audience === true ? 'text-black' : 'text-gray-400 hide'}`}>
+              <a href='/audience' class='font-["Semibold"] text-sm'>{storefront === true && 'Customers'} {workshop === true && 'Clients'} {form === true && 'Audience'} {linkinbio === true && 'Audience'}</a>
             </div>
             <div className={products === true ? 'text-black' : 'text-gray-400'}>
               <a href='/products' class='font-["Semibold"] text-sm'>{storefront === true && 'Products'} {linkinbio === true && 'Links'} {form === true && 'Responses'} {workshop === true && 'Services'}</a>
