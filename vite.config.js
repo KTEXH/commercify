@@ -8,12 +8,12 @@ export default defineConfig({
     historyApiFallback: true
   },
   build: {
-      outDir: 'dist', // ensure the dist folder is created
-      rollupOptions: {
-        input: 'src/server.js', // entry point for backend (server code)
-      },
+    outDir: 'dist', // ensure the dist folder is created
     rollupOptions: {
-      external: ['@fullcalendar/core/preact.js'],
+      input: 'src/server.js', // entry point for backend (server code)
+    },
+    rollupOptions: {
+      external: ['@fullcalendar/core/preact.js', '@stripe/stripe-js']
     },
   },
 });
