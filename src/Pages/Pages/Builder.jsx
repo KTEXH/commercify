@@ -217,7 +217,7 @@ export const Builder = () => {
                 secondaryImage: selectedPage?.secondaryImage || ""
             }));
             setTextColor(selectedPage?.textColor)
-            setColor(selectedPage?.backgroundColor)
+            setColor(selectedPage?.backgroundColor || "#fff")
             setBase(selectedPage?.base)
             setStyleColor(selectedPage?.styleColor)
             setStyle(selectedPage?.style)
@@ -586,7 +586,7 @@ export const Builder = () => {
                                                 <div class='w-full'>
                                                     <div class='mb-3 text-sm font-["Semibold"]'>Background Color</div>
                                                     <div class='flex items-center gap-3 w-full'>
-                                                        <div class='w-10 h-10 shrink-0 rounded-full border' style={{ backgroundColor: color }} />
+                                                        <div class='w-10 h-10 shrink-0 rounded-full border' />
                                                         <div onClick={() => setColorPicker(true)} class='w-full py-2 border bg-white text-sm rounded-full shadow-sm flex items-center justify-center text-center font-["Semibold"]'>Change color</div>
                                                     </div>
 
@@ -708,7 +708,7 @@ export const Builder = () => {
                                                     <div class='text-sm font-["Semibold"] '>Color</div>
                                                     <div class='flex items-center mt-3 gap-3'>
                                                         <div onClick={() => setTextBaseColorPicker(true)} class='px-4 py-2 rounded-full shadow-sm border gap-2 text-sm flex whitespace-nowrap items-center font-["Semibold"]'><div>Change text color</div> <div class='w-5 h-5 rounded-full' style={{ backgroundColor: baseText }} /></div>
-                                                        <div onClick={() => setTextBaseColorPicker(true)} class='px-4 py-2 rounded-full shadow-sm border gap-2 text-sm flex whitespace-nowrap items-center font-["Semibold"]'><div>Change component color </div><div class='w-5 h-5 rounded-full' style={{ backgroundColor: styleColor }} /></div>
+                                                        <div onClick={() => setColorPickerBase(true)} class='px-4 py-2 rounded-full shadow-sm border gap-2 text-sm flex whitespace-nowrap items-center font-["Semibold"]'><div>Change component color </div><div class='w-5 h-5 rounded-full' style={{ backgroundColor: styleColor }} /></div>
                                                     </div>
                                                 </div>
                                             </div>

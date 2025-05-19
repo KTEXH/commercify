@@ -132,7 +132,7 @@ export const Linkinbio = () => {
             </div>
           </div>
 
-          <div className="mt-5 w-full">
+          <div className="w-full">
             {store?.user?.OnlyProducts?.length > 0 && (
               <div className={clsx(store?.storefront ? 'flex flex-col gap-4' : 'hidden')}>
                 <div class='w-full'>
