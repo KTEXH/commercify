@@ -8,6 +8,7 @@ import { BellAlertIcon, BellIcon } from '@heroicons/react/24/outline'
 import logo from '../../components/assets/logo.png';
 import verified from '../../components/assets/twitterverified.png';
 import clsx from 'clsx';
+import flag from '../../components/assets/united-states.png'
 
 const GET_LINK_BY_SUBDOMAIN = gql`
   query storeBySubdomain($subdomain: String!) {
@@ -183,20 +184,26 @@ export const Linkinbio = () => {
 
             <div class={`${store?.form === false && 'hidden'}`}>
               {store?.formType === 'Contact' && (
-                <div class='w-full px-3'>
+                <div class='w-full px-3 mt-8'>
                   <div class='grid grid-cols-2 gap-3'>
                     <div class='w-full'>
                       <div class='text-sm font-["Semibold"]'>Name</div>
-                      <input placeholder='Ex: John Doe' class='p-4 mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
+                      <input placeholder='John Doe' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
                     </div>
                     <div class='w-full'>
                       <div class='text-sm font-["Semibold"]'>Email</div>
-                      <input placeholder='example@gmail.com' class='p-4 mt-2 font-["Medium"] border rounded-full text-sm w-full rounded-full' />
+                      <input placeholder='John@gmail.com' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
                     </div>
                   </div>
                   <div class='w-full mt-5'>
                     <div class='text-sm font-["Semibold"]'>Mobile Number</div>
-                    <input placeholder='example@gmail.com' class='p-4 mt-2 font-["Medium"] border rounded-full text-sm w-full rounded-full' />
+                    <div class='shadow-sm mt-2 border font-["Medium"] gap-2 rounded-full w-full px-3 flex items-center text-sm'>
+                      <div class='py-2 px-3'>
+                      <img src={flag} class='h-5 w-5'/>
+                      </div>
+                      <div class='h-12 border-l' />
+                      <input placeholder='(123)-456-7890' class='px-5' />
+                    </div>
                   </div>
                   <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
@@ -206,8 +213,9 @@ export const Linkinbio = () => {
               )}
               {store?.formType === 'Upload' && (
                 <div class='w-full px-3'>
-                  <div class='h-64 rounded-xl mt-5 flex items-center justify-center border-dashed border'>
-                    <div class='flex text-center border rounded-xl font-["Semibold"] px-4 py-2 text-sm'>Upload file</div>
+                  <div class='font-["Semibold"] mt-5 text-center'>Upload files</div>
+                  <div class='h-64 rounded-3xl mt-5 flex items-center justify-center border-dashed border'>
+                    <div class='flex text-center border rounded-full shadow-sm font-["Semibold"] px-4 py-2 text-sm'>Upload</div>
                   </div>
                   <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
@@ -217,8 +225,8 @@ export const Linkinbio = () => {
               )}
               {store?.formType === 'Feedback' && (
                 <div class='w-full px-4'>
-                  <div class='text-sm font-["Semibold"]'>Feedback</div>
-                  <input placeholder='' class='mt-5 rounded-2xl border w-full h-40' />
+                  <div class='font-["Semibold"] mt-5 text-center'>Feedback</div>
+                  <input placeholder='' class='mt-3 rounded-3xl shadow-sm border w-full h-40' />
                   <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
                     <ArrowRightIcon class='w-5 h-5' />

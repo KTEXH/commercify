@@ -465,7 +465,7 @@ export const Builder = () => {
                         </div>
                     </div>
                     {/* Dashboard Content */}
-                    <main className="px-16 h-full flex-1">
+                    <main className="px-16 overflow-y-auto h-full flex-1">
                         {colorPicker === true && (
                             <div class="w-full h-full z-50 flex items-center justify-center absolute top-0 left-0 opacity-50 bg-black">
                                 <div class='z-50'>
@@ -870,7 +870,7 @@ export const Builder = () => {
 
                                                             <label
                                                                 htmlFor="headerImageUpload"
-                                                                className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-lg inline-block'
+                                                                className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-full inline-block'
                                                             >
                                                                 Change icon image
                                                             </label>
@@ -902,7 +902,7 @@ export const Builder = () => {
 
                                                             <label
                                                                 htmlFor="headerSecondaryUpload"
-                                                                className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-lg inline-block'
+                                                                className='cursor-pointer font-["Semibold"] bg-white px-4 py-2 text-sm shadow-sm border rounded-full inline-block'
                                                             >
                                                                 Change header image
                                                             </label>
