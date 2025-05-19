@@ -41,7 +41,7 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
                     <div className="w-11 h-11" />
                 )}
             </div>
-            <div style={{ color: textColor }} className={`flex-1 ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} text-center text-[14px]`}>
+            <div style={{ color: textColor }} className={`flex-1 ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} line-clamp-2 py-1 ${font === 'General-Sans' && 'font-["Semibold"]'} text-center text-[14px]`}>
                 {item.title || item.linkText}
             </div>
 
@@ -331,7 +331,7 @@ export const Builder = () => {
     const [grid, setGrid] = useState(false)
     const [type, setType] = useState('Unlock')
 
-        async function uploadSecondaryImage(file) {
+    async function uploadSecondaryImage(file) {
         if (!file) return;
 
         const fileExt = file.name.split('.').pop();
@@ -724,76 +724,90 @@ export const Builder = () => {
                                 </div>
                                 <div>
                                     {page === 'Links' && (
-                                        <div className="space-y-6 max-w-lg mx-auto">
+                                        <div className="space-y-6 mx-auto">
                                             <div className="space-y-4">
-                                                <h2 className="font-bold">Create New Links</h2>
                                                 {links.map((link, idx) => (
-                                                    <div key={idx} className="border p-4 rounded-lg space-y-2">
+                                                    <div key={idx} className="border bg-white shadow-sm p-4 mt-5 rounded-3xl space-y-2">
                                                         <input
                                                             type="text"
                                                             value={link.linkText}
                                                             onChange={(e) => handleChange(idx, 'linkText', e.target.value)}
                                                             placeholder="Link Text"
-                                                            className="w-full border px-3 py-2 rounded"
+                                                            className="w-full border px-6 text-sm py-3 font-['Medium'] rounded-full"
                                                         />
                                                         <input
                                                             type="text"
                                                             value={link.link}
                                                             onChange={(e) => handleChange(idx, 'link', e.target.value)}
                                                             placeholder="URL"
-                                                            className="w-full border px-3 py-2 rounded"
+                                                            className="w-full border px-6 text-sm py-3 font-['Medium'] rounded-full"
                                                         />
                                                         <input
+                                                            id="linkImageUpload"
+
                                                             type="file"
                                                             accept="image/*"
                                                             onChange={(e) => handleFileChange(idx, e.target.files[0])}
-                                                            className="file-input w-full"
+                                                            className="file-input hidden w-full"
                                                         />
+                                                        <div className="w-full mt-7 flex justify-between">
+                                                            <label htmlFor={`linkImageUpload-${idx}`}>
+                                                                <div className='bg-black text-white font-["Semibold"] text-xs px-4 py-3 rounded-full inline-block'>
+                                                                    Upload image
+                                                                </div>
+                                                            </label>
+
+                                                            {/* ✅ Display file name if exists */}
+                                                            {link.file && (
+                                                                <p className="text-sm mt-2 text-gray-600 truncate">{link.file.name}</p>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 ))}
+                                                <div class='flex items-center gap-5'>
+                                                    <button
+                                                        onClick={handleAddLink}
+                                                        className="border shadow-sm bg-white w-full text-sm rounded-full px-4 py-3 font-['Semibold']"
+                                                    >
+                                                        Add New Link
+                                                    </button>
 
-                                                <button
-                                                    onClick={handleAddLink}
-                                                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                                                >
-                                                    Add New Link
-                                                </button>
-
-                                                <button
-                                                    onClick={handleSubmit}
-                                                    className="w-full bg-black text-white py-2 rounded-lg"
-                                                >
-                                                    Submit New Links
-                                                </button>
+                                                    <button
+                                                        onClick={handleSubmit}
+                                                        className="w-full bg-black font-['Semibold'] text-sm rounded-full text-white py-3"
+                                                    >
+                                                        Submit New Links
+                                                    </button>
+                                                </div>
                                             </div>
                                             {/* Existing Links (Editable) */}
                                             <div className="space-y-4">
-                                                <h2 className="font-bold">Your Current Links</h2>
+                                                <h2 className="font-['Semibold'] text-xl">Your Current Links</h2>
                                                 {existingLinks.map((link, idx) => (
-                                                    <div key={idx} className="border p-4 rounded-lg space-y-2">
+                                                    <div key={idx} className="border p-4 rounded-3xl shadow-sm bg-white space-y-2">
                                                         <input
                                                             type="text"
                                                             value={existingLinks[idx].linkText}
                                                             onChange={(e) => handleUpdateLink(idx, 'linkText', e.target.value)}
-                                                            className="w-full border px-3 py-2 rounded"
+                                                            className="w-full border px-6 text-sm py-3 font-['Medium'] rounded-full"
                                                         />
                                                         <input
                                                             type="text"
                                                             value={existingLinks[idx].link}
                                                             onChange={(e) => handleUpdateLink(idx, 'link', e.target.value)}
-                                                            className="w-full border px-3 py-2 rounded"
+                                                            className="w-full border px-6 text-sm py-3 font-['Medium'] rounded-full"
                                                         />
                                                         <div className="flex justify-between">
                                                             <button
                                                                 onClick={() => submitUpdate(link.id, idx)}
-                                                                className="text-blue-600 hover:underline"
-                                                            >
+                                                                className='bg-black text-white font-["Semibold"] text-xs px-4 py-3 rounded-full inline-block'>
+
                                                                 Update
                                                             </button>
                                                             <button
                                                                 onClick={() => handleDelete(link.id)}
-                                                                className="text-red-600 hover:underline"
-                                                            >
+                                                                className='bg-red-500 text-white font-["Semibold"] text-xs px-4 py-3 rounded-full inline-block'>
+
                                                                 Delete
                                                             </button>
                                                         </div>
