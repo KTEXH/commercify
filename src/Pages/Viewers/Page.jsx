@@ -1,7 +1,7 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import group2 from '../../../public/assets/Group2.svg';
 import { useParams } from "react-router-dom";
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, Description, Simple } from '../../Pages/Pages/Builder';
 import { ArrowRightIcon, EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { BellAlertIcon, BellIcon } from '@heroicons/react/24/outline'
@@ -78,12 +78,62 @@ const GET_LINK_BY_SUBDOMAIN = gql`
   }
 `;
 
+const CREATE_FORM_ANSWER = gql`
+  mutation CreateFormAnswer(
+    $name: String
+    $email: String
+    $mobileNumber: String
+    $feedback: String
+    $uploadedFile: String
+    $pageId: Int!
+  ) {
+    createFormAnswer(
+      name: $name
+      email: $email
+      mobileNumber: $mobileNumber
+      feedback: $feedback
+      uploadedFile: $uploadedFile
+      pageId: $pageId
+    ) {
+      id
+    }
+  }
+`
+
+
 export const Linkinbio = () => {
   const [isSeen, setIsSeen] = useState(false);
   const { subdomain } = useParams();
   const { loading, error, data } = useQuery(GET_LINK_BY_SUBDOMAIN, {
     variables: { subdomain },
   });
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [mobileNumber, setMobileNumber] = useState('')
+  const [feedback, setFeedback] = useState('')
+  const [uploadedFile, setUploadedFile] = useState('')
+
+  const [createFormAnswer] = useMutation(CREATE_FORM_ANSWER)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await createFormAnswer({
+        variables: {
+          name,
+          email,
+          mobileNumber,
+          feedback,
+          uploadedFile,
+          pageId: store?.id,
+        },
+      })
+      // Optionally reset the form or show success message
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const store = useMemo(() => data?.storeBySubdomain, [data]);
 
@@ -184,32 +234,32 @@ export const Linkinbio = () => {
 
             <div class={`${store?.form === false && 'hidden'}`}>
               {store?.formType === 'Contact' && (
-                <div class='w-full px-3 mt-8'>
+                <form onSubmit={handleSubmit} class='w-full px-3 mt-8'>
                   <div class='grid grid-cols-2 gap-3'>
                     <div class='w-full'>
                       <div class='text-sm font-["Semibold"]'>Name</div>
-                      <input placeholder='John Doe' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
+                      <input value={name} onChange={(e) => setName(e.target.value)} placeholder='John Doe' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
                     </div>
                     <div class='w-full'>
                       <div class='text-sm font-["Semibold"]'>Email</div>
-                      <input placeholder='John@gmail.com' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
+                      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder='John@gmail.com' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
                     </div>
                   </div>
                   <div class='w-full mt-5'>
                     <div class='text-sm font-["Semibold"]'>Mobile Number</div>
                     <div class='shadow-sm mt-2 border font-["Medium"] gap-2 rounded-full w-full px-3 flex items-center text-sm'>
                       <div class='py-2 px-3'>
-                      <img src={flag} class='h-5 w-5'/>
+                        <img src={flag} class='h-5 w-5' />
                       </div>
                       <div class='h-12 border-l' />
-                      <input placeholder='(123)-456-7890' class='px-5' />
+                      <input value={mobileNumber} type='number' onChange={(e) => setMobileNumber(e.target.value)} placeholder='(123)-456-7890' class='px-5' />
                     </div>
                   </div>
-                  <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                  <button type='submit' class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
                     <ArrowRightIcon class='w-5 h-5' />
-                  </div>
-                </div>
+                  </button>
+                </form>
               )}
               {store?.formType === 'Upload' && (
                 <div class='w-full px-3'>
@@ -224,14 +274,14 @@ export const Linkinbio = () => {
                 </div>
               )}
               {store?.formType === 'Feedback' && (
-                <div class='w-full px-4'>
+                <form onSubmit={handleSubmit} class='w-full px-4'>
                   <div class='font-["Semibold"] mt-5 text-center'>Feedback</div>
-                  <input placeholder='' class='mt-3 rounded-3xl shadow-sm border w-full h-40' />
-                  <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                  <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} placeholder='' class='mt-3 outline-0 text-sm p-4 rounded-3xl shadow-sm border w-full' />
+                  <button type='submit' class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
                     Submit
                     <ArrowRightIcon class='w-5 h-5' />
-                  </div>
-                </div>
+                  </button>
+                </form>
               )}
             </div>
 
@@ -254,7 +304,7 @@ export const Linkinbio = () => {
           </div>
 
           {!isSeen && (
-            <div className="fixed w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
+            <div className="fixed w-full h-28 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
               <div className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">
                 <div className="bg-black px-3 py-3 rounded-full flex items-center space-x-2">
                   <img src={logo} className="h-4 w-4" alt="Commercify logo" />

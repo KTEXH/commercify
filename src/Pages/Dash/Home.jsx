@@ -281,7 +281,7 @@ export default function Default() {
           {/* Dashboard Content */}
           <main className="flex-1 overflow-y-auto py-2 px-16">
             <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Dashboard</div>
-            <div class='flex w-full h-96 border bg-white shadow-sm rounded-xl items-center'>
+            <div class='flex w-full h-96 border bg-white shadow-sm rounded-3xl items-center'>
               <div className="p-16 w-2/3">
                 <h1 className="text-4xl font-['Semibold']">Welcome, let’s get your page up and running</h1>
                 <p className="text-gray-600 font-['Medium'] mt-2">

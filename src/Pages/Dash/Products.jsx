@@ -10,6 +10,8 @@ import { DELETE_LINK, LINK_CREATION, UPDATE_LINK } from "../../Pages/Pages/Mutat
 import { supabase } from "../../Utils/utils";
 import { Banner } from "./Home";
 import logo from "../../components/assets/logo.svg";
+import flag from '../../components/assets/united-states.png'
+import { useNavigate } from "react-router-dom";
 
 export const Products = ({ className = "" }) => {
     const { data, error, loading } = useQuery(ME_QUERY)
@@ -66,6 +68,8 @@ export const Products = ({ className = "" }) => {
         }
     };
 
+    const navigate = useNavigate()
+
     const handleAddLink = () => {
         setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
     };
@@ -115,7 +119,7 @@ export const Products = ({ className = "" }) => {
                         <PlusIcon class='w-4 h-4 text-black' />
                     </div>
                 </div>
-                <NavBar home={false} products={true} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
+                <NavBar home={false} products={true} form={selectedPage?.form} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
@@ -142,7 +146,7 @@ export const Products = ({ className = "" }) => {
                             {selectedPage?.storefront === true && (
                                 <div class='mt-5 grid grid-cols-2 gap-4'>
                                     {data.me.OnlyProducts.map(item => (
-                                        <div onClick={() => navigate(`/orders/${item.id}`)} class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
+                                        <div class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
                                             <div class='flex items-center'>
                                                 <div class='px-2 text-xl w-28 shrink-0 text-center font-["Semibold"]'>
                                                     ${item?.price}
@@ -166,10 +170,65 @@ export const Products = ({ className = "" }) => {
                                                 </div>
                                             </div>
                                             <div class='pr-5'>
-                                                <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
+                                                <button onClick={() => navigate(`/product/${item?.id}`)} class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            )}
+
+                            {selectedPage?.form === true && (
+                                <div>
+                                    <div class='text-3xl font-["Semibold"] mb-7'>Form Answers</div>
+                                    {selectedPage?.formType === 'Feedback' && (
+                                        <div className="grid grid-cols-3 gap-5">
+                                            {selectedPage?.formAnswers
+                                                ?.filter(item => item.feedback) // only include items with feedback
+                                                .map(item => (
+                                                    <div className='p-4 border shadow-sm bg-white rounded-3xl'>
+                                                        <div className='flex items-center gap-2'>
+                                                            <img className='w-4 h-4 rounded-full' src={selectedPage?.headerImage} />
+                                                            <div className='text-sm font-["Semibold"]'>Feedback</div>
+                                                        </div>
+                                                        <div className='mt-2 text-sm line-clamp-4 font-["Semibold"]'>{item.feedback}</div>
+                                                        <button class='mt-3 bg-black text-white w-full py-2 rounded-full font-["Semibold"]'>View</button>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    )}
+                                    {selectedPage?.formType === 'Contact' && (
+                                        <div className="grid grid-cols-2 gap-5">
+                                            {selectedPage?.formAnswers
+                                                ?.filter(item => item.mobileNumber) // only include items with feedback
+                                                .map(item => (
+                                                    <div className='px-3 py-3 border justify-between flex items-center shadow-sm bg-white rounded-full'>
+                                                        <div class='flex items-center gap-5'>
+                                                            <div className='flex items-center gap-2'>
+                                                                <img className='w-14 h-14 rounded-full' src={selectedPage?.headerImage} />
+                                                            </div>
+                                                            <div class='h-10 border-l' />
+                                                            <div>
+                                                                <div class='rounded-full inline-flex items-center border py-1 px-2 gap-2 '>
+                                                                    <img src={flag} class='w-4 h-4' />
+                                                                    <div class='text-xs font-["Semibold"]'>+1{item.mobileNumber}</div>
+                                                                </div>
+                                                                <div class='flex items-center mt-2 gap-4'>
+                                                                    <div class='rounded-full flex items-center border py-1 px-2 gap-2 '>
+                                                                        <div class='text-xs font-["Semibold"]'>{item.name}</div>
+                                                                    </div>
+                                                                    <div class='rounded-full flex items-center border py-1 px-2 gap-2 '>
+                                                                        <div class='text-xs font-["Semibold"]'>{item.email}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class='bg-black text-white px-4 text-sm py-2 rounded-full font-["Semibold"]'>View</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                             {selectedPage?.workshop === true && (
@@ -211,21 +270,19 @@ export const Products = ({ className = "" }) => {
                             {selectedPage?.linkinbio === true && (
                                 <div class='mt-5 grid grid-cols-2 gap-7'>
                                     {data.me.Links.map(item => (
-                                        <div class='w-full rounded-xl flex items-center justify-between border p-4'>
+                                        <div class='w-full rounded-full shadow-sm flex items-center justify-between border p-4'>
                                             <div class='flex items-center gap-5'>
                                                 {item.image ? (
-                                                    <img src={item.image} class='w-12 h-12 rounded-rounded-full' />
+                                                    <img src={item.image} class='w-12 h-12 rounded-full' />
                                                 ) : (
-                                                    <div class='w-16 h-16 rounded-2xl bg-black' />
+                                                    <div class='w-16 h-16 rounded-full bg-black' />
                                                 )}
 
                                                 <div class='w-2/3'>
-                                                    <div class='font-["Semibold"]'>{item.linkText}</div>
-                                                    <div class='line-clamp-1 font-["Medium"] text-gray-400 text-sm'>{item.description}</div>
+                                                    <div class='font-["Semibold"] text-sm'>{item.linkText}</div>
                                                 </div>
                                             </div>
                                             <div class='flex items-center gap-3'>
-                                                <button class='text-sm bg-gray-200 text-black font-["Semibold"] px-5 py-2 rounded-full'>Options</button>
                                                 <button class='px-5 py-2 rounded-full text-white font-["Semibold"] bg-black text-sm'>Edit</button>
                                             </div>
                                         </div>

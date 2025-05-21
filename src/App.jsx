@@ -24,6 +24,7 @@ import { Settings } from "./Pages/Dash/Settings";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { Order } from "./Pages/Dash/Nested/Order";
+import { Product } from "./Pages/Dash/Nested/Product";
 
 function App() {
 
@@ -71,18 +72,19 @@ function App() {
             <Route element={<LandingPage />} path="/" />
             <Route element={<Register />} path="/register" />
             <Route element={<SignIn />} path='/login' />
-            <Route element={<Authenticated><Order /></Authenticated>} path='/orders/:id'/>
+            <Route element={<Authenticated><Order /></Authenticated>} path='/orders/:id' />
             <Route element={<Beta />} path='/beta' />
             <Route element={<Authenticated><Builder /></Authenticated>} path='/editor' />
             <Route element={<Pricing />} path='/pricing' />
             <Route element={<Confirmation />} path='/confirmation' />
-            
+
             <Route element={<Authenticated><Setup /></Authenticated>} path='/setup' />
-          
+
             <Route path='/:subdomain' element={<Linkinbio />} />
             <Route element={<Authenticated><Products /></Authenticated>} path='/products' />
             <Route element={<Authenticated><Analytics /></Authenticated>} path='/stats' />
             <Route element={<Authenticated><Orders /></Authenticated>} path='/orders' />
+            <Route element={<Authenticated><Product /></Authenticated>} path='/product/:id' />
             <Route element={<Authenticated><Setup2 /></Authenticated>} path='/setup2' />
             <Route element={<Authenticated><Audience /></Authenticated>} path='/audience' />
             <Route element={<Authenticated><Setup3 /></Authenticated>} path='/setup3' />
@@ -90,7 +92,7 @@ function App() {
             <Route element={<Authenticated><Settings /></Authenticated>} path='/settings' />
           </Routes>
         </Router>
-        </Elements>
+      </Elements>
     </ApolloProvider>
   )
 }

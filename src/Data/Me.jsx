@@ -45,10 +45,6 @@ query me{
     message
     type
     }
-    Audience{
-     id
-     email
-    }
      Payouts{
       id
      createdAt
@@ -113,6 +109,14 @@ query me{
      storefront
      workshop
      name
+     formAnswers{
+     id
+     feedback
+     mobileNumber
+     name
+     email
+     
+     }
      }
      Orders{
      id

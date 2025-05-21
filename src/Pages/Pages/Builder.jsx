@@ -13,6 +13,8 @@ import { supabase } from "../../Utils/utils";
 import ProductDialog from "../../components/ProductDialog";
 import Group from "../../components/assets/Group";
 import { Banner } from "../../Pages/Dash/Home";
+import flag from '../../components/assets/united-states.png'
+import { ArrowRightIcon } from "lucide-react";
 
 export const Simple = ({ item, round, color, style, font, link, textColor }) => {
     const [selectedPost, setSelectedPost] = useState(null);
@@ -633,9 +635,9 @@ export const Builder = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div style={{ display: formData.linkinbio === true && 'none' }} onClick={() => setBase('description')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-lg border'>
+                                                <div style={{ display: formData.linkinbio === true && 'none' }} onClick={() => setBase('description')} class='w-full bg-white shadow-sm px-5 py-3 justify-between rounded-full shadow-sm border'>
 
-                                                    <div class='flex border mt-2 items-center p-2 rounded-full'>
+                                                    <div class='flex border items-center p-2 rounded-full'>
                                                         <div class='w-full'>
                                                             <div class='w-6 h-6 rounded-full bg-black' />
                                                         </div>
@@ -916,14 +918,12 @@ export const Builder = () => {
                                 </div>
                                 <div>
                                     {page === 'Type' && (
-                                        <div class='w-full mt-5 grid grid-cols-2 gap-5'>
-                                            <div onClick={() => setType('Contact')} class='w-full py-4 rounded-xl text-center border font-["Semibold"]'>
+                                        <div class='w-full mt-5 grid grid-cols-3 gap-5'>
+                                            <div onClick={() => setType('Contact')} class='w-full py-4 bg-white rounded-full shadow-sm rounded-full text-center border font-["Semibold"]'>
                                                 <div>Contact</div>
                                             </div>
-                                            <div onClick={() => setType('Upload')} class='w-full py-4 rounded-xl text-center border font-["Semibold"]'>
-                                                <div>Upload</div>
-                                            </div>
-                                            <div onClick={() => setType('Feedback')} class='w-full py-4 rounded-xl text-center border font-["Semibold"]'>
+                                            
+                                            <div onClick={() => setType('Feedback')} class='w-full py-4 bg-white rounded-full shadow-sm rounded-full text-center border font-["Semibold"]'>
                                                 <div>Feedback</div>
                                             </div>
 
@@ -932,10 +932,10 @@ export const Builder = () => {
                                 </div>
                             </div>
                             <div class='w-1/3 h-full p-5'>
-                                <div style={{ backgroundColor: color }} class={`w-full overflow-hidden h-full relative border-4 border-black px-5 ${selectedPage?.form ? 'flex flex-col w-full flex-start' : 'items-center flex-col flex'} bg-white rounded-3xl`}>
+                                <div style={{ backgroundColor: color }} class={`w-full overflow-hidden h-full relative border-4 border-black px-5 items-center flex-col flex bg-white rounded-3xl`}>
                                     <img src={!selectedPage?.secondaryImage ? logo : selectedPage?.secondaryImage} class='w-24 h-24 rounded-full mt-10' />
-                                    <div style={{ color: textColor }} class={`mt-3 text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
-                                    <div style={{ color: textColor }} class={`mt-1 text-sm text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
+                                    <div style={{ color: textColor }} class={`mt-3 text-center text-xl ${font === 'Cascadia' && 'font-["CSemibold"]'} ${font === 'Rubrik' && 'font-["RSemibold"]'} ${font === 'General-Sans' && 'font-["Semibold"]'} `}>{formData?.headerText}</div>
+                                    <div style={{ color: textColor }} class={`mt-1 text-sm text-center text-gray-400 ${font === 'Cascadia' && 'font-["CMedium"]'} ${font === 'Rubrik' && 'font-["RMedium"]'} ${font === 'General-Sans' && 'font-["Medium"]'} `}>{formData?.description}</div>
                                     {selectedPage?.storefront === true && (
                                         <div class='w-full'>
                                             <div class={`mt-7 space-y-2 ${base === 'descripion' && 'hidden'}  w-full`}>
@@ -977,22 +977,28 @@ export const Builder = () => {
                                         </div>
                                     )}
                                     {selectedPage?.form === true && (
-                                        <div class='w-full'>
+                                        <div class='w-full mt-7'>
                                             {type === 'Contact' && (
                                                 <div class='w-full'>
                                                     <div class='grid grid-cols-2 gap-3'>
                                                         <div class='w-full'>
                                                             <div class='text-sm font-["Semibold"]'>Name</div>
-                                                            <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Name' />
+                                                            <input placeholder='John Doe' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
                                                         </div>
-                                                        <div>
+                                                        <div class='w-full'>
                                                             <div class='text-sm font-["Semibold"]'>Email</div>
-                                                            <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Email' />
+                                                            <input placeholder='John@gmail.com' class='px-4 py-3 shadow-sm mt-2 border font-["Medium"] rounded-full text-sm w-full rounded-full' />
                                                         </div>
                                                     </div>
-                                                    <div class='mt-7'>
+                                                    <div class='w-full mt-5'>
                                                         <div class='text-sm font-["Semibold"]'>Mobile Number</div>
-                                                        <input class='mt-2 w-full text-sm rounded-xl border font-["Medium"] px-4 py-2' placeholder='Number' />
+                                                        <div class='shadow-sm mt-2 border font-["Medium"] gap-2 rounded-full w-full px-3 flex items-center text-sm'>
+                                                            <div class='py-2 px-3'>
+                                                                <img src={flag} class='h-5 w-5' />
+                                                            </div>
+                                                            <div class='h-12 border-l' />
+                                                            <input placeholder='(123)-456-7890' class='px-5' />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )}
@@ -1005,10 +1011,14 @@ export const Builder = () => {
                                             )}
                                             {type === 'Feedback' && (
                                                 <div class='w-full'>
-                                                    <div>Feedback</div>
+                                                    <div class='mt-4 font-["Semibold"] text-center text-sm'>Feedback</div>
                                                     <input placeholder='' class='mt-5 rounded-2xl border w-full h-40' />
                                                 </div>
                                             )}
+                                            <div class='w-full py-4 flex justify-center items-center gap-2 rounded-full bg-black mt-5 text-center text-white font-["Semibold"]'>
+                                                Submit
+                                                <ArrowRightIcon class='w-5 h-5' />
+                                            </div>
                                         </div>
                                     )}
                                     {selectedPage?.linkinbio === true && (

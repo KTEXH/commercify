@@ -372,7 +372,7 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
               <div class='bg-black text-white px-2 rounded-md text-sm font-["Medium"]'>{storefront === true && data?.me?.Orders?.length} {workshop === true && data?.me?.Bookings?.length}</div>
             </div>
             <div className={`${audience === true ? 'text-black' : 'text-gray-400 hide'}`}>
-              <a href='/audience' class='font-["Semibold"] text-sm'>{storefront === true && 'Customers'} {workshop === true && 'Clients'} {form === true && 'Audience'} {linkinbio === true && 'Audience'}</a>
+              <a href='/audience' class='font-["Semibold"] text-sm'>{storefront === true && 'Customers'} {workshop === true && 'Clients'} {linkinbio === true && 'Audience'}</a>
             </div>
             <div className={products === true ? 'text-black' : 'text-gray-400'}>
               <a href='/products' class='font-["Semibold"] text-sm'>{storefront === true && 'Products'} {linkinbio === true && 'Links'} {form === true && 'Responses'} {workshop === true && 'Services'}</a>
