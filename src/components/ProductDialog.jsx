@@ -6,6 +6,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import emailjs from '@emailjs/browser'
 import logo from './assets/logo.svg'
 import { Check } from "lucide-react";
+import flag from './assets/united-states.png'
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
     $id: Int!
@@ -405,7 +406,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                         <div class='flex items-center gap-3 mt-2'>
                                                                                             {item?.colors?.map(item => (
                                                                                                 <div class='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border shadow-sm' onClick={() => setColor(item)} key={item}>
-                                                                                                    <div class='h-4 w-4 border rounded-full' style={{ backgroundColor: item}} />
+                                                                                                    <div class='h-4 w-4 border rounded-full' style={{ backgroundColor: item }} />
                                                                                                     <div>{item}</div>
                                                                                                 </div>
                                                                                             ))}
@@ -416,93 +417,67 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                             </div>
 
                                                                             <form>
-                                                                                <div class='font-["Semibold"] my-4 text-sm'>Shipping Information</div>
 
-                                                                                <div className="flex my-4 w-full shadow-sm overflow-hidden border rounded-full items-center">
-                                                                                    <div class='w-full'>
-                                                                                        <input
-                                                                                            style={{ fontFamily: 'Medium' }}
-                                                                                            type="text"
-                                                                                            name="name"
-                                                                                            placeholder="Name"
-                                                                                            value={name}
-                                                                                            onChange={handleNameChange}
-                                                                                            className="p-3 w-full border-0 font-semi text-sm outline-0 box-border"
-                                                                                        />
-                                                                                    </div>
-                                                                                    <div className="w-[2px] h-10 bg-gainsboro"></div> {/* Divider */}
-                                                                                    <div class='w-full'>
-                                                                                        <input
-                                                                                            style={{ fontFamily: 'Medium' }}
-                                                                                            type="text"
-                                                                                            placeholder="Email"
-                                                                                            name="emailAdress"
-                                                                                            value={email}
-                                                                                            onChange={handleEmailChange}
-                                                                                            className="p-3 w-full border-0 font-semi text-sm outline-0 box-border"
-                                                                                        />
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="space-y-2 mt-3 w-full">
+                                                                                <div class='font-["Semibold"] text-sm my-4'>Address & Zip</div>
+                                                                                <div class='border overflow-hidden mt-2 shadow-sm rounded-3xl'>
                                                                                     <input
                                                                                         type="text"
                                                                                         name="address"
-                                                                                        placeholder="Address"
                                                                                         value={shippingData.address}
                                                                                         onChange={handleShippingInputChange}
-                                                                                        className="w-full p-3 border rounded-full shadow-sm text-sm outline-0 "
-                                                                                        style={{ fontFamily: 'Semibold' }}
+                                                                                        className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
+                                                                                        placeholder="123 John Doe Ln"
                                                                                     />
+                                                                                    <div class='border-t w-full'></div>
+                                                                                    <div class='flex px-5 items-center'>
+                                                                                        <img src={flag} class='w-5 h-5' />
+                                                                                        <input
+                                                                                            style={{ fontFamily: 'Medium' }}
+                                                                                            type="text"
+                                                                                            name="zipCode"
+                                                                                            value={shippingData.zipCode}
+                                                                                            onChange={handleShippingInputChange}
+                                                                                            className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 px-4 self-stretch border-solid border-0 border-gainsboro rounded-b-[14px] outline-0"
+                                                                                            placeholder="12345"
+                                                                                        />
+                                                                                    </div>
                                                                                 </div>
-
-                                                                                <div className="flex my-4 w-full shadow-sm overflow-hidden border rounded-full items-center">
+                                                                                <div class='my-4 font-["Semibold"] text-sm'>Specifics</div>
+                                                                                <div className="flex overflow-hidden mt-2 border rounded-full shadow-sm items-center">
                                                                                     <div className="w-full">
+
                                                                                         <input
                                                                                             placeholder="Country"
                                                                                             type="text"
                                                                                             name="country"
                                                                                             value={shippingData.country}
                                                                                             onChange={handleShippingInputChange}
-                                                                                            className="p-3 w-full border-0 font-semi text-sm outline-0 box-border"
-                                                                                            style={{ fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif' }}
+                                                                                            class='px-4 py-3 font-["Medium"] rounded-full text-sm w-full'
                                                                                         />
                                                                                     </div>
-                                                                                    <div className="w-[1px] py-3 bg-gainsboro"></div> {/* Divider */}
                                                                                     <div className="w-full">
+
                                                                                         <input
                                                                                             placeholder="State"
                                                                                             type="text"
                                                                                             name="state"
                                                                                             value={shippingData.state}
-                                                                                            style={{ fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif' }}
                                                                                             onChange={handleShippingInputChange}
-                                                                                            className="p-3 font-semi w-full border-0 text-sm outline-0 box-border"
-                                                                                        />
+                                                                                            class='px-4 py-3 border-l font-["Medium"]  text-sm w-full' />
                                                                                     </div>
-                                                                                    <div className="w-[1px] h-12 bg-gainsboro"></div> {/* Divider */}
                                                                                     <div className="w-full">
+
                                                                                         <input
                                                                                             placeholder="City"
                                                                                             type="text"
                                                                                             name="city"
                                                                                             value={shippingData.city}
                                                                                             onChange={handleShippingInputChange}
-                                                                                            className=" w-full p-3 border-0 text-sm font-semi outline-0 box-border"
-                                                                                            style={{ fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif' }}
-                                                                                        />
+                                                                                            class='px-4 py-3 border-l font-["Medium"] text-sm w-full' />
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class='space-y-2 mt-3'>
-                                                                                    <input
-                                                                                        style={{ fontFamily: 'Medium' }}
-                                                                                        placeholder='Zip code'
-                                                                                        type="text"
-                                                                                        name="zipCode"
-                                                                                        value={shippingData.zipCode}
-                                                                                        onChange={handleShippingInputChange}
-                                                                                        className="w-full py-3 px-3 border text-sm rounded-full" />
-                                                                                </div>
+
                                                                             </form>
 
 
@@ -591,17 +566,17 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                 <button
                                                                                     type="button"
                                                                                     style={{ fontFamily: 'Semibold' }}
-                                                                                    className={`w-full py-4 border outline-0 text-sm rounded-full text-black shadow-sm`}
+                                                                                    className={`w-full py-3 border outline-0 text-sm rounded-full text-black shadow-sm`}
                                                                                     onClick={closeModal}
                                                                                 >
                                                                                     Close
                                                                                 </button>
                                                                                 <form class={`${(item?.type === 'Merchandise' ? 'hidden' : 'flex')} ${item?.serviceOrProduct === 'Service' ? 'hidden' : 'flex w-full'}`} onSubmit={handleSendDigital}>
-                                                                                    <button type='submit' class='w-full py-4 w-full rounded-full bg-black text-[15px] outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]'>
+                                                                                    <button type='submit' class='w-full py-3 w-full rounded-full bg-black text-[15px] outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]'>
                                                                                         Pay ${item.price}
                                                                                     </button>
                                                                                 </form>
-                                                                                <button onClick={handleSubmit} class={`w-full py-4 mt-3 bg-black text-sm ${isDigital ? 'hidden' : 'flex'} outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]`}>
+                                                                                <button onClick={handleSubmit} class={`w-full py-3 rounded-full bg-black text-sm ${isDigital ? 'hidden' : 'flex justify-center items-center'} outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]`}>
                                                                                     Pay ${item.price}
                                                                                 </button>
                                                                             </div>
