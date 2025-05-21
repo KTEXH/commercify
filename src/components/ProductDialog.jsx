@@ -60,7 +60,6 @@ const CARD_OPTIONS = {
             iconColor: "#000",
             color: "#000",
             fontWeight: 500,
-            fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
             fontSize: "16px",
             fontSmoothing: "antialiased",
             ":-webkit-autofill": { color: "#000" },
@@ -160,7 +159,7 @@ function ProductDialog({ item, isOpen, onClose }) {
     const [shippingData, setShippingData] = useState({
         criteria: '',
         address: '',
-        zipCode: 0,
+        zipCode: '',
         state: '',
         city: '',
         country: '',
@@ -397,7 +396,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                         <div class='font-["Semibold"] text-sm'>Sizes</div>
                                                                                         <div class='flex items-center gap-3 mt-2'>
                                                                                             {item?.sizes?.map(item => (
-                                                                                                <div class='px-3 py-2 rounded-full text-xs font-["Semibold"] border shadow-sm' onClick={() => setSize(item)} key={item}>{item}</div>
+                                                                                                <div class='px-3 py-2 rounded-full text-xs font-["Semibold"] border' onClick={() => setSize(item)} key={item}>{item}</div>
                                                                                             ))}
                                                                                         </div>
                                                                                     </div>
@@ -405,7 +404,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                         <div class='font-["Semibold"] mt-2 text-sm'>Colors</div>
                                                                                         <div class='flex items-center gap-3 mt-2'>
                                                                                             {item?.colors?.map(item => (
-                                                                                                <div class='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border shadow-sm' onClick={() => setColor(item)} key={item}>
+                                                                                                <div class='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border' onClick={() => setColor(item)} key={item}>
                                                                                                     <div class='h-4 w-4 border rounded-full' style={{ backgroundColor: item }} />
                                                                                                     <div>{item}</div>
                                                                                                 </div>
@@ -419,7 +418,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                             <form>
 
                                                                                 <div class='font-["Semibold"] text-sm my-4'>Address & Zip</div>
-                                                                                <div class='border overflow-hidden mt-2 shadow-sm rounded-3xl'>
+                                                                                <div class='border overflow-hidden mt-2 rounded-3xl'>
                                                                                     <input
                                                                                         type="text"
                                                                                         name="address"
@@ -443,7 +442,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class='my-4 font-["Semibold"] text-sm'>Specifics</div>
-                                                                                <div className="flex overflow-hidden mt-2 border rounded-full shadow-sm items-center">
+                                                                                <div className="flex overflow-hidden mt-2 border rounded-full items-center">
                                                                                     <div className="w-full">
 
                                                                                         <input
@@ -452,10 +451,10 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                             name="country"
                                                                                             value={shippingData.country}
                                                                                             onChange={handleShippingInputChange}
-                                                                                            class='px-4 py-3 font-["Medium"] rounded-full text-sm w-full'
+                                                                                            class='px-4 py-3 font-["Medium"] text-sm w-full'
                                                                                         />
                                                                                     </div>
-                                                                                    <div className="w-full">
+                                                                                    <div className="w-full border-l">
 
                                                                                         <input
                                                                                             placeholder="State"
@@ -463,9 +462,9 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                             name="state"
                                                                                             value={shippingData.state}
                                                                                             onChange={handleShippingInputChange}
-                                                                                            class='px-4 py-3 border-l font-["Medium"]  text-sm w-full' />
+                                                                                            class='px-4 py-3 font-["Medium"]  text-sm w-full' />
                                                                                     </div>
-                                                                                    <div className="w-full">
+                                                                                    <div className="w-full border-l">
 
                                                                                         <input
                                                                                             placeholder="City"
@@ -473,7 +472,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                             name="city"
                                                                                             value={shippingData.city}
                                                                                             onChange={handleShippingInputChange}
-                                                                                            class='px-4 py-3 border-l font-["Medium"] text-sm w-full' />
+                                                                                            class='px-4 py-3 font-["Medium"] text-sm w-full' />
                                                                                     </div>
                                                                                 </div>
 
@@ -554,7 +553,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                         <div>
                                                                             <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Card Information</div>
 
-                                                                            <div className="p-3 py-4 border text-sm rounded-full shadow-sm my-3">
+                                                                            <div className="p-3 font-['Medium'] py-4 border text-sm rounded-full shadow-sm my-3">
                                                                                 <CardElement options={CARD_OPTIONS} />
                                                                             </div>
                                                                             <div class='mt-3 flex flex-row items-center gap-2'>
@@ -596,12 +595,12 @@ function ProductDialog({ item, isOpen, onClose }) {
 
                                         <div className="mt-3 flex items-center gap-4">
                                             {item?.type === 'Merchandise' ? (
-                                                <button onClick={opneModalShipping} type='submit' class='w-full py-4 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-bold  font-["Semibold"]'>
+                                                <button onClick={opneModalShipping} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
                                                     Shipping
                                                 </button>)
                                                 :
                                                 (
-                                                    <button onClick={openModal} type='submit' class='w-full py-4 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-bold  font-["Semibold"]'>
+                                                    <button onClick={openModal} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
                                                         Purchase
                                                     </button>
                                                 )}
