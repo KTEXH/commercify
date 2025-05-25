@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
+
+import slugify from 'slugify'
+
 import { createClient } from "@supabase/supabase-js";
 import Group from "./assets/Group";
 
@@ -169,6 +172,7 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
       setUploading(false);
     }
   }
+const slug = slugify(title, { lower: true, strict: true });
 
 
   const handleSubmit = async (e) => {
@@ -179,6 +183,7 @@ export const NavBar = ({ products, home, audience, form, orders, settings, booki
         variables: {
           input: {
             title,
+            slug,
             description,
             price: parseFloat(price),
             thumbnail,

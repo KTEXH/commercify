@@ -65,10 +65,9 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
 
 export const Description = ({ item, style, round, font, textColor, color }) => {
     const [selectedPost, setSelectedPost] = useState(null);
-    const closeDialog = () => {
-        setSelectedPost(null);
-    };
-
+  const closeDialog = () => {
+    setSelectedPost(null);
+};
     const openDialog = (item) => {
         setSelectedPost(item);
     };

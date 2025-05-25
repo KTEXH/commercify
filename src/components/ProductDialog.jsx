@@ -80,6 +80,7 @@ const CARD_OPTIONS = {
 
 function ProductDialog({ item, isOpen, onClose }) {
     let [isPaying, setIsPaying] = useState(false)
+    let [isShipping, setIsShipping] = useState(false)
     const [date, setDate] = useState(new Date());
     const [bookableDates, setBookableDates] = useState([]);
     const [availableTimes, setAvailableTimes] = useState([]);
@@ -135,6 +136,11 @@ function ProductDialog({ item, isOpen, onClose }) {
     function opneModalShipping() {
         setIsPaying(true)
         setShipping(true)
+    }
+
+    function closeModalShipping() {
+        setIsPaying(false)
+        setShipping(false)
     }
     const [success, setSuccess] = React.useState(false)
     const stripe = useStripe()
@@ -322,301 +328,298 @@ function ProductDialog({ item, isOpen, onClose }) {
 
     return (
         <div>
-            <Transition show={isOpen} as={Fragment}>
-                <Dialog
-                    as="div"
-                    className="inset-0"
-                    onClose={onClose}
-                >
-                    <div className="min-h-screen">
+            <Dialog
+                open={isOpen}
+                onClose={close}
+            >
+                <div className="">
 
 
 
 
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
-                        >
-                            <div className="p-5 rounded-t-3xl w-full fixed bg-white bottom-0 transform transition-transform duration-300">
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                    >
+                        <div className="p-5 rounded-t-3xl w-full fixed bg-white bottom-0 transform transition-transform duration-300">
 
 
 
-                                {isOpen && item !== null && ( // Check if item is not null
-                                    // Render your dialog content here, including item details
-                                    <div className="overflow-y-scroll w-full max-h-screen">
+                            {isOpen && item !== null && ( // Check if item is not null
+                                // Render your dialog content here, including item details
+                                <div className="overflow-y-scroll w-full max-h-screen">
 
-                                        <div class='w-full'>
-                                            <div class='flex items-center justify-between w-full'>
-                                                <div class='my-3 text-2xl font-["Semibold"]'>{item.title}</div>
-                                                <img src={item.thumbnail || logo} className="w-10 rounded-full h-10" />
-                                            </div>
+                                    <div class='w-full'>
+                                        <div class='flex flex-col w-full'>
+                                            <img src={item.thumbnail || logo} className="w-full" />
+                                        </div>
 
-                                            <div class='mt-2 mb-4 font-["Medium"] text-gray-500 w-full flex-grow min-w-full text-sm pr-3'>{item.description}</div>
+                                        <div class='mt-2 mb-4 font-["Medium"] text-gray-500 w-full flex-grow min-w-full text-sm pr-3'>{item.description}</div>
 
 
-                                            <Transition show={isPaying} as={Fragment}>
-                                                <Dialog
-                                                    as="div"
-                                                    className="fixed inset-0 z-10"
-                                                    onClose={onClose}
-                                                >
-                                                    <div className="min-h-screen">
-
+                                        <Transition show={isPaying} as={Fragment}>
+                                            <Dialog
+                                                as="div"
+                                                className="fixed inset-0 z-50"
+                                                onClose={onClose}
+                                            >
+                                                <div className="min-h-screen">
 
 
 
-                                                        <Transition.Child
-                                                            as={Fragment}
-                                                            enter="ease-out duration-300"
-                                                            enterFrom="opacity-0 scale-95"
-                                                            enterTo="opacity-100 scale-100"
-                                                            leave="ease-in duration-200"
-                                                            leaveFrom="opacity-100 scale-100"
-                                                            leaveTo="opacity-0 scale-95"
-                                                        >
-                                                            <div className="rounded-t-3xl w-full fixed bg-white bottom-0 transform transition-transform duration-300">
 
-                                                                <div class='p-5'>
+                                                    <Transition.Child
+                                                        as={Fragment}
+                                                        enter="ease-out duration-300"
+                                                        enterFrom="opacity-0 scale-95"
+                                                        enterTo="opacity-100 scale-100"
+                                                        leave="ease-in duration-200"
+                                                        leaveFrom="opacity-100 scale-100"
+                                                        leaveTo="opacity-0 scale-95"
+                                                    >
+                                                        <div className="rounded-t-3xl w-full fixed bg-white bottom-0 transform transition-transform duration-300">
 
-                                                                    {shipping === true && (
-                                                                        <div class='self-stretch'>
-                                                                            <div class='flex items-center justify-between mb-4'>
-                                                                                <div class='text-2xl w-2/3' style={{ fontFamily: 'Semibold' }}>Shipping</div>
-                                                                                <img src={item.thumbnail || logo} class='w-10 h-10 rounded-full' />
-                                                                            </div>
+                                                            <div class='p-5'>
 
-                                                                            <div class={`${item?.type === 'Merchandise' ? 'flex' : 'hidden'}`}>
+                                                                {shipping === true && (
+                                                                    <div class='self-stretch'>
+                                                                        <div class='flex items-center justify-between mb-4'>
+                                                                            <div class='text-2xl w-2/3' style={{ fontFamily: 'Semibold' }}>Shipping</div>
+                                                                            <img src={item.thumbnail || logo} class='w-10 h-10 rounded-full' />
+                                                                        </div>
+
+                                                                        <div class={`${item?.type === 'Merchandise' ? 'flex' : 'hidden'}`}>
+                                                                            <div>
                                                                                 <div>
-                                                                                    <div>
-                                                                                        <div class='font-["Semibold"] text-sm'>Sizes</div>
-                                                                                        <div class='flex items-center gap-3 mt-2'>
-                                                                                            {item?.sizes?.map(item => (
-                                                                                                <div class='px-3 py-2 rounded-full text-xs font-["Semibold"] border' onClick={() => setSize(item)} key={item}>{item}</div>
-                                                                                            ))}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div>
-                                                                                        <div class='font-["Semibold"] mt-2 text-sm'>Colors</div>
-                                                                                        <div class='flex items-center gap-3 mt-2'>
-                                                                                            {item?.colors?.map(item => (
-                                                                                                <div class='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border' onClick={() => setColor(item)} key={item}>
-                                                                                                    <div class='h-4 w-4 border rounded-full' style={{ backgroundColor: item }} />
-                                                                                                    <div>{item}</div>
-                                                                                                </div>
-                                                                                            ))}
-                                                                                        </div>
+                                                                                    <div class='font-["Semibold"] text-sm'>Sizes</div>
+                                                                                    <div class='flex items-center gap-3 mt-2'>
+                                                                                        {item?.sizes?.map(item => (
+                                                                                            <div class='px-3 py-2 rounded-full text-xs font-["Semibold"] border' onClick={() => setSize(item)} key={item}>{item}</div>
+                                                                                        ))}
                                                                                     </div>
                                                                                 </div>
-
+                                                                                <div>
+                                                                                    <div class='font-["Semibold"] mt-2 text-sm'>Colors</div>
+                                                                                    <div class='flex items-center gap-3 mt-2'>
+                                                                                        {item?.colors?.map(item => (
+                                                                                            <div class='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border' onClick={() => setColor(item)} key={item}>
+                                                                                                <div class='h-4 w-4 border rounded-full' style={{ backgroundColor: item }} />
+                                                                                                <div>{item}</div>
+                                                                                            </div>
+                                                                                        ))}
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-
-                                                                            <form>
-
-                                                                                <div class='font-["Semibold"] text-sm my-4'>Address & Zip</div>
-                                                                                <div class='border overflow-hidden mt-2 rounded-3xl'>
-                                                                                    <input
-                                                                                        type="text"
-                                                                                        name="address"
-                                                                                        value={shippingData.address}
-                                                                                        onChange={handleShippingInputChange}
-                                                                                        className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
-                                                                                        placeholder="123 John Doe Ln"
-                                                                                    />
-                                                                                    <div class='border-t w-full'></div>
-                                                                                    <div class='flex px-5 items-center'>
-                                                                                        <img src={flag} class='w-5 h-5' />
-                                                                                        <input
-                                                                                            style={{ fontFamily: 'Medium' }}
-                                                                                            type="text"
-                                                                                            name="zipCode"
-                                                                                            value={shippingData.zipCode}
-                                                                                            onChange={handleShippingInputChange}
-                                                                                            className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 px-4 self-stretch border-solid border-0 border-gainsboro rounded-b-[14px] outline-0"
-                                                                                            placeholder="12345"
-                                                                                        />
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class='my-4 font-["Semibold"] text-sm'>Specifics</div>
-                                                                                <div className="flex overflow-hidden mt-2 border rounded-full items-center">
-                                                                                    <div className="w-full">
-
-                                                                                        <input
-                                                                                            placeholder="Country"
-                                                                                            type="text"
-                                                                                            name="country"
-                                                                                            value={shippingData.country}
-                                                                                            onChange={handleShippingInputChange}
-                                                                                            class='px-4 py-3 font-["Medium"] text-sm w-full'
-                                                                                        />
-                                                                                    </div>
-                                                                                    <div className="w-full border-l">
-
-                                                                                        <input
-                                                                                            placeholder="State"
-                                                                                            type="text"
-                                                                                            name="state"
-                                                                                            value={shippingData.state}
-                                                                                            onChange={handleShippingInputChange}
-                                                                                            class='px-4 py-3 font-["Medium"]  text-sm w-full' />
-                                                                                    </div>
-                                                                                    <div className="w-full border-l">
-
-                                                                                        <input
-                                                                                            placeholder="City"
-                                                                                            type="text"
-                                                                                            name="city"
-                                                                                            value={shippingData.city}
-                                                                                            onChange={handleShippingInputChange}
-                                                                                            class='px-4 py-3 font-["Medium"] text-sm w-full' />
-                                                                                    </div>
-                                                                                </div>
-
-
-                                                                            </form>
-
-
 
                                                                         </div>
-                                                                    )}
 
-                                                                    <div class={`${shipping === false && 'hidden'} mt-3 flex items-center gap-4`}>
-                                                                        <button onClick={onClose} class='text-sm w-full py-3 rounded-full border shadow-sm font-["Semibold"]'>Back</button>
-                                                                        <button onClick={() => setShipping(false)} class='bg-black text-white w-full text-sm py-3 rounded-full font-["Semibold"]'>Checkout</button>
+                                                                        <form>
+
+                                                                            <div class='font-["Semibold"] text-sm my-4'>Address & Zip</div>
+                                                                            <div class='border overflow-hidden mt-2 rounded-3xl'>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    name="address"
+                                                                                    value={shippingData.address}
+                                                                                    onChange={handleShippingInputChange}
+                                                                                    className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
+                                                                                    placeholder="123 John Doe Ln"
+                                                                                />
+                                                                                <div class='border-t w-full'></div>
+                                                                                <div class='flex px-5 items-center'>
+                                                                                    <img src={flag} class='w-5 h-5' />
+                                                                                    <input
+                                                                                        style={{ fontFamily: 'Medium' }}
+                                                                                        type="text"
+                                                                                        name="zipCode"
+                                                                                        value={shippingData.zipCode}
+                                                                                        onChange={handleShippingInputChange}
+                                                                                        className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 px-4 self-stretch border-solid border-0 border-gainsboro rounded-b-[14px] outline-0"
+                                                                                        placeholder="12345"
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class='my-4 font-["Semibold"] text-sm'>Specifics</div>
+                                                                            <div className="flex overflow-hidden mt-2 border rounded-full items-center">
+                                                                                <div className="w-full">
+
+                                                                                    <input
+                                                                                        placeholder="Country"
+                                                                                        type="text"
+                                                                                        name="country"
+                                                                                        value={shippingData.country}
+                                                                                        onChange={handleShippingInputChange}
+                                                                                        class='px-4 py-3 font-["Medium"] text-sm w-full'
+                                                                                    />
+                                                                                </div>
+                                                                                <div className="w-full border-l">
+
+                                                                                    <input
+                                                                                        placeholder="State"
+                                                                                        type="text"
+                                                                                        name="state"
+                                                                                        value={shippingData.state}
+                                                                                        onChange={handleShippingInputChange}
+                                                                                        class='px-4 py-3 font-["Medium"]  text-sm w-full' />
+                                                                                </div>
+                                                                                <div className="w-full border-l">
+
+                                                                                    <input
+                                                                                        placeholder="City"
+                                                                                        type="text"
+                                                                                        name="city"
+                                                                                        value={shippingData.city}
+                                                                                        onChange={handleShippingInputChange}
+                                                                                        class='px-4 py-3 font-["Medium"] text-sm w-full' />
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                        </form>
+
+
+
+                                                                    </div>
+                                                                )}
+
+                                                                <div class={`${shipping === false && 'hidden'} mt-3 flex items-center gap-4`}>
+                                                                    <button onClick={closeModalShipping} class='text-sm w-full py-3 rounded-full border shadow-sm font-["Semibold"]'>Back</button>
+                                                                    <button onClick={() => setShipping(false)} class='bg-black text-white w-full text-sm py-3 rounded-full font-["Semibold"]'>Checkout</button>
+                                                                </div>
+
+
+                                                                <div class={`${shipping === true && 'hidden'}`}>
+                                                                    <div className="my-2 flex flex-col w-full mt-2">
+                                                                        <div class={`${item?.serviceOrProduct === 'Product' && 'hidden'}`}>
+                                                                            <div>Select time</div>
+                                                                            <h3>Select a Date:</h3>
+                                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                                                                                {bookableDates.map((d, i) => {
+                                                                                    const isSelected = d.toDateString() === date.toDateString();
+                                                                                    return (
+                                                                                        <div
+                                                                                            key={i}
+                                                                                            onClick={() => setDate(d)}
+                                                                                            style={{
+                                                                                                padding: '10px 15px',
+                                                                                                border: '1px solid #ccc',
+                                                                                                borderRadius: '5px',
+                                                                                                backgroundColor: isSelected ? '#4CAF50' : '#f9f9f9',
+                                                                                                color: isSelected ? '#fff' : '#000',
+                                                                                                cursor: 'pointer',
+                                                                                            }}
+                                                                                        >
+                                                                                            {d.toDateString()}
+                                                                                        </div>
+                                                                                    );
+                                                                                })}
+                                                                            </div>
+
+                                                                            <h3>Available Times for {date.toDateString()}:</h3>
+                                                                            <select onChange={(e) => setSelectedTime(e.target.value)} value={selectedTime}>
+                                                                                <option value="">Select a time</option>
+                                                                                {availableTimes.length > 0 ? (
+                                                                                    availableTimes.map((time) => (
+                                                                                        <option key={time} value={time}>
+                                                                                            {time}
+                                                                                        </option>
+                                                                                    ))
+                                                                                ) : (
+                                                                                    <option value="" disabled>No available times for selected day</option>
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Name & Email</div>
+                                                                        <div class='border overflow-hidden shadow-sm rounded-3xl'>
+                                                                            <input
+                                                                                value={name}
+                                                                                onChange={handleNameChange}
+                                                                                className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
+                                                                                placeholder="John Doe"
+                                                                            />
+                                                                            <div class='border-t w-full'></div>
+                                                                            <input
+                                                                                value={email}
+                                                                                onChange={handleEmailChange}
+                                                                                className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 px-4 self-stretch border-solid border-0 border-gainsboro rounded-b-[14px] outline-0"
+                                                                                placeholder="doe@example.com"
+                                                                            />
+                                                                        </div>
                                                                     </div>
 
 
-                                                                    <div class={`${shipping === true && 'hidden'}`}>
-                                                                        <div className="my-2 flex flex-col w-full mt-2">
-                                                                            <div class={`${item?.serviceOrProduct === 'Product' && 'hidden'}`}>
-                                                                                <div>Select time</div>
-                                                                                <h3>Select a Date:</h3>
-                                                                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                                                                                    {bookableDates.map((d, i) => {
-                                                                                        const isSelected = d.toDateString() === date.toDateString();
-                                                                                        return (
-                                                                                            <div
-                                                                                                key={i}
-                                                                                                onClick={() => setDate(d)}
-                                                                                                style={{
-                                                                                                    padding: '10px 15px',
-                                                                                                    border: '1px solid #ccc',
-                                                                                                    borderRadius: '5px',
-                                                                                                    backgroundColor: isSelected ? '#4CAF50' : '#f9f9f9',
-                                                                                                    color: isSelected ? '#fff' : '#000',
-                                                                                                    cursor: 'pointer',
-                                                                                                }}
-                                                                                            >
-                                                                                                {d.toDateString()}
-                                                                                            </div>
-                                                                                        );
-                                                                                    })}
-                                                                                </div>
+                                                                    <div>
+                                                                        <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Card Information</div>
 
-                                                                                <h3>Available Times for {date.toDateString()}:</h3>
-                                                                                <select onChange={(e) => setSelectedTime(e.target.value)} value={selectedTime}>
-                                                                                    <option value="">Select a time</option>
-                                                                                    {availableTimes.length > 0 ? (
-                                                                                        availableTimes.map((time) => (
-                                                                                            <option key={time} value={time}>
-                                                                                                {time}
-                                                                                            </option>
-                                                                                        ))
-                                                                                    ) : (
-                                                                                        <option value="" disabled>No available times for selected day</option>
-                                                                                    )}
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Name & Email</div>
-                                                                            <div class='border overflow-hidden shadow-sm rounded-3xl'>
-                                                                                <input
-                                                                                    value={name}
-                                                                                    onChange={handleNameChange}
-                                                                                    className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
-                                                                                    placeholder="John Doe"
-                                                                                />
-                                                                                <div class='border-t w-full'></div>
-                                                                                <input
-                                                                                    value={email}
-                                                                                    onChange={handleEmailChange}
-                                                                                    className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 px-4 self-stretch border-solid border-0 border-gainsboro rounded-b-[14px] outline-0"
-                                                                                    placeholder="doe@example.com"
-                                                                                />
-                                                                            </div>
+                                                                        <div className="p-3 font-['Medium'] py-4 border text-sm rounded-full shadow-sm my-3">
+                                                                            <CardElement options={CARD_OPTIONS} />
                                                                         </div>
-
-
-                                                                        <div>
-                                                                            <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Card Information</div>
-
-                                                                            <div className="p-3 font-['Medium'] py-4 border text-sm rounded-full shadow-sm my-3">
-                                                                                <CardElement options={CARD_OPTIONS} />
-                                                                            </div>
-                                                                            <div class='mt-3 flex flex-row items-center gap-2'>
-                                                                                <Check class='w-4 h-4' />
-                                                                                <div class='font-["Semibold"] text-xs'>Guaranteed safe & secure payments</div>
-                                                                            </div>
-                                                                            {success === true && (<div class='text-sm py-2 font-["Semi"]'>Purchase succesful 🎉</div>)}
-                                                                            <div class='flex items-center w-full mt-3 gap-4'>
-                                                                                <button
-                                                                                    type="button"
-                                                                                    style={{ fontFamily: 'Semibold' }}
-                                                                                    className={`w-full py-3 border outline-0 text-sm rounded-full text-black shadow-sm`}
-                                                                                    onClick={closeModal}
-                                                                                >
-                                                                                    Close
-                                                                                </button>
-                                                                                <form class={`${(item?.type === 'Merchandise' ? 'hidden' : 'flex')} ${item?.serviceOrProduct === 'Service' ? 'hidden' : 'flex w-full'}`} onSubmit={handleSendDigital}>
-                                                                                    <button type='submit' class='w-full py-3 w-full rounded-full bg-black text-[15px] outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]'>
-                                                                                        Pay ${item.price}
-                                                                                    </button>
-                                                                                </form>
-                                                                                <button onClick={handleSubmit} class={`w-full py-3 rounded-full bg-black text-sm ${isDigital ? 'hidden' : 'flex justify-center items-center'} outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]`}>
+                                                                        <div class='mt-3 flex flex-row items-center gap-2'>
+                                                                            <Check class='w-4 h-4' />
+                                                                            <div class='font-["Semibold"] text-xs'>Guaranteed safe & secure payments</div>
+                                                                        </div>
+                                                                        {success === true && (<div class='text-sm py-2 font-["Semi"]'>Purchase succesful 🎉</div>)}
+                                                                        <div class='flex items-center w-full mt-3 gap-4'>
+                                                                            <button
+                                                                                type="button"
+                                                                                style={{ fontFamily: 'Semibold' }}
+                                                                                className={`w-full py-3 border outline-0 text-sm rounded-full text-black shadow-sm`}
+                                                                                onClick={closeModal}
+                                                                            >
+                                                                                Close
+                                                                            </button>
+                                                                            <form class={`${(item?.type === 'Merchandise' ? 'hidden' : 'flex')} ${item?.serviceOrProduct === 'Service' ? 'hidden' : 'flex w-full'}`} onSubmit={handleSendDigital}>
+                                                                                <button type='submit' class='w-full py-3 w-full rounded-full bg-black text-[15px] outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]'>
                                                                                     Pay ${item.price}
                                                                                 </button>
-                                                                            </div>
-
-
+                                                                            </form>
+                                                                            <button onClick={handleSubmit} class={`w-full py-3 rounded-full bg-black text-sm ${isDigital ? 'hidden' : 'flex justify-center items-center'} outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]`}>
+                                                                                Pay ${item.price}
+                                                                            </button>
                                                                         </div>
+
+
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </Transition.Child>
-                                                    </div>
+                                                        </div>
+                                                    </Transition.Child>
+                                                </div>
 
-                                                </Dialog>
-                                            </Transition>
+                                            </Dialog>
+                                        </Transition>
 
-                                        </div>
-
-                                        <div className="mt-3 flex items-center gap-4">
-                                            {item?.type === 'Merchandise' ? (
-                                                <button onClick={opneModalShipping} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
-                                                    Shipping
-                                                </button>)
-                                                :
-                                                (
-                                                    <button onClick={openModal} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
-                                                        Purchase
-                                                    </button>
-                                                )}
-
-                                        </div>
-                                        {/* Close button */}
                                     </div>
-                                )}
+
+                                    <div className="mt-3 flex items-center gap-4">
+                                        <button onClick={(e) => onClose()}>ffkrkr</button>
+                                        {item?.type === 'Merchandise' ? (
+                                            <button onClick={opneModalShipping} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
+                                                Shipping
+                                            </button>)
+                                            :
+                                            (
+                                                <button onClick={openModal} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
+                                                    Purchase
+                                                </button>
+                                            )}
+
+                                    </div>
+                                    {/* Close button */}
+                                </div>
+                            )}
 
 
-                            </div>
-                        </Transition.Child>
+                        </div>
+                    </Transition.Child>
 
-                    </div>
-                </Dialog>
-            </Transition>
+                </div>
+            </Dialog>
         </div>
     );
 }

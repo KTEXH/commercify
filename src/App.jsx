@@ -25,6 +25,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { Order } from "./Pages/Dash/Nested/Order";
 import { Product } from "./Pages/Dash/Nested/Product";
+import ProductOne from "./Pages/Viewers/Product";
 
 function App() {
 
@@ -81,6 +82,7 @@ function App() {
             <Route element={<Authenticated><Setup /></Authenticated>} path='/setup' />
 
             <Route path='/:subdomain' element={<Linkinbio />} />
+            <Route path='/:subdomain/p/:slug' element={<ProductOne />} />
             <Route element={<Authenticated><Products /></Authenticated>} path='/products' />
             <Route element={<Authenticated><Analytics /></Authenticated>} path='/stats' />
             <Route element={<Authenticated><Orders /></Authenticated>} path='/orders' />

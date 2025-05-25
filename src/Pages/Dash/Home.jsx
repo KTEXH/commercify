@@ -112,7 +112,7 @@ export const Add = () => {
         <PlusIcon className="w-4 h-4 text-black" />
       </div>
 
-      <Dialog open={isOpen} as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
+      <Dialog open={isOpen} as="div" className="relative z-50" onClose={() => setIsOpen(false)}>
         <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center">
           <div className="p-4 w-full max-w-md">
             <DialogPanel className="bg-white border p-6 rounded-xl shadow-xl">
