@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom';
 import { ArrowBigLeft } from 'lucide-react';
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
+import { BellAlertIcon } from '@heroicons/react/24/outline';
 
 
 const GET_PRODUCT = gql`
@@ -40,7 +42,15 @@ const ProductOne = () => {
     return (
         <div class='h-full'>
             <div class={`${process.product === true ? 'relative' : 'hidden'}`}>
-                <img src={data?.getProduct?.thumbnail} class='bg-black' />
+                <div class='relative'>
+                    <img src={data?.getProduct?.thumbnail} class='bg-black' />
+                    <div className="absolute top-5 right-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
+                        <EllipsisHorizontalIcon className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="absolute top-5 left-5 rounded-full flex items-center justify-center w-11 h-11 bg-black bg-opacity-10">
+                        <BellAlertIcon className="w-4 h-4 text-white" />
+                    </div>
+                </div>
                 <div class='mt-[-50px] bg-white w-full h-full flex p-7 flex-col z-20 relative rounded-t-[50px]'>
                     <div class='text-lg font-["Semibold"]'>${product.price}</div>
                     <div class='text-4xl font-["Semibold"]'>{data?.getProduct?.title}</div>
