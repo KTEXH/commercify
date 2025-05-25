@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom';
+import { ArrowBigLeft } from 'lucide-react';
 
 
 const GET_PRODUCT = gql`
@@ -56,6 +57,9 @@ const ProductOne = () => {
 
                 </div>
                 <div class='flex items-center z-40 bottom-0 gap-3 px-7 py-3 fixed w-full bg-white'>
+                    <div class='p-4 border flex justify-center items-center rounded-full'>
+                        <ArrowBigLeft />
+                    </div>
                     <button class='w-full bg-black py-4 rounded-full text-white font-["Semibold"]'>Buy Now</button>
                 </div>
             </div>
