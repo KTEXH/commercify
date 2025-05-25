@@ -56,7 +56,7 @@ const ProductOne = () => {
 
                 </div>
                 <div class='flex items-center z-40 bottom-0 gap-3 px-7 py-3 fixed w-full bg-white'>
-                    <button class='w-full bg-black py-3 rounded-full text-white text-sm font-["Semibold"]'>Buy Now</button>
+                    <button class='w-full bg-black py-4 rounded-full text-white font-["Semibold"]'>Buy Now</button>
                 </div>
             </div>
         </div>
