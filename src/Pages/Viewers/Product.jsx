@@ -41,27 +41,22 @@ const ProductOne = () => {
             <div class={`${process.product === true ? 'relative' : 'hidden'}`}>
                 <img src={data?.getProduct?.thumbnail} class='bg-black' />
                 <div class='mt-[-50px] bg-white w-full h-full flex p-7 flex-col z-20 relative rounded-t-[50px]'>
-                    <div class='text-2xl font-["Semibold"]'>{data?.getProduct?.title}</div>
-                    <div class='text-2xl font-["Semibold"]'>${product.price}</div>
-                    <div class='text-sm font-["Medium"] text-gray-500'>{data?.getProduct?.description}</div>
-                    <div class='mt-7 flex self-stretch justify-between'>
+                    <div class='text-lg font-["Semibold"]'>${product.price}</div>
+                    <div class='text-4xl font-["Semibold"]'>{data?.getProduct?.title}</div>
+                    <div class='mt-2 flex flex-col self-stretch justify-between'>
                         <div class='w-full'>
-                            <div class='text-sm font-["Semibold"]'>Sizes</div>
-                            <div class='flex items-cneter gap-1 mt-2 flex-wrap'>
-                                {product.sizes.map(item => (<div class='text-xs font-["Semibold"] px-3 py-1 rounded-full border'>{item}</div>))}
+                            <div class='text-xs font-["Semibold"]'>Colors</div>
+                            <div class='flex items-cneter gap-3 mt-2 flex-wrap'>
+                                {product.colors.map(item => (<div class='text-xs font-["Semibold"] flex items-center gap-2 p-1 rounded-full border'><div style={{ backgroundColor: item }} class='w-4 h-4 rounded-full border' /></div>))}
                             </div>
                         </div>
-                        <div class='w-full'>
-                            <div class='text-sm font-["Semibold"]'>Colors</div>
-                            <div class='flex items-cneter gap-1 mt-2 flex-wrap'>
-                                {product.colors.map(item => (<div class='text-xs font-["Semibold"] flex items-center gap-2 px-2 py-1 rounded-full border'><div style={{ backgroundColor: item }} class='w-3 h-3 rounded-full border' />{item}</div>))}
-                            </div>
-                        </div>
+                        <div class='font-["Medium"] mt-2 text-sm text-gray-500'>{product.description}</div>
+
                     </div>
 
                 </div>
                 <div class='flex items-center z-40 bottom-0 gap-3 px-7 py-3 fixed w-full bg-white'>
-                    <button class='w-full bg-black py-3 rounded-full text-white text-sm font-["Semibold"]'>Purchase</button>
+                    <button class='w-full bg-black py-3 rounded-full text-white text-sm font-["Semibold"]'>Buy Now</button>
                 </div>
             </div>
         </div>
