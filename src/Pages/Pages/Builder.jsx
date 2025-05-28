@@ -744,7 +744,7 @@ export const Builder = () => {
                                                             className="w-full border px-6 text-sm py-3 font-['Medium'] rounded-full"
                                                         />
                                                         <input
-                                                            id="linkImageUpload"
+                                                            id={`linkImageUpload-${idx}`}
 
                                                             type="file"
                                                             accept="image/*"
