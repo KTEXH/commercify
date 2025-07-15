@@ -305,10 +305,10 @@ export const Linkinbio = () => {
 
           {!isSeen && (
             <div className="fixed w-full h-48 bottom-0 flex justify-center items-center bg-gradient-to-t from-black via-transparent to-transparent shadow-lg">
-              <div className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">
+              <a href='https://www.commercifyhq.com' className="bottom-6 fixed justify-center items-center flex flex-col space-y-3">
                 <div className="bg-black px-3 py-3 rounded-full flex items-center space-x-2">
                   <img src={logo} className="h-4 w-4" alt="Commercify logo" />
-                  <div className="font-['Semibold'] text-white text-xs">
+                  <div className="font-['Semibold'] no-underline text-white text-xs">
                     commercifyhq.com
                   </div>
                   <XMarkIcon
@@ -319,7 +319,7 @@ export const Linkinbio = () => {
                 <div className="text-xs text-white font-['Semibold']">
                   Get started with Commercify today!
                 </div>
-              </div>
+              </a>
             </div>
           )}
         </div>
