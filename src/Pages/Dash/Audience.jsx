@@ -78,11 +78,10 @@ export const Audience = ({ className = "" }) => {
                     {/* Dashboard Content */}
                     <main className="px-16 flex-1">
                         <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Customer Profiles</div>
-                        {selectedPage?.storefront ? (
+                        {selectedPage?.storefront && (
                             <div class="flex flex-col w-full gap-4">
                                 {data?.me?.Orders?.length === 0 && (
                                     <div class="h-72 w-full flex items-center justify-center">
-                                        You have no customers
                                     </div>
                                 )}
                                 {customerList.map(customer => (
@@ -103,12 +102,13 @@ export const Audience = ({ className = "" }) => {
                                 ))}
                             </div>
 
-                        ) : (
+                        )}
+                        {selectedPage?.workshop && (
+
                             <div class='flex w-full flex-col rounded-xl'>
 
                                 {data?.me?.Bookings?.length === 0 && (
                                     <div class='h-72 w-full flex items-center justify-center'>
-                                        You have no clients
                                     </div>
                                 )}
                                 {clientsList.map(customer => (
@@ -129,6 +129,32 @@ export const Audience = ({ className = "" }) => {
                                 ))}
                             </div>
                         )}
+                        {selectedPage?.linkinbio && (
+                            <div class='flex w-full flex-col rounded-xl'>
+
+                                {data?.me?.Bookings?.length === 0 && (
+                                    <div class='h-72 w-full flex items-center justify-center'>
+                                    </div>
+                                )}
+                                {clientsList.map(customer => (
+                                    <div key={customer.email} className="flex items-center justify-between p-3 py-5 rounded-3xl text-sm font-['Semibold'] border shadow-sm">
+                                        <div class='flex items-center'>
+                                            <div className="text-2xl w-40 text-center">{customer.orders.length} Orders</div>
+                                            <div class='h-10 w-1 border-l' />
+                                            <div class='px-5'>
+                                                <div class='text-sm font-["Semibold"] '>{customer.email}</div>
+                                                <div class='flex relative mt-1 items-center'>
+                                                    <img class='w-7 border-white border-2 rounded-full h-7' src={selectedPage?.headerImage} />
+                                                    <div class='h-7 w-7 ml-[-11px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{customer?.name?.charAt(0)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
 
                     </main>
 

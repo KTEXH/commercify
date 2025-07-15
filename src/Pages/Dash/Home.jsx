@@ -317,7 +317,7 @@ export default function Default() {
                       )}
                       {selectedPage?.linkinbio && (
                         <div class='flex items-center gap-2'>
-                          <div class={`${data?.me?.Links.length === 0 ? 'bg-gray-200' : 'bg-green-500'} rounded-full flex items-center justify-center w-7 h-7`}><RiCheckFill className='w-4 h-4 text-white' /></div>
+                          <div class={`${selectedPage?.links?.length === 0 ? 'bg-gray-200' : 'bg-green-500'} rounded-full flex items-center justify-center w-7 h-7`}><RiCheckFill className='w-4 h-4 text-white' /></div>
                           <div class='font-["Medium"] text-gray-400 text-sm'>Add a link</div>
                         </div>
                       )}

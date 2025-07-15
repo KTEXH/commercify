@@ -1022,7 +1022,7 @@ export const Builder = () => {
                                     )}
                                     {selectedPage?.linkinbio === true && (
                                         <div class='mt-7 space-y-2 w-full '>
-                                            {data.me.Links.map(item => (
+                                            {selectedPage?.links?.map(item => (
                                                 <div class='w-full flex'>
                                                     {base === 'simple' && (<Simple textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}
                                                     {base === 'button' && (<Button textColor={baseText} item={item} font={font} round={rounded} style={style} color={styleColor} />)}

@@ -109,6 +109,12 @@ query me{
      storefront
      workshop
      name
+       links{
+     id
+     image
+     linkText
+     link
+     }
      formAnswers{
      id
      feedback
@@ -145,12 +151,7 @@ query me{
      serviceOrProduct
      }
      
-     Links{
-     id
-     image
-     linkText
-     link
-     }
+   
      Activity(take: 4){
      id 
      message 

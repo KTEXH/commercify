@@ -36,15 +36,15 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       verified
       rounded
       headerImage
-      user {
-        id
-        verified
-        Links {
+         links {
           id
           linkText
           link
           image
         }
+      user {
+        id
+        verified
         OnlyProducts {
           id
           title
