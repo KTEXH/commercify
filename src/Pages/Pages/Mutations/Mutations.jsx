@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const LINK_CREATION = gql`
 mutation CreateMultipleLinks($links: [LinkInput!]!) {
   createLinks(links: $links) {
-    id
     linkText
     link
     image

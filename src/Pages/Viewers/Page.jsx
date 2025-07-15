@@ -286,7 +286,7 @@ export const Linkinbio = () => {
             </div>
 
             <div class={`${store?.linkinbio === false && 'hidden'} `}>
-              {store.user?.Links?.map((item) => (
+              {store?.links?.map((item) => (
                 <div className="w-full flex" key={item.id}>
                   {base === 'simple' && (
 

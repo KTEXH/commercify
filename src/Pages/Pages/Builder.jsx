@@ -134,7 +134,7 @@ export const Builder = () => {
     const [deleteLink] = useMutation(DELETE_LINK);
 
     const [selectedPage, setSelectedPage] = useState(null);
-    const [links, setLinks] = useState([{ linkText: "", link: "", image: "", file: null }]);
+    const [links, setLinks] = useState([{ linkText: "", link: "", image: "", file: null}]);
     const [existingLinks, setExistingLinks] = useState([]);
     const [formData, setFormData] = useState({
         id: selectedPage?.id,
@@ -277,19 +277,23 @@ export const Builder = () => {
             linkText: item.linkText,
             link: item.link,
             image: imageUrls[i],
+            pageId: selectedPage?.id
         }));
 
         try {
-            await createLinks({ variables: { links: payload } });
+            await createLinks({ variables:
+                 
+                 { links: payload }
+                 });
             alert("Links created!");
-            setLinks([{ linkText: "", link: "", image: "", file: null }]);
+            setLinks([{ linkText: "", link: "", image: "", file: null}]);
         } catch (err) {
             console.error("Link creation failed:", err.message);
         }
     };
 
     const handleAddLink = () => {
-        setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
+        setLinks([...links, { linkText: '', link: '', image: '', file: null , pageId: selectedPage?.id}]);
     };
 
     const handleDelete = async (id) => {
