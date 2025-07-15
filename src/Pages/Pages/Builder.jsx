@@ -28,7 +28,7 @@ export const Simple = ({ item, round, color, style, font, link, textColor }) => 
 
 
     return (
-        <a href={link} onClick={() => openDialog(item)} style={{
+        <a href={link} style={{
             backgroundColor: style === 'color' && color,
             borderColor: (style === 'outline' || 'backdrop') && color,
             boxShadow: style === 'backdrop' && `5px 5px 0px 0px ${color}`,
@@ -200,8 +200,8 @@ export const Builder = () => {
         if (data?.me?.Pages?.length > 0 && !selectedPage) {
             setSelectedPage(data.me.Pages[0]);
         }
-        if (data?.me?.Links) {
-            setExistingLinks(data.me.Links);
+        if (selectedPage?.links) {
+            setExistingLinks(selectedPage?.links);
         }
     }, [data]);
 
@@ -417,7 +417,7 @@ export const Builder = () => {
     const refetchExistingLinks = async () => {
         try {
             const { data } = await refetch();
-            setExistingLinks(data.me.Links);
+            setExistingLinks(selectedPage?.links);
         } catch (err) {
             console.error("Failed to refetch links:", err);
         }
@@ -788,7 +788,7 @@ export const Builder = () => {
                                             {/* Existing Links (Editable) */}
                                             <div className="space-y-4">
                                                 <h2 className="font-['Semibold'] text-xl">Your Current Links</h2>
-                                                {existingLinks.map((link, idx) => (
+                                                {existingLinks?.map((link, idx) => (
                                                     <div key={idx} className="border p-4 rounded-3xl shadow-sm bg-white space-y-2">
                                                         <input
                                                             type="text"

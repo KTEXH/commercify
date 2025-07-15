@@ -269,7 +269,7 @@ export const Products = ({ className = "" }) => {
 
                             {selectedPage?.linkinbio === true && (
                                 <div class='mt-5 grid grid-cols-2 gap-7'>
-                                    {data.me.Links.map(item => (
+                                    {selectedPage?.links.map(item => (
                                         <div class='w-full rounded-full shadow-sm flex items-center justify-between border p-4'>
                                             <div class='flex items-center gap-5'>
                                                 {item.image ? (
