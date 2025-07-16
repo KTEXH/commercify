@@ -103,11 +103,13 @@ const CREATE_FORM_ANSWER = gql`
 
 
 export const Linkinbio = () => {
+  
   const [isSeen, setIsSeen] = useState(false);
   const { subdomain } = useParams();
   const { loading, error, data } = useQuery(GET_LINK_BY_SUBDOMAIN, {
     variables: { subdomain },
   });
+  const store = useMemo(() => data?.storeBySubdomain, [data]);
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -136,7 +138,6 @@ export const Linkinbio = () => {
     }
   }
 
-  const store = useMemo(() => data?.storeBySubdomain, [data]);
   if(loading) return <div class='flex h-screen w-full items-center justify-center'><HashLoader
         color={'#999'}
         loading={true}
