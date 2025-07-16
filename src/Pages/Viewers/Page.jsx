@@ -9,6 +9,7 @@ import logo from '../../components/assets/logo.png';
 import verified from '../../components/assets/twitterverified.png';
 import clsx from 'clsx';
 import flag from '../../components/assets/united-states.png'
+import { HashLoader } from 'react-spinners'
 
 const GET_LINK_BY_SUBDOMAIN = gql`
   query storeBySubdomain($subdomain: String!) {
@@ -136,9 +137,16 @@ export const Linkinbio = () => {
   }
 
   const store = useMemo(() => data?.storeBySubdomain, [data]);
-
+  if(loading) return <div class='flex h-screen w-full items-center justify-center'><HashLoader
+        color={'#999'}
+        loading={true}
+        size={50}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      /></div>
   if (error) return <div>Error: {error.message}</div>;
-  if (!store) return <div></div>;
+  if (!store) return <div>No Store
+</div>;
 
   const style = store?.style
   const base = store?.base
