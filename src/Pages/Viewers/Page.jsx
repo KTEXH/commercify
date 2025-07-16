@@ -141,7 +141,7 @@ export const Linkinbio = () => {
   const store = useMemo(() => data?.storeBySubdomain, [data]);
 
   if (error) return <div>Error: {error.message}</div>;
-  if (!store) return <div>No store found</div>;
+  if (!store) return <div></div>;
 
   const style = store?.style
   const base = store?.base
