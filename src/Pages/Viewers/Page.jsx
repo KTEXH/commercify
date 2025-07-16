@@ -134,10 +134,7 @@ export const Linkinbio = () => {
       console.error(err)
     }
   }
-  React.useEffect(() => {
-    const timeout = setTimeout(() => setIsSeen(true), 1500); // pop after 1.5s
-    return () => clearTimeout(timeout);
-  }, []);
+
   const store = useMemo(() => data?.storeBySubdomain, [data]);
 
   if (error) return <div>Error: {error.message}</div>;
