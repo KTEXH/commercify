@@ -259,6 +259,8 @@ export const Builder = () => {
 
     const [colorPicker, setColorPicker] = useState(false);
     const [page, setPage] = useState('Content');
+    const [editingLinkIdx, setEditingLinkIdx] = useState(null);
+    const [addingLink, setAddingLink] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [color, setColor] = useState("#ffffff");
     const [font, setFont] = useState('General-Sans');
@@ -277,7 +279,8 @@ export const Builder = () => {
 
     useEffect(() => {
         if (data?.me?.Pages?.length > 0 && !selectedPage) setSelectedPage(data.me.Pages[0]);
-        if (selectedPage?.links) setExistingLinks(selectedPage?.links);
+        const freshPage = data?.me?.Pages?.find(p => p.id === selectedPage?.id);
+        if (freshPage?.links) setExistingLinks(freshPage.links);
     }, [data]);
 
     useEffect(() => {
@@ -300,7 +303,7 @@ export const Builder = () => {
                 socialsSection: selectedPage?.socialsSection || false,
                 linksSection: selectedPage?.linksSection || false,
                 newsletterHeading: selectedPage?.newsletterHeading || "",
-                newsletterSubText: selectedPage?.newsletterSubText || "",
+                newsletterSubText: selectedPage?.newsletterSubtext || "",
                 subscribeText: selectedPage?.subscribeText || "",
                 subscribeSubText: selectedPage?.subscribeSubText || "",
                 actionButton: selectedPage?.actionButton || "",
@@ -340,9 +343,9 @@ export const Builder = () => {
             links.map(async ({ file }) => {
                 if (!file) return "";
                 const fileName = `${Date.now()}-${Math.random()}.${file.name.split(".").pop()}`;
-                const { error } = await supabase.storage.from("bubble").upload(fileName, file);
+                const { error } = await supabase.storage.from("storage-images").upload(fileName, file);
                 if (error) return "";
-                const { data } = supabase.storage.from("bubble").getPublicUrl(fileName);
+                const { data } = supabase.storage.from("storage-images").getPublicUrl(fileName);
                 return data?.publicUrl || "";
             })
         );
@@ -412,9 +415,9 @@ export const Builder = () => {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}.${fileExt}`;
         const filePath = `headers/${fileName}`;
-        const { error } = await supabase.storage.from('bubble').upload(filePath, file);
+        const { error } = await supabase.storage.from('storage-images').upload(filePath, file);
         if (error) { console.error('Upload failed:', error.message); return; }
-        const { data: publicUrlData } = supabase.storage.from('bubble').getPublicUrl(filePath);
+        const { data: publicUrlData } = supabase.storage.from('storage-images').getPublicUrl(filePath);
         const publicUrl = publicUrlData?.publicUrl;
         if (publicUrl) setFormData((prev) => ({ ...prev, [fieldName]: publicUrl }));
     }
@@ -432,8 +435,9 @@ export const Builder = () => {
 
     const refetchExistingLinks = async () => {
         try {
-            await refetch();
-            setExistingLinks(selectedPage?.links);
+            const { data: fresh } = await refetch();
+            const page = fresh?.me?.Pages?.find(p => p.id === selectedPage?.id);
+            if (page?.links) setExistingLinks(page.links);
         } catch (err) { console.error("Failed to refetch links:", err); }
     };
 
@@ -900,6 +904,236 @@ export const Builder = () => {
                                                 </button>
                                             ))}
                                         </div>
+                                    </div>
+                                )}
+
+                                {/* ── Sections tab ── */}
+                                {page === 'Sections' && (
+                                    <div className='flex flex-col gap-4 max-w-xl'>
+
+                                        {/* Featured Products */}
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            <div className='px-5 pt-5 pb-5 flex items-center justify-between'>
+                                                <div>
+                                                    <div className='text-sm font-["Semibold"] text-zinc-900'>Featured Products</div>
+                                                    <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>Highlight your top items at the top of the page</div>
+                                                </div>
+                                                <button
+                                                    onClick={() => setFormData(p => ({ ...p, featuredSection: !p.featuredSection }))}
+                                                    className={`w-11 h-6 rounded-full transition-colors shrink-0 relative ml-4 ${formData.featuredSection ? 'bg-zinc-950' : 'bg-zinc-200'}`}
+                                                >
+                                                    <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${formData.featuredSection ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Socials */}
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            <div className={`px-5 pt-5 flex items-center justify-between ${formData.socialsSection ? 'pb-4 border-b border-zinc-100' : 'pb-5'}`}>
+                                                <div>
+                                                    <div className='text-sm font-["Semibold"] text-zinc-900'>Social Links</div>
+                                                    <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>Show social media icons on your page</div>
+                                                </div>
+                                                <button
+                                                    onClick={() => setFormData(p => ({ ...p, socialsSection: !p.socialsSection }))}
+                                                    className={`w-11 h-6 rounded-full transition-colors shrink-0 relative ml-4 ${formData.socialsSection ? 'bg-zinc-950' : 'bg-zinc-200'}`}
+                                                >
+                                                    <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${formData.socialsSection ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                                                </button>
+                                            </div>
+                                            {formData.socialsSection && (
+                                                <div className='p-5 grid grid-cols-2 gap-3'>
+                                                    {[
+                                                        { key: 'instagram', placeholder: '@yourhandle', label: 'Instagram' },
+                                                        { key: 'tiktok', placeholder: '@yourhandle', label: 'TikTok' },
+                                                        { key: 'twitter', placeholder: '@yourhandle', label: 'X / Twitter' },
+                                                        { key: 'facebook', placeholder: 'facebook.com/page', label: 'Facebook' },
+                                                    ].map(({ key, placeholder, label }) => (
+                                                        <div key={key}>
+                                                            <label className={labelCls}>{label}</label>
+                                                            <input
+                                                                value={formData[key]}
+                                                                onChange={(e) => setFormData(p => ({ ...p, [key]: e.target.value }))}
+                                                                placeholder={placeholder}
+                                                                className={inputCls}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Newsletter */}
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            <div className={`px-5 pt-5 flex items-center justify-between ${formData.newsletterSection ? 'pb-4 border-b border-zinc-100' : 'pb-5'}`}>
+                                                <div>
+                                                    <div className='text-sm font-["Semibold"] text-zinc-900'>Newsletter / Subscribe</div>
+                                                    <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>Add an email subscribe section</div>
+                                                </div>
+                                                <button
+                                                    onClick={() => setFormData(p => ({ ...p, newsletterSection: !p.newsletterSection }))}
+                                                    className={`w-11 h-6 rounded-full transition-colors shrink-0 relative ml-4 ${formData.newsletterSection ? 'bg-zinc-950' : 'bg-zinc-200'}`}
+                                                >
+                                                    <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${formData.newsletterSection ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                                                </button>
+                                            </div>
+                                            {formData.newsletterSection && (
+                                                <div className='p-5 flex flex-col gap-3'>
+                                                    <div>
+                                                        <label className={labelCls}>Heading</label>
+                                                        <input value={formData.newsletterHeading} onChange={(e) => setFormData(p => ({ ...p, newsletterHeading: e.target.value }))} placeholder='Stay in the loop' className={inputCls} />
+                                                    </div>
+                                                    <div>
+                                                        <label className={labelCls}>Subtext</label>
+                                                        <input value={formData.newsletterSubText} onChange={(e) => setFormData(p => ({ ...p, newsletterSubText: e.target.value }))} placeholder='Subscribe to get updates' className={inputCls} />
+                                                    </div>
+                                                    <div>
+                                                        <label className={labelCls}>Button label</label>
+                                                        <input value={formData.subscribeText} onChange={(e) => setFormData(p => ({ ...p, subscribeText: e.target.value }))} placeholder='Subscribe' className={inputCls} />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* CTA Button */}
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            <div className={`px-5 pt-5 flex items-center justify-between ${formData.linksSection ? 'pb-4 border-b border-zinc-100' : 'pb-5'}`}>
+                                                <div>
+                                                    <div className='text-sm font-["Semibold"] text-zinc-900'>Call to Action</div>
+                                                    <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>Add a prominent CTA button to your page</div>
+                                                </div>
+                                                <button
+                                                    onClick={() => setFormData(p => ({ ...p, linksSection: !p.linksSection }))}
+                                                    className={`w-11 h-6 rounded-full transition-colors shrink-0 relative ml-4 ${formData.linksSection ? 'bg-zinc-950' : 'bg-zinc-200'}`}
+                                                >
+                                                    <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${formData.linksSection ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                                                </button>
+                                            </div>
+                                            {formData.linksSection && (
+                                                <div className='p-5 flex flex-col gap-3'>
+                                                    <div>
+                                                        <label className={labelCls}>Button URL</label>
+                                                        <input value={formData.actionButton} onChange={(e) => setFormData(p => ({ ...p, actionButton: e.target.value }))} placeholder='https://...' className={inputCls} />
+                                                    </div>
+                                                    <div>
+                                                        <label className={labelCls}>Button text</label>
+                                                        <input value={formData.actionButtonText} onChange={(e) => setFormData(p => ({ ...p, actionButtonText: e.target.value }))} placeholder='Learn More' className={inputCls} />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* ── Links Manager ── */}
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            <div className='px-5 pt-5 pb-4 border-b border-zinc-100 flex items-center justify-between'>
+                                                <div>
+                                                    <div className='text-sm font-["Semibold"] text-zinc-900'>Links</div>
+                                                    <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>{existingLinks?.length || 0} saved links</div>
+                                                </div>
+                                                <button
+                                                    onClick={() => { setAddingLink(v => !v); setEditingLinkIdx(null); }}
+                                                    className='flex items-center gap-1.5 bg-zinc-950 text-white text-xs font-["Semibold"] px-3 py-1.5 rounded-xl hover:bg-zinc-800 transition-colors'
+                                                >
+                                                    <PlusIcon className='w-3 h-3' /> Add link
+                                                </button>
+                                            </div>
+
+                                            {/* Add link form */}
+                                            {addingLink && (
+                                                <div className='p-4 border-b border-zinc-100 bg-zinc-50 space-y-2'>
+                                                    {links.map((link, idx) => (
+                                                        <div key={idx} className='space-y-2'>
+                                                            <input type="text" value={link.linkText} onChange={(e) => handleChange(idx, 'linkText', e.target.value)}
+                                                                placeholder="Link label" className={inputCls} />
+                                                            <input type="text" value={link.link} onChange={(e) => handleChange(idx, 'link', e.target.value)}
+                                                                placeholder="https://..." className={inputCls} />
+                                                            <div className='flex items-center gap-2'>
+                                                                <input id={`linkImg-${idx}`} type="file" accept="image/*" onChange={(e) => handleFileChange(idx, e.target.files[0])} className="hidden" />
+                                                                <label htmlFor={`linkImg-${idx}`} className='cursor-pointer font-["Semibold"] text-xs text-zinc-600 bg-white border border-zinc-200 px-3 py-1.5 rounded-lg hover:bg-zinc-50 transition-colors'>
+                                                                    {link.file ? link.file.name : 'Upload image'}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    <div className='flex gap-2 pt-1'>
+                                                        <button onClick={handleAddLink} className='flex-1 border border-zinc-200 bg-white text-xs font-["Semibold"] text-zinc-600 rounded-xl py-2 hover:bg-zinc-50 transition-colors flex items-center justify-center gap-1'>
+                                                            <PlusIcon className='w-3 h-3' /> Another
+                                                        </button>
+                                                        <button onClick={async () => { await handleSubmit(); setAddingLink(false); await refetchExistingLinks(); }}
+                                                            className='flex-1 bg-zinc-950 text-white text-xs font-["Semibold"] rounded-xl py-2 hover:bg-zinc-800 transition-colors'>
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Existing links list */}
+                                            {existingLinks?.length > 0 ? (
+                                                <div>
+                                                    {existingLinks.map((link, idx) => (
+                                                        <div key={link.id} className={idx < existingLinks.length - 1 ? 'border-b border-zinc-100' : ''}>
+                                                            {/* Collapsed row */}
+                                                            <div
+                                                                className='flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-zinc-50 transition-colors'
+                                                                onClick={() => setEditingLinkIdx(editingLinkIdx === idx ? null : idx)}
+                                                            >
+                                                                {link.image ? (
+                                                                    <img src={link.image} className='w-9 h-9 rounded-xl object-cover shrink-0 border border-zinc-100' />
+                                                                ) : (
+                                                                    <div className='w-9 h-9 rounded-xl bg-zinc-100 shrink-0 flex items-center justify-center'>
+                                                                        <div className='w-3 h-3 rounded-full bg-zinc-300' />
+                                                                    </div>
+                                                                )}
+                                                                <div className='flex-1 min-w-0'>
+                                                                    <div className='text-sm font-["Semibold"] text-zinc-900 truncate'>{link.linkText || 'Untitled'}</div>
+                                                                    <div className='text-[11px] font-["Medium"] text-zinc-400 truncate'>{link.link || 'No URL'}</div>
+                                                                </div>
+                                                                <ChevronDownIcon className={`w-4 h-4 text-zinc-400 shrink-0 transition-transform ${editingLinkIdx === idx ? 'rotate-180' : ''}`} />
+                                                            </div>
+
+                                                            {/* Expanded edit form */}
+                                                            {editingLinkIdx === idx && (
+                                                                <div className='px-4 pb-4 space-y-2 bg-zinc-50 border-t border-zinc-100'>
+                                                                    <div className='pt-3'>
+                                                                        <label className={labelCls}>Label</label>
+                                                                        <input type="text" value={existingLinks[idx].linkText} onChange={(e) => handleUpdateLink(idx, 'linkText', e.target.value)} className={inputCls} />
+                                                                    </div>
+                                                                    <div>
+                                                                        <label className={labelCls}>URL</label>
+                                                                        <input type="text" value={existingLinks[idx].link} onChange={(e) => handleUpdateLink(idx, 'link', e.target.value)} className={inputCls} />
+                                                                    </div>
+                                                                    <div className='flex gap-2 pt-1'>
+                                                                        <button
+                                                                            onClick={async () => { await submitUpdate(link.id, idx); setEditingLinkIdx(null); }}
+                                                                            className='flex-1 bg-zinc-950 text-white text-xs font-["Semibold"] py-2 rounded-xl hover:bg-zinc-800 transition-colors'
+                                                                        >
+                                                                            Save changes
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={async () => { await handleDelete(link.id); setEditingLinkIdx(null); }}
+                                                                            className='px-4 bg-red-50 text-red-600 text-xs font-["Semibold"] py-2 rounded-xl hover:bg-red-100 transition-colors'
+                                                                        >
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                !addingLink && (
+                                                    <div className='px-5 py-8 flex flex-col items-center gap-2 text-center'>
+                                                        <div className='w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center mb-1'>
+                                                            <PlusIcon className='w-5 h-5 text-zinc-400' />
+                                                        </div>
+                                                        <div className='text-sm font-["Semibold"] text-zinc-700'>No links yet</div>
+                                                        <div className='text-xs font-["Medium"] text-zinc-400'>Add your first link to get started</div>
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+
                                     </div>
                                 )}
                             </div>

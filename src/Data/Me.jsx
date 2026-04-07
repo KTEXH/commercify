@@ -112,7 +112,7 @@ query me{
      tiktok
      twitter
      newsletterHeading
-     newsletterSubText
+     newsletterSubtext
      subscribeText
      subscribeSubText
      actionButton

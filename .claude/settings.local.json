@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(node -e ':*)",
-      "Bash(node /tmp/fixfonts.js)"
+      "Bash(node /tmp/fixfonts.js)",
+      "Bash(sed -n '1p')",
+      "Bash(sed -n '1900,1975p' c:/Users/kille/commercify-backend/src/schema.ts)"
     ]
   }
 }

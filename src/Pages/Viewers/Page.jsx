@@ -2,7 +2,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import group2 from '../../../public/assets/Group2.svg';
 import { useParams } from "react-router-dom";
 import React, { useMemo, useState } from 'react';
-import { Button, Description, Simple } from '../../Pages/Pages/Builder';
+import { Button, Description, Simple, Pill, Feature, Glass, fontSemibold } from '../../Pages/Pages/Builder';
 import { ArrowRightIcon, EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { BellAlertIcon } from '@heroicons/react/24/outline'
 import logo from '../../components/assets/logo.png';
@@ -37,6 +37,20 @@ const GET_LINK_BY_SUBDOMAIN = gql`
       verified
       rounded
       headerImage
+      featuredSection
+      newsletterSection
+      socialsSection
+      linksSection
+      instagram
+      facebook
+      tiktok
+      twitter
+      newsletterHeading
+      newsletterSubtext
+      subscribeText
+      subscribeSubText
+      actionButton
+      actionButtonText
          links {
           id
           linkText
@@ -116,6 +130,8 @@ export const Linkinbio = () => {
   const [mobileNumber, setMobileNumber] = useState('')
   const [feedback, setFeedback] = useState('')
   const [uploadedFile, setUploadedFile] = useState('')
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
 
   const [createFormAnswer] = useMutation(CREATE_FORM_ANSWER)
 
@@ -314,6 +330,104 @@ export const Linkinbio = () => {
                 </div>
               ))}
             </div>
+
+            {/* ── Featured Products section ── */}
+            {store?.featuredSection && store?.user?.OnlyProducts?.length > 0 && (
+              <div className='mt-6'>
+                <div style={{ color: store?.textColor }} className={`text-xs uppercase tracking-widest mb-3 opacity-50 ${fontCls}`}>
+                  Featured
+                </div>
+                <div className='flex gap-3 overflow-x-auto pb-2 -mx-1 px-1'>
+                  {store.user.OnlyProducts.slice(0, 4).map(item => (
+                    <div key={item.id} className='shrink-0 w-36'>
+                      <div className='w-36 h-36 rounded-2xl overflow-hidden bg-zinc-100'>
+                        {item.thumbnail ? (
+                          <img src={item.thumbnail} className='w-full h-full object-cover' />
+                        ) : (
+                          <div className='w-full h-full bg-zinc-200' />
+                        )}
+                      </div>
+                      <div style={{ color: store?.textColor }} className={`mt-2 text-xs line-clamp-1 ${fontCls}`}>{item.title}</div>
+                      {item.price != null && (
+                        <div style={{ color: store?.textColor }} className={`text-[11px] opacity-60 ${fontMedCls}`}>${item.price}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Socials section ── */}
+            {store?.socialsSection && (store?.instagram || store?.tiktok || store?.twitter || store?.facebook) && (
+              <div className='mt-6'>
+                <div style={{ color: store?.textColor }} className={`text-xs uppercase tracking-widest mb-3 opacity-50 ${fontCls}`}>
+                  Socials
+                </div>
+                <div className='flex flex-wrap gap-2'>
+                  {[
+                    { handle: store?.instagram, label: 'Instagram', url: `https://instagram.com/${store?.instagram?.replace('@','')}` },
+                    { handle: store?.tiktok, label: 'TikTok', url: `https://tiktok.com/@${store?.tiktok?.replace('@','')}` },
+                    { handle: store?.twitter, label: 'X', url: `https://x.com/${store?.twitter?.replace('@','')}` },
+                    { handle: store?.facebook, label: 'Facebook', url: store?.facebook?.startsWith('http') ? store?.facebook : `https://facebook.com/${store?.facebook}` },
+                  ].filter(s => s.handle).map(({ label, handle, url }) => (
+                    <a key={label} href={url} target='_blank' rel='noopener noreferrer'
+                      className='flex items-center gap-1.5 bg-white/80 backdrop-blur-sm border border-black/8 rounded-full px-3 py-1.5 hover:scale-[0.98] active:scale-[0.96] transition-transform'>
+                      <span style={{ color: store?.textColor || '#09090b' }} className={`text-xs ${fontCls}`}>{label}</span>
+                      <span style={{ color: store?.textColor || '#71717a' }} className={`text-[11px] opacity-60 ${fontMedCls}`}>{handle}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Newsletter / Subscribe section ── */}
+            {store?.newsletterSection && (
+              <div className='mt-6'>
+                <div className='bg-white/80 backdrop-blur-xl border border-black/8 rounded-3xl p-5'>
+                  <div style={{ color: store?.textColor }} className={`text-base ${fontCls}`}>
+                    {store?.newsletterHeading || 'Stay in the loop'}
+                  </div>
+                  {store?.newsletterSubtext && (
+                    <div style={{ color: store?.textColor }} className={`text-sm opacity-60 mt-1 ${fontMedCls}`}>
+                      {store.newsletterSubtext}
+                    </div>
+                  )}
+                  {subscribed ? (
+                    <div className={`mt-4 text-sm text-center ${fontCls}`} style={{ color: store?.textColor }}>
+                      You're subscribed!
+                    </div>
+                  ) : (
+                    <div className='mt-4 flex gap-2'>
+                      <input
+                        value={newsletterEmail}
+                        onChange={(e) => setNewsletterEmail(e.target.value)}
+                        placeholder='your@email.com'
+                        className={`flex-1 bg-white/60 border border-black/8 rounded-2xl px-3.5 py-2.5 text-sm ${fontMedCls} focus:outline-none placeholder:opacity-40`}
+                        style={{ color: store?.textColor }}
+                      />
+                      <button
+                        onClick={() => { if (newsletterEmail) setSubscribed(true); }}
+                        className={`shrink-0 bg-zinc-950 text-white text-sm rounded-2xl px-4 py-2.5 ${fontCls} hover:bg-zinc-800 active:scale-[0.97] transition-all`}
+                      >
+                        {store?.subscribeText || 'Subscribe'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* ── CTA / Links section ── */}
+            {store?.linksSection && store?.actionButton && (
+              <div className='mt-6'>
+                <a href={store.actionButton} target='_blank' rel='noopener noreferrer'
+                  className={`w-full flex items-center justify-center gap-2 bg-zinc-950 text-white rounded-2xl py-3.5 text-sm ${fontCls} hover:bg-zinc-800 active:scale-[0.98] transition-all`}>
+                  {store?.actionButtonText || 'Learn More'}
+                  <ArrowRightIcon className='w-4 h-4' />
+                </a>
+              </div>
+            )}
+
           </div>
         </div>
       </div>
