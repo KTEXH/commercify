@@ -97,7 +97,7 @@ const FeatureCard = ({ badge, image, title, description, href }) => (
       <div className='absolute top-4 left-4 z-10'>
         <span className='font-["Semibold"] text-xs bg-zinc-950 text-white px-3 py-1.5 rounded-lg'>{badge}</span>
       </div>
-      <div className='w-full h-52 bg-zinc-50 flex justify-center items-center overflow-hidden'>
+      <div className='w-full h-52 bg-white border-b border-zinc-100 flex justify-center items-center overflow-hidden'>
         <img src={image} className='h-32 object-contain group-hover:scale-105 transition-transform duration-500' />
       </div>
     </div>
@@ -113,7 +113,7 @@ const FeatureCard = ({ badge, image, title, description, href }) => (
 
 const SectionCard = ({ image, title, description, tall }) => (
   <div className='border border-zinc-100 rounded-2xl overflow-hidden bg-white hover:shadow-md hover:border-zinc-200 transition-all duration-300 group'>
-    <div className={`w-full ${tall ? 'h-80' : 'h-60'} bg-zinc-50 flex items-center justify-center overflow-hidden`}>
+    <div className={`w-full ${tall ? 'h-80' : 'h-60'} bg-white border-b border-zinc-100 flex items-center justify-center overflow-hidden`}>
       <img src={image} className='object-contain group-hover:scale-105 transition-transform duration-500' style={{ maxHeight: '85%', maxWidth: '80%' }} />
     </div>
     <div className='p-7'>
@@ -148,11 +148,9 @@ export default function LandingPage({ className = "", duration = 3000 }) {
   return (
     <div className={`font-general-sans font-medium tracking-[0px] ${className}`}>
       {/* ── Hero ── */}
-      <div className='min-h-screen bg-zinc-950 relative flex flex-col overflow-hidden'>
+      <div className='min-h-screen bg-white relative flex flex-col overflow-hidden'>
         {/* subtle grid texture */}
-        <div className='absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px]' />
-        {/* glow */}
-        <div className='absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none' />
+        <div className='absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:64px_64px]' />
 
         <div className='relative z-10 flex-1 flex flex-col'>
           <Header />
@@ -160,7 +158,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
           <div className='flex-1 flex flex-col items-center justify-center px-6 pt-32 pb-20 max-w-5xl mx-auto w-full'>
             {/* Animated platform icon */}
             <div className="relative w-16 h-16 mb-8">
-              <div className="absolute top-[-10px] left-2 w-[calc(100%-14px)] h-[calc(100%-14px)] bg-white/10 rounded-xl z-0" />
+              <div className="absolute top-[-10px] left-2 w-[calc(100%-14px)] h-[calc(100%-14px)] bg-zinc-100 rounded-xl z-0" />
               <AnimatePresence>
                 <motion.div
                   key={platforms[currentIndex].name}
@@ -175,28 +173,28 @@ export default function LandingPage({ className = "", duration = 3000 }) {
               </AnimatePresence>
             </div>
 
-            <h1 className='text-5xl md:text-7xl text-center font-["Semibold"] text-white leading-[1.08] tracking-tight max-w-4xl'>
+            <h1 className='text-5xl md:text-7xl text-center font-["Semibold"] text-zinc-950 leading-[1.08] tracking-tight max-w-4xl'>
               Simplifying E-commerce{' '}
-              <span className='text-zinc-500'>one page at a time.</span>
+              <span className='text-zinc-400'>one page at a time.</span>
             </h1>
 
-            <p className='text-zinc-400 mt-6 text-base md:text-lg font-["Medium"] max-w-2xl text-center leading-relaxed'>
+            <p className='text-zinc-500 mt-6 text-base md:text-lg font-["Medium"] max-w-2xl text-center leading-relaxed'>
               Create and scale your brand with storefronts, workshops, link-in-bios, forms, and payments — all in one place.
             </p>
 
             <div className='flex mt-8 items-center gap-3'>
-              <a href='/beta' className='px-6 py-3 text-sm text-black bg-white rounded-xl font-["Semibold"] hover:bg-zinc-100 transition-colors flex items-center gap-2'>
+              <a href='/beta' className='px-6 py-3 text-sm text-white bg-zinc-950 rounded-xl font-["Semibold"] hover:bg-zinc-800 transition-colors flex items-center gap-2'>
                 Start for free <ArrowRightIcon className='w-4 h-4' />
               </a>
-              <a href='/pricing' className='px-6 py-3 text-sm text-zinc-300 rounded-xl border border-white/10 font-["Semibold"] hover:bg-white/5 hover:border-white/20 transition-all'>
+              <a href='/pricing' className='px-6 py-3 text-sm text-zinc-600 rounded-xl border border-zinc-200 font-["Semibold"] hover:bg-zinc-50 hover:border-zinc-300 transition-all'>
                 See pricing
               </a>
             </div>
 
             {/* Social proof logos */}
             <div className='mt-16 flex flex-col items-center gap-5 w-full'>
-              <div className='font-["Medium"] text-xs text-zinc-600 tracking-widest uppercase'>Sell across platforms</div>
-              <div className='flex flex-wrap items-center justify-center gap-8 opacity-40'>
+              <div className='font-["Medium"] text-xs text-zinc-400 tracking-widest uppercase'>Sell across platforms</div>
+              <div className='flex flex-wrap items-center justify-center gap-8 opacity-30'>
                 <img className='h-7' src={pintrest} />
                 <img className='h-7' src={youtubeLong} />
                 <img className='h-7' src={linkedin} />
@@ -250,7 +248,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
       </div>
 
       {/* ── Storefronts section ── */}
-      <div className='bg-zinc-50 py-24 px-6'>
+      <div className='bg-white py-24 px-6 border-t border-zinc-100'>
         <div className='max-w-5xl mx-auto'>
           <div className='mb-4 text-xs font-["Semibold"] text-zinc-500 uppercase tracking-widest'>Storefronts</div>
           <h2 className='text-3xl md:text-4xl font-["Semibold"] text-zinc-950 max-w-xl leading-snug mb-10'>
@@ -265,7 +263,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
       </div>
 
       {/* ── Link-in-bio section ── */}
-      <div className='bg-white py-24 px-6'>
+      <div className='bg-white py-24 px-6 border-t border-zinc-100'>
         <div className='max-w-5xl mx-auto'>
           <div className='mb-4 text-xs font-["Semibold"] text-zinc-500 uppercase tracking-widest'>Link-in-bios</div>
           <h2 className='text-3xl md:text-4xl font-["Semibold"] text-zinc-950 max-w-xl leading-snug mb-10'>
@@ -280,7 +278,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
       </div>
 
       {/* ── Forms & Payments section ── */}
-      <div className='bg-zinc-50 py-24 px-6'>
+      <div className='bg-white py-24 px-6 border-t border-zinc-100'>
         <div className='max-w-5xl mx-auto'>
           <div className='mb-4 text-xs font-["Semibold"] text-zinc-500 uppercase tracking-widest'>Forms & Payments</div>
           <h2 className='text-3xl md:text-4xl font-["Semibold"] text-zinc-950 max-w-xl leading-snug mb-10'>
@@ -315,7 +313,7 @@ export default function LandingPage({ className = "", duration = 3000 }) {
       </div>
 
       {/* ── Marquee ── */}
-      <div className='bg-white py-12 flex flex-col gap-4 overflow-hidden border-y border-zinc-100'>
+      <div className='bg-white py-12 flex flex-col gap-4 overflow-hidden border-y border-zinc-200'>
         {[images3, images1].map((imgs, rowIdx) => (
           <div key={rowIdx} className="relative w-full overflow-hidden">
             <div className="flex w-max gap-10 animate-float" style={{ animationDuration: '165s' }}>
