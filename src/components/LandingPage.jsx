@@ -44,6 +44,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Group3 from "./assets/Group3";
 import { Header } from "./LandingHeader";
 import { RiCursorFill } from "@remixicon/react";
+
 const platforms = [
   { name: "Twitter", icon: "🐦", image: twitter },
   { name: "Twitch", icon: "🤷‍♀️", image: twitch },
@@ -62,67 +63,70 @@ function shuffleArray(array) {
     .sort((a, b) => a.sort - b.sort)
     .map(({ item }) => item);
 }
+
 const images1 = shuffleArray([
-  { name: 'Twitch', image: twitch },
-  { name: 'Pinterest', image: pinterest },
-  { name: 'Reddit', image: reddit },
-  { name: 'Medium', image: medium },
-  { name: 'Patreon', image: patreon },
-  { name: 'Spotify', image: spotify },
-  { name: 'Github', image: github },
-  { name: 'LinkedIn', image: linkden },
-  { name: 'Zoom', image: zoom },
-  { name: 'Truth', image: truth },
-  { name: 'Yelp', image: yelp },
-  { name: 'Google Meets', image: googlemeet },
+  { name: 'Twitch', image: twitch }, { name: 'Pinterest', image: pinterest },
+  { name: 'Reddit', image: reddit }, { name: 'Medium', image: medium },
+  { name: 'Patreon', image: patreon }, { name: 'Spotify', image: spotify },
+  { name: 'Github', image: github }, { name: 'LinkedIn', image: linkden },
+  { name: 'Zoom', image: zoom }, { name: 'Truth', image: truth },
+  { name: 'Yelp', image: yelp }, { name: 'Google Meets', image: googlemeet },
 ]);
 
 const images2 = shuffleArray([
-  { name: 'Dribble', image: dribble },
-  { name: 'Notion', image: notion },
-  { name: 'Dropbox', image: dropbox },
-  { name: 'Behance', image: behance },
-  { name: 'Spotify', image: spotify },
-  { name: 'Github', image: github },
-  { name: 'Patreon', image: patreon },
-  { name: 'Medium', image: medium },
-  { name: 'Reddit', image: reddit },
-  { name: 'Pinterest', image: pinterest },
+  { name: 'Dribble', image: dribble }, { name: 'Notion', image: notion },
+  { name: 'Dropbox', image: dropbox }, { name: 'Behance', image: behance },
+  { name: 'Spotify', image: spotify }, { name: 'Github', image: github },
+  { name: 'Patreon', image: patreon }, { name: 'Medium', image: medium },
+  { name: 'Reddit', image: reddit }, { name: 'Pinterest', image: pinterest },
   { name: 'Twitch', image: twitch },
 ]);
 
 const images3 = shuffleArray([
-  { name: 'Google Meets', image: googlemeet },
-  { name: 'Yelp', image: yelp },
-  { name: 'Truth', image: truth },
-  { name: 'Zoom', image: zoom },
-  { name: 'LinkedIn', image: linkden },
-  { name: 'Github', image: github },
-  { name: 'Spotify', image: spotify },
-  { name: 'Patreon', image: patreon },
-  { name: 'Medium', image: medium },
-  { name: 'Reddit', image: reddit },
-  { name: 'Pinterest', image: pinterest },
-  { name: 'Twitch', image: twitch },
+  { name: 'Google Meets', image: googlemeet }, { name: 'Yelp', image: yelp },
+  { name: 'Truth', image: truth }, { name: 'Zoom', image: zoom },
+  { name: 'LinkedIn', image: linkden }, { name: 'Github', image: github },
+  { name: 'Spotify', image: spotify }, { name: 'Patreon', image: patreon },
+  { name: 'Medium', image: medium }, { name: 'Reddit', image: reddit },
+  { name: 'Pinterest', image: pinterest }, { name: 'Twitch', image: twitch },
 ]);
 
+const FeatureCard = ({ badge, image, title, description, href }) => (
+  <div className='border border-zinc-100 rounded-2xl overflow-hidden bg-white hover:shadow-lg hover:border-zinc-200 transition-all duration-300 group'>
+    <div className='relative'>
+      <div className='absolute top-4 left-4 z-10'>
+        <span className='font-["Semibold"] text-xs bg-zinc-950 text-white px-3 py-1.5 rounded-lg'>{badge}</span>
+      </div>
+      <div className='w-full h-52 bg-zinc-50 flex justify-center items-center overflow-hidden'>
+        <img src={image} className='h-32 object-contain group-hover:scale-105 transition-transform duration-500' />
+      </div>
+    </div>
+    <div className='p-7'>
+      <div className='font-["Semibold"] text-zinc-900 text-base leading-snug mb-2'>{title}</div>
+      <div className='text-zinc-500 font-["Medium"] text-sm leading-relaxed mb-5'>{description}</div>
+      <a href={href} className='inline-flex items-center gap-1.5 bg-zinc-950 text-white rounded-xl px-4 py-2 text-xs font-["Semibold"] hover:bg-zinc-800 transition-colors'>
+        Get started <ArrowRightIcon className='w-3.5 h-3.5' />
+      </a>
+    </div>
+  </div>
+);
 
-
-
-
-const Tabs = [
-  'Storefronts',
-  'Link-in-bios',
-  'Workshops'
-]
+const SectionCard = ({ image, title, description, tall }) => (
+  <div className='border border-zinc-100 rounded-2xl overflow-hidden bg-white hover:shadow-md hover:border-zinc-200 transition-all duration-300 group'>
+    <div className={`w-full ${tall ? 'h-80' : 'h-60'} bg-zinc-50 flex items-center justify-center overflow-hidden`}>
+      <img src={image} className='object-contain group-hover:scale-105 transition-transform duration-500' style={{ maxHeight: '85%', maxWidth: '80%' }} />
+    </div>
+    <div className='p-7'>
+      <div className='font-["Semibold"] text-zinc-900 text-base mb-1.5'>{title}</div>
+      <div className='text-zinc-500 font-["Medium"] text-sm leading-relaxed'>{description}</div>
+    </div>
+  </div>
+);
 
 export default function LandingPage({ className = "", duration = 3000 }) {
-
-
-  const [positions, setPositions] = useState([]);
-
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePlayPause = () => {
     if (videoRef.current.paused || videoRef.current.ended) {
@@ -134,295 +138,240 @@ export default function LandingPage({ className = "", duration = 3000 }) {
     }
   };
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Cycle through platforms
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % platforms.length);
-    }, 3000); // Changes platform every 3 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
-  const nextIndex = (currentIndex + 1) % platforms.length; // Get the next platform index
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
   return (
-    <div
-      className={`font-general-sans self-stretch font-medium tracking-[0px] ${className}`}
-    >
-      <div class='lg:max-w-screen-lg lg:mx-auto mx-5 flex items-center justify-center flex-col'>
-        <Header />
-        <div class='w-full justify-center flex-col flex items-center mt-32 md:mt-36'>
-          <div class='flex justify-center items-center'>
-            <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl">
-              {/* Back File: Hovering Grey Box Representing "Up Next" */}
-              <div
-                className="absolute top-[-15px] left-3 w-[calc(100%-27px)] h-[calc(100%-27px)] bg-gray-300 rounded-2xl z-0 shadow-lg"
-              >
+    <div className={`font-general-sans font-medium tracking-[0px] ${className}`}>
+      {/* ── Hero ── */}
+      <div className='min-h-screen bg-zinc-950 relative flex flex-col overflow-hidden'>
+        {/* subtle grid texture */}
+        <div className='absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px]' />
+        {/* glow */}
+        <div className='absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none' />
 
-              </div>
+        <div className='relative z-10 flex-1 flex flex-col'>
+          <Header />
 
-              {/* Current File: Platform Being Animated */}
+          <div className='flex-1 flex flex-col items-center justify-center px-6 pt-32 pb-20 max-w-5xl mx-auto w-full'>
+            {/* Animated platform icon */}
+            <div className="relative w-16 h-16 mb-8">
+              <div className="absolute top-[-10px] left-2 w-[calc(100%-14px)] h-[calc(100%-14px)] bg-white/10 rounded-xl z-0" />
               <AnimatePresence>
                 <motion.div
                   key={platforms[currentIndex].name}
-                  className="absolute w-full h-full flex justify-center items-center rounded-xl z-1"
+                  className="absolute w-full h-full flex justify-center items-center rounded-xl z-10"
                   initial={{ y: "100%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
-                  transition={{ duration: 0.8, ease: "backInOut" }}
+                  transition={{ duration: 0.7, ease: "backInOut" }}
                 >
-                  <img src={platforms[currentIndex].image} class='h-full bg-transparent w-full' />
+                  <img src={platforms[currentIndex].image} className='h-full w-full' />
                 </motion.div>
               </AnimatePresence>
             </div>
-          </div>
-          <div class='md:text-7xl text-4xl text-center mt-5 md:mt-6 md:mx-auto md:max-w-4xl font-["Semibold"]'>
-            Simplifying E-commerce one page at a time.
-          </div>
-          <div class='text-gray-400 mt-6 text-md lg:text-xl font-["Medium"] max-w-3xl text-center mx-auto'>
-            Create and scale your brand, business, and platforms featuring forms, workshops, storefronts, link-in-bios, and much more.
-          </div>
-          <div class='w-full flex mt-6 items-center justify-center space-x-3'>
-            <a href='/beta' class='px-4 py-3 text-sm text-white rounded-full bg-black font-["Semibold"]'>Join for free</a>
-            <a href='/pricing' class='px-4 py-3 text-sm text-black rounded-full border font-["Semibold"]'>See our plans</a>
-          </div>
-          <div class='max-w-screen-xl mx-auto mt-10'>
-            <div class='font-["Medium"] text-xs text-center text-gray-400'>Use to sale and grow on multiple platforms</div>
-            <div class='max-w-screen-lg mx-auto mt-8 justify-center w-full flex flex-wrap items-center lg:gap-14 gap-5'>
-              <img class='h-10' src={pintrest} />
-              <img class='h-10' src={youtubeLong} />
-              <img class='h-10' src={linkedin} />
-              <img class='h-10' src={dribbble} />
-              <img class='h-10' src={facebookLong} />
-            </div>
-          </div>
-          <div class='mt-20 w-full flex flex-col justify-center items-center mb-7'>
-            <div class='w-9 flex items-center justify-center h-9 rounded-full bg-black mb-5'>
-                 <CursorArrowRaysIcon class='text-white w-5 h-5' />
-            </div>
-            <div class='font-["Semibold"] text-center md:w-[600px] md:text-3xl text-xl  mb-2'>Unlock the Power of Simple, All-in-One Solutions for Your Business</div>
-            <div class='font-["Medium"] text-center text-gray-400   md:w-[700px]'>Streamline your online presence with Commercify’s easy-to-use tools—perfect for storefronts, links, forms, and payments.</div>
-          </div>
-          <div className="mb-10 mt-7 max-w-screen-lg  grid md:grid-cols-3 md:gap-5 gap-12 mx-5">
-            <div class='border relative rounded-xl w-full'>
-              <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Digital Storefront</div>
-              <div class='w-full h-48 bg-gradient-to-b flex justify-center items-center from-gray-100 to-transparent rounded-t-lg'>
-                <img src={more} class='h-32' />
-              </div>
-              <div class='p-6 px-8'>
-                <div class='font-["Semibold"]'>Digital Storefronts - create storefronts with ease</div>
-                <div class='text-gray-400 font-["Medium"] mt-2 mb-5'>Create a fully customizable online store in minutes with easy setup, seamless design, and optimized sales features.</div>
-                <a href='/beta' class='bg-black rounded-full px-3 py-2 text-sm font-["Semibold"] text-white'>Get started with storefronts</a>
-              </div>
-            </div>
-            <div class='border relative  rounded-xl w-full'>
-              <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Lin-in-bios</div>
-              <div class='w-full h-48 bg-gradient-to-b flex items-center justify-center from-gray-100 to-transparent rounded-t-lg'>
-                <img src={exa} class='h-36' />
-              </div>
-              <div class='p-6 px-8'>
-                <div class='font-["Semibold"]'>Link-in-bios - link management never been easier</div>
-                <div class='text-gray-400 font-["Medium"] mt-2 mb-5'>Boost engagement by linking everything in one place—socials, store, and content. Customizable and mobile-friendly.</div>
-                <a href='/beta' class='bg-black rounded-full px-3 py-2 text-sm font-["Semibold"] text-white'>Get started with link-in-bios</a>
 
-              </div>
-            </div>
-            <div class='border relative rounded-xl w-full'>
-              <div class='absolute top-[-20px] left-[-15px] overflow-hidden font-["Semibold"] z-50 border text-xs bg-white rounded-lg p-2'>Forms & Payments</div>
-              <div class='w-full h-48 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <img src={example3} class='w-44' />
-              </div>
-              <div class='p-6 px-8'>
-                <div class='font-["Semibold"]'>Forms & Payments- Create seamless forms for your users</div>
-                <div class='text-gray-400 font-["Medium"] mt-2 mb-5'>Easily collect information and accept payments with customizable forms and secure payment integrations.</div>
-                <a href='/beta' class='bg-black rounded-full px-3 py-2 text-sm font-["Semibold"] text-white'>Get started with forms</a>
+            <h1 className='text-5xl md:text-7xl text-center font-["Semibold"] text-white leading-[1.08] tracking-tight max-w-4xl'>
+              Simplifying E-commerce{' '}
+              <span className='text-zinc-500'>one page at a time.</span>
+            </h1>
 
-              </div>
+            <p className='text-zinc-400 mt-6 text-base md:text-lg font-["Medium"] max-w-2xl text-center leading-relaxed'>
+              Create and scale your brand with storefronts, workshops, link-in-bios, forms, and payments — all in one place.
+            </p>
+
+            <div className='flex mt-8 items-center gap-3'>
+              <a href='/beta' className='px-6 py-3 text-sm text-black bg-white rounded-xl font-["Semibold"] hover:bg-zinc-100 transition-colors flex items-center gap-2'>
+                Start for free <ArrowRightIcon className='w-4 h-4' />
+              </a>
+              <a href='/pricing' className='px-6 py-3 text-sm text-zinc-300 rounded-xl border border-white/10 font-["Semibold"] hover:bg-white/5 hover:border-white/20 transition-all'>
+                See pricing
+              </a>
             </div>
 
-          </div>
-          <div class='flex flex-col w-full px-5'>
-            <div class='mb-2 md:text-lg font-["Semibold"] mt-10'>Digital Storefronts</div>
-            <div class='md:text-4xl text-xl md:mt-5 font-["Semibold"] w-full md:w-2/3'>Start selling smarter, not harder. Get your Commercify Storefront today! </div>
-            <div class='grid md:grid-cols-2 gap-10 mt-7'>
-              <div class='w-full border rounded-xl'>
-                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <img src={lll} class='w-40' />
-                </div>
-                <div class='p-6 px-8'>
-                  <div class='font-["Semibold"] text-lg'>Easy Setup</div>
-                  <div class='text-gray-400 font-["Medium"] mt-2'>No coding required! Launch your store with just a few clicks.</div>
-                </div>
-              </div>
-              <div class='w-full border rounded-xl'>
-                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                      <img src={ColorPicker} class='w-48' />
-                </div>
-                <div class='p-6 px-8'>
-                  <div class='font-["Semibold"] text-lg'>Seamless Customization</div>
-                  <div class='text-gray-400 font-["Medium"] mt-2'>Design your storefront to match your brand’s identity.</div>
-                </div>
-              </div>
-            </div>
-            <div class='w-full border mt-6 rounded-xl'>
-              <div class='w-full h-96 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-              <img src={DatePicker} class='w-96' />
-              </div>
-              <div class='p-6 px-8'>
-                <div class='font-["Semibold"] text-lg'>Book & Sell</div>
-                <div class='text-gray-400 font-["Medium"] mt-2'>Let people buy and book sessions from you with no platform charges.</div>
-              </div>
-            </div>
-          </div>
-          <div class='flex flex-col w-full px-5'>
-          <div class='mb-2 md:text-lg font-["Semibold"] mt-10'>Link-in-bios</div>
-            <div class='md:text-4xl text-xl md:mt-5 font-["Semibold"] w-full md:w-2/3'>Stop losing clicks—turn your followers into customers today!</div>
-            <div class='grid md:grid-cols-2 gap-10 mt-7'>
-              <div class='w-full border rounded-xl'>
-                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <img src={jn} class='w-60' />
-                </div>
-                <div class='p-6 px-8'>
-                  <div class='font-["Semibold"] text-lg'>Seamless Integrations </div>
-                  <div class='text-gray-400 font-["Medium"] mt-2'>Connect your shop, social media, and content in one place.</div>
-                </div>
-              </div>
-              <div class='w-full border rounded-xl'>
-                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <div class='w-full flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-              <img src={lpsd} class='w-72' />
-              </div>
-                </div>
-                <div class='p-6 px-8'>
-                  <div class='font-["Semibold"] text-lg'>Boost Engagement </div>
-                  <div class='text-gray-400 font-["Medium"] mt-2'>Drive traffic to your most important links with ease</div>
-                </div>
-              </div>
-            </div>
-            <div class='w-full border mt-6 rounded-xl'>
-              <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-              <img src={ghg} class='w-72' />
-
-              </div>
-              <div class='p-6 px-8'>
-                <div class='font-["Semibold"] text-lg'>SEO & Custom Domains</div>
-                <div class='text-gray-400 font-["Medium"] mt-2'>Improve discoverability with SEO settings and a branded URL.</div>
-              </div>
-            </div>
-          </div>
-          <div class='flex flex-col w-full px-5'>
-          <div class='mb-2 md:text-lg font-["Semibold"] mt-10'>Forms & Payments</div>
-            <div class='md:text-4xl text-xl md:mt-5 font-["Semibold"] w-full md:w-2/3'>Get paid and gather insights—without the hassle! </div>
-            <div class='grid md:grid-cols-2 gap-10 mt-7'>
-              <div class='w-full border rounded-xl'>
-                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <img src={vv} class='w-44' />
-
-                </div>
-                <div class='p-6 px-8'>
-                  <div class='font-["Semibold"] text-lg'>Seamless Payment Integration </div>
-                  <div class='text-gray-400 font-["Medium"] mt-2'>Accept payments via Stripe, PayPal, and more.</div>
-                </div>
-              </div>
-              <div class='w-full border rounded-xl'>
-                <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-                <img src={mai} class='w-60' />
-
-                </div>
-                <div class='p-6 px-8'>
-                  <div class='font-["Semibold"] text-lg'>Automated Responses</div>
-                  <div class='text-gray-400 font-["Medium"] mt-2'> Send confirmation emails and notifications instantly.</div>
-                </div>
-              </div>
-            </div>
-            <div class='w-full border mt-6 rounded-xl'>
-              <div class='w-full h-72 flex items-center justify-center bg-gradient-to-b from-gray-100 to-transparent rounded-t-lg'>
-              <img src={files} class='w-60' />
-
-              </div>
-              <div class='p-6 px-8'>
-                <div class='font-["Semibold"] text-lg'>File Uploads </div>
-                <div class='text-gray-400 font-["Medium"] mt-2'>Allow users to upload documents, images, or other files directly in forms.</div>
-              </div>
-            </div>
-          </div>
-          <div class='text-center font-["Semibold"] max-w-lg mx-auto mt-10 text-3xl md:text-4xl'>
-            Simplify the way your selling with commercify</div>
-          <div class='text-gray-400 max-w-md mt-1 text-center font-["Medium"]'>Start using Commercify for free or upgrade to a plan for added features</div>
-          <div class='w-full flex mt-4 items-center justify-center space-x-3'>
-            <a href='/beta' class='px-4 py-3 text-xs text-white rounded-full bg-black font-["Semibold"]'>Join for free</a>
-            <a href='/pricing' class='px-4 py-3 text-xs text-black rounded-full border font-["Semibold"]'>See our plans</a>
-          </div>
-        </div>
-      </div>
-      <div class='my-10 mt-20 flex flex-col w-full space-y-4'>
-
-
-        <div className="relative w-full overflow-hidden">
-          <div
-            className="flex w-max md:gap-12 gap-4 animate-float"
-            style={{
-              animationDuration: `165s`, // Control speed
-            }}
-          >
-            {/* Repeat the array to ensure infinite loop */}
-            {[...images3, ...images3].map((image, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                <div className="text-2xl font-['Semibold']">{image.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="relative w-full overflow-hidden">
-          <div
-            className="flex w-max md:gap-12 gap-4 animate-float"
-            style={{
-              animationDuration: `165s`, // Control speed
-            }}
-          >
-            {/* Repeat the array to ensure infinite loop */}
-            {[...images1, ...images1].map((image, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <img src={image.image} alt={image.name} className="md:w-16 md:h-16 w-12 h-12" />
-                <div className="text-2xl font-['Semibold']">{image.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-
-      <div class="relative">
-        <div class="absolute h-16 w-full bg-white rounded-b-[50px] z-10"></div>
-        <img src='/Browser.svg' />
-        <div class="bg-black relative h-96 w-full z-0">
-          <div class='md:flex items-center w-full justify-between p-8 max-w-screen-xl mx-auto'>
-            <div class='mt-16'>
-              <Group3 className='w-10 h-10' />
-              <div clas>
-                <div class='text-md font-["Medium"] mt-5 text-white'>Simplify your ecommerce expirence</div>
-
-              </div>
-            </div>
-            <div class='flex gap-8 xs:justify-between w-full md:justify-center'>
-              <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
-                <div>Instagram</div>
-                <div>Twitter</div>
-                <div>Get started with beta</div>
-              </div>
-              <div class='text-white text-sm mt-16 font-["Semibold"] flex flex-col gap-2'>
-                <div>Create account</div>
-                <div>Login</div>
-                <div>Pricing</div>
+            {/* Social proof logos */}
+            <div className='mt-16 flex flex-col items-center gap-5 w-full'>
+              <div className='font-["Medium"] text-xs text-zinc-600 tracking-widest uppercase'>Sell across platforms</div>
+              <div className='flex flex-wrap items-center justify-center gap-8 opacity-40'>
+                <img className='h-7' src={pintrest} />
+                <img className='h-7' src={youtubeLong} />
+                <img className='h-7' src={linkedin} />
+                <img className='h-7' src={dribbble} />
+                <img className='h-7' src={facebookLong} />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ── What we offer ── */}
+      <div className='bg-white py-24 px-6'>
+        <div className='max-w-5xl mx-auto'>
+          <div className='flex flex-col items-center mb-14'>
+            <div className='flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-950 mb-5'>
+              <CursorArrowRaysIcon className='text-white w-4 h-4' />
+            </div>
+            <h2 className='font-["Semibold"] text-center text-3xl md:text-4xl text-zinc-950 max-w-lg leading-snug'>
+              All-in-one tools for your business
+            </h2>
+            <p className='font-["Medium"] text-center text-zinc-500 mt-3 max-w-xl text-sm md:text-base leading-relaxed'>
+              Storefronts, link pages, forms, and payments — built for creators and small businesses.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <FeatureCard
+              badge="Digital Storefront"
+              image={more}
+              title="Storefronts — launch a store in minutes"
+              description="Fully customizable online stores with seamless setup, beautiful design, and optimized sales features."
+              href="/beta"
+            />
+            <FeatureCard
+              badge="Link-in-bio"
+              image={exa}
+              title="Link-in-bios — link management made easy"
+              description="Everything in one place — your socials, store, and content. Customizable and mobile-first."
+              href="/beta"
+            />
+            <FeatureCard
+              badge="Forms & Payments"
+              image={example3}
+              title="Forms — collect info and get paid"
+              description="Customizable forms with secure payment integrations. No friction, just results."
+              href="/beta"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Storefronts section ── */}
+      <div className='bg-zinc-50 py-24 px-6'>
+        <div className='max-w-5xl mx-auto'>
+          <div className='mb-4 text-xs font-["Semibold"] text-zinc-500 uppercase tracking-widest'>Storefronts</div>
+          <h2 className='text-3xl md:text-4xl font-["Semibold"] text-zinc-950 max-w-xl leading-snug mb-10'>
+            Start selling smarter, not harder.
+          </h2>
+          <div className='grid md:grid-cols-2 gap-6 mb-6'>
+            <SectionCard image={lll} title="Easy Setup" description="No coding required. Launch your store with just a few clicks and start selling immediately." />
+            <SectionCard image={ColorPicker} title="Seamless Customization" description="Design your storefront to match your brand's identity with powerful style controls." />
+          </div>
+          <SectionCard image={DatePicker} title="Book & Sell" description="Let customers buy products and book sessions — no platform fees eating your revenue." tall />
+        </div>
+      </div>
+
+      {/* ── Link-in-bio section ── */}
+      <div className='bg-white py-24 px-6'>
+        <div className='max-w-5xl mx-auto'>
+          <div className='mb-4 text-xs font-["Semibold"] text-zinc-500 uppercase tracking-widest'>Link-in-bios</div>
+          <h2 className='text-3xl md:text-4xl font-["Semibold"] text-zinc-950 max-w-xl leading-snug mb-10'>
+            Turn your followers into customers.
+          </h2>
+          <div className='grid md:grid-cols-2 gap-6 mb-6'>
+            <SectionCard image={jn} title="Seamless Integrations" description="Connect your shop, socials, and content in one beautifully organized page." />
+            <SectionCard image={lpsd} title="Boost Engagement" description="Drive traffic to your most important links with a conversion-focused layout." />
+          </div>
+          <SectionCard image={ghg} title="SEO & Custom Domains" description="Improve discoverability with SEO settings and a branded URL that's yours." tall />
+        </div>
+      </div>
+
+      {/* ── Forms & Payments section ── */}
+      <div className='bg-zinc-50 py-24 px-6'>
+        <div className='max-w-5xl mx-auto'>
+          <div className='mb-4 text-xs font-["Semibold"] text-zinc-500 uppercase tracking-widest'>Forms & Payments</div>
+          <h2 className='text-3xl md:text-4xl font-["Semibold"] text-zinc-950 max-w-xl leading-snug mb-10'>
+            Get paid and gather insights — without the hassle.
+          </h2>
+          <div className='grid md:grid-cols-2 gap-6 mb-6'>
+            <SectionCard image={vv} title="Seamless Payment Integration" description="Accept payments via Stripe securely, with instant payouts to your account." />
+            <SectionCard image={mai} title="Automated Responses" description="Send confirmation emails and notifications the moment a form is submitted." />
+          </div>
+          <SectionCard image={files} title="File Uploads" description="Let users upload documents, images, or files directly through your forms." tall />
+        </div>
+      </div>
+
+      {/* ── CTA banner ── */}
+      <div className='bg-zinc-950 py-24 px-6'>
+        <div className='max-w-2xl mx-auto text-center'>
+          <h2 className='font-["Semibold"] text-3xl md:text-5xl text-white leading-tight mb-4'>
+            Ready to simplify how you sell?
+          </h2>
+          <p className='text-zinc-400 font-["Medium"] mb-8 text-sm md:text-base'>
+            Start using Commercify for free or upgrade for more power.
+          </p>
+          <div className='flex items-center justify-center gap-3'>
+            <a href='/beta' className='px-6 py-3 text-sm text-black bg-white rounded-xl font-["Semibold"] hover:bg-zinc-100 transition-colors'>
+              Join for free
+            </a>
+            <a href='/pricing' className='px-6 py-3 text-sm text-zinc-300 rounded-xl border border-white/10 font-["Semibold"] hover:bg-white/5 transition-all'>
+              See plans
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Marquee ── */}
+      <div className='bg-white py-12 flex flex-col gap-4 overflow-hidden border-y border-zinc-100'>
+        {[images3, images1].map((imgs, rowIdx) => (
+          <div key={rowIdx} className="relative w-full overflow-hidden">
+            <div className="flex w-max gap-10 animate-float" style={{ animationDuration: '165s' }}>
+              {[...imgs, ...imgs].map((image, index) => (
+                <div key={index} className="flex items-center gap-2.5">
+                  <img src={image.image} alt={image.name} className="w-8 h-8 opacity-60" />
+                  <div className="text-base font-['Semibold'] text-zinc-400">{image.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Footer ── */}
+      <footer className='bg-zinc-950 px-6 py-16'>
+        <div className='max-w-5xl mx-auto'>
+          <div className='flex flex-col md:flex-row md:items-start justify-between gap-12'>
+            <div className='max-w-xs'>
+              <div className='flex items-center gap-2 mb-4'>
+                <Group3 className='w-7 h-7' />
+                <span className='font-["Semibold"] text-white text-sm'>Commercify HQ</span>
+              </div>
+              <p className='text-zinc-500 font-["Medium"] text-sm leading-relaxed'>
+                Simplify your e-commerce experience. One page at a time.
+              </p>
+            </div>
+            <div className='flex gap-16'>
+              <div>
+                <div className='text-zinc-600 font-["Semibold"] text-xs uppercase tracking-widest mb-4'>Product</div>
+                <div className='flex flex-col gap-3'>
+                  <a href='/beta' className='text-zinc-400 font-["Semibold"] text-sm hover:text-white transition-colors'>Beta</a>
+                  <a href='/pricing' className='text-zinc-400 font-["Semibold"] text-sm hover:text-white transition-colors'>Pricing</a>
+                </div>
+              </div>
+              <div>
+                <div className='text-zinc-600 font-["Semibold"] text-xs uppercase tracking-widest mb-4'>Account</div>
+                <div className='flex flex-col gap-3'>
+                  <a href='/register' className='text-zinc-400 font-["Semibold"] text-sm hover:text-white transition-colors'>Create account</a>
+                  <a href='/login' className='text-zinc-400 font-["Semibold"] text-sm hover:text-white transition-colors'>Login</a>
+                </div>
+              </div>
+              <div>
+                <div className='text-zinc-600 font-["Semibold"] text-xs uppercase tracking-widest mb-4'>Social</div>
+                <div className='flex flex-col gap-3'>
+                  <a className='text-zinc-400 font-["Semibold"] text-sm hover:text-white transition-colors'>Instagram</a>
+                  <a className='text-zinc-400 font-["Semibold"] text-sm hover:text-white transition-colors'>Twitter</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='mt-16 pt-8 border-t border-white/5 flex items-center justify-between'>
+            <span className='text-zinc-600 font-["Medium"] text-xs'>© 2025 Commercify HQ. All rights reserved.</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

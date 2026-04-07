@@ -6,9 +6,6 @@ query me{
     name
     avatar
     createdAt
-    Payouts{
-    id
-    }
     OnlyProducts{
     id
     thumbnail
@@ -73,7 +70,6 @@ query me{
      duration
      type
      time
-     formattedDate
      Product{
      tag
      id
@@ -102,11 +98,9 @@ query me{
      backgroundColor
      rounded
      storefront
-     textColor
      subdomain
      linkinbio
      form
-     storefront
      workshop
      name
        links{
@@ -133,7 +127,6 @@ query me{
      fulfilled
      payoutStatus
      amount
-     fulfilled
      Product{
      tag
      type

@@ -38,25 +38,22 @@
 
 
 @font-face {
-  font-family: "Normal";   /*Can be any text*/
+  font-family: "Normal";
   src: url("/src/Fonts/GENERALSANS/GENERALSANS-REGULAR.OTF") format("opentype");
 }
 
 @font-face {
-  font-family: "Medium";   /*Can be any text*/
+  font-family: "Medium";
   src: url("/src/Fonts/GENERALSANS/GENERALSANS-MEDIUM.OTF") format("opentype");
 }
 
-
 @font-face {
-  font-family: "Semibold";   /*Can be any text*/
+  font-family: "Semibold";
   src: url("/src/Fonts/GENERALSANS/GENERALSANS-SEMIBOLD.OTF") format("opentype");
 }
 
-
-
 @font-face {
-  font-family: "Bold";   
+  font-family: "Bold";
   src: url("/src/Fonts/GENERALSANS/GENERALSANS-BOLD.OTF") format("opentype");
 }
 

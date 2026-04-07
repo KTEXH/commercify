@@ -354,12 +354,12 @@ function ProductDialog({ item, isOpen, onClose }) {
                                 // Render your dialog content here, including item details
                                 <div className="overflow-y-scroll w-full max-h-screen">
 
-                                    <div class='w-full'>
-                                        <div class='flex flex-col w-full'>
+                                    <div className='w-full'>
+                                        <div className='flex flex-col w-full'>
                                             <img src={item.thumbnail || logo} className="w-full" />
                                         </div>
 
-                                        <div class='mt-2 mb-4 font-["Medium"] text-gray-500 w-full flex-grow min-w-full text-sm pr-3'>{item.description}</div>
+                                        <div className='mt-2 mb-4 font-["Medium"] text-gray-500 w-full flex-grow min-w-full text-sm pr-3'>{item.description}</div>
 
 
                                         <Transition show={isPaying} as={Fragment}>
@@ -384,31 +384,31 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                     >
                                                         <div className="rounded-t-3xl w-full fixed bg-white bottom-0 transform transition-transform duration-300">
 
-                                                            <div class='p-5'>
+                                                            <div className='p-5'>
 
                                                                 {shipping === true && (
-                                                                    <div class='self-stretch'>
-                                                                        <div class='flex items-center justify-between mb-4'>
-                                                                            <div class='text-2xl w-2/3' style={{ fontFamily: 'Semibold' }}>Shipping</div>
-                                                                            <img src={item.thumbnail || logo} class='w-10 h-10 rounded-full' />
+                                                                    <div className='self-stretch'>
+                                                                        <div className='flex items-center justify-between mb-4'>
+                                                                            <div className='text-2xl w-2/3' style={{ fontFamily: 'Semibold' }}>Shipping</div>
+                                                                            <img src={item.thumbnail || logo} className='w-10 h-10 rounded-full' />
                                                                         </div>
 
-                                                                        <div class={`${item?.type === 'Merchandise' ? 'flex' : 'hidden'}`}>
+                                                                        <div className={`${item?.type === 'Merchandise' ? 'flex' : 'hidden'}`}>
                                                                             <div>
                                                                                 <div>
-                                                                                    <div class='font-["Semibold"] text-sm'>Sizes</div>
-                                                                                    <div class='flex items-center gap-3 mt-2'>
+                                                                                    <div className='font-["Semibold"] text-sm'>Sizes</div>
+                                                                                    <div className='flex items-center gap-3 mt-2'>
                                                                                         {item?.sizes?.map(item => (
-                                                                                            <div class='px-3 py-2 rounded-full text-xs font-["Semibold"] border' onClick={() => setSize(item)} key={item}>{item}</div>
+                                                                                            <div className='px-3 py-2 rounded-full text-xs font-["Semibold"] border' onClick={() => setSize(item)} key={item}>{item}</div>
                                                                                         ))}
                                                                                     </div>
                                                                                 </div>
                                                                                 <div>
-                                                                                    <div class='font-["Semibold"] mt-2 text-sm'>Colors</div>
-                                                                                    <div class='flex items-center gap-3 mt-2'>
+                                                                                    <div className='font-["Semibold"] mt-2 text-sm'>Colors</div>
+                                                                                    <div className='flex items-center gap-3 mt-2'>
                                                                                         {item?.colors?.map(item => (
-                                                                                            <div class='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border' onClick={() => setColor(item)} key={item}>
-                                                                                                <div class='h-4 w-4 border rounded-full' style={{ backgroundColor: item }} />
+                                                                                            <div className='px-3 py-2 rounded-full text-xs flex items-center gap-2 font-["Semibold"] border' onClick={() => setColor(item)} key={item}>
+                                                                                                <div className='h-4 w-4 border rounded-full' style={{ backgroundColor: item }} />
                                                                                                 <div>{item}</div>
                                                                                             </div>
                                                                                         ))}
@@ -420,8 +420,8 @@ function ProductDialog({ item, isOpen, onClose }) {
 
                                                                         <form>
 
-                                                                            <div class='font-["Semibold"] text-sm my-4'>Address & Zip</div>
-                                                                            <div class='border overflow-hidden mt-2 rounded-3xl'>
+                                                                            <div className='font-["Semibold"] text-sm my-4'>Address & Zip</div>
+                                                                            <div className='border overflow-hidden mt-2 rounded-3xl'>
                                                                                 <input
                                                                                     type="text"
                                                                                     name="address"
@@ -430,9 +430,9 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                     className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
                                                                                     placeholder="123 John Doe Ln"
                                                                                 />
-                                                                                <div class='border-t w-full'></div>
-                                                                                <div class='flex px-5 items-center'>
-                                                                                    <img src={flag} class='w-5 h-5' />
+                                                                                <div className='border-t w-full'></div>
+                                                                                <div className='flex px-5 items-center'>
+                                                                                    <img src={flag} className='w-5 h-5' />
                                                                                     <input
                                                                                         style={{ fontFamily: 'Medium' }}
                                                                                         type="text"
@@ -444,7 +444,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                     />
                                                                                 </div>
                                                                             </div>
-                                                                            <div class='my-4 font-["Semibold"] text-sm'>Specifics</div>
+                                                                            <div className='my-4 font-["Semibold"] text-sm'>Specifics</div>
                                                                             <div className="flex overflow-hidden mt-2 border rounded-full items-center">
                                                                                 <div className="w-full">
 
@@ -454,7 +454,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                         name="country"
                                                                                         value={shippingData.country}
                                                                                         onChange={handleShippingInputChange}
-                                                                                        class='px-4 py-3 font-["Medium"] text-sm w-full'
+                                                                                        className='px-4 py-3 font-["Medium"] text-sm w-full'
                                                                                     />
                                                                                 </div>
                                                                                 <div className="w-full border-l">
@@ -465,7 +465,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                         name="state"
                                                                                         value={shippingData.state}
                                                                                         onChange={handleShippingInputChange}
-                                                                                        class='px-4 py-3 font-["Medium"]  text-sm w-full' />
+                                                                                        className='px-4 py-3 font-["Medium"]  text-sm w-full' />
                                                                                 </div>
                                                                                 <div className="w-full border-l">
 
@@ -475,7 +475,7 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                         name="city"
                                                                                         value={shippingData.city}
                                                                                         onChange={handleShippingInputChange}
-                                                                                        class='px-4 py-3 font-["Medium"] text-sm w-full' />
+                                                                                        className='px-4 py-3 font-["Medium"] text-sm w-full' />
                                                                                 </div>
                                                                             </div>
 
@@ -487,15 +487,15 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                     </div>
                                                                 )}
 
-                                                                <div class={`${shipping === false && 'hidden'} mt-3 flex items-center gap-4`}>
-                                                                    <button onClick={closeModalShipping} class='text-sm w-full py-3 rounded-full border shadow-sm font-["Semibold"]'>Back</button>
-                                                                    <button onClick={() => setShipping(false)} class='bg-black text-white w-full text-sm py-3 rounded-full font-["Semibold"]'>Checkout</button>
+                                                                <div className={`${shipping === false && 'hidden'} mt-3 flex items-center gap-4`}>
+                                                                    <button onClick={closeModalShipping} className='text-sm w-full py-3 rounded-full border shadow-sm font-["Semibold"]'>Back</button>
+                                                                    <button onClick={() => setShipping(false)} className='bg-zinc-950 text-white w-full text-sm py-3 rounded-full font-["Semibold"]'>Checkout</button>
                                                                 </div>
 
 
-                                                                <div class={`${shipping === true && 'hidden'}`}>
+                                                                <div className={`${shipping === true && 'hidden'}`}>
                                                                     <div className="my-2 flex flex-col w-full mt-2">
-                                                                        <div class={`${item?.serviceOrProduct === 'Product' && 'hidden'}`}>
+                                                                        <div className={`${item?.serviceOrProduct === 'Product' && 'hidden'}`}>
                                                                             <div>Select time</div>
                                                                             <h3>Select a Date:</h3>
                                                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
@@ -534,15 +534,15 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                                 )}
                                                                             </select>
                                                                         </div>
-                                                                        <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Name & Email</div>
-                                                                        <div class='border overflow-hidden shadow-sm rounded-3xl'>
+                                                                        <div className='font-["Semibold"] mb-2 mt-4 text-sm'>Name & Email</div>
+                                                                        <div className='border overflow-hidden shadow-sm rounded-3xl'>
                                                                             <input
                                                                                 value={name}
                                                                                 onChange={handleNameChange}
                                                                                 className="py-4 font-['Medium'] text-sm focus:outline-none focus:ring-0 border-solid px-4 self-stretch outline-0 border-0 border-gainsboro rounded-t-[14px]"
                                                                                 placeholder="John Doe"
                                                                             />
-                                                                            <div class='border-t w-full'></div>
+                                                                            <div className='border-t w-full'></div>
                                                                             <input
                                                                                 value={email}
                                                                                 onChange={handleEmailChange}
@@ -554,17 +554,17 @@ function ProductDialog({ item, isOpen, onClose }) {
 
 
                                                                     <div>
-                                                                        <div class='font-["Semibold"] mb-2 mt-4 text-sm'>Card Information</div>
+                                                                        <div className='font-["Semibold"] mb-2 mt-4 text-sm'>Card Information</div>
 
                                                                         <div className="p-3 font-['Medium'] py-4 border text-sm rounded-full shadow-sm my-3">
                                                                             <CardElement options={CARD_OPTIONS} />
                                                                         </div>
-                                                                        <div class='mt-3 flex flex-row items-center gap-2'>
-                                                                            <Check class='w-4 h-4' />
-                                                                            <div class='font-["Semibold"] text-xs'>Guaranteed safe & secure payments</div>
+                                                                        <div className='mt-3 flex flex-row items-center gap-2'>
+                                                                            <Check className='w-4 h-4' />
+                                                                            <div className='font-["Semibold"] text-xs'>Guaranteed safe & secure payments</div>
                                                                         </div>
-                                                                        {success === true && (<div class='text-sm py-2 font-["Semi"]'>Purchase succesful 🎉</div>)}
-                                                                        <div class='flex items-center w-full mt-3 gap-4'>
+                                                                        {success === true && (<div className='text-sm py-2 font-["Semi"]'>Purchase succesful 🎉</div>)}
+                                                                        <div className='flex items-center w-full mt-3 gap-4'>
                                                                             <button
                                                                                 type="button"
                                                                                 style={{ fontFamily: 'Semibold' }}
@@ -573,12 +573,12 @@ function ProductDialog({ item, isOpen, onClose }) {
                                                                             >
                                                                                 Close
                                                                             </button>
-                                                                            <form class={`${(item?.type === 'Merchandise' ? 'hidden' : 'flex')} ${item?.serviceOrProduct === 'Service' ? 'hidden' : 'flex w-full'}`} onSubmit={handleSendDigital}>
-                                                                                <button type='submit' class='w-full py-3 w-full rounded-full bg-black text-[15px] outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]'>
+                                                                            <form className={`${(item?.type === 'Merchandise' ? 'hidden' : 'flex')} ${item?.serviceOrProduct === 'Service' ? 'hidden' : 'flex w-full'}`} onSubmit={handleSendDigital}>
+                                                                                <button type='submit' className='w-full py-3 w-full rounded-full bg-zinc-950 text-[15px] outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]'>
                                                                                     Pay ${item.price}
                                                                                 </button>
                                                                             </form>
-                                                                            <button onClick={handleSubmit} class={`w-full py-3 rounded-full bg-black text-sm ${isDigital ? 'hidden' : 'flex justify-center items-center'} outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]`}>
+                                                                            <button onClick={handleSubmit} className={`w-full py-3 rounded-full bg-zinc-950 text-sm ${isDigital ? 'hidden' : 'flex justify-center items-center'} outline-0 border-0 text-white rounded-[16px] font-bold font-["Semibold"]`}>
                                                                                 Pay ${item.price}
                                                                             </button>
                                                                         </div>
@@ -599,12 +599,12 @@ function ProductDialog({ item, isOpen, onClose }) {
                                     <div className="mt-3 flex items-center gap-4">
                                         <button onClick={(e) => onClose()}>ffkrkr</button>
                                         {item?.type === 'Merchandise' ? (
-                                            <button onClick={opneModalShipping} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
+                                            <button onClick={opneModalShipping} type='submit' className='w-full py-3 bg-zinc-950 focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
                                                 Shipping
                                             </button>)
                                             :
                                             (
-                                                <button onClick={openModal} type='submit' class='w-full py-3 bg-black focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
+                                                <button onClick={openModal} type='submit' className='w-full py-3 bg-zinc-950 focus:outline-none focus:ring-0 text-[15px] outline-0 border-0 text-white rounded-full font-["Semibold"]'>
                                                     Purchase
                                                 </button>
                                             )}

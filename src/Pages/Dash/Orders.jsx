@@ -1,185 +1,160 @@
 import { useState, useEffect } from "react";
-import { CheckCircle, Bell, User, Check } from "lucide-react";
-import { CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { RiCheckFill } from "@remixicon/react";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { useQuery } from "@apollo/client";
 import { NavBar } from "../../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import CustomCalendar from "../../components/CustomerCalendar";
-import { Banner } from "./Home";
-export const Orders = ({ className = "" }) => {
-    const { data, error, loading } = useQuery(ME_QUERY)
-    const [showBanner, setShowBanner] = useState(true);
+import { Banner, Add } from "./Home";
 
+export const Orders = () => {
+    const { data, error, loading } = useQuery(ME_QUERY)
     const [selectedPage, setSelectedPage] = useState(null);
     const navigate = useNavigate();
-    const [tab, setTab] = useState('home')
+    const [tab, setTab] = useState('list')
 
     useEffect(() => {
-        if (data?.me?.Pages?.length > 0 && !selectedPage) {
-            setSelectedPage(data.me.Pages[0]); // Set first page as default
-        }
+        if (data?.me?.Pages?.length > 0 && !selectedPage) setSelectedPage(data.me.Pages[0]);
     }, [data, selectedPage]);
 
     if (error) return <div>{error.message}</div>
     if (loading) return <div>loading...</div>
+
+    const isFormOrLink = selectedPage?.form === true || selectedPage?.linkinbio === true;
+    const isStorefront = selectedPage?.storefront === true;
+
+    const Empty = ({ label }) => (
+        <div className='flex items-center justify-center h-48'>
+            <div className='text-center'>
+                <div className='text-3xl mb-2'>—</div>
+                <p className='font-["Medium"] text-zinc-400 text-sm'>No {label} yet</p>
+            </div>
+        </div>
+    );
+
     return (
-        <div >
+        <div className='flex flex-col h-screen overflow-hidden'>
             <Banner />
-            {/* Curved panel overlapping the banner */}
-            <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
-                <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+            <div className="flex flex-1 bg-[#F2F2F7] overflow-hidden">
+                <div className='w-12 flex flex-col pt-3 pb-3 items-center gap-2.5 bg-white border-r border-zinc-100'>
                     {data.me.Pages.map(item => (
                         <div key={item.id} className="relative flex items-center">
-                            {/* Left curved indicator */}
                             {selectedPage?.id === item.id && (
-                                <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
-                                ></div>
+                                <div className="absolute left-[40px] top-1/2 -translate-y-1/2 w-0.5 h-5 bg-zinc-950 rounded-full" />
                             )}
-                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
+                            <img
+                                onClick={() => setSelectedPage(item)}
+                                className={`h-7 w-7 rounded-lg cursor-pointer transition-all object-cover ${selectedPage?.id === item.id ? 'ring-2 ring-zinc-950 ring-offset-1 ring-offset-white' : 'opacity-30 hover:opacity-80'}`}
+                                src={!item?.headerImage ? logo : item?.headerImage}
+                            />
                         </div>
                     ))}
-                    <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
-                        <PlusIcon class='w-4 h-4 text-black' />
-                    </div>
+                    <Add />
                 </div>
+
                 <NavBar home={false} storefront={selectedPage?.storefront} workshop={selectedPage?.workshop} orders={true} />
 
-                {/* Main Content */}
-                <div className="flex-1 flex flex-col">
-                    <div className="border-b items-center px-6 py-4">
-                        <div class='flex items-center gap-2'>
-                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
-                            <span className="text-lg font-['Semibold'] text-sm">cmhq.me/{selectedPage?.subdomain}</span>
+                <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                    <header className="h-12 border-b border-zinc-200/60 bg-white/90 backdrop-blur-xl flex items-center px-5 shrink-0">
+                        <div className='flex items-center gap-2'>
+                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-6 h-6 rounded-lg object-cover' />
+                            <span className="font-['Semibold'] text-zinc-900 text-sm">cmhq.me/{selectedPage?.subdomain}</span>
                         </div>
-                        <div className="flex items-center gap-4">
+                    </header>
 
-                        </div>
-                    </div>
-
-
-                    <main class={`px-16 w-full flex justify-center ${(selectedPage?.storefront || selectedPage?.workshop) === true && 'hidden'} h-full flex-col  items-center`}>
-                        <div class='font-["Semibold"]'>Bookings or Orders dont exist with forms or link-in-bio pages</div>
-                        <button class='bg-black text-white mt-5 rounded-full px-5 py-3 font-["Semibold"]'>Go home</button>
-                    </main>
-                    <main className={`px-16 ${(selectedPage?.form || selectedPage?.linkinbio) === true && 'hidden'} overflow-y-auto flex-1`}>
-                        <div>
-                            {selectedPage?.storefront ? (
-                                <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Orders</div>
-                            ) : (
-                                <div class='flex items-center gap-4'>
-                                    <div onClick={() => setTab('home')} class={`mt-7 ${tab === 'calendar' && 'text-gray-300'} font-["Semibold"] mb-3 text-3xl`}>Bookings</div>
-                                    <div onClick={() => setTab('calendar')} class={`mt-7 font-["Semibold"] ${tab === 'home' && 'text-gray-300'} mb-3 text-3xl`}>Calendars</div>
+                    {isFormOrLink ? (
+                        <main className="flex-1 flex flex-col items-center justify-center gap-3">
+                            <p className='font-["Medium"] text-zinc-400 text-sm'>Not available for this page type.</p>
+                            <button onClick={() => navigate('/dashboard')} className='bg-zinc-950 text-white px-4 py-2 rounded-xl font-["Semibold"] text-sm hover:bg-zinc-800 transition-colors'>
+                                Go home
+                            </button>
+                        </main>
+                    ) : (
+                        <main className="flex-1 overflow-y-auto p-6">
+                            <div className='mb-5 flex items-center justify-between'>
+                                <div>
+                                    <h1 className='font-["Semibold"] text-xl text-zinc-950 tracking-tight'>
+                                        {isStorefront ? 'Orders' : tab === 'list' ? 'Bookings' : 'Calendar'}
+                                    </h1>
+                                    <p className='font-["Medium"] text-zinc-400 text-sm mt-0.5'>
+                                        {isStorefront ? 'Orders from your storefront.' : 'Upcoming and past bookings.'}
+                                    </p>
                                 </div>
-                            )}
-                        </div>
-                        {selectedPage?.storefront ? (
-                            <div class='mt-5'>
-                                <div class={`p-5 items-center space-y-3 w-full justify-between`}>
-                                    {data?.me?.Orders?.length === 0 && (
-                                        <div class='h-64 w-full flex justify-center items-center'>
+                                {!isStorefront && (
+                                    <div className='flex items-center gap-0.5 bg-white border border-zinc-200/60 rounded-xl p-1'>
+                                        {[['list', 'List'], ['calendar', 'Calendar']].map(([t, label]) => (
+                                            <button key={t} onClick={() => setTab(t)}
+                                                className={`px-3 py-1.5 rounded-lg text-xs font-["Semibold"] transition-all ${tab === t ? 'bg-zinc-950 text-white' : 'text-zinc-400 hover:text-zinc-700'}`}>
+                                                {label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
 
-                                            <div class='bg-white border rounded-full px-5 py-2 font-["Semibold"] shadow-sm text-sm'>You have no bookings</div>
-                                        </div>
-                                    )}
-                                    <div class='grid grid-cols-2 gap-5'>
-                                        {data?.me?.Orders?.map(item => (
-                                            <div onClick={() => navigate(`/orders/${item.id}`)} class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
-                                                <div class='flex items-center'>
-                                                    <div class='px-2 text-xl w-40 text-center font-["Semibold"]'>
-                                                        ${item?.amount} Made
+                            {isStorefront ? (
+                                data?.me?.Orders?.length === 0 ? <Empty label="orders" /> : (
+                                    <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                        {data?.me?.Orders?.map((item, i) => (
+                                            <div
+                                                key={item.id}
+                                                onClick={() => navigate(`/orders/${item.id}`)}
+                                                className={`flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-zinc-50 transition-colors ${i < data.me.Orders.length - 1 ? 'border-b border-zinc-100' : ''}`}
+                                            >
+                                                <div className='flex items-center gap-4'>
+                                                    <div className='text-right shrink-0 w-16'>
+                                                        <div className='text-lg font-["Semibold"] text-zinc-950 tabular-nums'>${item?.amount}</div>
                                                     </div>
-                                                    <div class='h-10 w-1 border-l' />
-                                                    <div class='px-5'>
-                                                        <div class='text-sm font-["Semibold"] '>{item?.Product?.title}</div>
-                                                        <div class='mt-1 flex items-center gap-[-3px]'>
-                                                            <img src={selectedPage?.headerImage} class='w-5 h-5 border-2 border-white rounded-full' />
-                                                            <img
-                                                                src={
-                                                                    !item?.Product?.thumbnail ? logo : item?.Product?.thumbnail
-                                                                }
-                                                                className="w-5 h-5 ml-[-6px] border-2 border-white rounded-full"
-                                                            />
-                                                            <div class='h-5 w-5 ml-[-6px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{item?.name?.charAt(0)}</div>
+                                                    <div className='w-px h-6 bg-zinc-100' />
+                                                    <div>
+                                                        <div className='text-sm font-["Semibold"] text-zinc-900'>{item?.Product?.title}</div>
+                                                        <div className='flex items-center mt-1'>
+                                                            <img src={selectedPage?.headerImage} className='w-4 h-4 border-2 border-white rounded-full object-cover' />
+                                                            <img src={!item?.Product?.thumbnail ? logo : item?.Product?.thumbnail} className="w-4 h-4 -ml-1 border-2 border-white rounded-full object-cover" />
+                                                            <div className='w-4 h-4 -ml-1 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-["Semibold"] bg-violet-100 text-violet-600'>{item?.name?.charAt(0)}</div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class='pr-5'>
-                                                    <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
-                                                </div>
+                                                <span className='text-xs font-["Semibold"] text-zinc-400'>Details →</span>
                                             </div>
                                         ))}
                                     </div>
+                                )
+                            ) : tab === 'calendar' ? (
+                                <div className='bg-white rounded-2xl border border-zinc-200/60 p-5'>
+                                    <CustomCalendar />
                                 </div>
-                            </div>
-                        ) : (
-                            <div class='flex w-full'>
-                                {tab === 'calendar' && (
-                                    <div class='w-full'>
-                                        <CustomCalendar />
-                                    </div>
-                                )}
-                                {tab === 'home' && (
-                                    <div class='mt-5 w-full'>
-
-                                        <div class={`p-5 items-center space-y-3 w-full justify-between`}>
-                                            {data?.me?.Bookings?.length === 0 && (
-                                                <div class='h-64 w-full flex justify-center items-center'>
-
-                                                    <div class='bg-white border rounded-full px-5 py-2 font-["Semibold"] shadow-sm text-sm'>You have no bookings</div>
-                                                </div>
-                                            )}
-                                            {data?.me?.Bookings?.map(item => {
-                                                const date = new Date(item.date);
-                                                const monthDay = date.toLocaleDateString("en-US", {
-                                                    month: "long",
-                                                    day: "numeric",
-                                                }); // "May 26"
-                                                return (
-                                                    <div onClick={() => navigate(`/orders/${item.id}`)} class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
-                                                        <div class='flex items-center'>
-                                                            <div class='px-3 text-2xl w-40 text-center font-["Semibold"]'>
-                                                                {monthDay}
-                                                            </div>
-                                                            <div class='h-10 w-1  border-l' />
-                                                            <div class='px-4 gap-1 flex flex-col'>
-                                                                <div class='flex items-center text-xs font-["Semibold"] gap-2'>{item?.bookingTime}</div>
-                                                                <div class='flex items-center text-xs font-["Semibold"] gap-2'>{item?.type}</div>
-                                                            </div>
-                                                            <div class='px-5'>
-                                                                <div class='text-sm font-["Semibold"] '>{item?.Product?.title}</div>
-                                                                <div class='mt-1 flex items-center gap-[-3px]'>
-                                                                    <img src={selectedPage?.headerImage} class='w-5 h-5 border-2 border-white rounded-full' />
-                                                                    <img
-                                                                        src={
-                                                                            !item?.Product?.thumbnail ? logo : item?.Product?.thumbnail
-                                                                        }
-                                                                        className="w-5 h-5 ml-[-6px] border-2 border-white rounded-full"
-                                                                    />
-                                                                    <div class='h-5 w-5 ml-[-6px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{item?.name?.charAt(0)}</div>
-                                                                </div>
-                                                            </div>
+                            ) : (
+                                data?.me?.Bookings?.length === 0 ? <Empty label="bookings" /> : (
+                                    <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                        {data?.me?.Bookings?.map((item, i) => {
+                                            const date = new Date(item.date);
+                                            const monthDay = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                                            return (
+                                                <div
+                                                    key={item.id}
+                                                    onClick={() => navigate(`/orders/${item.id}`)}
+                                                    className={`flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-zinc-50 transition-colors ${i < data.me.Bookings.length - 1 ? 'border-b border-zinc-100' : ''}`}
+                                                >
+                                                    <div className='flex items-center gap-4'>
+                                                        <div className='shrink-0 w-16'>
+                                                            <div className='text-sm font-["Semibold"] text-zinc-950'>{monthDay}</div>
                                                         </div>
-                                                        <div class='pr-5'>
-                                                            <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
+                                                        <div className='w-px h-6 bg-zinc-100' />
+                                                        <div>
+                                                            <div className='text-sm font-["Semibold"] text-zinc-900'>{item?.Product?.title}</div>
+                                                            <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>{item?.bookingTime} · {item?.type}</div>
                                                         </div>
                                                     </div>
-                                                )
-                                            })}
-                                        </div>
+                                                    <span className='text-xs font-["Semibold"] text-zinc-400'>Details →</span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                )}
-
-                            </div>
-                        )}
-
-
-                    </main>
-
-                    {/* Cookie Policy Notice */}
-
+                                )
+                            )}
+                        </main>
+                    )}
                 </div>
             </div>
         </div>

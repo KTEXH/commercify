@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { LayoutDashboard, PenSquare, ShoppingBag, Users, Package, BarChart2, Settings, LogOut, Zap } from 'lucide-react';
 
 import slugify from 'slugify'
 
@@ -20,7 +21,7 @@ const CREATE_PRODUCT_MUTATION = gql`
 
 
 export const NavBar = ({ products, home, audience, form, orders, settings, bookings, analytics, workshop, builder, storefront, linkinbio }) => {
-  const { data, error, loading } = useState(ME_QUERY)
+  const { data, error, loading } = useQuery(ME_QUERY)
   const [createProduct] = useMutation(CREATE_PRODUCT_MUTATION)
   let [isOpen, setIsOpen] = useState(false)
   let [isCreate, setIsCreate] = useState(false)
@@ -190,7 +191,7 @@ const slug = slugify(title, { lower: true, strict: true });
             file: publicFile,
             images,
             sizes,
-            availablityHours: availabilityTime,
+            availablityHours: availabilityHours,
             specifications,
             serviceOrProduct: product.product ? 'Product' : 'Service',
             colors: colors,
@@ -355,86 +356,130 @@ const slug = slugify(title, { lower: true, strict: true });
     }));
   };
 
-  if (error) return <div>{error.message}</div>
-  if (loading) return <div>Loading...</div>
+  if (error) return <div className="p-4 text-sm text-red-500">{error.message}</div>
+  if (loading) return <div className="w-[220px] h-full bg-white border-r border-zinc-100 shrink-0" />
+
+  const NavLink = ({ href, active, children, badge, icon: Icon }) => (
+    <a
+      href={href}
+      className={`relative flex items-center justify-between px-3 py-[7px] rounded-lg text-[13px] font-["Semibold"] transition-all group ${
+        active
+          ? 'bg-zinc-950 text-white'
+          : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50'
+      }`}
+    >
+      <span className='flex items-center gap-2.5'>
+        {Icon && <Icon className={`w-[15px] h-[15px] shrink-0 ${active ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-500'}`} strokeWidth={active ? 2.2 : 1.8} />}
+        {children}
+      </span>
+      {badge != null && badge > 0 && (
+        <span className={`text-[10px] min-w-[18px] text-center px-1 py-px rounded font-["Semibold"] tabular-nums ${active ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-500'}`}>
+          {badge}
+        </span>
+      )}
+    </a>
+  )
+
+  const ordersLabel = storefront ? 'Orders' : workshop ? 'Bookings' : null;
+  const audienceLabel = storefront ? 'Customers' : workshop ? 'Clients' : (linkinbio || form) ? 'Audience' : 'Audience';
+  const productsLabel = storefront ? 'Products' : linkinbio ? 'Links' : form ? 'Responses' : workshop ? 'Services' : 'Products';
 
   return (
-    <div class='h-full'>
-    
-      <aside className="w-[275px] h-full bg-white border-l border-r p-6 shadow-sm">
-        <nav className="px-5">
-           <Group className='w-8 h-8' />
-          <div class='text-xs font-["Semibold"] mt-5 text-gray-300'>Navigation</div>
-          <div class='space-y-4 mt-3'>
-            <div className={home === true ? 'text-black' : 'text-gray-400'}>
-              <a href='/dashboard' class='font-["Semibold"] mt-3 text-sm'>Dashboard</a>
-            </div>
-            <div className={builder === true ? 'text-black' : 'text-gray-400'}>
-              <a href='/editor' class='font-["Semibold"] text-sm'>Page Editor</a>
-            </div>
-            <div className={`${orders === true ? 'text-black flex items-center justify-between' : 'text-gray-400 flex items-center justify-between'} ${(linkinbio || form) === true && 'hidden'}`}>
-              <a href='/orders' class='font-["Semibold"] text-sm'>{storefront === true && 'Orders'} {workshop === true && 'Bookings'}</a>
-              <div class='bg-black text-white px-2 rounded-md text-sm font-["Medium"]'>{storefront === true && data?.me?.Orders?.length} {workshop === true && data?.me?.Bookings?.length}</div>
-            </div>
-            <div className={`${audience === true ? 'text-black' : 'text-gray-400 hide'}`}>
-              <a href='/audience' class='font-["Semibold"] text-sm'>{storefront === true && 'Customers'} {workshop === true && 'Clients'} {linkinbio === true && 'Audience'}</a>
-            </div>
-            <div className={products === true ? 'text-black' : 'text-gray-400'}>
-              <a href='/products' class='font-["Semibold"] text-sm'>{storefront === true && 'Products'} {linkinbio === true && 'Links'} {form === true && 'Responses'} {workshop === true && 'Services'}</a>
-            </div>
-            <div className={analytics === true ? 'text-black' : 'text-gray-400'}>
-              <a href='/stats' class='font-["Semibold"] text-sm'>Stats</a>
-            </div>
-            <div className={settings === true ? 'text-black' : 'text-gray-400'}>
-              <a href='/settings' class='font-["Semibold"] text-sm'>Settings</a>
-            </div>
+    <div className='h-full'>
+      <aside className="w-[220px] h-full bg-white border-r border-zinc-100 flex flex-col py-4 px-3">
+        {/* Logo */}
+        <div className='mb-5 px-2 flex items-center gap-2'>
+          <Group className='w-6 h-6' />
+          <span className='font-["Bold"] text-zinc-900 text-[15px] tracking-tight'>Commercify</span>
+        </div>
+
+        {/* Main nav */}
+        <div className='flex-1 space-y-px overflow-y-auto'>
+          <NavLink href='/dashboard' active={home === true} icon={LayoutDashboard}>Dashboard</NavLink>
+          <NavLink href='/editor' active={builder === true} icon={PenSquare}>Page Editor</NavLink>
+          {!(linkinbio || form) && ordersLabel && (
+            <NavLink
+              href='/orders'
+              active={orders === true}
+              icon={ShoppingBag}
+              badge={storefront ? data?.me?.Orders?.length : workshop ? data?.me?.Bookings?.length : null}
+            >
+              {ordersLabel}
+            </NavLink>
+          )}
+          <NavLink href='/products' active={products === true} icon={Package}>{productsLabel}</NavLink>
+          <NavLink href='/audience' active={audience === true} icon={Users}>{audienceLabel}</NavLink>
+
+          {/* Divider + secondary section */}
+          <div className='pt-3 pb-1'>
+            <div className='text-[9px] font-["Semibold"] text-zinc-400 uppercase tracking-widest px-3'>More</div>
           </div>
-          <div class='mt-20'>
-            <div class='text-xs font-["Semibold"] text-gray-300'>Account</div>
-            <div class='space-y-4 mt-4'>
-              <div class='text-gray-400 font-["Semibold"] text-sm'>Log out</div>
-            </div>
-            <button onClick={() => setIsOpen(true)} class='bg-black text-white font-["Semibold"] rounded-full w-full py-4 mt-5 text-sm'>Create</button>
+          <NavLink href='/stats' active={analytics === true} icon={BarChart2}>Analytics</NavLink>
+          <NavLink href='/settings' active={settings === true} icon={Settings}>Settings</NavLink>
+        </div>
+
+        {/* Upgrade card — matches Shopeers blue card */}
+        <div className='mt-3 mx-0.5 rounded-2xl p-4 bg-zinc-950'>
+          <div className='w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center mb-2.5'>
+            <Zap className='w-4 h-4 text-white' fill='white' />
           </div>
-        </nav>
+          <div className='font-["Semibold"] text-white text-xs mb-1'>Upgrade to Premium!</div>
+          <p className='text-white/60 text-[10px] font-["Medium"] leading-relaxed mb-3'>
+            Upgrade your account and unlock all of the benefits.
+          </p>
+          <button
+            onClick={() => setIsOpen(true)}
+            className='w-full bg-white text-zinc-950 rounded-xl py-1.5 text-[11px] font-["Semibold"] hover:bg-zinc-100 transition-colors'
+          >
+            Upgrade premium
+          </button>
+        </div>
+
+        {/* Log out */}
+        <button
+          onClick={() => { localStorage.removeItem('token'); window.location.href = '/login'; }}
+          className='mt-2 w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-["Semibold"] text-zinc-400 hover:text-zinc-700 hover:bg-zinc-50 transition-all'
+        >
+          <LogOut className='w-[15px] h-[15px]' strokeWidth={1.8} /> Log out
+        </button>
       </aside>
 
 
 
-      <Dialog open={isFinishing} onClose={() => setIsFinishing(false)} class='relative font-general-sans z-50'>
+      <Dialog open={isFinishing} onClose={() => setIsFinishing(false)} className='relative font-general-sans z-50'>
         <div className="fixed inset-0 flex bg-opacity-70 w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-2xl w-full space-y-4 flex-col flex  border rounded-xl bg-white p-10">
-            <div style={{ fontFamily: 'Semibold' }} class='text-3xl mb-2'>Finalizing {product.product === true ? 'Product' : 'Service'}</div>
-            <div class='font-["Medium"] text-gray-500 w-3/4 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
-            <div class='border gap-4 p-5 mt-5 flex items-center rounded-xl w-full'>
+            <div style={{ fontFamily: 'Semibold' }} className='text-3xl mb-2'>Finalizing {product.product === true ? 'Product' : 'Service'}</div>
+            <div className='font-["Medium"] text-gray-500 w-3/4 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
+            <div className='border gap-4 p-5 mt-5 flex items-center rounded-xl w-full'>
               <div>
                 {thumbnail === "" ? (
                   <img />
                 ) : (
-                  <div class='w-28 h-28 rounded-xl bg-sky-100 flex items-center justify-center font-["Bold"] text-lg'>
+                  <div className='w-28 h-28 rounded-xl bg-zinc-100 flex items-center justify-center font-["Bold"] text-lg'>
                     {title.charAt(0)}
                   </div>
                 )}
               </div>
               <div>
-                <label class='text-xs font-["Semibold"]'>{title} • ${price}</label>
-                <div class='text-gray-400 font-["Medium"] text-xs'>{description}</div>
-                <div class='flex items-center gap-3 mt-2'>
-                  <div class='flex items-center gap-1'>
-                    <label class='text-[10px] font-["Semibold"]'>Type: </label>
-                    <div class='text-[10px] font-["Semibold"] border px-2 py-1 rounded-full'>{product.product ? 'Product' : 'Service'}</div>
+                <label className='text-xs font-["Semibold"]'>{title} • ${price}</label>
+                <div className='text-gray-400 font-["Medium"] text-xs'>{description}</div>
+                <div className='flex items-center gap-3 mt-2'>
+                  <div className='flex items-center gap-1'>
+                    <label className='text-[10px] font-["Semibold"]'>Type: </label>
+                    <div className='text-[10px] font-["Semibold"] border px-2 py-1 rounded-full'>{product.product ? 'Product' : 'Service'}</div>
                   </div>
-                  <div class={`flex items-center ${product.service ? 'flex' : 'hidden'} gap-1`}>
-                    <label class='text-[10px] font-["Semibold"]'>Duration: </label>
-                    <div class='text-[10px] font-["Semibold"] border px-2 py-1 rounded-full'>{duration} Minutes</div>
+                  <div className={`flex items-center ${product.service ? 'flex' : 'hidden'} gap-1`}>
+                    <label className='text-[10px] font-["Semibold"]'>Duration: </label>
+                    <div className='text-[10px] font-["Semibold"] border px-2 py-1 rounded-full'>{duration} Minutes</div>
                   </div>
-                  <div class='flex items-center gap-1'>
-                    <label class='text-[10px] font-["Semibold"]'>Tag: </label>
-                    <div class='text-[10px] font-["Semibold"] capitalize border px-2 py-1 rounded-full'>{tag}</div>
+                  <div className='flex items-center gap-1'>
+                    <label className='text-[10px] font-["Semibold"]'>Tag: </label>
+                    <div className='text-[10px] font-["Semibold"] capitalize border px-2 py-1 rounded-full'>{tag}</div>
                   </div>
-                  <div class={`flex items-center ${productType.merchandise && 'hidden'} ${product.service && 'hidden'} gap-2`}>
-                    <label class='font-["Semibold"] text-[10px]'>File: </label>
-                    <div class='text-[10px] font-["Semibold"] border rounded-full px-3 py-1'>
+                  <div className={`flex items-center ${productType.merchandise && 'hidden'} ${product.service && 'hidden'} gap-2`}>
+                    <label className='font-["Semibold"] text-[10px]'>File: </label>
+                    <div className='text-[10px] font-["Semibold"] border rounded-full px-3 py-1'>
                       {fileName}
                     </div>
                   </div>
@@ -442,51 +487,51 @@ const slug = slugify(title, { lower: true, strict: true });
 
               </div>
             </div>
-            <div class={`${product.service ? 'flex flex-col' : 'hidden'}`}>
+            <div className={`${product.service ? 'flex flex-col' : 'hidden'}`}>
               <div>
-                <label class='text-xs font-["Semibold"]'>Availability</label>
-                <div class='flex items-center gap-5'>
-                  <div class='flex w-full gap-3'>
-                    <label class='text-[10px] font-["Semibold"]'>Days:</label>
-                    <div class='gap-2 flex items-center flex-wrap'>
+                <label className='text-xs font-["Semibold"]'>Availability</label>
+                <div className='flex items-center gap-5'>
+                  <div className='flex w-full gap-3'>
+                    <label className='text-[10px] font-["Semibold"]'>Days:</label>
+                    <div className='gap-2 flex items-center flex-wrap'>
                       {availabilityDays.map(item => (
-                        <div class='text-[10px] font-["Semibold"] px-2 py-1 border rounded-full'>{item}</div>
+                        <div className='text-[10px] font-["Semibold"] px-2 py-1 border rounded-full'>{item}</div>
                       ))}
                     </div>
                   </div>
-                  <div class='flex w-full gap-3'>
-                    <label class='text-[10px] font-["Semibold"]'>Hours:</label>
-                    <div class='gap-2 flex items-center flex-wrap'>
+                  <div className='flex w-full gap-3'>
+                    <label className='text-[10px] font-["Semibold"]'>Hours:</label>
+                    <div className='gap-2 flex items-center flex-wrap'>
                       {availabilityHours.map(item => (
-                        <div class='text-[10px] font-["Semibold"] px-2 py-1 border rounded-full'>{item}</div>
+                        <div className='text-[10px] font-["Semibold"] px-2 py-1 border rounded-full'>{item}</div>
                       ))}
                     </div>
                   </div>
                 </div>
               </div>
-              <div class='mt-3 flex'>
-                <div class='w-full'>
-                  <label class='text-xs font-["Semibold"]'>Specifications</label>
-                  <div class='gap-2 flex items-center flex-wrap'>
+              <div className='mt-3 flex'>
+                <div className='w-full'>
+                  <label className='text-xs font-["Semibold"]'>Specifications</label>
+                  <div className='gap-2 flex items-center flex-wrap'>
                     {specifications.map(item => (
-                      <div class='text-[10px] font-["Semibold"] px-2 py-1 border rounded-full'>{item}</div>
+                      <div className='text-[10px] font-["Semibold"] px-2 py-1 border rounded-full'>{item}</div>
                     ))}
                   </div>
                 </div>
-                <div class='w-full'>
-                  <label class='text-xs font-["Semibold"]'>Payments options</label>
-                  <div class='flex items-center justify-between gap-5'>
-                    <div class='flex items-center gap-2'>
-                      <label class='text-xs font-["Semibold"]'>In-Person: </label>
-                      <div onClick={() => handleInPersonPayments()} class={`w-7 flex items-center justify-center h-7 border rounded-full`}>
-                        {inPersonPayment && (<CheckIcon class='h-4 w-4' />)}
+                <div className='w-full'>
+                  <label className='text-xs font-["Semibold"]'>Payments options</label>
+                  <div className='flex items-center justify-between gap-5'>
+                    <div className='flex items-center gap-2'>
+                      <label className='text-xs font-["Semibold"]'>In-Person: </label>
+                      <div onClick={() => handleInPersonPayments()} className={`w-7 flex items-center justify-center h-7 border rounded-full`}>
+                        {inPersonPayment && (<CheckIcon className='h-4 w-4' />)}
                       </div>
                     </div>
-                    <div class='flex items-center gap-1'>
-                      <div class='flex items-center gap-2'>
-                        <label class='text-xs font-["Semibold"]'>Virtual: </label>
-                        <div onClick={() => handleVirtualPayments()} class={`w-7 flex items-center justify-center h-7 border rounded-full`}>
-                          {virtualPayment && (<CheckIcon class='h-4 w-4' />)}
+                    <div className='flex items-center gap-1'>
+                      <div className='flex items-center gap-2'>
+                        <label className='text-xs font-["Semibold"]'>Virtual: </label>
+                        <div onClick={() => handleVirtualPayments()} className={`w-7 flex items-center justify-center h-7 border rounded-full`}>
+                          {virtualPayment && (<CheckIcon className='h-4 w-4' />)}
 
                         </div>
                       </div>
@@ -495,28 +540,28 @@ const slug = slugify(title, { lower: true, strict: true });
                 </div>
               </div>
             </div>
-            <div class='font-["Semibold"] flex items-center gap-3'>
-              <form onSubmit={handleSubmit} class='w-full'>
-                <button type='submit' class='bg-black text-white w-full py-2.5 rounded-xl'>Create</button>
+            <div className='font-["Semibold"] flex items-center gap-3'>
+              <form onSubmit={handleSubmit} className='w-full'>
+                <button type='submit' className='bg-zinc-950 text-white w-full py-2.5 rounded-xl'>Create</button>
               </form>
-              <button class='border text-black w-full py-2.5 rounded-xl'>Cancel</button>
+              <button className='border text-black w-full py-2.5 rounded-xl'>Cancel</button>
             </div>
           </DialogPanel>
         </div>
       </Dialog>
 
-      <Dialog open={isFile} onClose={() => setIsFile(false)} class='relative font-general-sans z-50'>
+      <Dialog open={isFile} onClose={() => setIsFile(false)} className='relative font-general-sans z-50'>
         <div className="fixed inset-0 flex bg-opacity-70 w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-2xl w-full space-y-4 flex-col flex  border rounded-xl bg-white p-10">
-            <div class='flex items-start justify-start flex-col'>
-              <div style={{ fontFamily: 'Semibold' }} class='text-3xl mb-2'>Finishing {product.product === true ? 'Product' : 'Service'}</div>
-              <div class='font-["Medium"] text-gray-500 w-3/4 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
-              <div class={`${product.service === true && 'hidden'} ${productType.merchandise === true && 'hidden'}`}>
+            <div className='flex items-start justify-start flex-col'>
+              <div style={{ fontFamily: 'Semibold' }} className='text-3xl mb-2'>Finishing {product.product === true ? 'Product' : 'Service'}</div>
+              <div className='font-["Medium"] text-gray-500 w-3/4 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
+              <div className={`${product.service === true && 'hidden'} ${productType.merchandise === true && 'hidden'}`}>
                 <label htmlFor="photo" style={{ fontFamily: 'Semibold' }} className="block text-xs leading-6 mb-3 mt-6 text-black">
                   File upload
                 </label>
                 <div className="flex gap-3 items-center">
-                  <div className={`${thumbnail ? "hidden" : "h-20 w-20  capitalize rounded-lg text-xl font-['Semibold'] text-black items-center bg-sky-100 justify-center flex"}`} aria-hidden="true" >
+                  <div className={`${thumbnail ? "hidden" : "h-20 w-20  capitalize rounded-lg text-xl font-['Semibold'] text-black items-center bg-zinc-100 justify-center flex"}`} aria-hidden="true" >
                     {title.charAt(0)}
                   </div>
                   {thumbnailLoading ? (
@@ -527,7 +572,7 @@ const slug = slugify(title, { lower: true, strict: true });
                         <span onClick={() => avatarFile.current.click()}>
                           <img
                             src={thumbnail}
-                            class='h-12 w-12 rounded-full '
+                            className='h-12 w-12 rounded-full '
                             alt="avatar"
                             onClick={() => avatarFile.current.click()}
 
@@ -546,7 +591,7 @@ const slug = slugify(title, { lower: true, strict: true });
                     </>
                   )}
 
-                  <div class='gap-y-2 flex flex-col'>
+                  <div className='gap-y-2 flex flex-col'>
                     <div>
                       <label
                         style={{ fontFamily: 'Semibold' }}
@@ -562,22 +607,22 @@ const slug = slugify(title, { lower: true, strict: true });
 
                       </label>
                     </div>
-                    <div class='text-xs text-gray-500 font-["Medium"]'>.png, .jpeg, .gif files up to 8MB. Recommended size 256x256px.</div>
+                    <div className='text-xs text-gray-500 font-["Medium"]'>.png, .jpeg, .gif files up to 8MB. Recommended size 256x256px.</div>
                   </div>
                 </div>
 
               </div>
-              <div class={`${product.service === true && 'hidden'} ${productType.merchandise === false && 'hidden'}`}>
+              <div className={`${product.service === true && 'hidden'} ${productType.merchandise === false && 'hidden'}`}>
                 <label htmlFor="photo" style={{ fontFamily: 'Semibold' }} className="block text-xs leading-6 mb-3 mt-6 text-black">
                   Upload Images of Product
                 </label>
                 <div className="flex gap-3 items-center">
-                  <div className={`${thumbnail ? "hidden" : "h-20 w-20  capitalize rounded-lg text-xl font-['Semibold'] text-black items-center bg-sky-100 justify-center flex"}`} aria-hidden="true" >
+                  <div className={`${thumbnail ? "hidden" : "h-20 w-20  capitalize rounded-lg text-xl font-['Semibold'] text-black items-center bg-zinc-100 justify-center flex"}`} aria-hidden="true" >
                     {title.charAt(0)}
                   </div>
 
 
-                  <div class='gap-y-2 flex flex-col'>
+                  <div className='gap-y-2 flex flex-col'>
                     <div>
                       <label
                         style={{ fontFamily: 'Semibold' }}
@@ -593,7 +638,7 @@ const slug = slugify(title, { lower: true, strict: true });
 
                       </label>
                     </div>
-                    <div class='text-xs text-gray-500 font-["Medium"]'>.png, .jpeg, .gif files up to 8MB. Recommended size 256x256px.</div>
+                    <div className='text-xs text-gray-500 font-["Medium"]'>.png, .jpeg, .gif files up to 8MB. Recommended size 256x256px.</div>
                   </div>
                 </div>
                 {imagesLoading ? (
@@ -601,9 +646,9 @@ const slug = slugify(title, { lower: true, strict: true });
                 ) : (
                   <div>
                     {images && (
-                      <div class='flex items-center gap-3'>
+                      <div className='flex items-center gap-3'>
                         {images.map(item => (
-                          <img class='w-28 h-28 rounded-xl' />
+                          <img className='w-28 h-28 rounded-xl' />
                         ))}
                       </div>
                     )}
@@ -611,159 +656,159 @@ const slug = slugify(title, { lower: true, strict: true });
                 )}
               </div>
 
-              <div class='flex flex-col gap-2 mt-5'>
-                <label class='text-xs font-["Semibold"]'>{productType.custom ? '' : 'Tags'}</label>
+              <div className='flex flex-col gap-2 mt-5'>
+                <label className='text-xs font-["Semibold"]'>{productType.custom ? '' : 'Tags'}</label>
                 {productType.digitalDownload === true && (
-                  <div class='flex items-center font-["Semibold"] gap-2'>
-                    <div onClick={() => setTag('Music')} class={`rounded-full flex ${tag === 'Music' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center font-["Semibold"] gap-2'>
+                    <div onClick={() => setTag('Music')} className={`rounded-full flex ${tag === 'Music' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Music</div>
                     </div>
-                    <div onClick={() => setTag('Software')} class={`rounded-full flex ${tag === 'Software' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Software')} className={`rounded-full flex ${tag === 'Software' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Software</div>
                     </div>
-                    <div onClick={() => setTag('Document')} class={`rounded-full flex ${tag === 'Document' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Document')} className={`rounded-full flex ${tag === 'Document' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Document</div>
                     </div>
-                    <div onClick={() => setTag('Video')} class={`rounded-full flex ${tag === 'Video' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Video')} className={`rounded-full flex ${tag === 'Video' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Video</div>
                     </div>
-                    <div onClick={() => setTag('Template')} class={`rounded-full flex ${tag === 'Template' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Template')} className={`rounded-full flex ${tag === 'Template' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Template</div>
                     </div>
-                    <div onClick={() => setTag('Guide')} class={`rounded-full flex ${tag === 'Guide' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Guide')} className={`rounded-full flex ${tag === 'Guide' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Guide</div>
                     </div>
-                    <div onClick={() => setTag('Image')} class={`rounded-full flex ${tag === 'Image' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Image')} className={`rounded-full flex ${tag === 'Image' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Image</div>
                     </div>
-                    <div onClick={() => setTag('Other')} class={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Other')} className={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Other</div>
                     </div>
                   </div>
                 )}
 
                 {productType.hair === true && (
-                  <div class='flex items-center font-["Semibold"] gap-2'>
-                    <div onClick={() => setTag('Haircut')} class={`rounded-full flex ${tag === 'Haircut' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center font-["Semibold"] gap-2'>
+                    <div onClick={() => setTag('Haircut')} className={`rounded-full flex ${tag === 'Haircut' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Haircut</div>
                     </div>
 
-                    <div onClick={() => setTag('Hairstyle')} class={`rounded-full flex ${tag === 'Hairstyle' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Hairstyle')} className={`rounded-full flex ${tag === 'Hairstyle' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Hairstyle</div>
                     </div>
 
-                    <div onClick={() => setTag('Other')} class={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Other')} className={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Other</div>
                     </div>
                   </div>
                 )}
 
                 {productType.catering === true && (
-                  <div class='flex items-center font-["Semibold"] gap-2'>
-                    <div onClick={() => setTag('Wedding')} class={`rounded-full flex ${tag === 'Wedding' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center font-["Semibold"] gap-2'>
+                    <div onClick={() => setTag('Wedding')} className={`rounded-full flex ${tag === 'Wedding' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Wedding</div>
                     </div>
 
-                    <div onClick={() => setTag('Corporate')} class={`rounded-full flex ${tag === 'Corporate' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Corporate')} className={`rounded-full flex ${tag === 'Corporate' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Corporate</div>
                     </div>
 
-                    <div onClick={() => setTag('Social Event')} class={`rounded-full flex ${tag === 'Social Event' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Social Event')} className={`rounded-full flex ${tag === 'Social Event' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Social Event</div>
                     </div>
 
-                    <div onClick={() => setTag('Concessions')} class={`rounded-full flex ${tag === 'Concessions' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Concessions')} className={`rounded-full flex ${tag === 'Concessions' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Concessions</div>
                     </div>
                   </div>
                 )}
 
                 {productType.cosmetic === true && (
-                  <div class='flex items-center font-["Semibold"] gap-2'>
-                    <div onClick={() => setTag('Makeup')} class={`rounded-full flex ${tag === 'Makeup' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center font-["Semibold"] gap-2'>
+                    <div onClick={() => setTag('Makeup')} className={`rounded-full flex ${tag === 'Makeup' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Makeup</div>
                     </div>
 
-                    <div onClick={() => setTag('Nails')} class={`rounded-full flex ${tag === 'Nails' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Nails')} className={`rounded-full flex ${tag === 'Nails' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Nails</div>
                     </div>
 
-                    <div onClick={() => setTag('Lashes')} class={`rounded-full flex ${tag === 'Lashes' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Lashes')} className={`rounded-full flex ${tag === 'Lashes' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Lashes</div>
                     </div>
-                    <div onClick={() => setTag('Waxing')} class={`rounded-full flex ${tag === 'Waxing' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Waxing')} className={`rounded-full flex ${tag === 'Waxing' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Waxing</div>
                     </div>
-                    <div onClick={() => setTag('Facial')} class={`rounded-full flex ${tag === 'Facial' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Facial')} className={`rounded-full flex ${tag === 'Facial' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Facial</div>
                     </div>
-                    <div onClick={() => setTag('Other')} class={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Other')} className={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Other</div>
                     </div>
                   </div>
                 )}
 
                 {productType.audio === true && (
-                  <div class='flex items-center font-["Semibold"] gap-2'>
-                    <div onClick={() => setTag('Audiobook')} class={`rounded-full flex ${tag === 'Audiobook' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center font-["Semibold"] gap-2'>
+                    <div onClick={() => setTag('Audiobook')} className={`rounded-full flex ${tag === 'Audiobook' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Audiobook</div>
                     </div>
 
-                    <div onClick={() => setTag('Podcast')} class={`rounded-full flex ${tag === 'Podcast' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Podcast')} className={`rounded-full flex ${tag === 'Podcast' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Podcast</div>
                     </div>
-                    <div onClick={() => setTag('Music track')} class={`rounded-full flex ${tag === 'Music track' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Music track')} className={`rounded-full flex ${tag === 'Music track' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Music track</div>
                     </div>
-                    <div onClick={() => setTag('Sound effect')} class={`rounded-full flex ${tag === 'Sound effect' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Sound effect')} className={`rounded-full flex ${tag === 'Sound effect' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Sound effect</div>
                     </div>
 
-                    <div onClick={() => setTag('Other')} class={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Other')} className={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Other</div>
                     </div>
                   </div>
                 )}
 
                 {productType.ebook === true && (
-                  <div class='flex items-center font-["Semibold"] gap-2'>
-                    <div onClick={() => setTag('Comic')} class={`rounded-full flex ${tag === 'Comic' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center font-["Semibold"] gap-2'>
+                    <div onClick={() => setTag('Comic')} className={`rounded-full flex ${tag === 'Comic' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Comic</div>
                     </div>
 
-                    <div onClick={() => setTag('Novel')} class={`rounded-full flex ${tag === 'Novel' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Novel')} className={`rounded-full flex ${tag === 'Novel' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Novels</div>
                     </div>
-                    <div onClick={() => setTag('Guides')} class={`rounded-full flex ${tag === 'Guides' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Guides')} className={`rounded-full flex ${tag === 'Guides' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Guides</div>
                     </div>
-                    <div onClick={() => setTag('Manuals')} class={`rounded-full flex ${tag === 'Manuals' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Manuals')} className={`rounded-full flex ${tag === 'Manuals' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Manuals</div>
                     </div>
 
-                    <div onClick={() => setTag('Other')} class={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => setTag('Other')} className={`rounded-full flex ${tag === 'Other' ? 'border-2 border-black' : 'border'} items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Other</div>
                     </div>
                   </div>
                 )}
 
                 {productType.merchandise === true && (
-                  <div class='flex items-center flex-wrap font-["Semibold"] gap-2'>
-                    <div onClick={() => handleMerchandise('clothing')} class={`rounded-full flex ${merchandise.clothing === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
+                  <div className='flex items-center flex-wrap font-["Semibold"] gap-2'>
+                    <div onClick={() => handleMerchandise('clothing')} className={`rounded-full flex ${merchandise.clothing === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Clothing</div>
                     </div>
 
-                    <div onClick={() => handleMerchandise('accesories')} class={`rounded-full flex ${merchandise.accesories === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => handleMerchandise('accesories')} className={`rounded-full flex ${merchandise.accesories === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Accessories</div>
                     </div>
-                    <div onClick={() => handleMerchandise('electronics')} class={`rounded-full flex ${merchandise.electronics === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => handleMerchandise('electronics')} className={`rounded-full flex ${merchandise.electronics === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Electronics</div>
                     </div>
-                    <div onClick={() => handleMerchandise('food')} class={`rounded-full flex ${merchandise.food === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
-                      <div class='flex-nowrap flex'>Food & Beverages</div>
+                    <div onClick={() => handleMerchandise('food')} className={`rounded-full flex ${merchandise.food === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
+                      <div className='flex-nowrap flex'>Food & Beverages</div>
                     </div>
 
-                    <div onClick={() => handleMerchandise('other')} class={`rounded-full flex ${merchandise.other === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
+                    <div onClick={() => handleMerchandise('other')} className={`rounded-full flex ${merchandise.other === true ? 'border-2 border-black' : 'border'}  items-center gap-1 text-xs px-3 py-1.5`}>
                       <div>Other</div>
                     </div>
                   </div>
@@ -774,20 +819,20 @@ const slug = slugify(title, { lower: true, strict: true });
             </div>
 
             {product.service === true && (
-              <div class='w-full'>
-                <div class='w-full flex items-center gap-5'>
+              <div className='w-full'>
+                <div className='w-full flex items-center gap-5'>
 
-                  <div class='w-full flex flex-col gap-2'>
+                  <div className='w-full flex flex-col gap-2'>
                     <label className="text-xs font-['Semibold']">Name</label>
                     <input
-                      class='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
+                      className='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
                       defaultValue={title}
                     />
                   </div>
-                  <div class='w-full flex flex-col gap-2'>
+                  <div className='w-full flex flex-col gap-2'>
                     <label className="text-xs font-['Semibold']">Duration</label>
                     <input
-                      class='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
+                      className='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
                       value={duration}
                       type='number'
 
@@ -795,17 +840,17 @@ const slug = slugify(title, { lower: true, strict: true });
                     />
                   </div>
                 </div>
-                <div class='w-full flex mt-5 gap-5'>
+                <div className='w-full flex mt-5 gap-5'>
 
-                  <div class='w-full flex flex-col gap-2'>
+                  <div className='w-full flex flex-col gap-2'>
                     <label className="text-xs font-['Semibold']">Availblity Days</label>
-                    <div class='flex items-center flex-wrap gap-2'>
+                    <div className='flex items-center flex-wrap gap-2'>
                       {availability.map((days) => (
                         <button
                           key={days}
                           type="button"
                           onClick={() => toggleAvailabilityDays(days)}
-                          class={`px-3 py-1.5 rounded-full ${availabilityDays.includes(days) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                          className={`px-3 py-1.5 rounded-full ${availabilityDays.includes(days) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                         >
                           {days}
@@ -813,15 +858,15 @@ const slug = slugify(title, { lower: true, strict: true });
                       ))}
                     </div>
                   </div>
-                  <div class='w-full flex flex-col gap-2'>
+                  <div className='w-full flex flex-col gap-2'>
                     <label className="text-xs font-['Semibold']">Time</label>
-                    <div class='flex items-center flex-wrap gap-2'>
+                    <div className='flex items-center flex-wrap gap-2'>
                       {availabilityTime.map((hours) => (
                         <button
                           key={hours}
                           type="button"
                           onClick={() => toggleAvailabilityTime(hours)}
-                          class={`px-3 py-1.5 rounded-full ${availabilityHours.includes(hours) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                          className={`px-3 py-1.5 rounded-full ${availabilityHours.includes(hours) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                         >
                           {hours}
@@ -830,24 +875,24 @@ const slug = slugify(title, { lower: true, strict: true });
                     </div>
                   </div>
                 </div>
-                <div class='w-full flex flex-col gap-2 mt-5'>
+                <div className='w-full flex flex-col gap-2 mt-5'>
                   <label className="text-xs font-['Semibold']">Specifications</label>
-                  <div class=''>
-                    <div class='flex items-center gap-3'>
-                      <div class='w-full'>
+                  <div className=''>
+                    <div className='flex items-center gap-3'>
+                      <div className='w-full'>
                         {specifications.length > 0 && (
-                          <div class='flex items-center flex-wrap mt-2 gap-3'>
+                          <div className='flex items-center flex-wrap mt-2 gap-3'>
                             {specifications.map((spec, index) => (
-                              <div class='px-3 flex items-center gap-2 border py-1 rounded-full text-xs font-["Semibold"]'>
+                              <div className='px-3 flex items-center gap-2 border py-1 rounded-full text-xs font-["Semibold"]'>
                                 {spec}
                                 <XMarkIcon onClick={() => handleRemoveSpecification(spec)}
-                                  class='w-4 h-4 text-gray-200' />
+                                  className='w-4 h-4 text-gray-200' />
                               </div>
                             ))}
                           </div>
                         )}
                       </div>
-                      <div class='w-full flex items-center gap-3'>
+                      <div className='w-full flex items-center gap-3'>
                         <input
                           type="text"
                           value={specInput}
@@ -856,7 +901,7 @@ const slug = slugify(title, { lower: true, strict: true });
                           className="py-3 px-3 w-full text-xs placeholder:text-gray-300 font-medium rounded-xl border"
                         />
                         <button onClick={handleAddSpecification}
-                          class='py-3 px-3 bg-black text-xs rounded-xl text-white font-["Medium"]'>
+                          className='py-3 px-3 bg-zinc-950 text-xs rounded-xl text-white font-["Medium"]'>
                           Add
                         </button>
                       </div>
@@ -870,32 +915,32 @@ const slug = slugify(title, { lower: true, strict: true });
 
 
             {merchandise.food && productType.merchandise === true && (
-              <div class='w-full flex items-center gap-10'>
-                <div class='w-full'>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Type</label>
+              <div className='w-full flex items-center gap-10'>
+                <div className='w-full'>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Type</label>
                   </div>
-                  <div class='gap-2 grid w-full grid-cols-3 mt-2'>
-                    <div onClick={() => setClothingType("Exotic Snacks")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Exotic Snacks' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
+                  <div className='gap-2 grid w-full grid-cols-3 mt-2'>
+                    <div onClick={() => setClothingType("Exotic Snacks")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Exotic Snacks' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
                       <div>Exotic Snacks</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Exotic Snacks' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Exotic Snacks' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Seasonings")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Seasonings' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Seasonings")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Seasonings' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Seasonings</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Seasonings' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Seasonings' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Chips")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Chips' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Chips")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Chips' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Chips</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Chips' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Chips' ? 'border-4 border-black' : 'border'} `} />
                     </div>
 
-                    <div onClick={() => setClothingType("Candy")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Candy' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Candy")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Candy' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Candy</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Candy' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Candy' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Beverage")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Beverage' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Beverage")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Beverage' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Beverage</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Beverage' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Beverage' ? 'border-4 border-black' : 'border'} `} />
                     </div>
                   </div>
                 </div>
@@ -903,42 +948,42 @@ const slug = slugify(title, { lower: true, strict: true });
               </div>
             )}
             {merchandise.clothing && productType.merchandise && product.product === true && (
-              <div class='w-full flex items-center gap-10'>
-                <div class='w-full'>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Clothing type</label>
+              <div className='w-full flex items-center gap-10'>
+                <div className='w-full'>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Clothing type</label>
                   </div>
-                  <div class='gap-2 grid w-full grid-cols-2 mt-2'>
-                    <div onClick={() => setClothingType("Hat")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Hat' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
+                  <div className='gap-2 grid w-full grid-cols-2 mt-2'>
+                    <div onClick={() => setClothingType("Hat")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Hat' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
                       <div>Hats</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Hat' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Hat' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Bottom")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Bottom' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Bottom")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Bottom' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Bottoms</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Bottom' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Bottom' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Top")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Top' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Top")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Top' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Tops</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Top' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Top' ? 'border-4 border-black' : 'border'} `} />
                     </div>
 
-                    <div onClick={() => setClothingType("Hoodie")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Hoodie' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Hoodie")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Hoodie' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Hoodies</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Hoodie' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Hoodie' ? 'border-4 border-black' : 'border'} `} />
                     </div>
                   </div>
                 </div>
-                <div class=''>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Sizes available</label>
+                <div className=''>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Sizes available</label>
                   </div>
-                  <div class='flex items-center gap-2 w-full flex-wrap mt-2'>
+                  <div className='flex items-center gap-2 w-full flex-wrap mt-2'>
                     {availableSizes.map((size) => (
                       <button
                         key={size}
                         type="button"
                         onClick={() => toggleSize(size)}
-                        class={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                        className={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                       >
                         {size}
@@ -951,61 +996,61 @@ const slug = slugify(title, { lower: true, strict: true });
             )}
 
             {merchandise.electronics && productType.merchandise === true && (
-              <div class='w-full flex items-center gap-10'>
-                <div class='w-full'>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Electronic</label>
+              <div className='w-full flex items-center gap-10'>
+                <div className='w-full'>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Electronic</label>
                   </div>
-                  <div class='gap-2 grid w-full grid-cols-2 mt-2'>
-                    <div onClick={() => setClothingType("Phone")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Phone' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
+                  <div className='gap-2 grid w-full grid-cols-2 mt-2'>
+                    <div onClick={() => setClothingType("Phone")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Phone' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
                       <div>Phone</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Phone' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Phone' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Cases")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Cases' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Cases")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Cases' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Cases</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Cases' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Cases' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Top")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Headphones' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Top")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Headphones' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Headphones</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Headphones' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Headphones' ? 'border-4 border-black' : 'border'} `} />
                     </div>
 
-                    <div onClick={() => setClothingType("Laptop")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Laptop' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Laptop")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Laptop' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Laptop</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Laptop' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Laptop' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Tablet")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Tablet' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Tablet")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Tablet' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Tablet</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Tablet' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Tablet' ? 'border-4 border-black' : 'border'} `} />
                     </div>
 
-                    <div onClick={() => setClothingType("Other")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Other' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Other")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Other' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Other</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Other' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Other' ? 'border-4 border-black' : 'border'} `} />
                     </div>
                   </div>
                 </div>
-                <div class=''>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Brand</label>
+                <div className=''>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Brand</label>
                   </div>
-                  <div class='flex items-center gap-2 w-full flex-wrap mt-2'>
-                    <div class='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
+                  <div className='flex items-center gap-2 w-full flex-wrap mt-2'>
+                    <div className='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
                       Apple
                     </div>
-                    <div class='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
+                    <div className='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
                       Samsung
                     </div>
-                    <div class='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
+                    <div className='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
                       Beats
                     </div>
-                    <div class='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
+                    <div className='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
                       Lenovo
                     </div>
-                    <div class='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
+                    <div className='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
                       Dell
                     </div>
-                    <div class='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
+                    <div className='px-3 py-1.5 rounded-full border font-["Semibold"] text-xs'>
                       HP
                     </div>
 
@@ -1015,43 +1060,43 @@ const slug = slugify(title, { lower: true, strict: true });
             )}
 
             {merchandise.accesories && productType.merchandise === true && (
-              <div class='w-full flex items-center gap-10'>
-                <div class='w-full'>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Accessory type</label>
+              <div className='w-full flex items-center gap-10'>
+                <div className='w-full'>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Accessory type</label>
                   </div>
-                  <div class='gap-2 grid w-full grid-cols-2 mt-2'>
-                    <div onClick={() => setClothingType("Bracelet")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Bracelet' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
+                  <div className='gap-2 grid w-full grid-cols-2 mt-2'>
+                    <div onClick={() => setClothingType("Bracelet")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Bracelet' ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}>
                       <div>Bracelet</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Bracelet' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Bracelet' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Necklace")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Necklace' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Necklace")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Necklace' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Necklace</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Necklace' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Necklace' ? 'border-4 border-black' : 'border'} `} />
                     </div>
-                    <div onClick={() => setClothingType("Ring")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Ring' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Ring")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Ring' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Ring</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Ring' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Ring' ? 'border-4 border-black' : 'border'} `} />
                     </div>
 
-                    <div onClick={() => setClothingType("Earing")} class={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Earing' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
+                    <div onClick={() => setClothingType("Earing")} className={`w-full py-2 px-2 flex items-center justify-between rounded-xl ${clothingType === 'Earing' ? 'border-2 border-black' : 'border'}  font-["Semibold"] text-xs`}>
                       <div>Earing</div>
-                      <div class={`w-3 h-3 rounded-full ${clothingType === 'Earing' ? 'border-4 border-black' : 'border'} `} />
+                      <div className={`w-3 h-3 rounded-full ${clothingType === 'Earing' ? 'border-4 border-black' : 'border'} `} />
                     </div>
                   </div>
                 </div>
-                <div class=''>
-                  <div class='flex flex-col'>
-                    <label class='font-["Semibold"] text-xs'>Sizes available</label>
+                <div className=''>
+                  <div className='flex flex-col'>
+                    <label className='font-["Semibold"] text-xs'>Sizes available</label>
                   </div>
                   {clothingType === 'Bracelet' && (
-                    <div class='flex items-center gap-2 w-full flex-wrap mt-2'>
+                    <div className='flex items-center gap-2 w-full flex-wrap mt-2'>
                       {braceletSizes.map((size) => (
                         <button
                           key={size}
                           type="button"
                           onClick={() => toggleSize(size)}
-                          class={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                          className={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                         >
                           {size}
@@ -1061,13 +1106,13 @@ const slug = slugify(title, { lower: true, strict: true });
                     </div>
                   )}
                   {clothingType === 'Necklace' && (
-                    <div class='flex items-center gap-2 w-full flex-wrap mt-2'>
+                    <div className='flex items-center gap-2 w-full flex-wrap mt-2'>
                       {braceletSizes.map((size) => (
                         <button
                           key={size}
                           type="button"
                           onClick={() => toggleSize(size)}
-                          class={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                          className={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                         >
                           {size}
@@ -1077,13 +1122,13 @@ const slug = slugify(title, { lower: true, strict: true });
                   )}
 
                   {clothingType === 'Ring' && (
-                    <div class='flex items-center gap-2 w-full flex-wrap mt-2'>
+                    <div className='flex items-center gap-2 w-full flex-wrap mt-2'>
                       {ringSizes.map((size) => (
                         <button
                           key={size}
                           type="button"
                           onClick={() => toggleSize(size)}
-                          class={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                          className={`px-3 py-1.5 rounded-full ${sizes.includes(size) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                         >
                           {size}
@@ -1095,19 +1140,19 @@ const slug = slugify(title, { lower: true, strict: true });
                 </div>
               </div>
             )}
-            <div class={`w-full flex ${merchandise.food === true && 'hidden'} ${productType.merchandise === false && 'hidden'} flex-col gap-2`}>
-              <label class='font-["Semibold"] text-xs'>Colors available</label>
-              <div class='flex items-center gap-2 w-full flex-wrap mt-2'>
-                <div class='flex items-center flex-wrap gap-2'>
+            <div className={`w-full flex ${merchandise.food === true && 'hidden'} ${productType.merchandise === false && 'hidden'} flex-col gap-2`}>
+              <label className='font-["Semibold"] text-xs'>Colors available</label>
+              <div className='flex items-center gap-2 w-full flex-wrap mt-2'>
+                <div className='flex items-center flex-wrap gap-2'>
                   {colorAvailable.map((color) => (
                     <button
                       key={color}
                       type="button"
                       onClick={() => toggleColors(color)}
-                      class={`px-3 py-1.5 flex items-center gap-2 rounded-full ${colors.includes(color) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
+                      className={`px-3 py-1.5 flex items-center gap-2 rounded-full ${colors.includes(color) ? 'border-2 border-black' : 'border'} font-["Semibold"] text-xs`}
 
                     >
-                      <div style={{ backgroundColor: color }} class='w-3 h-3 rounded-full' />
+                      <div style={{ backgroundColor: color }} className='w-3 h-3 rounded-full' />
                       {color}
                     </button>
                   ))}
@@ -1115,36 +1160,36 @@ const slug = slugify(title, { lower: true, strict: true });
               </div>
             </div>
 
-            <div class='w-full flex flex-col gap-2'>
-              <label class='font-["Semibold"] text-xs'>Description</label>
+            <div className='w-full flex flex-col gap-2'>
+              <label className='font-["Semibold"] text-xs'>Description</label>
               <input
-                class='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
+                className='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
                 value={description}
                 type='text'
                 placeholder='Description of product...'
                 onChange={e => setDescription(e.target.value)}
               />
             </div>
-            <div class='font-["Semibold"] flex items-center gap-3'>
-              <button onClick={finishingModal} class='bg-black text-white w-full py-2.5 rounded-xl'>Continue</button>
-              <button class='border text-black w-full py-2.5 rounded-xl'>Cancel</button>
+            <div className='font-["Semibold"] flex items-center gap-3'>
+              <button onClick={finishingModal} className='bg-zinc-950 text-white w-full py-2.5 rounded-xl'>Continue</button>
+              <button className='border text-black w-full py-2.5 rounded-xl'>Cancel</button>
             </div>
           </DialogPanel>
         </div>
       </Dialog>
-      <Dialog open={isCreate} onClose={() => setIsCreate(false)} class='relative font-general-sans z-50'>
+      <Dialog open={isCreate} onClose={() => setIsCreate(false)} className='relative font-general-sans z-50'>
         <div className="fixed inset-0 flex bg-opacity-70 w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-2xl w-full space-y-4 flex-col flex  border rounded-xl bg-white p-10">
-            <div class='flex items-start justify-start flex-col'>
-              <div style={{ fontFamily: 'Semibold' }} class='text-3xl mb-2'>Create {product.product === true ? 'Product' : 'Service'}</div>
-              <div class='font-["Medium"] text-gray-500 w-3/4 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
+            <div className='flex items-start justify-start flex-col'>
+              <div style={{ fontFamily: 'Semibold' }} className='text-3xl mb-2'>Create {product.product === true ? 'Product' : 'Service'}</div>
+              <div className='font-["Medium"] text-gray-500 w-3/4 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
             </div>
 
             <label htmlFor="photo" style={{ fontFamily: 'Semibold' }} className="block text-xs leading-6 mb-3 mt-6 text-black">
               Product thumbnail
             </label>
             <div className="flex gap-3 items-center">
-              <div className={`${thumbnail ? "hidden" : "h-20 w-20  capitalize rounded-lg text-xl font-['Semibold'] text-black items-center bg-sky-100 justify-center flex"}`} aria-hidden="true" >
+              <div className={`${thumbnail ? "hidden" : "h-20 w-20  capitalize rounded-lg text-xl font-['Semibold'] text-black items-center bg-zinc-100 justify-center flex"}`} aria-hidden="true" >
                 {title.charAt(0)}
               </div>
               {thumbnailLoading ? (
@@ -1155,7 +1200,7 @@ const slug = slugify(title, { lower: true, strict: true });
                     <span onClick={() => avatarFile.current.click()}>
                       <img
                         src={thumbnail}
-                        class='h-12 w-12 rounded-full '
+                        className='h-12 w-12 rounded-full '
                         alt="avatar"
                         onClick={() => avatarFile.current.click()}
 
@@ -1174,7 +1219,7 @@ const slug = slugify(title, { lower: true, strict: true });
                 </>
               )}
 
-              <div class='gap-y-2 flex flex-col'>
+              <div className='gap-y-2 flex flex-col'>
                 <div>
                   <label
                     style={{ fontFamily: 'Semibold' }}
@@ -1190,15 +1235,15 @@ const slug = slugify(title, { lower: true, strict: true });
 
                   </label>
                 </div>
-                <div class='text-xs text-gray-500 font-["Medium"]'>.png, .jpeg, .gif files up to 8MB. Recommended size 256x256px.</div>
+                <div className='text-xs text-gray-500 font-["Medium"]'>.png, .jpeg, .gif files up to 8MB. Recommended size 256x256px.</div>
               </div>
             </div>
 
-            <div class='flex items-center w-full gap-3'>
-              <div class='w-full flex flex-col gap-2'>
-                <label class='font-["Semibold"] text-xs'>Name</label>
+            <div className='flex items-center w-full gap-3'>
+              <div className='w-full flex flex-col gap-2'>
+                <label className='font-["Semibold"] text-xs'>Name</label>
                 <input
-                  class='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
+                  className='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
                   type="text"
                   value={title}
                   id={title}
@@ -1207,10 +1252,10 @@ const slug = slugify(title, { lower: true, strict: true });
                   autoFocus
                 />
               </div>
-              <div class='w-full flex flex-col gap-2'>
-                <label class='font-["Semibold"] text-xs'>Price</label>
+              <div className='w-full flex flex-col gap-2'>
+                <label className='font-["Semibold"] text-xs'>Price</label>
                 <input
-                  class='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
+                  className='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
                   value={price}
                   type='number'
                   onChange={e => setPrice(e.target.value)}
@@ -1218,86 +1263,86 @@ const slug = slugify(title, { lower: true, strict: true });
               </div>
             </div>
             {product.product === true ? (
-              <div class='w-full flex flex-col gap-2'>
+              <div className='w-full flex flex-col gap-2'>
 
-                <label class='font-["Semibold"] text-xs'>Type</label>
-                <div class='grid grid-cols-2 w-full gap-3'>
-                  <div onClick={() => handleProduct('digitalDownload')} class={`${productType.digitalDownload === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.digitalDownload === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                <label className='font-["Semibold"] text-xs'>Type</label>
+                <div className='grid grid-cols-2 w-full gap-3'>
+                  <div onClick={() => handleProduct('digitalDownload')} className={`${productType.digitalDownload === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.digitalDownload === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Digital Download
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Create and sell digital products like E-books, Music, Videos, Software, and Templates.
                     </div>
                   </div>
-                  <div onClick={() => handleProduct('audio')} class={`${productType.audio === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.audio === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                  <div onClick={() => handleProduct('audio')} className={`${productType.audio === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.audio === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Audios
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Upload and sell audio content like Podcasts, Music Tracks, Audiobooks, and Sound Effects.
                     </div>
                   </div>
-                  <div onClick={() => handleProduct('ebook')} class={`${productType.ebook === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.ebook === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                  <div onClick={() => handleProduct('ebook')} className={`${productType.ebook === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.ebook === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Ebooks
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Create and sell e-books such as Novels, Guides, Manuals, and Comics.
                     </div>
                   </div>
-                  <div onClick={() => handleProduct('merchandise')} class={`${productType.merchandise === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.merchandise === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                  <div onClick={() => handleProduct('merchandise')} className={`${productType.merchandise === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.merchandise === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Merchandise
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Design and sell merchandise such as T-shirts, Hats, Mugs, Hoodies, and Custom Accessories.
                     </div>
                   </div>
                 </div>
               </div>
             ) : (
-              <div class='w-full flex flex-col gap-2'>
+              <div className='w-full flex flex-col gap-2'>
 
-                <label class='font-["Semibold"] text-xs'>Type</label>
-                <div class='grid grid-cols-2 w-full gap-3'>
-                  <div onClick={() => handleProduct('hair')} class={`${productType.hair === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.hair === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                <label className='font-["Semibold"] text-xs'>Type</label>
+                <div className='grid grid-cols-2 w-full gap-3'>
+                  <div onClick={() => handleProduct('hair')} className={`${productType.hair === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.hair === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Hair Services
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Create and sell digital products like E-books, Music, Videos, Software, and Templates.
                     </div>
                   </div>
-                  <div onClick={() => handleProduct('cosmetic')} class={`${productType.cosmetic === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.cosmetic === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                  <div onClick={() => handleProduct('cosmetic')} className={`${productType.cosmetic === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.cosmetic === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Cosmetic Services
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Upload and sell audio content like Podcasts, Music Tracks, Audiobooks, and Sound Effects.
                     </div>
                   </div>
-                  <div onClick={() => handleProduct('catering')} class={`${productType.catering === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.catering === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                  <div onClick={() => handleProduct('catering')} className={`${productType.catering === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.catering === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Catering Service
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Create and sell e-books such as Novels, Guides, Manuals, and Comics.
                     </div>
                   </div>
-                  <div onClick={() => handleProduct('custom')} class={`${productType.custom === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
-                    <div class={`absolute right-3 top-3 ${productType.custom === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
-                    <div class='font-["Semibold"] text-xs'>
+                  <div onClick={() => handleProduct('custom')} className={`${productType.custom === true ? 'border-black border-2' : 'border'} flex flex-col gap-1 relative rounded-xl p-3`}>
+                    <div className={`absolute right-3 top-3 ${productType.custom === true ? 'border-black border-4' : 'border'} rounded-full w-3 h-3`} />
+                    <div className='font-["Semibold"] text-xs'>
                       Custom Services
                     </div>
-                    <div class='text-gray-400 font-["Medium"] text-xs'>
+                    <div className='text-gray-400 font-["Medium"] text-xs'>
                       Design and sell merchandise such as T-shirts, Hats, Mugs, Hoodies, and Custom Accessories.
                     </div>
                   </div>
@@ -1305,19 +1350,19 @@ const slug = slugify(title, { lower: true, strict: true });
               </div>
             )}
 
-            <div class='w-full flex flex-col gap-2'>
-              <label class='font-["Semibold"] text-xs'>Description</label>
+            <div className='w-full flex flex-col gap-2'>
+              <label className='font-["Semibold"] text-xs'>Description</label>
               <input
-                class='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
+                className='py-3 px-3 w-full text-xs font-["Medium"] rounded-xl border'
                 value={description}
                 type='text'
                 placeholder='Description of product...'
                 onChange={e => setDescription(e.target.value)}
               />
             </div>
-            <div class='font-["Semibold"] flex items-center gap-3'>
-              <button onClick={fileModal} class='bg-black text-white w-full py-2.5 rounded-xl'>Continue</button>
-              <button class='border text-black w-full py-2.5 rounded-xl'>Cancel</button>
+            <div className='font-["Semibold"] flex items-center gap-3'>
+              <button onClick={fileModal} className='bg-zinc-950 text-white w-full py-2.5 rounded-xl'>Continue</button>
+              <button className='border text-black w-full py-2.5 rounded-xl'>Cancel</button>
             </div>
           </DialogPanel>
         </div>
@@ -1326,56 +1371,56 @@ const slug = slugify(title, { lower: true, strict: true });
         <div className="fixed inset-0 flex bg-opacity-70 w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-xl w-full space-y-4 flex-col flex items-center justify-center border rounded-xl bg-white p-10">
 
-            <div class='flex items-start justify-start flex-col'>
-              <div style={{ fontFamily: 'Semibold' }} class='text-3xl mb-2'>Add a product</div>
-              <div class='font-["Medium"] text-gray-500 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
+            <div className='flex items-start justify-start flex-col'>
+              <div style={{ fontFamily: 'Semibold' }} className='text-3xl mb-2'>Add a product</div>
+              <div className='font-["Medium"] text-gray-500 text-sm'>Tell us more about workspace so we can provide you a personalized expirience tailored to your needs and preferences</div>
             </div>
 
 
 
-            <div class='flex items-start justify-start flex-col  w-full font-["Semibold"] gap-4'>
-              <label class='text-xs'>Type</label>
-              <div class='flex w-full gap-2'>
-                <div onClick={() => handleToggle('product')} class={`w-full ${product.product === true ? 'border-black border-2' : 'border'} p-3 px-4 justify-between flex items-center gap-1 rounded-xl`}>
-                  <div class='flex flex-col gap-[2px]'>
-                    <div class='bg-gray-100 h-7 w-7 flex items-center justify-center rounded-md inline-block'>
+            <div className='flex items-start justify-start flex-col  w-full font-["Semibold"] gap-4'>
+              <label className='text-xs'>Type</label>
+              <div className='flex w-full gap-2'>
+                <div onClick={() => handleToggle('product')} className={`w-full ${product.product === true ? 'border-black border-2' : 'border'} p-3 px-4 justify-between flex items-center gap-1 rounded-xl`}>
+                  <div className='flex flex-col gap-[2px]'>
+                    <div className='bg-gray-100 h-7 w-7 flex items-center justify-center rounded-md inline-block'>
                       <img
                         className="h-5 w-5 flex-shrink-0"
                         src="/assets/IconSet7.svg"
                         loading="lazy"
                       />
                     </div>
-                    <div class='text-xs'>Products</div>
-                    <div class='text-xs text-gray-400 font-["Medium"]'>Create and manage various products such as Digital Downloads, Audios, Videos, E-books, and Physical Products.
+                    <div className='text-xs'>Products</div>
+                    <div className='text-xs text-gray-400 font-["Medium"]'>Create and manage various products such as Digital Downloads, Audios, Videos, E-books, and Physical Products.
                     </div>
                   </div>
                   <div>
-                    <div class={`w-5 h-5 rounded-full  ${product.product === true ? 'border-black border-8' : 'border'}`} />
+                    <div className={`w-5 h-5 rounded-full  ${product.product === true ? 'border-black border-8' : 'border'}`} />
                   </div>
                 </div>
-                <div onClick={() => handleToggle('service')} class={`w-full ${product.service === true ? 'border-black border-2' : 'border'} p-3 px-4 justify-between flex items-center gap-1 rounded-xl`}>
-                  <div class='flex flex-col gap-[2px]'>
-                    <div class='bg-gray-100 h-7 w-7 flex items-center justify-center rounded-md inline-block'>
+                <div onClick={() => handleToggle('service')} className={`w-full ${product.service === true ? 'border-black border-2' : 'border'} p-3 px-4 justify-between flex items-center gap-1 rounded-xl`}>
+                  <div className='flex flex-col gap-[2px]'>
+                    <div className='bg-gray-100 h-7 w-7 flex items-center justify-center rounded-md inline-block'>
                       <img
                         className="h-5 w-5 flex-shrink-0"
                         src="/assets/HandCoins.svg"
                         loading="lazy"
                       />
                     </div>
-                    <div class='text-xs'>Services</div>
-                    <div class='text-xs text-gray-400 font-["Medium"]'>Offer various services such as Consultations, Online Courses, Coaching Sessions, Webinars, and Workshops.
+                    <div className='text-xs'>Services</div>
+                    <div className='text-xs text-gray-400 font-["Medium"]'>Offer various services such as Consultations, Online Courses, Coaching Sessions, Webinars, and Workshops.
                     </div>
                   </div>
                   <div>
-                    <div class={`w-5 h-5 rounded-full  ${product.service === true ? 'border-black border-8' : 'border'}`} />
+                    <div className={`w-5 h-5 rounded-full  ${product.service === true ? 'border-black border-8' : 'border'}`} />
                   </div>
                 </div>
               </div>
 
             </div>
             <div className="flex w-full gap-4">
-              <button class='w-full bg-black text-white py-2 rounded-xl text-sm font-["Semibold"]' onClick={() => create()}>Continue</button>
-              <button class='w-full bg-white border bg-white rounded-xl text-sm font-["Medium"]' onClick={() => setIsOpen(false)}>Cancel</button>
+              <button className='w-full bg-zinc-950 text-white py-2 rounded-xl text-sm font-["Semibold"]' onClick={() => create()}>Continue</button>
+              <button className='w-full bg-white border bg-white rounded-xl text-sm font-["Medium"]' onClick={() => setIsOpen(false)}>Cancel</button>
             </div>
           </DialogPanel>
         </div>

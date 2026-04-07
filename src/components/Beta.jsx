@@ -41,8 +41,8 @@ export const Beta = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
-        <div class='w-full'>
-      <div class=' md:flex items-center md:justify-center relative'>
+        <div className='w-full'>
+      <div className=' md:flex items-center md:justify-center relative'>
 
         <div className="flex min-h-full flex-1 flex-col md:justify-center px-6 py-12 lg:px-8">
           <div className="md:flex items-center sm:justify-center flex-col">
@@ -57,7 +57,7 @@ export const Beta = () => {
               <div>
 
                 <div className="mt-2 gap-2 flex flex-col">
-                  <label class='font-["Semibold"] text-sm'>Name</label>
+                  <label className='font-["Semibold"] text-sm'>Name</label>
                   <input
                     id="name"
                     name="name"
@@ -73,7 +73,7 @@ export const Beta = () => {
               <div>
 
                 <div className="mt-2 gap-2 flex flex-col">
-                  <label class='font-["Semibold"] text-sm'>Email</label>
+                  <label className='font-["Semibold"] text-sm'>Email</label>
                   <input
                     id="email"
                     name="email"
@@ -92,22 +92,22 @@ export const Beta = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:border hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full rounded-full justify-center bg-black px-3 py-3 font-['Semibold'] leading-6 text-white shadow-sm hover:border hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
                 >
                   Get access
                 </button>
 
                 <a
                   href='/login'
-                  className="flex mt-2 w-full rounded-full justify-center border px-3 py-3 font-['Semibold'] leading-6 text-black hover:bg-indigo-500 hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex mt-2 w-full rounded-full justify-center border px-3 py-3 font-['Semibold'] leading-6 text-black hover:bg-zinc-950 hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
                 >
                   Sign in
                 </a>
               </div>
 
-              <div class='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div class='text-black font-["Semibold"]'>terms of use</div></div>
-                <div class='rounded-lg mt-10 text-gray-400 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
-                  <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
+              <div className='text-gray-400 text-center text-xs font-["Medium"]'>By signing up you are agreeing to our <div className='text-black font-["Semibold"]'>terms of use</div></div>
+                <div className='rounded-lg mt-10 text-gray-400 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
+                  <div>  By continuing to browse our site you are accepting our <a className='font-["Semibold"] text-black'>cookie policy</a></div>
                 </div>
             </form>
 

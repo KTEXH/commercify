@@ -105,7 +105,7 @@ export const Product = () => {
 
             {/* Curved panel overlapping the banner */}
             <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
-                <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+                <div className='w-16 mt-5 flex flex-col space-y-3 items-center'>
                     {data?.me?.Pages?.map(item => (
                         <div key={item.id} className="relative flex items-center">
                             {/* Left curved indicator */}
@@ -113,7 +113,7 @@ export const Product = () => {
                                 <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
                                 ></div>
                             )}
-                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
+                            <img key={item.id} onClick={() => setSelectedPage(item)} className='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
                         </div>
                     ))}
                     <Add />
@@ -123,7 +123,7 @@ export const Product = () => {
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
                     <div className="border-b items-center px-6 py-4">
-                        <div class='flex items-center gap-2'>
+                        <div className='flex items-center gap-2'>
                             <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
                             <span className="text-lg font-['Semibold'] text-sm">cmhq.me/{selectedPage?.subdomain}</span>
                         </div>
@@ -132,37 +132,37 @@ export const Product = () => {
                         </div>
                     </div>
                     <main className="flex-1 relative overflow-y-auto py-2">
-                        <div class='px-16'>
-                            <div class='flex items-center justify-between w-full'>
-                                <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>{product?.getService?.title}</div>
-                                <img src={product?.getService?.thumbnail || logo} class='w-12 h-12 rounded-full' />
+                        <div className='px-16'>
+                            <div className='flex items-center justify-between w-full'>
+                                <div className='mt-7 font-["Semibold"] mb-3 text-3xl'>{product?.getService?.title}</div>
+                                <img src={product?.getService?.thumbnail || logo} className='w-12 h-12 rounded-full' />
                             </div>
-                            <div class='w-full flex gap-5 mt-5'>
+                            <div className='w-full flex gap-5 mt-5'>
                                 <div className='h-64 w-1/3 rounded-3xl border shadow-sm p-5 bg-white'>
-                                    <img src={product?.getService?.thumbnail || logo} class='w-full rounded-3xl h-full' />
+                                    <img src={product?.getService?.thumbnail || logo} className='w-full rounded-3xl h-full' />
                                 </div>
-                                <div class='bg-white px-10 py-5 border shadow-sm rounded-3xl w-2/3'>
-                                    <div class='flex gap-3 w-full'>
-                                        <div class='w-full'>
-                                            <div class='text-sm font-["Semibold"]'>Title</div>
+                                <div className='bg-white px-10 py-5 border shadow-sm rounded-3xl w-2/3'>
+                                    <div className='flex gap-3 w-full'>
+                                        <div className='w-full'>
+                                            <div className='text-sm font-["Semibold"]'>Title</div>
                                             <input
                                                 type='text'
                                                 placeholder='Title'
                                                 onChange={(e) => setTitle(e.target.value)}
                                                 value={title}
-                                                class='px-3 py-2 mt-2 w-full font-["Medium"] rounded-full text-sm border' />
+                                                className='px-3 py-2 mt-2 w-full font-["Medium"] rounded-full text-sm border' />
                                         </div>
-                                        <div class='w-full'>
-                                            <div class='text-sm font-["Semibold"]'>Description</div>
+                                        <div className='w-full'>
+                                            <div className='text-sm font-["Semibold"]'>Description</div>
                                             <textarea
                                                 type='text'
                                                 placeholder='Description'
                                                 value={description}
                                                 onChange={(e) => setDescription(e.target.value)}
-                                                class='px-3 py-2 mt-2 w-full font-["Medium"] rounded-3xl text-sm border' />
+                                                className='px-3 py-2 mt-2 w-full font-["Medium"] rounded-3xl text-sm border' />
                                         </div>
                                     </div>
-                                    <div class='mt-2'>
+                                    <div className='mt-2'>
                                         <div>Details</div>
                                     </div>
                                 </div>
@@ -170,12 +170,12 @@ export const Product = () => {
                         </div>
 
 
-                        <div class='p-3 fixed bottom-0 w-[calc(100%-335px)] flex items-center gap-5 border-t '>
-                            <form class='w-full' onSubmit={handleSubmit}>
-                                <button type='submit' class='w-full py-3 rounded-full bg-black text-white font-["Semibold"]'>Edit</button>
+                        <div className='p-3 fixed bottom-0 w-[calc(100%-335px)] flex items-center gap-5 border-t '>
+                            <form className='w-full' onSubmit={handleSubmit}>
+                                <button type='submit' className='w-full py-3 rounded-full bg-zinc-950 text-white font-["Semibold"]'>Edit</button>
                             </form>
                             <form onSubmit={handleDelete}>
-                                <button type='submit' class='w-full py-3 shadow-sm font-["Semibold"] rounded-full border'>Delete</button>
+                                <button type='submit' className='w-full py-3 shadow-sm font-["Semibold"] rounded-full border'>Delete</button>
                             </form>
                         </div>
                     </main>

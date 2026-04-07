@@ -52,7 +52,7 @@ export const Order = () => {
     <div>
       <Banner />
       <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
-        <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+        <div className='w-16 mt-5 flex flex-col space-y-3 items-center'>
           {mData.me.Pages.map(item => (
             <div key={item.id} className="relative flex items-center">
               {/* Left curved indicator */}
@@ -60,18 +60,18 @@ export const Order = () => {
                 <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
                 ></div>
               )}
-              <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-lg' src={!item?.headerImage ? logo : item?.headerImage} />
+              <img key={item.id} onClick={() => setSelectedPage(item)} className='h-8 rounded-lg' src={!item?.headerImage ? logo : item?.headerImage} />
             </div>
           ))}
-          <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
-            <PlusIcon class='w-4 h-4 text-black' />
+          <div className='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
+            <PlusIcon className='w-4 h-4 text-black' />
           </div>
         </div>
         <NavBar home={false} storefront={selectedPage?.storefront} workshop={selectedPage?.workshop} orders={true} />
         <div className="flex-1 flex flex-col">
           {/* Top Bar */}
           <header className="flex justify-between border-b items-center px-6 py-4 bg-white">
-            <div class='flex items-center gap-2'>
+            <div className='flex items-center gap-2'>
               <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
               <span className="text-lg font-['Semibold'] text-sm">{selectedPage?.name} • commercifyhq.com/{selectedPage?.name}</span>
             </div>
@@ -81,29 +81,29 @@ export const Order = () => {
             </div>
           </header>
 
-          <main class={`p-6 px-16 w-full relative flex h-full flex-col`}>
-            <div class='flex justify-between'>
-              <div class={`text-2xl ${product?.serviceOrProduct === 'Service' && `hidden`} font-["Semibold"]`}>{product?.serviceOrProduct === 'Product' && `Order #${numericId}`}</div>
-              <div class={`text-2xl ${product?.serviceOrProduct === 'Product' && `hidden`} font-["Semibold"]`}>{product?.serviceOrProduct === 'Service' && `Booking Request`}</div>
+          <main className={`p-6 px-16 w-full relative flex h-full flex-col`}>
+            <div className='flex justify-between'>
+              <div className={`text-2xl ${product?.serviceOrProduct === 'Service' && `hidden`} font-["Semibold"]`}>{product?.serviceOrProduct === 'Product' && `Order #${numericId}`}</div>
+              <div className={`text-2xl ${product?.serviceOrProduct === 'Product' && `hidden`} font-["Semibold"]`}>{product?.serviceOrProduct === 'Service' && `Booking Request`}</div>
 
-              <div class='flex items-center'>
-                <div class='h-8 w-8 rounded-full bg-black' />
+              <div className='flex items-center'>
+                <div className='h-8 w-8 rounded-full bg-zinc-950' />
                 <div>
                   <div>{product?.title}</div>
                 </div>
               </div>
             </div>
-            <div class='w-full gap-10 flex mt-7'>
-              <div class='w-1/3 rounded-xl flex bg-white h-64'>
+            <div className='w-full gap-10 flex mt-7'>
+              <div className='w-1/3 rounded-xl flex bg-white h-64'>
 
               </div>
-              <div class='w-2/3 rounded-xl flex bg-white h-64'>
+              <div className='w-2/3 rounded-xl flex bg-white h-64'>
 
               </div>
             </div>
-            <div class='absolute px-5 bottom-0 py-5 w-full justify-start border-t right-0 flex items-center'>
-              {product?.serviceOrProduct === 'Product' && (<button class='bg-black text-xl text-white font-["Semibold"] w-full py-3 rounded-full'>Fullfill</button>)}
-              {product?.serviceOrProduct === 'Service' && (<button class='bg-black text-xl text-white font-["Semibold"] w-full py-3 rounded-full'>Confirm Booking</button>)}
+            <div className='absolute px-5 bottom-0 py-5 w-full justify-start border-t right-0 flex items-center'>
+              {product?.serviceOrProduct === 'Product' && (<button className='bg-zinc-950 text-xl text-white font-["Semibold"] w-full py-3 rounded-full'>Fullfill</button>)}
+              {product?.serviceOrProduct === 'Service' && (<button className='bg-zinc-950 text-xl text-white font-["Semibold"] w-full py-3 rounded-full'>Confirm Booking</button>)}
             </div>
           </main>
         </div>

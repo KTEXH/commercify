@@ -1,295 +1,186 @@
 import { useState, useEffect } from "react";
-import { CheckCircle, Bell, User, Check } from "lucide-react";
-import { ArrowRightIcon, CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { RiCheckFill } from "@remixicon/react";
 import { ME_QUERY } from "../../Data/Me";
 import { useMutation, useQuery } from "@apollo/client";
 import { NavBar } from "../../components/NavBar";
-import { Tab, TabGroup, TabList, TabPanel } from "@headlessui/react";
 import { DELETE_LINK, LINK_CREATION, UPDATE_LINK } from "../../Pages/Pages/Mutations/Mutations";
 import { supabase } from "../../Utils/utils";
-import { Banner } from "./Home";
+import { Banner, Add } from "./Home";
 import logo from "../../components/assets/logo.svg";
 import flag from '../../components/assets/united-states.png'
 import { useNavigate } from "react-router-dom";
 
-export const Products = ({ className = "" }) => {
-    const { data, error, loading } = useQuery(ME_QUERY)
-    const [showBanner, setShowBanner] = useState(true);
-
-    const categories = [
-        { name: 'Products' },
-        { name: 'Services' }
-    ]
+export const Products = () => {
+    const { data, error, loading, refetch } = useQuery(ME_QUERY)
     const [createLinks] = useMutation(LINK_CREATION);
     const [updateLinkMutation] = useMutation(UPDATE_LINK);
     const [deleteLink] = useMutation(DELETE_LINK);
     const [selectedPage, setSelectedPage] = useState(null);
+    const navigate = useNavigate();
 
-    const [links, setLinks] = useState([{ linkText: "", link: "", image: "", file: null }]);
-    const [existingLinks, setExistingLinks] = useState([]);
-    const handleChange = (index, field, value) => {
-        const updated = [...links];
-        updated[index][field] = value;
-        setLinks(updated);
-    };
     useEffect(() => {
-        if (data?.me?.Pages?.length > 0 && !selectedPage) {
-            setSelectedPage(data.me.Pages[0]); // Set first page as default
-        }
+        if (data?.me?.Pages?.length > 0 && !selectedPage) setSelectedPage(data.me.Pages[0]);
     }, [data, selectedPage]);
-    const uploadImages = async () => {
-        return await Promise.all(
-            links.map(async ({ file }) => {
-                if (!file) return "";
-                const fileName = `${Date.now()}-${Math.random()}.${file.name.split(".").pop()}`;
-                const { error } = await supabase.storage.from("bubble").upload(fileName, file);
-                if (error) return "";
-                const { data } = supabase.storage.from("bubble").getPublicUrl(fileName);
-                return data?.publicUrl || "";
-            })
-        );
-    };
-
-    const handleSubmit = async () => {
-        const imageUrls = await uploadImages();
-        const payload = links.map((item, i) => ({
-            linkText: item.linkText,
-            link: item.link,
-            image: imageUrls[i],
-        }));
-
-        try {
-            await createLinks({ variables: { links: payload } });
-            alert("Links created!");
-            setLinks([{ linkText: "", link: "", image: "", file: null }]);
-        } catch (err) {
-            console.error("Link creation failed:", err.message);
-        }
-    };
-
-    const navigate = useNavigate()
-
-    const handleAddLink = () => {
-        setLinks([...links, { linkText: '', link: '', image: '', file: null }]);
-    };
 
     const handleDelete = async (id) => {
         await deleteLink({ variables: { id } });
-        await refetchExistingLinks();
+        refetch();
     };
-    const handleUpdateLink = (index, field, value) => {
-        const updated = [...existingLinks];
-        updated[index] = {
-            ...updated[index],
-            [field]: value,
-        };
-        setExistingLinks(updated);
-    };
-    const refetchExistingLinks = async () => {
-        try {
-            const { data } = await refetch();
-            setExistingLinks(data.me.Links);
-        } catch (err) {
-            console.error("Failed to refetch links:", err);
-        }
-    };
-    const submitUpdate = async (id, idx) => {
-        const link = existingLinks[idx];
-        await updateLinkMutation({ variables: { id, link: link.link, linkText: link.linkText } });
-    };
+
     if (error) return <div>{error.message}</div>
     if (loading) return <div>loading...</div>
+
+    const sectionTitle = selectedPage?.workshop ? 'Services' : selectedPage?.storefront ? 'Products' : selectedPage?.linkinbio ? 'Links' : selectedPage?.form ? 'Responses' : 'Items';
+
+    const Empty = () => (
+        <div className='flex items-center justify-center h-48'>
+            <div className='text-center'>
+                <div className='text-3xl mb-2'>—</div>
+                <p className='font-["Medium"] text-zinc-400 text-sm'>No {sectionTitle.toLowerCase()} yet</p>
+            </div>
+        </div>
+    );
+
+    const ItemRow = ({ price, title, description, thumbnail, onDetails, index, total }) => (
+        <div className={`flex items-center justify-between px-5 py-4 hover:bg-zinc-50 transition-colors cursor-pointer ${index < total - 1 ? 'border-b border-zinc-100' : ''}`}
+            onClick={onDetails}>
+            <div className='flex items-center gap-4'>
+                <div className='shrink-0 w-16 text-right'>
+                    <div className='text-sm font-["Semibold"] text-zinc-950 tabular-nums'>${price}</div>
+                </div>
+                <div className='w-px h-6 bg-zinc-100' />
+                <div>
+                    <div className='text-sm font-["Semibold"] text-zinc-900'>{title}</div>
+                    {description && <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5 line-clamp-1'>{description}</div>}
+                </div>
+            </div>
+            <span className='text-xs font-["Semibold"] text-zinc-400'>Details →</span>
+        </div>
+    );
+
     return (
-        <div>
+        <div className='flex flex-col h-screen overflow-hidden'>
             <Banner />
-            <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
-                <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+            <div className="flex flex-1 bg-[#F2F2F7] overflow-hidden">
+                <div className='w-12 flex flex-col pt-3 pb-3 items-center gap-2.5 bg-white border-r border-zinc-100'>
                     {data.me.Pages.map(item => (
                         <div key={item.id} className="relative flex items-center">
-                            {/* Left curved indicator */}
                             {selectedPage?.id === item.id && (
-                                <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
-                                ></div>
+                                <div className="absolute left-[40px] top-1/2 -translate-y-1/2 w-0.5 h-5 bg-zinc-950 rounded-full" />
                             )}
-                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
+                            <img
+                                onClick={() => setSelectedPage(item)}
+                                className={`h-7 w-7 rounded-lg cursor-pointer transition-all object-cover ${selectedPage?.id === item.id ? 'ring-2 ring-zinc-950 ring-offset-1 ring-offset-white' : 'opacity-30 hover:opacity-80'}`}
+                                src={!item?.headerImage ? logo : item?.headerImage}
+                            />
                         </div>
                     ))}
-                    <div class='flex items-center h-8 w-8 shadow-sm rounded-lg border justify-center'>
-                        <PlusIcon class='w-4 h-4 text-black' />
-                    </div>
+                    <Add />
                 </div>
+
                 <NavBar home={false} products={true} form={selectedPage?.form} workshop={selectedPage?.workshop} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
-                {/* Main Content */}
-                <div className="flex-1 flex flex-col">
-                    {/* Top Bar */}
-                    <header className="flex justify-between border-b items-center px-6 py-4">
-                        <div class='flex items-center gap-2'>
-                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
-                            <span className="text-lg font-['Semibold'] text-sm">cmhq.me/{selectedPage?.subdomain}</span>
+                <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                    <header className="h-12 border-b border-zinc-200/60 bg-white/90 backdrop-blur-xl flex items-center px-5 shrink-0">
+                        <div className='flex items-center gap-2'>
+                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-6 h-6 rounded-lg object-cover' />
+                            <span className="font-['Semibold'] text-zinc-900 text-sm">cmhq.me/{selectedPage?.subdomain}</span>
                         </div>
-
                     </header>
 
-                    {/* Dashboard Content */}
-                    <main className="px-16 flex-1">
-                        <div class='flex items-center mt-7 justify-between w-full'>
-                            <div class='font-["Semibold"] mb-3 text-3xl'>{selectedPage?.workshop === true && 'Services'}{selectedPage?.storefront === true && 'Products'}{selectedPage?.linkinbio === true && 'Links'}</div>
+                    <main className="flex-1 overflow-y-auto p-6">
+                        <div className='mb-5'>
+                            <h1 className='font-["Semibold"] text-xl text-zinc-950 tracking-tight'>{sectionTitle}</h1>
+                            <p className='font-["Medium"] text-zinc-400 text-sm mt-0.5'>Manage your {sectionTitle.toLowerCase()}.</p>
+                        </div>
+
+                        {/* Products (Storefront) */}
+                        {selectedPage?.storefront && (
+                            data.me.OnlyProducts.length === 0 ? <Empty /> : (
+                                <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                    {data.me.OnlyProducts.map((item, i) => (
+                                        <ItemRow key={item.id} price={item?.price} title={item?.title} description={item?.description}
+                                            thumbnail={item?.thumbnail} index={i} total={data.me.OnlyProducts.length}
+                                            onDetails={() => navigate(`/product/${item?.id}`)} />
+                                    ))}
+                                </div>
+                            )
+                        )}
+
+                        {/* Services (Workshop) */}
+                        {selectedPage?.workshop && (
+                            data.me.Services.length === 0 ? <Empty /> : (
+                                <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                    {data.me.Services.map((item, i) => (
+                                        <ItemRow key={item.id} price={item?.price} title={item?.title} description={item?.description}
+                                            thumbnail={item?.thumbnail} index={i} total={data.me.Services.length}
+                                            onDetails={() => navigate(`/orders/${item?.id}`)} />
+                                    ))}
+                                </div>
+                            )
+                        )}
+
+                        {/* Form Answers */}
+                        {selectedPage?.form && (
                             <div>
-
-
-
-                            </div>
-                        </div>
-                        <div>
-                            {selectedPage?.storefront === true && (
-                                <div class='mt-5 grid grid-cols-2 gap-4'>
-                                    {data.me.OnlyProducts.map(item => (
-                                        <div class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
-                                            <div class='flex items-center'>
-                                                <div class='px-2 text-xl w-28 shrink-0 text-center font-["Semibold"]'>
-                                                    ${item?.price}
-                                                </div>
-                                                <div class='h-10 w-1 border-l' />
-                                                <div class='px-5'>
-                                                    <div class='text-sm font-["Semibold"] '>{item?.title}</div>
-                                                    <div class='text-sm font-["Medium"] text-gray-300 line-clamp-2'>{item?.description}</div>
-
-                                                    <div class='mt-1 flex items-center gap-[-3px]'>
-                                                        <img src={selectedPage?.headerImage} class='w-5 h-5 border-2 border-white rounded-full' />
-                                                        <img
-                                                            src={
-                                                                !item?.thumbnail ? logo : item?.thumbnail
-                                                            }
-                                                            className="w-5 h-5 ml-[-6px] border-2 border-white rounded-full"
-                                                        />
-                                                        <div class='h-5 w-5 ml-[-6px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{item?.title?.charAt(0)}</div>
+                                {selectedPage?.formType === 'Feedback' && (
+                                    selectedPage?.formAnswers?.filter(i => i.feedback).length === 0 ? <Empty /> : (
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            {selectedPage?.formAnswers?.filter(item => item.feedback).map((item, i, arr) => (
+                                                <div key={i} className={`px-5 py-4 ${i < arr.length - 1 ? 'border-b border-zinc-100' : ''}`}>
+                                                    <div className='flex items-center gap-2 mb-2'>
+                                                        <img className='w-4 h-4 rounded-full object-cover' src={selectedPage?.headerImage} />
+                                                        <div className='text-[10px] font-["Semibold"] text-zinc-400 uppercase tracking-widest'>Feedback</div>
                                                     </div>
-
+                                                    <div className='text-sm font-["Medium"] text-zinc-700 line-clamp-3 leading-relaxed'>{item.feedback}</div>
                                                 </div>
-                                            </div>
-                                            <div class='pr-5'>
-                                                <button onClick={() => navigate(`/product/${item?.id}`)} class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
-                                            </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {selectedPage?.form === true && (
-                                <div>
-                                    <div class='text-3xl font-["Semibold"] mb-7'>Form Answers</div>
-                                    {selectedPage?.formType === 'Feedback' && (
-                                        <div className="grid grid-cols-3 gap-5">
-                                            {selectedPage?.formAnswers
-                                                ?.filter(item => item.feedback) // only include items with feedback
-                                                .map(item => (
-                                                    <div className='p-4 border shadow-sm bg-white rounded-3xl'>
-                                                        <div className='flex items-center gap-2'>
-                                                            <img className='w-4 h-4 rounded-full' src={selectedPage?.headerImage} />
-                                                            <div className='text-sm font-["Semibold"]'>Feedback</div>
-                                                        </div>
-                                                        <div className='mt-2 text-sm line-clamp-4 font-["Semibold"]'>{item.feedback}</div>
-                                                        <button class='mt-3 bg-black text-white w-full py-2 rounded-full font-["Semibold"]'>View</button>
-                                                    </div>
-                                                ))}
-                                        </div>
-                                    )}
-                                    {selectedPage?.formType === 'Contact' && (
-                                        <div className="grid grid-cols-2 gap-5">
-                                            {selectedPage?.formAnswers
-                                                ?.filter(item => item.mobileNumber) // only include items with feedback
-                                                .map(item => (
-                                                    <div className='px-3 py-3 border justify-between flex items-center shadow-sm bg-white rounded-full'>
-                                                        <div class='flex items-center gap-5'>
-                                                            <div className='flex items-center gap-2'>
-                                                                <img className='w-14 h-14 rounded-full' src={selectedPage?.headerImage} />
-                                                            </div>
-                                                            <div class='h-10 border-l' />
-                                                            <div>
-                                                                <div class='rounded-full inline-flex items-center border py-1 px-2 gap-2 '>
-                                                                    <img src={flag} class='w-4 h-4' />
-                                                                    <div class='text-xs font-["Semibold"]'>+1{item.mobileNumber}</div>
-                                                                </div>
-                                                                <div class='flex items-center mt-2 gap-4'>
-                                                                    <div class='rounded-full flex items-center border py-1 px-2 gap-2 '>
-                                                                        <div class='text-xs font-["Semibold"]'>{item.name}</div>
-                                                                    </div>
-                                                                    <div class='rounded-full flex items-center border py-1 px-2 gap-2 '>
-                                                                        <div class='text-xs font-["Semibold"]'>{item.email}</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                    )
+                                )}
+                                {selectedPage?.formType === 'Contact' && (
+                                    selectedPage?.formAnswers?.filter(i => i.mobileNumber).length === 0 ? <Empty /> : (
+                                        <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                            {selectedPage?.formAnswers?.filter(item => item.mobileNumber).map((item, i, arr) => (
+                                                <div key={i} className={`flex items-center justify-between px-5 py-4 ${i < arr.length - 1 ? 'border-b border-zinc-100' : ''}`}>
+                                                    <div className='flex items-center gap-4'>
+                                                        <img className='w-8 h-8 rounded-full object-cover' src={selectedPage?.headerImage} />
                                                         <div>
-                                                            <div class='bg-black text-white px-4 text-sm py-2 rounded-full font-["Semibold"]'>View</div>
+                                                            <div className='flex items-center gap-1.5'>
+                                                                <img src={flag} className='w-3 h-3' />
+                                                                <span className='text-sm font-["Semibold"] text-zinc-900'>+1{item.mobileNumber}</span>
+                                                            </div>
+                                                            <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>{item.name} · {item.email}</div>
                                                         </div>
                                                     </div>
-                                                ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                            {selectedPage?.workshop === true && (
-
-
-                                <div class='mt-5 grid grid-cols-2 gap-7'>
-                                    {data.me.Services.map(item => (
-                                        <div onClick={() => navigate(`/orders/${item.id}`)} class='flex border bg-white py-5 justify-between shadow-sm rounded-3xl items-center w-full'>
-                                            <div class='flex items-center'>
-                                                <div class='px-2 text-xl w-28 shrink-0 text-center font-["Semibold"]'>
-                                                    ${item?.price}
+                                                    <span className='text-xs font-["Semibold"] text-zinc-400'>View →</span>
                                                 </div>
-                                                <div class='h-10 w-1 border-l' />
-                                                <div class='px-5'>
-                                                    <div class='text-sm font-["Semibold"] '>{item?.title}</div>
-                                                    <div class='text-sm font-["Medium"] text-gray-300 line-clamp-2'>{item?.description}</div>
-
-                                                    <div class='mt-1 flex items-center gap-[-3px]'>
-                                                        <img src={selectedPage?.headerImage} class='w-5 h-5 border-2 border-white rounded-full' />
-                                                        <img
-                                                            src={
-                                                                !item?.thumbnail ? logo : item?.thumbnail
-                                                            }
-                                                            className="w-5 h-5 ml-[-6px] border-2 border-white rounded-full"
-                                                        />
-                                                        <div class='h-5 w-5 ml-[-6px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{item?.title?.charAt(0)}</div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class='pr-5'>
-                                                <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
-                                            </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            )}
+                                    )
+                                )}
+                            </div>
+                        )}
 
-                            {selectedPage?.linkinbio === true && (
-                                <div class='mt-5 grid grid-cols-2 gap-7'>
-                                    {selectedPage?.links.map(item => (
-                                        <div class='w-full rounded-full shadow-sm flex items-center justify-between border p-4'>
-                                            <div class='flex items-center gap-5'>
+                        {/* Links (Link-in-bio) */}
+                        {selectedPage?.linkinbio && (
+                            !selectedPage?.links?.length ? <Empty /> : (
+                                <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                    {selectedPage?.links?.map((item, i) => (
+                                        <div key={i} className={`flex items-center justify-between px-5 py-3.5 ${i < selectedPage.links.length - 1 ? 'border-b border-zinc-100' : ''}`}>
+                                            <div className='flex items-center gap-3'>
                                                 {item.image ? (
-                                                    <img src={item.image} class='w-12 h-12 rounded-full' />
+                                                    <img src={item.image} className='w-8 h-8 rounded-lg object-cover' />
                                                 ) : (
-                                                    <div class='w-16 h-16 rounded-full bg-black' />
+                                                    <div className='w-8 h-8 rounded-lg bg-zinc-100' />
                                                 )}
-
-                                                <div class='w-2/3'>
-                                                    <div class='font-["Semibold"] text-sm'>{item.linkText}</div>
-                                                </div>
+                                                <div className='font-["Semibold"] text-sm text-zinc-900'>{item.linkText}</div>
                                             </div>
-                                            <div class='flex items-center gap-3'>
-                                                <button class='px-5 py-2 rounded-full text-white font-["Semibold"] bg-black text-sm'>Edit</button>
-                                            </div>
+                                            <button className='text-xs font-["Semibold"] text-zinc-400 hover:text-zinc-700 transition-colors'>Edit</button>
                                         </div>
                                     ))}
                                 </div>
-                            )}
-                        </div>
+                            )
+                        )}
                     </main>
                 </div>
             </div>

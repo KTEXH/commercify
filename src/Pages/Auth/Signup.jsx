@@ -1,201 +1,177 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { gql, useMutation } from '@apollo/client';  // Ensure you're using Apollo's useMutation hook
+import { gql, useMutation } from '@apollo/client';
 import Group from '../../components/assets/Group';
+import Group3 from '../../components/assets/Group3';
 import { useNavigate } from 'react-router-dom';
+import { ArrowRightIcon } from "@heroicons/react/20/solid";
 
 const Signup = gql`
   mutation signup(
-    $email: String!
-    $password: String!
-    $name: String!
-    $stripe_id: String!
-    $stripe_email: String
-    $stripe_name: String
+    $email: String! $password: String! $name: String!
+    $stripe_id: String! $stripe_email: String $stripe_name: String
   ) {
-    signup(
-      email: $email
-      password: $password
-      name: $name
-      stripe_id: $stripe_id
-      stripe_email: $stripe_email
-      stripe_name: $stripe_name
-    ) {
-      token
-    }
+    signup(email: $email password: $password name: $name
+      stripe_id: $stripe_id stripe_email: $stripe_email stripe_name: $stripe_name
+    ) { token }
   }
 `;
 
 export const Register = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [register, { error, loading }] = useMutation(Signup);
 
-    // Mutation for signup
-    const [register, { error }] = useMutation(Signup);
+  const formik = useFormik({
+    initialValues: { email: '', username: '', password: '', confirmPassword: '', stripe_id: '', stripe_email: '', stripe_name: '' },
+    onSubmit: async (values) => {
+      if (values.password !== values.confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+      try {
+        const response = await register({
+          variables: {
+            email: values.email, password: values.password, name: values.username,
+            stripe_id: values.stripe_id, stripe_email: values.stripe_email, stripe_name: values.stripe_name,
+          },
+        });
+        localStorage.setItem('token', response.data.signup.token);
+        navigate('/setup');
+      } catch (err) {
+        console.error('Error during signup:', err);
+      }
+    },
+  });
 
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            username: '',
-            password: '',
-            confirmPassword: '',
-            stripe_id: '', // Stripe fields
-            stripe_email: '',
-            stripe_name: '',
-        },
-        onSubmit: async (values) => {
-            // Check if passwords match
-            if (values.password === values.confirmPassword) {
-                try {
-                    const response = await register({
-                        variables: {
-                            email: values.email,
-                            password: values.password,
-                            name: values.username,
-                            stripe_id: values.stripe_id,
-                            stripe_email: values.stripe_email,
-                            stripe_name: values.stripe_name,
-                        },
-                    });
+  return (
+    <div className='min-h-screen flex'>
+      {/* Left — dark brand panel */}
+      <div className='hidden md:flex md:w-1/2 bg-zinc-950 flex-col justify-between p-12 relative overflow-hidden'>
+        <div className='absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]' />
+        <div className='absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2' />
 
-                    const token = response.data.signup.token;
-                    // Store the token in localStorage
-                    localStorage.setItem('token', token);
+        <div className='relative z-10'>
+          <div className='flex items-center gap-2.5'>
+            <Group3 className='w-7 h-7' />
+            <span className='font-["Semibold"] text-white text-sm'>Commercify HQ</span>
+          </div>
+        </div>
 
-                    // Navigate to dashboard or another page after successful signup
-                    navigate('/setup');
-                } catch (err) {
-                    console.error('Error during signup:', err);
-                }
-            } else {
-                alert('Passwords do not match');
-            }
-        },
-    });
+        <div className='relative z-10'>
+          <h2 className='font-["Semibold"] text-4xl text-white leading-tight mb-4'>
+            Build your<br />business page.
+          </h2>
+          <p className='font-["Medium"] text-zinc-400 text-sm leading-relaxed max-w-sm'>
+            Join thousands of creators and business owners who use Commercify to sell, book, and grow.
+          </p>
+          <div className='mt-10 grid grid-cols-2 gap-4'>
+            {[
+              { label: 'Free to start', sub: 'No credit card required' },
+              { label: 'Custom domains', sub: 'On paid plans' },
+              { label: 'Stripe payments', sub: 'Secure & instant' },
+              { label: 'No platform fees', sub: 'On Plus plan' },
+            ].map(item => (
+              <div key={item.label} className='border border-white/10 rounded-xl p-4 bg-white/5'>
+                <div className='font-["Semibold"] text-white text-sm mb-0.5'>{item.label}</div>
+                <div className='font-["Medium"] text-zinc-500 text-xs'>{item.sub}</div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-    return (
-        <div class=' md:flex items-center md:justify-center relative'>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className='relative z-10'>
+          <p className='font-["Medium"] text-zinc-600 text-xs'>
+            Already have an account?{' '}
+            <a href='/login' className='text-zinc-300 hover:text-white transition-colors font-["Semibold"]'>Sign in →</a>
+          </p>
+        </div>
+      </div>
 
-                <div className="flex items-center justify-center flex-col">
-                    <Group className='w-10 h-10' />
+      {/* Right — form panel */}
+      <div className='flex-1 flex items-center justify-center px-6 py-12 bg-white overflow-y-auto'>
+        <div className='w-full max-w-sm'>
+          <div className='md:hidden flex items-center gap-2 mb-10'>
+            <Group className='w-6 h-6' />
+            <span className='font-["Semibold"] text-zinc-900 text-sm'>Commercify HQ</span>
+          </div>
 
-                    <h2 className="mt-5 text-center font-['Semibold'] text-3xl leading-9 tracking-tight text-black">
-                        Get started
-                    </h2>
-                </div>
+          <h1 className='font-["Semibold"] text-2xl text-zinc-950 mb-1'>Create your account</h1>
+          <p className='font-["Medium"] text-zinc-500 text-sm mb-8'>Get started free — no credit card required.</p>
 
-                <div className="mt-7 w-full sm:mx-auto sm:w-full h-full sm:max-w-sm">
-                    <form onSubmit={formik.handleSubmit} className="space-y-4">
-                        <div class='flex items-center gap-3'>
-                            <div>
-                                <label
-                                    htmlFor="email"
-                                    className="block text-sm font-['Semibold'] leading-6 text-gray-900"
-                                >
-                                    Email address
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        placeholder="johndoe@gmail.com"
-                                        required
-                                        autoComplete="email"
-                                        onChange={formik.handleChange}
-                                        value={formik.values.email}
-                                        className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="username"
-                                    className="block text-sm font-['Semibold'] leading-6 text-gray-900"
-                                >
-                                    Username
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="username"
-                                        name="username"
-                                        type="text"
-                                        placeholder="John Doe"
-                                        required
-                                        autoComplete="username"
-                                        onChange={formik.handleChange}
-                                        value={formik.values.username}
-                                        className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label
-                                htmlFor="password"
-                                className="block text-sm font-['Semibold'] leading-6 text-gray-900"
-                            >
-                                Password
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    placeholder="*********"
-                                    required
-                                    onChange={formik.handleChange}
-                                    value={formik.values.password}
-                                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label
-                                htmlFor="confirmPassword"
-                                className="block text-sm font-['Semibold'] leading-6 text-gray-900"
-                            >
-                                Confirm Password
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    type="password"
-                                    placeholder="*********"
-                                    required
-                                    onChange={formik.handleChange}
-                                    value={formik.values.confirmPassword}
-                                    className="block w-full rounded-xl text-sm font-['Medium'] border px-3 py-3 text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                                />
-                            </div>
-                        </div>
-
-                        <div class='gap-2 flex flex-col'>
-                            <button
-                                type="submit"
-                                className="flex w-full rounded-full justify-center bg-black px-3 py-2.5 text-sm font-['Semibold'] leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                Create Account
-                            </button>
-                            <a
-                                href='/login'
-                                className="flex w-full rounded-full justify-center bg-white px-3 py-2.5 border text-sm font-['Semibold'] leading-6 text-black shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                Login
-                            </a>
-                        </div>
-                    </form>
-                    <div class='text-gray-400 text-center text-xs font-["Medium"] mt-5'>By signing up you are agreeing to our <div class='text-black font-["Semibold"]'>terms of use</div></div>
-                    <div class='rounded-lg mt-10 text-gray-400 mt-4 border text-center p-2 bottom-5 text-xs font-["Medium"]'>
-                        <div>  By continuing to browse our site you are accepting our <a class='font-["Semibold"] text-black'>cookie policy</a></div>
-                    </div>
-                    {error && <p className="text-red-500">Error during registration</p>}
-                </div>
+          <form onSubmit={formik.handleSubmit} className='space-y-4'>
+            <div className='grid grid-cols-2 gap-3'>
+              <div>
+                <label className='font-["Semibold"] text-zinc-700 text-xs uppercase tracking-wide block mb-2'>Email</label>
+                <input
+                  id="email" name="email" type="email"
+                  placeholder='you@example.com'
+                  onChange={formik.handleChange} value={formik.values.email}
+                  required autoComplete="email"
+                  className="w-full rounded-xl border border-zinc-200 px-3 py-3 text-sm font-['Medium'] text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                />
+              </div>
+              <div>
+                <label className='font-["Semibold"] text-zinc-700 text-xs uppercase tracking-wide block mb-2'>Username</label>
+                <input
+                  id="username" name="username" type="text"
+                  placeholder='johndoe'
+                  onChange={formik.handleChange} value={formik.values.username}
+                  required autoComplete="username"
+                  className="w-full rounded-xl border border-zinc-200 px-3 py-3 text-sm font-['Medium'] text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                />
+              </div>
             </div>
 
+            <div>
+              <label className='font-["Semibold"] text-zinc-700 text-xs uppercase tracking-wide block mb-2'>Password</label>
+              <input
+                id="password" name="password" type="password"
+                placeholder='••••••••'
+                onChange={formik.handleChange} value={formik.values.password}
+                required
+                className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm font-['Medium'] text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className='font-["Semibold"] text-zinc-700 text-xs uppercase tracking-wide block mb-2'>Confirm password</label>
+              <input
+                id="confirmPassword" name="confirmPassword" type="password"
+                placeholder='••••••••'
+                onChange={formik.handleChange} value={formik.values.confirmPassword}
+                required
+                className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm font-['Medium'] text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+              />
+            </div>
+
+            {error && (
+              <div className='bg-red-50 border border-red-100 rounded-xl px-4 py-3'>
+                <p className='text-red-600 text-xs font-["Medium"]'>{error.graphQLErrors?.[0]?.message || error.message || 'Something went wrong. Try again.'}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-zinc-950 px-4 py-3 text-sm font-['Semibold'] text-white hover:bg-zinc-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+            >
+              {loading ? 'Creating account…' : <>Create account <ArrowRightIcon className='w-4 h-4' /></>}
+            </button>
+
+            <a
+              href='/login'
+              className="w-full flex items-center justify-center rounded-xl border border-zinc-200 px-4 py-3 text-sm font-['Semibold'] text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all"
+            >
+              Already have an account? Sign in
+            </a>
+          </form>
+
+          <p className='text-zinc-400 text-center text-xs font-["Medium"] mt-6'>
+            By creating an account you agree to our{' '}
+            <span className='text-zinc-700 font-["Semibold"] cursor-pointer hover:underline'>terms of use</span>
+          </p>
         </div>
-    );
+      </div>
+    </div>
+  );
 };

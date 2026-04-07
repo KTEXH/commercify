@@ -38,11 +38,11 @@ const CustomCalendar = () => {
         <div className="p-4 bg-white rounded-lg">
             <div className="flex justify-between mb-4">
                 <button onClick={() => setCurrentMonth(currentMonth.clone().subtract(1, 'month'))} className="p-2 rounded-full border">
-                    <img class='w-4 h-4' src='/assets/CaretLeft.svg'/>
+                    <img className='w-4 h-4' src='/assets/CaretLeft.svg'/>
                 </button>
                 <h2 className="font-semibold text-md">{currentMonth.format('MMMM YYYY')}</h2>
                 <button onClick={() => setCurrentMonth(currentMonth.clone().add(1, 'month'))} className="p-2 rounded-full border">
-                <img class='w-4 h-4' src='/assets/CaretRight.svg'/>
+                <img className='w-4 h-4' src='/assets/CaretRight.svg'/>
                 </button>
             </div>
             <div className="grid grid-cols-7 gap-1 mb-5">
@@ -70,8 +70,8 @@ const CustomCalendar = () => {
                                     .filter(booking => moment(booking.formattedDate).isSame(day, 'day'))
                                     .map(booking => (
                                         <div key={booking.id} className="flex gap-2 rounded-md py-1 text-xs line-clamp-1 bg-gray-100 font-['Medium'] items-center">
-                                            <div class='h-5 w-1 bg-black rounded-xl' />
-                                            <div class='line-clamp-1'>{booking.time}: {booking.Product.title} </div></div>
+                                            <div className='h-5 w-1 bg-black rounded-xl' />
+                                            <div className='line-clamp-1'>{booking.time}: {booking.Product.title} </div></div>
                                     ))}
                             </div>
                         ))}

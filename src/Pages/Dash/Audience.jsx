@@ -1,164 +1,120 @@
 import { useState, useEffect } from "react";
-import { CheckCircle, Bell, User, Check } from "lucide-react";
-import { CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { RiCheckFill } from "@remixicon/react";
 import logo from '../../components/assets/logo.svg'
 import { ME_QUERY } from "../../Data/Me";
 import { useQuery } from "@apollo/client";
-import SimpleChart from "../../components/Graphs/AnalyricsGraph";
 import { NavBar } from "../../components/NavBar";
-import { useSearchParams } from "react-router-dom"; // NEW import
-import { Add, Banner } from "./Home";
+import { Banner, Add } from "./Home";
 
-export const Audience = ({ className = "" }) => {
+export const Audience = () => {
     const { data, error, loading } = useQuery(ME_QUERY)
-    const [showBanner, setShowBanner] = useState(true);
-
     const [selectedPage, setSelectedPage] = useState(null);
 
     useEffect(() => {
-        if (data?.me?.Pages?.length > 0 && !selectedPage) {
-            setSelectedPage(data.me.Pages[0]); // Set first page as default
-        }
+        if (data?.me?.Pages?.length > 0 && !selectedPage) setSelectedPage(data.me.Pages[0]);
     }, [data, selectedPage]);
+
     const groupedOrders = data?.me?.Orders?.reduce((acc, order) => {
         if (!order?.email) return acc;
-        if (!acc[order.email]) {
-            acc[order.email] = { email: order.email, name: order.name, orders: [order] };
-        } else {
-            acc[order.email].orders.push(order);
-        }
+        if (!acc[order.email]) acc[order.email] = { email: order.email, name: order.name, count: 1 };
+        else acc[order.email].count++;
         return acc;
     }, {});
     const customerList = Object.values(groupedOrders || {});
 
-    const groupedBookings = data?.me?.Bookings?.reduce((acc, order) => {
-        if (!order?.email) return acc;
-        if (!acc[order.email]) {
-            acc[order.email] = { email: order.email, name: order.name, orders: [order] };
-        } else {
-            acc[order.email].orders.push(order);
-        }
+    const groupedBookings = data?.me?.Bookings?.reduce((acc, b) => {
+        if (!b?.email) return acc;
+        if (!acc[b.email]) acc[b.email] = { email: b.email, name: b.name, count: 1 };
+        else acc[b.email].count++;
         return acc;
     }, {});
     const clientsList = Object.values(groupedBookings || {});
 
     if (error) return <div>{error.message}</div>
     if (loading) return <div>loading...</div>
+
+    const Empty = ({ label }) => (
+        <div className='flex items-center justify-center h-48'>
+            <div className='text-center'>
+                <div className='text-3xl mb-2'>—</div>
+                <p className='font-["Medium"] text-zinc-400 text-sm'>No {label} yet</p>
+            </div>
+        </div>
+    );
+
+    const PersonRow = ({ person, countLabel, index, total }) => (
+        <div className={`flex items-center justify-between px-5 py-4 hover:bg-zinc-50 transition-colors ${index < total - 1 ? 'border-b border-zinc-100' : ''}`}>
+            <div className='flex items-center gap-4'>
+                <div className='w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-xs font-["Semibold"] text-zinc-500 shrink-0'>
+                    {person.name?.charAt(0) || person.email?.charAt(0)}
+                </div>
+                <div>
+                    <div className='text-sm font-["Semibold"] text-zinc-900'>{person.email}</div>
+                    {person.name && <div className='text-xs font-["Medium"] text-zinc-400 mt-0.5'>{person.name}</div>}
+                </div>
+            </div>
+            <div className='flex items-center gap-4'>
+                <div className='text-right'>
+                    <div className='text-base font-["Semibold"] text-zinc-950 tabular-nums'>{person.count}</div>
+                    <div className='text-[10px] font-["Medium"] text-zinc-400'>{countLabel}</div>
+                </div>
+                <span className='text-xs font-["Semibold"] text-zinc-400'>Details →</span>
+            </div>
+        </div>
+    );
+
+    const showStorefront = selectedPage?.storefront;
+    const showWorkshopOrLink = selectedPage?.workshop || selectedPage?.linkinbio;
+    const list = showStorefront ? customerList : clientsList;
+    const countLabel = showStorefront ? 'orders' : 'bookings';
+
     return (
-        <div>
+        <div className='flex flex-col h-screen overflow-hidden'>
             <Banner />
-            <div className="flex h-screen bg-gray-50 rounded-t-3xl -mt-5 relative z-20">
-                <div class='w-16 mt-5 flex flex-col space-y-3 items-center'>
+            <div className="flex flex-1 bg-[#F2F2F7] overflow-hidden">
+                <div className='w-12 flex flex-col pt-3 pb-3 items-center gap-2.5 bg-white border-r border-zinc-100'>
                     {data.me.Pages.map(item => (
                         <div key={item.id} className="relative flex items-center">
-                            {/* Left curved indicator */}
                             {selectedPage?.id === item.id && (
-                                <div className="absolute left-[37px] top-1/2 -translate-y-1/2 w-3 h-5 bg-white border-l border-t border-b rounded-l-lg"
-                                ></div>
+                                <div className="absolute left-[40px] top-1/2 -translate-y-1/2 w-0.5 h-5 bg-zinc-950 rounded-full" />
                             )}
-                            <img key={item.id} onClick={() => setSelectedPage(item)} class='h-8 rounded-full' src={!item?.headerImage ? logo : item?.headerImage} />
+                            <img
+                                onClick={() => setSelectedPage(item)}
+                                className={`h-7 w-7 rounded-lg cursor-pointer transition-all object-cover ${selectedPage?.id === item.id ? 'ring-2 ring-zinc-950 ring-offset-1 ring-offset-white' : 'opacity-30 hover:opacity-80'}`}
+                                src={!item?.headerImage ? logo : item?.headerImage}
+                            />
                         </div>
                     ))}
                     <Add />
                 </div>
+
                 <NavBar home={false} audience={true} workshop={selectedPage?.workshop} form={selectedPage?.form} linkinbio={selectedPage?.linkinbio} storefront={selectedPage?.storefront} />
 
-                {/* Main Content */}
-                <div className="flex-1 flex flex-col">
-                    {/* Top Bar */}
-                    <header className="flex justify-between border-b items-center px-6 py-4">
-                        <div class='flex items-center gap-2'>
-                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-8 rounded-lg h-8' />
-                            <span className="text-lg font-['Semibold'] text-sm">{selectedPage?.name} • commercifyhq.com/{selectedPage?.name}</span>
+                <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                    <header className="h-12 border-b border-zinc-200/60 bg-white/90 backdrop-blur-xl flex items-center px-5 shrink-0">
+                        <div className='flex items-center gap-2'>
+                            <img src={selectedPage?.headerImage ? selectedPage?.headerImage : logo} className='w-6 h-6 rounded-lg object-cover' />
+                            <span className="font-['Semibold'] text-zinc-900 text-sm">cmhq.me/{selectedPage?.subdomain}</span>
                         </div>
-
                     </header>
 
-                    {/* Dashboard Content */}
-                    <main className="px-16 flex-1">
-                        <div class='mt-7 font-["Semibold"] mb-3 text-3xl'>Customer Profiles</div>
-                        {selectedPage?.storefront && (
-                            <div class="flex flex-col w-full gap-4">
-                                {data?.me?.Orders?.length === 0 && (
-                                    <div class="h-72 w-full flex items-center justify-center">
-                                    </div>
-                                )}
-                                {customerList.map(customer => (
-                                    <div key={customer.email} className="flex items-center justify-between p-3 py-5 rounded-3xl text-sm font-['Semibold'] border shadow-sm">
-                                        <div class='flex items-center'>
-                                            <div className="text-2xl w-40 text-center">{customer.orders.length} Orders</div>
-                                            <div class='h-10 w-1 border-l' />
-                                            <div class='px-5'>
-                                                <div class='text-sm font-["Semibold"] '>{customer.email}</div>
-                                                <div class='flex relative mt-1 items-center'>
-                                                    <img class='w-7 border-white border-2 rounded-full h-7' src={selectedPage?.headerImage} />
-                                                    <div class='h-7 w-7 ml-[-11px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{customer?.name?.charAt(0)}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
-                                    </div>
-                                ))}
-                            </div>
+                    <main className="flex-1 overflow-y-auto p-6">
+                        <div className='mb-5'>
+                            <h1 className='font-["Semibold"] text-xl text-zinc-950 tracking-tight'>Audience</h1>
+                            <p className='font-["Medium"] text-zinc-400 text-sm mt-0.5'>
+                                {list.length} {showStorefront ? 'customer' : 'client'}{list.length !== 1 ? 's' : ''}
+                            </p>
+                        </div>
 
+                        {(showStorefront || showWorkshopOrLink) && (
+                            list.length === 0 ? <Empty label={showStorefront ? 'customers' : 'clients'} /> : (
+                                <div className='bg-white rounded-2xl border border-zinc-200/60 overflow-hidden'>
+                                    {list.map((person, i) => (
+                                        <PersonRow key={person.email} person={person} countLabel={countLabel} index={i} total={list.length} />
+                                    ))}
+                                </div>
+                            )
                         )}
-                        {selectedPage?.workshop && (
-
-                            <div class='flex w-full flex-col rounded-xl'>
-
-                                {data?.me?.Bookings?.length === 0 && (
-                                    <div class='h-72 w-full flex items-center justify-center'>
-                                    </div>
-                                )}
-                                {clientsList.map(customer => (
-                                    <div key={customer.email} className="flex items-center justify-between p-3 py-5 rounded-3xl text-sm font-['Semibold'] border shadow-sm">
-                                        <div class='flex items-center'>
-                                            <div className="text-2xl w-40 text-center">{customer.orders.length} Orders</div>
-                                            <div class='h-10 w-1 border-l' />
-                                            <div class='px-5'>
-                                                <div class='text-sm font-["Semibold"] '>{customer.email}</div>
-                                                <div class='flex relative mt-1 items-center'>
-                                                    <img class='w-7 border-white border-2 rounded-full h-7' src={selectedPage?.headerImage} />
-                                                    <div class='h-7 w-7 ml-[-11px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{customer?.name?.charAt(0)}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        {selectedPage?.linkinbio && (
-                            <div class='flex w-full flex-col rounded-xl'>
-
-                                {data?.me?.Bookings?.length === 0 && (
-                                    <div class='h-72 w-full flex items-center justify-center'>
-                                    </div>
-                                )}
-                                {clientsList.map(customer => (
-                                    <div key={customer.email} className="flex items-center justify-between p-3 py-5 rounded-3xl text-sm font-['Semibold'] border shadow-sm">
-                                        <div class='flex items-center'>
-                                            <div className="text-2xl w-40 text-center">{customer.orders.length} Orders</div>
-                                            <div class='h-10 w-1 border-l' />
-                                            <div class='px-5'>
-                                                <div class='text-sm font-["Semibold"] '>{customer.email}</div>
-                                                <div class='flex relative mt-1 items-center'>
-                                                    <img class='w-7 border-white border-2 rounded-full h-7' src={selectedPage?.headerImage} />
-                                                    <div class='h-7 w-7 ml-[-11px] rounded-full border-2 border-white flex items-center font-["Semibold"] justify-center text-[8px] bg-pink-200'>{customer?.name?.charAt(0)}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button class='px-5 rounded-full text-white bg-black text-sm py-3 font-["Semibold"] '>Details</button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-
                     </main>
-
-                    {/* Cookie Policy Notice */}
                 </div>
             </div>
         </div>

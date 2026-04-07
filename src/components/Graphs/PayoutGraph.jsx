@@ -84,13 +84,13 @@ const SimpleChart = () => {
                 <div>
                 <label className='font-["Semibold"] text-sm'>Year 2025</label>
                 </div>
-                <div class='flex items-center gap-2'>
+                <div className='flex items-center gap-2'>
                 <div className='flex items-center border px-3 p-1 rounded-full gap-2'>
                     <div className='w-3 h-2 rounded-full bg-black' />
                     <div className='text-xs font-["Semibold"] flex gap-1'>Money made</div>
                 </div>
                 <div className='flex items-center border px-3 p-1 rounded-full gap-2'>
-                    <div className='w-3 h-2 rounded-full bg-sky-100' />
+                    <div className='w-3 h-2 rounded-full bg-[#18181B]/10' />
                     <div className='text-xs font-["Semibold"] flex gap-1'>No money made</div>
                 </div>
                 </div>
