@@ -86,7 +86,7 @@ query me{
      description
      style
      base
-     textColor 
+     textColor
      styleColor
      grid
      font
@@ -103,6 +103,20 @@ query me{
      form
      workshop
      name
+     featuredSection
+     newsletterSection
+     socialsSection
+     linksSection
+     instagram
+     facebook
+     tiktok
+     twitter
+     newsletterHeading
+     newsletterSubText
+     subscribeText
+     subscribeSubText
+     actionButton
+     actionButtonText
        links{
      id
      image

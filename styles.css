@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -102,6 +104,36 @@
 
 
 @font-face {
-  font-family: "RBold";   
+  font-family: "RBold";
   src: url("/src/Fonts/RUBRIK/Rubik-Bold.ttf") format("opentype");
 }
+
+/* Inter */
+@font-face { font-family: "INormal"; src: local("Inter Regular"), local("Inter"); font-weight: 400; }
+@font-face { font-family: "IMedium"; src: local("Inter Medium"), local("Inter"); font-weight: 500; }
+@font-face { font-family: "ISemibold"; src: local("Inter SemiBold"), local("Inter"); font-weight: 600; }
+@font-face { font-family: "IBold"; src: local("Inter Bold"), local("Inter"); font-weight: 700; }
+
+.font-inter { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+.font-inter-medium { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-weight: 500; }
+.font-inter-semibold { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-weight: 600; }
+
+/* DM Sans */
+.font-dmsans { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
+.font-dmsans-medium { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; font-weight: 500; }
+.font-dmsans-semibold { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; font-weight: 600; }
+
+/* Playfair Display */
+.font-playfair { font-family: 'Playfair Display', Georgia, serif; }
+.font-playfair-medium { font-family: 'Playfair Display', Georgia, serif; font-weight: 500; }
+.font-playfair-semibold { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
+
+/* Space Grotesk */
+.font-spacegrotesk { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+.font-spacegrotesk-medium { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; font-weight: 500; }
+.font-spacegrotesk-semibold { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; font-weight: 600; }
+
+/* Outfit */
+.font-outfit { font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; }
+.font-outfit-medium { font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; font-weight: 500; }
+.font-outfit-semibold { font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; font-weight: 600; }
